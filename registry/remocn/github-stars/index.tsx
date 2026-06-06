@@ -1051,7 +1051,7 @@ export function GitHubStars({
   totalStars = 24813,
   stargazers = SAMPLE_STARGAZERS,
   orientation = "horizontal",
-  accentColor = "#f5a623",
+  accentColor = "#ffbb00",
   speed = 1,
   theme = "light",
 }: GitHubStarsProps) {

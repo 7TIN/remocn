@@ -28,7 +28,7 @@ export const githubStarsConfig: ComponentConfig = {
       options: ["horizontal", "vertical"],
       label: "Orientation",
     },
-    accentColor: { type: "color", default: "#f5a623", label: "Accent" },
+    accentColor: { type: "color", default: "#ffbb00", label: "Accent" },
     theme: {
       type: "select",
       default: "light",
