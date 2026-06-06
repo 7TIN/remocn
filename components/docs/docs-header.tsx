@@ -3,7 +3,7 @@ import {
   HeaderLogo,
 } from "@/app/(home)/components/header-parts";
 import { NavDesktop } from "@/app/(home)/components/header-nav";
-import { type NavLink } from "@/config/landing";
+import { NAV_LINKS } from "@/config/landing";
 
 /**
  * Static, content-aligned header for the docs. Unlike `SiteHeader` it never
@@ -24,13 +24,7 @@ import { type NavLink } from "@/config/landing";
  * inline (Tailwind JIT can't read JS constants); if a fumadocs upgrade changes
  * those defaults, re-sync the two values below.
  */
-export function DocsHeader({
-  navLinks,
-  githubStars = null,
-}: {
-  navLinks: NavLink[];
-  githubStars?: number | null;
-}) {
+export function DocsHeader() {
   return (
     <header className="relative z-40 h-16 w-full border-b border-border bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex h-16 w-full max-w-(--fd-layout-width) items-center [--fd-layout-width:1400px] md:[--fd-sidebar-width:268px]">
@@ -38,8 +32,8 @@ export function DocsHeader({
           <HeaderLogo />
         </div>
         <div className="flex flex-1 items-center justify-between px-4 md:px-6 xl:px-5">
-          <NavDesktop links={navLinks} className="-ml-4" />
-          <HeaderActions navLinks={navLinks} githubStars={githubStars} />
+          <NavDesktop links={NAV_LINKS} className="-ml-4" />
+          <HeaderActions />
         </div>
       </div>
     </header>

@@ -34,21 +34,12 @@ export type NavLink = {
   smOnly?: boolean;
 };
 
-// Single source of truth for the top nav. "Components" sends people straight
-// into the docs (typography is the first component category), so every surface
-// — landing, sponsors, docs — shares the same three root-absolute links and the
-// menu reads identically wherever it's mounted.
-const MAIN_NAV: NavLink[] = [
+// Единый источник топ-навигации для landing / sponsors / docs.
+export const NAV_LINKS: NavLink[] = [
   { href: "/docs/typography", label: "Components" },
   { href: "/sponsors", label: "Sponsors" },
   { href: "/docs/getting-started/introduction", label: "Docs" },
 ];
-
-export const HOME_NAV: NavLink[] = MAIN_NAV;
-
-export const SPONSORS_NAV: NavLink[] = MAIN_NAV;
-
-export const DOCS_NAV: NavLink[] = MAIN_NAV;
 
 export const FOOTER_NAV: NavLink[] = [
   { href: "/docs/getting-started/introduction", label: "Docs" },

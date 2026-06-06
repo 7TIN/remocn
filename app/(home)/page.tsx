@@ -1,5 +1,4 @@
-import { FOOTER_NAV, HOME_NAV } from "@/config/landing";
-import { getGitHubStars } from "@/lib/github";
+import { FOOTER_NAV } from "@/config/landing";
 import { PageShell } from "./components/page-shell";
 import { BentoRegistry } from "./components/sections/bento-registry";
 import { FinalCTA } from "./components/sections/final-cta";
@@ -11,11 +10,9 @@ import { SiteFooter } from "./components/site-footer";
 import { SiteHeader } from "./components/site-header";
 
 export default async function Page() {
-  const githubStars = await getGitHubStars();
-
   return (
     <PageShell>
-      <SiteHeader navLinks={HOME_NAV} githubStars={githubStars} />
+      <SiteHeader />
       <main className="relative flex-1">
         <Hero />
         <InteractiveCode />

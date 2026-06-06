@@ -1,20 +1,16 @@
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import type { ReactNode } from "react";
-import { DOCS_NAV } from "@/config/landing";
 import { DocsHeader } from "@/components/docs/docs-header";
-import { getGitHubStars } from "@/lib/github";
 import { baseOptions } from "@/lib/layout.shared";
 import { source } from "@/source";
 
 export default async function Layout({ children }: { children: ReactNode }) {
-  const githubStars = await getGitHubStars();
-
   return (
     <>
       {/* Custom remocn chrome owns the only top nav. Static (non-sticky) and
           content-aligned so the bar tracks the docs grid: logo over the
           sidebar, nav starting at the article column's left edge. */}
-      <DocsHeader navLinks={DOCS_NAV} githubStars={githubStars} />
+      <DocsHeader />
       <DocsLayout
         tree={source.pageTree}
         {...baseOptions()}

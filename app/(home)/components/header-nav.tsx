@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { SlidingHighlight } from "@/components/sliding-highlight";
+import { SheetClose } from "@/components/ui/sheet";
 import type { NavLink } from "@/config/landing";
 import { cn } from "@/lib/utils";
 
@@ -68,26 +69,23 @@ export function NavDesktop({
 /**
  * Mobile nav: just the stacked list of links rendered inside the header's
  * Sheet. The Sheet shell, GitHub stars, and the Get-started CTA stay with the
- * header; `onNavigate` lets a tap close the sheet before routing.
+ * header; each link is a `SheetClose` so a tap closes the sheet before routing.
  */
-export function NavMobile({
-  links,
-  onNavigate,
-}: {
-  links: NavLink[];
-  onNavigate?: () => void;
-}) {
+export function NavMobile({ links }: { links: NavLink[] }) {
   return (
     <nav className="flex flex-col px-6 text-base">
       {links.map((link) => (
-        <Link
+        <SheetClose
           key={link.href}
-          href={link.href}
-          onClick={() => onNavigate?.()}
-          className="py-3 text-foreground/90 transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:outline-none"
+          render={
+            <Link
+              href={link.href}
+              className="py-3 text-foreground/90 transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:outline-none"
+            />
+          }
         >
           {link.label}
-        </Link>
+        </SheetClose>
       ))}
     </nav>
   );
