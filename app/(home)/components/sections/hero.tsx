@@ -6,27 +6,12 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { useCallback, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { INSTALL_COMMAND, SECTION, SPRING_BOUNCE } from "@/config/landing";
+import { INSTALL_COMMAND, SPRING_BOUNCE } from "@/config/site";
 import { useTrackEvent } from "@/lib/analytics";
+import { HERO_CODE } from "@/lib/config/snippets";
 import registry from "@/registry/__index__";
 import { FadeUp } from "../fade-up";
 import { InstallCommand } from "../install-command";
-
-// Shown inside the hero's glass-code-block player — the real remocn flow:
-// install components from the registry, then compose them in a Remotion scene.
-const HERO_CODE = `// npx shadcn@latest add remocn/blur-reveal remocn/mesh-gradient-bg
-import { AbsoluteFill } from "remotion";
-import { BlurReveal } from "@/components/remocn/blur-reveal";
-import { MeshGradientBg } from "@/components/remocn/mesh-gradient-bg";
-
-export function LaunchScene() {
-  return (
-    <AbsoluteFill>
-      <MeshGradientBg />
-      <BlurReveal text="Ship your launch video" />
-    </AbsoluteFill>
-  );
-}`;
 
 export function Hero() {
   const heroEntry = registry["glass-code-block"];
@@ -67,7 +52,7 @@ export function Hero() {
         <div className="absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(60%_100%_at_50%_0%,var(--color-muted),transparent_70%)] opacity-70" />
       </div>
 
-      <div className={SECTION}>
+      <div className="section">
         <div className="flex flex-col items-center text-center">
           <FadeUp delay={0.06}>
             <h1 className="max-w-3xl text-balance text-3xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-4xl md:text-5xl">
@@ -109,7 +94,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className={SECTION}>
+      <div className="section">
         <FadeUp delay={0.24} className="relative mt-10 w-full sm:mt-12">
           <motion.div
             className="relative"
