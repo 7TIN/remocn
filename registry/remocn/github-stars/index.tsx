@@ -35,18 +35,546 @@ export interface GitHubStarsProps {
  * avatar URLs are CORS-ok, so the docs preview shows round photos.
  */
 export const SAMPLE_STARGAZERS: Stargazer[] = [
-  { login: "mojombo", avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4", starredAt: "2021-03-04" },
-  { login: "defunkt", avatarUrl: "https://avatars.githubusercontent.com/u/2?v=4", starredAt: "2021-06-12" },
-  { login: "pjhyett", avatarUrl: "https://avatars.githubusercontent.com/u/3?v=4", starredAt: "2021-09-21" },
-  { login: "wycats", avatarUrl: "https://avatars.githubusercontent.com/u/4?v=4", starredAt: "2021-12-08" },
-  { login: "ezmobius", avatarUrl: "https://avatars.githubusercontent.com/u/14?v=4", starredAt: "2022-03-17" },
-  { login: "ivey", avatarUrl: "https://avatars.githubusercontent.com/u/18?v=4", starredAt: "2022-06-29" },
-  { login: "evanphx", avatarUrl: "https://avatars.githubusercontent.com/u/25?v=4", starredAt: "2022-09-14" },
-  { login: "vanpelt", avatarUrl: "https://avatars.githubusercontent.com/u/26?v=4", starredAt: "2022-12-23" },
-  { login: "wayneeseguin", avatarUrl: "https://avatars.githubusercontent.com/u/28?v=4", starredAt: "2023-03-09" },
-  { login: "brynary", avatarUrl: "https://avatars.githubusercontent.com/u/30?v=4", starredAt: "2023-07-19" },
-  { login: "kevinclark", avatarUrl: "https://avatars.githubusercontent.com/u/31?v=4", starredAt: "2023-11-02" },
-  { login: "technoweenie", avatarUrl: "https://avatars.githubusercontent.com/u/21?v=4", starredAt: "2024-02-15" },
+  {
+    login: "mojombo",
+    avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4",
+    starredAt: "2021-03-04",
+  },
+  {
+    login: "defunkt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/2?v=4",
+    starredAt: "2021-06-12",
+  },
+  {
+    login: "pjhyett",
+    avatarUrl: "https://avatars.githubusercontent.com/u/3?v=4",
+    starredAt: "2021-09-21",
+  },
+  {
+    login: "wycats",
+    avatarUrl: "https://avatars.githubusercontent.com/u/4?v=4",
+    starredAt: "2021-12-08",
+  },
+  {
+    login: "ezmobius",
+    avatarUrl: "https://avatars.githubusercontent.com/u/14?v=4",
+    starredAt: "2022-03-17",
+  },
+  {
+    login: "ivey",
+    avatarUrl: "https://avatars.githubusercontent.com/u/18?v=4",
+    starredAt: "2022-06-29",
+  },
+  {
+    login: "evanphx",
+    avatarUrl: "https://avatars.githubusercontent.com/u/25?v=4",
+    starredAt: "2022-09-14",
+  },
+  {
+    login: "vanpelt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/26?v=4",
+    starredAt: "2022-12-23",
+  },
+  {
+    login: "wayneeseguin",
+    avatarUrl: "https://avatars.githubusercontent.com/u/28?v=4",
+    starredAt: "2023-03-09",
+  },
+  {
+    login: "brynary",
+    avatarUrl: "https://avatars.githubusercontent.com/u/30?v=4",
+    starredAt: "2023-07-19",
+  },
+  {
+    login: "kevinclark",
+    avatarUrl: "https://avatars.githubusercontent.com/u/31?v=4",
+    starredAt: "2023-11-02",
+  },
+  {
+    login: "technoweenie",
+    avatarUrl: "https://avatars.githubusercontent.com/u/21?v=4",
+    starredAt: "2024-02-15",
+  },
+  {
+    login: "mojombo",
+    avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4",
+    starredAt: "2021-03-04",
+  },
+  {
+    login: "defunkt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/2?v=4",
+    starredAt: "2021-06-12",
+  },
+  {
+    login: "pjhyett",
+    avatarUrl: "https://avatars.githubusercontent.com/u/3?v=4",
+    starredAt: "2021-09-21",
+  },
+  {
+    login: "wycats",
+    avatarUrl: "https://avatars.githubusercontent.com/u/4?v=4",
+    starredAt: "2021-12-08",
+  },
+  {
+    login: "ezmobius",
+    avatarUrl: "https://avatars.githubusercontent.com/u/14?v=4",
+    starredAt: "2022-03-17",
+  },
+  {
+    login: "ivey",
+    avatarUrl: "https://avatars.githubusercontent.com/u/18?v=4",
+    starredAt: "2022-06-29",
+  },
+  {
+    login: "evanphx",
+    avatarUrl: "https://avatars.githubusercontent.com/u/25?v=4",
+    starredAt: "2022-09-14",
+  },
+  {
+    login: "vanpelt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/26?v=4",
+    starredAt: "2022-12-23",
+  },
+  {
+    login: "wayneeseguin",
+    avatarUrl: "https://avatars.githubusercontent.com/u/28?v=4",
+    starredAt: "2023-03-09",
+  },
+  {
+    login: "brynary",
+    avatarUrl: "https://avatars.githubusercontent.com/u/30?v=4",
+    starredAt: "2023-07-19",
+  },
+  {
+    login: "kevinclark",
+    avatarUrl: "https://avatars.githubusercontent.com/u/31?v=4",
+    starredAt: "2023-11-02",
+  },
+  {
+    login: "technoweenie",
+    avatarUrl: "https://avatars.githubusercontent.com/u/21?v=4",
+    starredAt: "2024-02-15",
+  },
+  {
+    login: "mojombo",
+    avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4",
+    starredAt: "2021-03-04",
+  },
+  {
+    login: "defunkt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/2?v=4",
+    starredAt: "2021-06-12",
+  },
+  {
+    login: "pjhyett",
+    avatarUrl: "https://avatars.githubusercontent.com/u/3?v=4",
+    starredAt: "2021-09-21",
+  },
+  {
+    login: "wycats",
+    avatarUrl: "https://avatars.githubusercontent.com/u/4?v=4",
+    starredAt: "2021-12-08",
+  },
+  {
+    login: "ezmobius",
+    avatarUrl: "https://avatars.githubusercontent.com/u/14?v=4",
+    starredAt: "2022-03-17",
+  },
+  {
+    login: "ivey",
+    avatarUrl: "https://avatars.githubusercontent.com/u/18?v=4",
+    starredAt: "2022-06-29",
+  },
+  {
+    login: "evanphx",
+    avatarUrl: "https://avatars.githubusercontent.com/u/25?v=4",
+    starredAt: "2022-09-14",
+  },
+  {
+    login: "vanpelt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/26?v=4",
+    starredAt: "2022-12-23",
+  },
+  {
+    login: "wayneeseguin",
+    avatarUrl: "https://avatars.githubusercontent.com/u/28?v=4",
+    starredAt: "2023-03-09",
+  },
+  {
+    login: "brynary",
+    avatarUrl: "https://avatars.githubusercontent.com/u/30?v=4",
+    starredAt: "2023-07-19",
+  },
+  {
+    login: "kevinclark",
+    avatarUrl: "https://avatars.githubusercontent.com/u/31?v=4",
+    starredAt: "2023-11-02",
+  },
+  {
+    login: "technoweenie",
+    avatarUrl: "https://avatars.githubusercontent.com/u/21?v=4",
+    starredAt: "2024-02-15",
+  },
+  {
+    login: "mojombo",
+    avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4",
+    starredAt: "2021-03-04",
+  },
+  {
+    login: "defunkt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/2?v=4",
+    starredAt: "2021-06-12",
+  },
+  {
+    login: "pjhyett",
+    avatarUrl: "https://avatars.githubusercontent.com/u/3?v=4",
+    starredAt: "2021-09-21",
+  },
+  {
+    login: "wycats",
+    avatarUrl: "https://avatars.githubusercontent.com/u/4?v=4",
+    starredAt: "2021-12-08",
+  },
+  {
+    login: "ezmobius",
+    avatarUrl: "https://avatars.githubusercontent.com/u/14?v=4",
+    starredAt: "2022-03-17",
+  },
+  {
+    login: "ivey",
+    avatarUrl: "https://avatars.githubusercontent.com/u/18?v=4",
+    starredAt: "2022-06-29",
+  },
+  {
+    login: "evanphx",
+    avatarUrl: "https://avatars.githubusercontent.com/u/25?v=4",
+    starredAt: "2022-09-14",
+  },
+  {
+    login: "vanpelt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/26?v=4",
+    starredAt: "2022-12-23",
+  },
+  {
+    login: "wayneeseguin",
+    avatarUrl: "https://avatars.githubusercontent.com/u/28?v=4",
+    starredAt: "2023-03-09",
+  },
+  {
+    login: "brynary",
+    avatarUrl: "https://avatars.githubusercontent.com/u/30?v=4",
+    starredAt: "2023-07-19",
+  },
+  {
+    login: "kevinclark",
+    avatarUrl: "https://avatars.githubusercontent.com/u/31?v=4",
+    starredAt: "2023-11-02",
+  },
+  {
+    login: "technoweenie",
+    avatarUrl: "https://avatars.githubusercontent.com/u/21?v=4",
+    starredAt: "2024-02-15",
+  },
+  {
+    login: "mojombo",
+    avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4",
+    starredAt: "2021-03-04",
+  },
+  {
+    login: "defunkt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/2?v=4",
+    starredAt: "2021-06-12",
+  },
+  {
+    login: "pjhyett",
+    avatarUrl: "https://avatars.githubusercontent.com/u/3?v=4",
+    starredAt: "2021-09-21",
+  },
+  {
+    login: "wycats",
+    avatarUrl: "https://avatars.githubusercontent.com/u/4?v=4",
+    starredAt: "2021-12-08",
+  },
+  {
+    login: "ezmobius",
+    avatarUrl: "https://avatars.githubusercontent.com/u/14?v=4",
+    starredAt: "2022-03-17",
+  },
+  {
+    login: "ivey",
+    avatarUrl: "https://avatars.githubusercontent.com/u/18?v=4",
+    starredAt: "2022-06-29",
+  },
+  {
+    login: "evanphx",
+    avatarUrl: "https://avatars.githubusercontent.com/u/25?v=4",
+    starredAt: "2022-09-14",
+  },
+  {
+    login: "vanpelt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/26?v=4",
+    starredAt: "2022-12-23",
+  },
+  {
+    login: "wayneeseguin",
+    avatarUrl: "https://avatars.githubusercontent.com/u/28?v=4",
+    starredAt: "2023-03-09",
+  },
+  {
+    login: "brynary",
+    avatarUrl: "https://avatars.githubusercontent.com/u/30?v=4",
+    starredAt: "2023-07-19",
+  },
+  {
+    login: "kevinclark",
+    avatarUrl: "https://avatars.githubusercontent.com/u/31?v=4",
+    starredAt: "2023-11-02",
+  },
+  {
+    login: "technoweenie",
+    avatarUrl: "https://avatars.githubusercontent.com/u/21?v=4",
+    starredAt: "2024-02-15",
+  },
+  {
+    login: "mojombo",
+    avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4",
+    starredAt: "2021-03-04",
+  },
+  {
+    login: "defunkt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/2?v=4",
+    starredAt: "2021-06-12",
+  },
+  {
+    login: "pjhyett",
+    avatarUrl: "https://avatars.githubusercontent.com/u/3?v=4",
+    starredAt: "2021-09-21",
+  },
+  {
+    login: "wycats",
+    avatarUrl: "https://avatars.githubusercontent.com/u/4?v=4",
+    starredAt: "2021-12-08",
+  },
+  {
+    login: "ezmobius",
+    avatarUrl: "https://avatars.githubusercontent.com/u/14?v=4",
+    starredAt: "2022-03-17",
+  },
+  {
+    login: "ivey",
+    avatarUrl: "https://avatars.githubusercontent.com/u/18?v=4",
+    starredAt: "2022-06-29",
+  },
+  {
+    login: "evanphx",
+    avatarUrl: "https://avatars.githubusercontent.com/u/25?v=4",
+    starredAt: "2022-09-14",
+  },
+  {
+    login: "vanpelt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/26?v=4",
+    starredAt: "2022-12-23",
+  },
+  {
+    login: "wayneeseguin",
+    avatarUrl: "https://avatars.githubusercontent.com/u/28?v=4",
+    starredAt: "2023-03-09",
+  },
+  {
+    login: "brynary",
+    avatarUrl: "https://avatars.githubusercontent.com/u/30?v=4",
+    starredAt: "2023-07-19",
+  },
+  {
+    login: "kevinclark",
+    avatarUrl: "https://avatars.githubusercontent.com/u/31?v=4",
+    starredAt: "2023-11-02",
+  },
+  {
+    login: "technoweenie",
+    avatarUrl: "https://avatars.githubusercontent.com/u/21?v=4",
+    starredAt: "2024-02-15",
+  },
+  {
+    login: "mojombo",
+    avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4",
+    starredAt: "2021-03-04",
+  },
+  {
+    login: "defunkt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/2?v=4",
+    starredAt: "2021-06-12",
+  },
+  {
+    login: "pjhyett",
+    avatarUrl: "https://avatars.githubusercontent.com/u/3?v=4",
+    starredAt: "2021-09-21",
+  },
+  {
+    login: "wycats",
+    avatarUrl: "https://avatars.githubusercontent.com/u/4?v=4",
+    starredAt: "2021-12-08",
+  },
+  {
+    login: "ezmobius",
+    avatarUrl: "https://avatars.githubusercontent.com/u/14?v=4",
+    starredAt: "2022-03-17",
+  },
+  {
+    login: "ivey",
+    avatarUrl: "https://avatars.githubusercontent.com/u/18?v=4",
+    starredAt: "2022-06-29",
+  },
+  {
+    login: "evanphx",
+    avatarUrl: "https://avatars.githubusercontent.com/u/25?v=4",
+    starredAt: "2022-09-14",
+  },
+  {
+    login: "vanpelt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/26?v=4",
+    starredAt: "2022-12-23",
+  },
+  {
+    login: "wayneeseguin",
+    avatarUrl: "https://avatars.githubusercontent.com/u/28?v=4",
+    starredAt: "2023-03-09",
+  },
+  {
+    login: "brynary",
+    avatarUrl: "https://avatars.githubusercontent.com/u/30?v=4",
+    starredAt: "2023-07-19",
+  },
+  {
+    login: "kevinclark",
+    avatarUrl: "https://avatars.githubusercontent.com/u/31?v=4",
+    starredAt: "2023-11-02",
+  },
+  {
+    login: "technoweenie",
+    avatarUrl: "https://avatars.githubusercontent.com/u/21?v=4",
+    starredAt: "2024-02-15",
+  },
+  {
+    login: "mojombo",
+    avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4",
+    starredAt: "2021-03-04",
+  },
+  {
+    login: "defunkt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/2?v=4",
+    starredAt: "2021-06-12",
+  },
+  {
+    login: "pjhyett",
+    avatarUrl: "https://avatars.githubusercontent.com/u/3?v=4",
+    starredAt: "2021-09-21",
+  },
+  {
+    login: "wycats",
+    avatarUrl: "https://avatars.githubusercontent.com/u/4?v=4",
+    starredAt: "2021-12-08",
+  },
+  {
+    login: "ezmobius",
+    avatarUrl: "https://avatars.githubusercontent.com/u/14?v=4",
+    starredAt: "2022-03-17",
+  },
+  {
+    login: "ivey",
+    avatarUrl: "https://avatars.githubusercontent.com/u/18?v=4",
+    starredAt: "2022-06-29",
+  },
+  {
+    login: "evanphx",
+    avatarUrl: "https://avatars.githubusercontent.com/u/25?v=4",
+    starredAt: "2022-09-14",
+  },
+  {
+    login: "vanpelt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/26?v=4",
+    starredAt: "2022-12-23",
+  },
+  {
+    login: "wayneeseguin",
+    avatarUrl: "https://avatars.githubusercontent.com/u/28?v=4",
+    starredAt: "2023-03-09",
+  },
+  {
+    login: "brynary",
+    avatarUrl: "https://avatars.githubusercontent.com/u/30?v=4",
+    starredAt: "2023-07-19",
+  },
+  {
+    login: "kevinclark",
+    avatarUrl: "https://avatars.githubusercontent.com/u/31?v=4",
+    starredAt: "2023-11-02",
+  },
+  {
+    login: "technoweenie",
+    avatarUrl: "https://avatars.githubusercontent.com/u/21?v=4",
+    starredAt: "2024-02-15",
+  },
+  {
+    login: "mojombo",
+    avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4",
+    starredAt: "2021-03-04",
+  },
+  {
+    login: "defunkt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/2?v=4",
+    starredAt: "2021-06-12",
+  },
+  {
+    login: "pjhyett",
+    avatarUrl: "https://avatars.githubusercontent.com/u/3?v=4",
+    starredAt: "2021-09-21",
+  },
+  {
+    login: "wycats",
+    avatarUrl: "https://avatars.githubusercontent.com/u/4?v=4",
+    starredAt: "2021-12-08",
+  },
+  {
+    login: "ezmobius",
+    avatarUrl: "https://avatars.githubusercontent.com/u/14?v=4",
+    starredAt: "2022-03-17",
+  },
+  {
+    login: "ivey",
+    avatarUrl: "https://avatars.githubusercontent.com/u/18?v=4",
+    starredAt: "2022-06-29",
+  },
+  {
+    login: "evanphx",
+    avatarUrl: "https://avatars.githubusercontent.com/u/25?v=4",
+    starredAt: "2022-09-14",
+  },
+  {
+    login: "vanpelt",
+    avatarUrl: "https://avatars.githubusercontent.com/u/26?v=4",
+    starredAt: "2022-12-23",
+  },
+  {
+    login: "wayneeseguin",
+    avatarUrl: "https://avatars.githubusercontent.com/u/28?v=4",
+    starredAt: "2023-03-09",
+  },
+  {
+    login: "brynary",
+    avatarUrl: "https://avatars.githubusercontent.com/u/30?v=4",
+    starredAt: "2023-07-19",
+  },
+  {
+    login: "kevinclark",
+    avatarUrl: "https://avatars.githubusercontent.com/u/31?v=4",
+    starredAt: "2023-11-02",
+  },
+  {
+    login: "technoweenie",
+    avatarUrl: "https://avatars.githubusercontent.com/u/21?v=4",
+    starredAt: "2024-02-15",
+  },
 ];
 
 const FONT_FAMILY =
@@ -154,7 +682,8 @@ export function computeSpacerRows({
   visibleRows: number;
 }): number {
   const D = Math.max(0, (N - visibleRows + 1) * rowH);
-  const needPx = MASK_SOLID_FRACTION * viewportH - N * rowH + SCROLL_OVERSHOOT * D;
+  const needPx =
+    MASK_SOLID_FRACTION * viewportH - N * rowH + SCROLL_OVERSHOOT * D;
   return Math.max(0, Math.ceil(needPx / rowH));
 }
 
@@ -172,13 +701,36 @@ export function isScrollContained({
   visibleRows: number;
 }): boolean {
   const D = Math.max(0, (N - visibleRows + 1) * rowH);
-  const spacerPx = computeSpacerRows({ N, rowH, viewportH, visibleRows }) * rowH;
-  return N * rowH + spacerPx - SCROLL_OVERSHOOT * D >= MASK_SOLID_FRACTION * viewportH;
+  const spacerPx =
+    computeSpacerRows({ N, rowH, viewportH, visibleRows }) * rowH;
+  return (
+    N * rowH + spacerPx - SCROLL_OVERSHOOT * D >=
+    MASK_SOLID_FRACTION * viewportH
+  );
 }
 
 /** The running counter value for a given scroll progress. Locks at totalStars. */
-export function getStarCount(scrollProgress: number, totalStars: number): number {
+export function getStarCount(
+  scrollProgress: number,
+  totalStars: number,
+): number {
   return Math.round(scrollProgress * totalStars);
+}
+
+const WHEEL_ROLL_START = 0.9;
+
+export function computeWheel(current: number, place: number): number {
+  if (current <= 0) return 0;
+  if (place === 0) return current % 10;
+
+  const v = current / 10 ** place;
+  const digit = Math.floor(v) % 10;
+  const frac = v - Math.floor(v);
+  if (frac <= WHEEL_ROLL_START) return digit;
+
+  const raw = (frac - WHEEL_ROLL_START) / (1 - WHEEL_ROLL_START);
+  const eased = raw * raw * (3 - 2 * raw); // smoothstep: 0→0, 1→1
+  return digit + eased;
 }
 
 // --- Sub-components --------------------------------------------------------
@@ -186,13 +738,19 @@ export function getStarCount(scrollProgress: number, totalStars: number): number
 function StarGlyph({ size, fill }: { size: number; fill: string }) {
   return (
     <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
       width={size}
       height={size}
-      viewBox="0 0 24 24"
+      color={fill}
       fill={fill}
-      aria-hidden="true"
+      stroke={fill}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
-      <path d="M12 2.5l2.92 5.92 6.53.95-4.72 4.6 1.11 6.5L12 17.9l-5.85 3.07 1.12-6.5L2.55 9.87l6.53-.95L12 2.5z" />
+      <title>Stars</title>
+      <path d="M13.7276 3.44418L15.4874 6.99288C15.7274 7.48687 16.3673 7.9607 16.9073 8.05143L20.0969 8.58575C22.1367 8.92853 22.6167 10.4206 21.1468 11.8925L18.6671 14.3927C18.2471 14.8161 18.0172 15.6327 18.1471 16.2175L18.8571 19.3125C19.417 21.7623 18.1271 22.71 15.9774 21.4296L12.9877 19.6452C12.4478 19.3226 11.5579 19.3226 11.0079 19.6452L8.01827 21.4296C5.8785 22.71 4.57865 21.7522 5.13859 19.3125L5.84851 16.2175C5.97849 15.6327 5.74852 14.8161 5.32856 14.3927L2.84884 11.8925C1.389 10.4206 1.85895 8.92853 3.89872 8.58575L7.08837 8.05143C7.61831 7.9607 8.25824 7.48687 8.49821 6.99288L10.258 3.44418C11.2179 1.51861 12.7777 1.51861 13.7276 3.44418Z"></path>
     </svg>
   );
 }
@@ -274,7 +832,10 @@ function DigitColumn({
         }}
       >
         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map((d, i) => (
-          <span key={i} style={{ height: cellHeight, lineHeight: `${cellHeight}px` }}>
+          <span
+            key={i}
+            style={{ height: cellHeight, lineHeight: `${cellHeight}px` }}
+          >
             {d}
           </span>
         ))}
@@ -311,7 +872,7 @@ function Odometer({
           style={{
             display: "inline-block",
             width: "0.32em",
-            color: mutedColor,
+            color: "currentColor",
             fontSize: "0.85em",
             textAlign: "center",
           }}
@@ -320,9 +881,9 @@ function Odometer({
         </span>,
       );
     } else {
-      const wheel = (current / 10 ** place) % 10;
+      const wheel = computeWheel(current, place);
       cells.unshift(
-        <DigitColumn key={`d${i}`} value={wheel < 0 ? 0 : wheel} fontSize={fontSize} />,
+        <DigitColumn key={`d${i}`} value={wheel} fontSize={fontSize} />,
       );
       place++;
     }
@@ -422,7 +983,14 @@ function Row({
           />
         </>
       )}
-      <div style={{ position: "relative", display: "flex", alignItems: "center", width: "100%" }}>
+      <div
+        style={{
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
         <Avatar
           login={stargazer.login}
           avatarUrl={stargazer.avatarUrl}
@@ -503,7 +1071,11 @@ export function GitHubStars({
   const N = rows.length;
 
   // Progress drivers: monotonic counter ramp + non-monotonic elastic scroll.
-  const counterProgress = computeCounterProgress({ frame, speed, durationInFrames });
+  const counterProgress = computeCounterProgress({
+    frame,
+    speed,
+    durationInFrames,
+  });
   const pScroll = computeScrollProgress({ frame, speed, durationInFrames });
   const p = Math.max(0, Math.min(1, (frame * speed) / durationInFrames));
 
@@ -523,15 +1095,14 @@ export function GitHubStars({
   const D = Math.max(0, (N - visibleRows + 1) * rowH);
   const scrollY = -pScroll * D;
 
-  // Empty spacer below the last row so the elastic overshoot never reveals a
-  // void inside the mask-solid zone. See computeSpacerRows.
-  const spacerRows = computeSpacerRows({ N, rowH, viewportH: viewport.h, visibleRows });
+  const spacerRows = computeSpacerRows({
+    N,
+    rowH,
+    viewportH: viewport.h,
+    visibleRows,
+  });
   const spacerPx = spacerRows * rowH;
 
-  // Drive the active-row highlight off the SAME shared progress value as the
-  // scroll/odometer (p = clamp(frame*speed / dur)) so it can never desync. The
-  // `speed` control is capped at min 1 (registry/__index__.tsx) so p — and thus
-  // pScroll/the count — always reaches exactly 1 by the final frame.
   const settle = interpolate(p, [0.92, 1], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -585,7 +1156,9 @@ export function GitHubStars({
             opacity={1}
           />
         ))}
-        {spacerPx > 0 && <div style={{ height: spacerPx }} aria-hidden="true" />}
+        {spacerPx > 0 && (
+          <div style={{ height: spacerPx }} aria-hidden="true" />
+        )}
       </div>
     </div>
   );
@@ -646,16 +1219,12 @@ export function GitHubStars({
       <div
         style={{
           display: "flex",
-          gap: 10,
           fontSize: 20,
           fontWeight: 500,
           color: t.fgMuted,
           fontFamily: FONT_FAMILY,
-          letterSpacing: "0.04em",
         }}
       >
-        <span style={{ letterSpacing: "0.12em" }}>STARGAZERS</span>
-        <span>·</span>
         <span>{repo}</span>
       </div>
     </div>
@@ -684,19 +1253,7 @@ export function GitHubStars({
       <div style={{ height: 16 }} />
       {underline}
       <div style={{ height: 20 }} />
-      <div
-        style={{
-          fontSize: 22,
-          fontWeight: 600,
-          letterSpacing: "0.18em",
-          textTransform: "uppercase",
-          color: t.fgMuted,
-          fontFamily: FONT_FAMILY,
-        }}
-      >
-        Stargazers
-      </div>
-      <div style={{ height: 28 }} />
+
       {repoSlug}
     </div>
   );
