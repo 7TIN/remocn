@@ -22,8 +22,19 @@ async function main() {
   const serveUrl = await bundle({
     entryPoint,
     outDir,
-    // Keep Remotion's defaults; the registry component is plain React + CSS.
-    webpackOverride: (config) => config,
+    // The Remotion bundler (webpack) doesn't read tsconfig `paths`, so teach it
+    // the `@/* → project root` alias that src/remotion/Root.tsx + the registry
+    // component's config rely on. Without this `@/registry/...` fails to resolve.
+    webpackOverride: (config) => ({
+      ...config,
+      resolve: {
+        ...config.resolve,
+        alias: {
+          ...(config.resolve?.alias ?? {}),
+          "@": root,
+        },
+      },
+    }),
   });
   console.log(`Remotion bundle ready at: ${serveUrl}`);
 }

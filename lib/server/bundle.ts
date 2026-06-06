@@ -27,8 +27,18 @@ export function getServeUrl(): Promise<string> {
     try {
       return await bundle({
         entryPoint: ENTRY_POINT,
-        // Keep Remotion's defaults; the registry component is plain React + CSS.
-        webpackOverride: (config) => config,
+        // Webpack doesn't read tsconfig `paths`; teach it the `@/* → root` alias
+        // (must match scripts/bundle-remotion.mts) so `@/registry/...` resolves.
+        webpackOverride: (config) => ({
+          ...config,
+          resolve: {
+            ...config.resolve,
+            alias: {
+              ...(config.resolve?.alias ?? {}),
+              "@": process.cwd(),
+            },
+          },
+        }),
       });
     } catch (err) {
       // Don't poison the cache on failure — let the next render retry the bundle.
