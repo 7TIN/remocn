@@ -105,6 +105,8 @@ import { TrackingIn } from "@/registry/remocn/tracking-in";
 import { trackingInConfig } from "@/registry/remocn/tracking-in/config";
 import { Typewriter } from "@/registry/remocn/typewriter";
 import { typewriterConfig } from "@/registry/remocn/typewriter/config";
+import { Accordion } from "@/registry/remocn-ui/accordion";
+import { accordionConfig } from "@/registry/remocn-ui/accordion/config";
 import { Button } from "@/registry/remocn-ui/button";
 import { buttonConfig } from "@/registry/remocn-ui/button/config";
 import { Spinner } from "@/registry/remocn-ui/spinner";
@@ -283,6 +285,7 @@ const registry: Record<string, RegistryEntry> = {
   },
   "github-stars": { Component: GitHubStars, config: githubStarsConfig },
   "button": { Component: Button, config: buttonConfig },
+  "accordion": { Component: Accordion, config: accordionConfig },
   "spinner": { Component: Spinner, config: spinnerConfig },
 };
 
