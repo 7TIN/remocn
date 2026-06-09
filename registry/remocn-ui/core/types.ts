@@ -1,19 +1,14 @@
 /**
- * A single scripted interaction on the Remotion timeline.
+ * A single scripted state on the Remotion timeline.
  *
- * Every remocn UI primitive consumes the same `steps: Step[]` envelope. State is
- * a deterministic left-fold over the steps whose `at` is <= the current frame.
+ * Every remocn UI state atom consumes the same `steps: Step[]` envelope. The
+ * current state is the latest step whose `at` is <= the current frame.
  */
-export interface Step<A extends string = string, V = unknown> {
-  /** LOCAL (Sequence-relative) authored frame at which this step begins. */
+export interface Step<S extends string = string> {
+  /** LOCAL (Sequence-relative) authored frame at which the component enters this state. */
   at: number;
-  /** Per-component action union (e.g. "hover" | "press" | "loading"). */
-  action: A;
-  /** Polymorphic payload; meaning depends on action. */
-  value?: V;
-  /** Frames to animate the transition. 0 = snap. Omitted = component default. */
+  /** Per-component state union (e.g. "idle" | "hover" | "loading"). */
+  state: S;
+  /** Frames to animate the transition INTO this state. Omitted → caller's default. */
   duration?: number;
 }
-
-/** Result of folding steps: the resolved logical state at the current frame. */
-export type TimelineState<S> = S;

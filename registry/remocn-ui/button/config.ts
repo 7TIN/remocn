@@ -1,22 +1,5 @@
-import type { Step } from "@/lib/remocn-ui";
 import { type ComponentConfig, FPS, H, W } from "@/lib/customizer-config";
-import {
-  BUTTON_SCENARIOS,
-  type ButtonAction,
-  type ButtonScenario,
-} from "@/registry/remocn-ui/button";
-
-function serializeSteps(steps: Step<ButtonAction>[]): string {
-  if (steps.length === 0) return "[]";
-  const body = steps
-    .map((step) => {
-      const parts = [`at: ${step.at}`, `action: "${step.action}"`];
-      if (step.duration !== undefined) parts.push(`duration: ${step.duration}`);
-      return `    { ${parts.join(", ")} },`;
-    })
-    .join("\n");
-  return `[\n${body}\n  ]`;
-}
+import type { ButtonState } from "@/registry/remocn-ui/button";
 
 export const buttonConfig: ComponentConfig = {
   componentName: "Button",
@@ -35,11 +18,12 @@ export const buttonConfig: ComponentConfig = {
       options: ["sm", "default", "lg"],
       label: "Size",
     },
-    scenario: {
+    state: {
       type: "select",
-      default: "happy",
-      options: ["happy", "loading", "error", "idle"],
-      label: "Scenario",
+      // Default to `loading` so the preview showcases the live spinner motion.
+      default: "loading",
+      options: ["idle", "hover", "press", "loading", "success"],
+      label: "State",
     },
     mode: {
       type: "select",
@@ -54,14 +38,14 @@ export const buttonConfig: ComponentConfig = {
   compositionWidth: W,
   compositionHeight: H,
   snippet: (values) => {
-    const scenario = (values.scenario as ButtonScenario) ?? "happy";
+    const state = (values.state as ButtonState) ?? "loading";
     const label = values.label as string | undefined;
     const variant = values.variant as string | undefined;
     const size = values.size as string | undefined;
     const mode = values.mode as string | undefined;
     const primary = values.primary as string | undefined;
 
-    const props: string[] = [];
+    const props: string[] = [`  state="${state}"`];
     if (label !== undefined && label !== "Continue")
       props.push(`  label="${label}"`);
     if (variant !== undefined && variant !== "default")
@@ -72,7 +56,6 @@ export const buttonConfig: ComponentConfig = {
       props.push(`  mode="${mode}"`);
     if (primary !== undefined && primary !== "#171717")
       props.push(`  primary="${primary}"`);
-    props.push(`  steps={${serializeSteps(BUTTON_SCENARIOS[scenario])}}`);
 
     return `import { Button } from "@/components/remocn/button";
 

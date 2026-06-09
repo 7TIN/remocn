@@ -18,56 +18,56 @@ export function revealCount(
   return Math.max(0, Math.min(len, Math.floor((localFrame / over) * len)));
 }
 
-function clamp01(t: number): number {
+export function clamp01(t: number): number {
   return Math.max(0, Math.min(1, t));
 }
 
-export function useTimelineState<S, A extends string>(
-  steps: Step<A>[],
+/**
+ * Resolve the current state from a `steps` timeline: the state of the latest
+ * step whose `at <= effectiveFrame`, else `defaultState`. Pure deterministic
+ * fold; `speed` scales the playhead (effectiveFrame = useCurrentFrame()*speed).
+ * Ties on `at` resolve by array order (later wins).
+ */
+export function useCurrentState<S extends string>(
+  steps: Step<S>[],
   defaultState: S,
-  reducer: (draft: S, step: Step<A>) => S,
-  durationDefaults: Record<A, number>,
   speed = 1,
-): {
-  state: S;
-  active: Array<{ step: Step<A>; progress: number }>;
-  progressOf: (action: A) => number;
-  frame: number;
-} {
-  const raw = useCurrentFrame();
-  const effectiveFrame = raw * speed;
+): S {
+  const effectiveFrame = useCurrentFrame() * speed;
+  let current = defaultState;
+  let bestAt = -Infinity;
+  steps.forEach((step) => {
+    if (step.at <= effectiveFrame && step.at >= bestAt) {
+      bestAt = step.at;
+      current = step.state;
+    }
+  });
+  return current;
+}
 
-  const ordered = steps
+/**
+ * Resolve the in-flight transition for keyframe-style atoms. `to` = latest step
+ * with at<=effectiveFrame (else defaultState); `from` = the step just before it
+ * (else defaultState); `progress` ramps 0→1 over [to.at, to.at + (to.duration ??
+ * defaultDuration)), then holds at 1. effectiveFrame = useCurrentFrame()*speed.
+ * Ties on `at` resolve later-array-wins.
+ */
+export function useStateTransition<S extends string>(
+  steps: Step<S>[],
+  defaultState: S,
+  speed = 1,
+  defaultDuration = 8,
+): { from: S; to: S; progress: number } {
+  const effectiveFrame = useCurrentFrame() * speed;
+  const started = steps
     .map((step, index) => ({ step, index }))
     .sort((a, b) => a.step.at - b.step.at || a.index - b.index)
-    .map((entry) => entry.step);
-
-  let state: S = { ...defaultState };
-  const active: Array<{ step: Step<A>; progress: number }> = [];
-
-  for (const step of ordered) {
-    if (step.at <= effectiveFrame) {
-      state = reducer(state, step);
-    }
-
-    const dur = step.duration ?? durationDefaults[step.action];
-    const end = step.at + dur;
-    if (dur > 0 && step.at <= effectiveFrame && effectiveFrame < end) {
-      active.push({ step, progress: clamp01((effectiveFrame - step.at) / dur) });
-    }
-  }
-
-  const progressOf = (action: A): number => {
-    let result = 0;
-    let bestAt = -Infinity;
-    for (const entry of active) {
-      if (entry.step.action === action && entry.step.at >= bestAt) {
-        bestAt = entry.step.at;
-        result = entry.progress;
-      }
-    }
-    return result;
-  };
-
-  return { state, active, progressOf, frame: effectiveFrame };
+    .filter((e) => e.step.at <= effectiveFrame);
+  if (started.length === 0)
+    return { from: defaultState, to: defaultState, progress: 1 };
+  const to = started[started.length - 1].step;
+  const from = started.length >= 2 ? started[started.length - 2].step : null;
+  const dur = to.duration ?? defaultDuration;
+  const progress = dur > 0 ? clamp01((effectiveFrame - to.at) / dur) : 1;
+  return { from: from ? from.state : defaultState, to: to.state, progress };
 }

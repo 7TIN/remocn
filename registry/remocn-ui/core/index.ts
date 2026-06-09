@@ -1,5 +1,11 @@
-export type { Step, TimelineState } from "./types";
-export { framesFor, revealCount, useTimelineState } from "./timeline";
+export type { Step } from "./types";
+export {
+  clamp01,
+  framesFor,
+  revealCount,
+  useCurrentState,
+  useStateTransition,
+} from "./timeline";
 export {
   mixOklch,
   oklchToRgb,

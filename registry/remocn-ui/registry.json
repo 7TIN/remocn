@@ -43,17 +43,37 @@
       ]
     },
     {
+      "name": "spinner",
+      "type": "registry:component",
+      "title": "UI Spinner",
+      "description": "A deterministic spinning arc that loops on the Remotion frame — a pure motion atom with no state.",
+      "dependencies": ["remotion"],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "spinner/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/spinner.tsx"
+        }
+      ]
+    },
+    {
       "name": "button",
       "type": "registry:component",
       "title": "UI Button",
-      "description": "A shadcn-style button whose hover/press/loading/success states are scripted on the Remotion timeline.",
+      "description": "A button whose idle/hover/press/loading/success state is a pure function of the timeline; the loading state composes the Spinner motion atom.",
       "dependencies": ["remotion"],
-      "registryDependencies": ["remocn-ui"],
+      "registryDependencies": ["remocn-ui", "spinner"],
       "files": [
         {
           "path": "button/index.tsx",
           "type": "registry:component",
           "target": "components/remocn/button.tsx"
+        },
+        {
+          "path": "button/use-button-transition.ts",
+          "type": "registry:component",
+          "target": "components/remocn/use-button-transition.ts"
         }
       ]
     }

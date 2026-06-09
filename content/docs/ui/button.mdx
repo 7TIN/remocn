@@ -1,86 +1,112 @@
 ---
 title: Button
-description: A scripted button that animates hover, press, loading, and success states as a pure function of the Remotion timeline
+description: A button whose visual state is a pure function of the timeline
 ---
 
 <ComponentPreview name="button" />
+
+A state atom whose appearance (idle, hover, press, loading, success) is a pure function of the `state` prop. Pass a state directly or drive it from the Remotion timeline via `useCurrentState`. The component reads no frame — only the state value you give it.
 
 ## Installation
 
 <InstallBlock name="button" />
 
 <Note>
-Installing `button` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`) and its `culori` color dependency via `registryDependencies`. You do not need to install either separately.
+Installing `button` automatically installs `spinner` and the shared `remocn-ui` core (`lib/remocn-ui/`) via `registryDependencies`. You do not need to install either separately.
 </Note>
 
-## The steps timeline
+## States
 
-`Button` accepts a `steps` prop — an array of `Step<ButtonAction>` objects that script the button's interaction. The full `ButtonAction` union is:
+`ButtonState` is:
 
 ```ts
-type ButtonAction =
-  | "hover"    // lift + background crossfade
+type ButtonState =
+  | "idle"     // resting
+  | "hover"    // lifted + background shift
   | "press"    // scale down + darken
-  | "release"  // return to hover level
-  | "loading"  // label fades out, spinner fades in
-  | "success"  // spinner fades out, checkmark draws
-  | "reset"    // destructive flash, then return to idle
+  | "loading"  // renders <Spinner />
+  | "success"  // renders a static checkmark, background fills primary
 ```
 
-A realistic happy-path interaction — hover, click, load, succeed:
+`loading` composes `<Spinner />` in place of the label. `success` renders a static checkmark SVG. Both `loading` and `success` hide the label text.
+
+## Snap usage (simple path)
+
+Pass `state` directly — the component snaps instantly to that visual. Useful for static previews or when you drive state from your own logic:
 
 ```tsx
 import { Button } from "@/components/remocn/button";
 
-export const Scene = () => (
-  <Button
-    label="Continue"
-    steps={[
-      { at: 10, action: "hover" },
-      { at: 25, action: "press" },
-      { at: 35, action: "loading" },
-      { at: 70, action: "success" },
-    ]}
-  />
-);
+export const Scene = () => <Button state="loading" />;
 ```
 
-Each `at` value is a **Sequence-local authored frame**. If the component sits inside a `<Sequence from={30}>`, Remotion shifts the playhead automatically — `at: 10` always means "10 frames into this Sequence." See the [ui tier intro](/docs/ui) for how `useTimelineState` resolves the fold.
-
-### Single-action shortcut
-
-For a quick loading spinner or a one-step hover, pass a single step:
+To drive state from the timeline, use `useCurrentState`:
 
 ```tsx
-// Spinner only — no label
-<Button label="Save" steps={[{ at: 0, action: "loading" }]} />
+import { useCurrentState } from "@/lib/remocn-ui";
+import { Button } from "@/components/remocn/button";
 
-// Hover state held for the full duration
-<Button label="Sign up" steps={[{ at: 5, action: "hover" }]} />
+export const Scene = () => {
+  const state = useCurrentState(
+    [
+      { at: 8,  state: "hover" },
+      { at: 20, state: "press" },
+      { at: 35, state: "loading" },
+      { at: 70, state: "success" },
+    ],
+    "idle",
+  );
+
+  return <Button label="Continue" state={state} />;
+};
 ```
 
-### Using a preset scenario
+Each `at` is a **Sequence-local authored frame**. State persists between steps: `hover` at frame 8 keeps the button lifted until `press` fires at frame 20. See the [ui tier intro](/docs/ui) for the full `useCurrentState` API.
 
-The `scenario` prop is a preview-convenience alias for a fixed `steps` array. It exists so the live preview customizer can switch between canned interactions without the user manually editing step objects. In production compositions, prefer explicit `steps`.
+## Smooth transitions (opt-in)
 
-| Scenario | Equivalent steps |
-|---|---|
-| `"happy"` | hover→press→loading→success |
-| `"loading"` | loading (at 10) |
-| `"error"` | hover→press→loading→reset |
-| `"idle"` | `[]` (static button) |
+State changes via `state` snap with no cross-fade. For animated transitions, use `useButtonTransition` from the copied `use-button-transition.ts` file. It reads the frame, interpolates between state presets, and returns a resolved `ButtonStyle` — pass it to the `style` prop:
 
 ```tsx
-// Fine for quick previews; prefer steps={[...]} in real compositions
-<Button scenario="happy" />
+import { Button } from "@/components/remocn/button";
+import { useButtonTransition } from "@/components/remocn/use-button-transition";
+
+export const Scene = () => {
+  const style = useButtonTransition([
+    { at: 12, state: "hover" },
+    { at: 30, state: "press" },
+    { at: 48, state: "loading", duration: 6 },
+    { at: 96, state: "success", duration: 16 },
+  ]);
+  return <Button label="Continue" style={style} />;
+};
 ```
 
-When both `steps` and `scenario` are supplied, `steps` wins.
+The `duration` field on each step overrides the file's `DEFAULT_DURATION` for that specific transition. To globally tune timing and easing, edit `use-button-transition.ts` directly in your project — that file is yours (shadcn "own your code" philosophy).
+
+`style` takes precedence over `state` when both are provided.
+
+## Full lifecycle
+
+A complete idle → hover → press → loading → success run using the smooth transition path. Copy the code to drop it into your own composition.
+
+<LiveExample name="button-example" />
 
 ## Props
 
 <PropsTable
   rows={[
+    {
+      name: "state",
+      type: "\"idle\" | \"hover\" | \"press\" | \"loading\" | \"success\"",
+      default: "\"idle\"",
+      description: "Current visual state (snap path). State changes snap — no automatic cross-fade.",
+    },
+    {
+      name: "style",
+      type: "ButtonStyle",
+      description: "Resolved animated visual (smooth path). Pass an interpolated ButtonStyle from useButtonTransition. Takes precedence over state when provided.",
+    },
     {
       name: "label",
       type: "string",
@@ -100,11 +126,6 @@ When both `steps` and `scenario` are supplied, `steps` wins.
       description: "Button height and padding. sm=32px, default=40px, lg=48px.",
     },
     {
-      name: "steps",
-      type: "Step<ButtonAction>[]",
-      description: "Timeline script for the button interaction. Takes precedence over scenario.",
-    },
-    {
       name: "theme",
       type: "Partial<RemocnTheme>",
       description: "Per-component theme override. Merges with the active RemocnUIProvider theme and the mode defaults. Must be concrete oklch/hex/rgb values — not CSS custom properties.",
@@ -116,16 +137,15 @@ When both `steps` and `scenario` are supplied, `steps` wins.
       description: "Sets the base palette. Overrides the mode on RemocnUIProvider when both are present.",
     },
     {
-      name: "scenario",
-      type: "\"happy\" | \"loading\" | \"error\" | \"idle\"",
-      default: "\"idle\"",
-      description: "Preview-convenience alias for a preset steps array. Ignored when steps is provided. Prefer steps in production compositions.",
+      name: "primary",
+      type: "string",
+      description: "Convenience override for the primary theme token. Merged into theme — saves a theme object for single-token changes.",
     },
     {
       name: "speed",
       type: "number",
       default: "1",
-      description: "Scales the playhead, not the authored step times. speed=2 makes all animations run twice as fast without changing your at values.",
+      description: "Forwarded to the loading Spinner. Scales the spinner playhead — speed=2 spins twice as fast without changing authored step times.",
     },
     {
       name: "className",

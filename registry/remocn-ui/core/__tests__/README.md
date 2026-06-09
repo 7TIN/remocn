@@ -60,12 +60,20 @@ added to `package.json`.
     alpha 1), `toCss` (culori `formatRgb` LEGACY comma syntax with 0..255 int
     channels: `rgb(255, 128, 0)` opaque, `rgba(10, 20, 30, 0.5)` when alpha < 1,
     plus a re-parse round-trip guard), `mixOklch` alpha interpolation.
-- `timeline.test.ts` — `framesFor` / `revealCount` as exact spec mirrors, plus a
-  pure replica of the `useTimelineState` fold (the only impure line,
-  `useCurrentFrame()`, is injected as a `raw` arg) to assert: speed contract
-  (`{at:30}` fires at render frame 15 when `speed=2`), active-window
-  `[at, at+dur)` boundaries, `progressOf` in-flight-only flash-bug guard,
-  `duration:0` snap, most-recent-active resolution.
+- `timeline.test.ts` — `framesFor` / `revealCount` as exact spec mirrors, plus
+  two pure resolver replicas (each factoring out the single impure
+  `useCurrentFrame()` line as an injected `raw` arg):
+  - **`resolveCurrentState`** (mirrors `useCurrentState`): speed contract
+    (`{at:30}` fires at raw frame 15 when `speed=2`), default-state before
+    first step, exact-frame activation, latest-started-wins, same-`at` ties
+    (later array entry wins).
+  - **`resolveStateTransition`** (mirrors `useStateTransition`): before-any-step
+    → `{from:default, to:default, progress:1}`; at step boundary →
+    `progress=0`; mid-window → fractional progress (concrete numeric);
+    past window → `progress=1` held; per-step `duration` overrides
+    `defaultDuration`; `duration:0` snaps to `progress=1`; chained steps carry
+    `from=previous-step state`; same-`at` ties (later array wins); `speed=2`
+    scales the playhead (effective frame, not authored `at`).
 
 ## Determinism grep checklist (run manually; must print NOTHING)
 

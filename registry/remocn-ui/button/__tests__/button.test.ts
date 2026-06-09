@@ -2,211 +2,56 @@
  * Verification tests for the PURE / DETERMINISTIC parts of `button`.
  *
  * Scope:
- *   - registry/remocn-ui/button/index.tsx — BUTTON_SCENARIOS shape + the
- *     (module-private) reducer's phase mapping.
- *   - registry/remocn-ui/button/config.ts — buttonConfig.snippet output +
- *     the (module-private) serializeSteps emission.
+ *   - registry/remocn-ui/button/index.tsx  — ButtonState union membership
+ *   - registry/remocn-ui/button/config.ts  — buttonConfig.controls.state
+ *     wiring + buttonConfig.snippet output (the state → JSX codegen)
+ *
+ * The render path (index.tsx) is a PURE-STATE model: `(state) => visual`.
+ * Every visual is the complete resting look for that state — state changes
+ * snap (no tweening). The loading spinner lives in the separate `<Spinner/>`
+ * motion atom which reads `useCurrentFrame()` internally; it cannot run
+ * outside a Remotion render tree. So Button render is NOT exercised here.
+ * The pure-testable surface is the customizer wiring + snippet codegen (below).
  *
  * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
  *   bun test registry/remocn-ui/button/__tests__
  *
  * --------------------------------------------------------------------------
- * IMPORT STRATEGY — why we import REAL code here (unlike ui-core/timeline)
+ * IMPORT STRATEGY
  * --------------------------------------------------------------------------
- * `index.tsx` and `config.ts` both top-level `import { … } from "remotion"`
- * (index) / re-use BUTTON_SCENARIOS (config). The ui-core `timeline.test.ts`
- * REPLICATED its fold because the impure part — `useCurrentFrame()` — is CALLED
- * at module evaluation inside a hook. Here, by contrast, the pieces under test
- * (`BUTTON_SCENARIOS`, `buttonConfig.snippet`, the reducer) never CALL a
- * Remotion runtime API at import time:
- *   - `BUTTON_SCENARIOS` is a plain object literal.
- *   - `buttonConfig.snippet` is a pure string builder.
- * Importing `remotion` only registers its module; it does not invoke
- * `useCurrentFrame`. So we import the REAL source via RELATIVE paths (matching
- * `color.test.ts` which uses `../color`, NOT the `@/` alias — `bun test` does
- * resolve tsconfig `paths`, but relative is the proven, alias-independent form).
- *
- * The reducer is NOT exported (module-private `function reducer` in index.tsx).
- * We therefore (a) assert everything reachable about it INDIRECTLY via the
- * scenario shapes, and (b) replicate its documented phase mapping as a SPEC
- * MIRROR (annotated with source line ranges) so the phase contract is pinned.
- * See TESTABILITY GAP note at the bottom.
- *
- * MAINTENANCE CONTRACT: if index.tsx's reducer body or config.ts's
- * serializeSteps body changes, the MIRROR replicas below MUST be updated in
- * lockstep. The replicas are annotated with the source line ranges they mirror.
+ * `config.ts` imports `ButtonState` from `@/registry/remocn-ui/button` and
+ * the pieces under test never CALL a Remotion runtime API at import time —
+ * `buttonConfig` is a plain object; `.snippet` is a pure string builder.
+ * We import via RELATIVE paths (matching the existing test suite pattern),
+ * annotating each import with the source it corresponds to.
  * --------------------------------------------------------------------------
  */
 
 import { describe, expect, it } from "bun:test";
-import {
-  BUTTON_SCENARIOS,
-  type ButtonAction,
-  type ButtonPhase,
-  type ButtonScenario,
-} from "../index";
+import { type ButtonState, buttonStyle, buttonStyleContext } from "../index";
+import { tweenButtonStyle } from "../use-button-transition";
 import { buttonConfig } from "../config";
+import { defaultLightTheme } from "@/lib/remocn-ui";
 
 // ===========================================================================
 // Shared fixtures
 // ===========================================================================
 
-/** The ButtonAction union, enumerated as a runtime list for membership checks. */
-const VALID_ACTIONS: readonly ButtonAction[] = [
+/**
+ * The ButtonState union, enumerated as a runtime list for membership checks.
+ * Must stay in sync with `export type ButtonState` in index.tsx.
+ */
+const VALID_STATES: readonly ButtonState[] = [
+  "idle",
   "hover",
   "press",
-  "release",
   "loading",
   "success",
-  "reset",
 ];
-
-const SCENARIO_KEYS: readonly ButtonScenario[] = [
-  "happy",
-  "loading",
-  "error",
-  "idle",
-];
-
-// ===========================================================================
-// 1. BUTTON_SCENARIOS validity (real export, plain data — fully pure)
-// ===========================================================================
-
-describe("BUTTON_SCENARIOS", () => {
-  it("exposes exactly the four documented scenario keys", () => {
-    expect(Object.keys(BUTTON_SCENARIOS).sort()).toEqual(
-      [...SCENARIO_KEYS].sort(),
-    );
-  });
-
-  it("every step in every scenario has a numeric, non-negative `at`", () => {
-    for (const key of SCENARIO_KEYS) {
-      for (const step of BUTTON_SCENARIOS[key]) {
-        expect(typeof step.at).toBe("number");
-        expect(Number.isFinite(step.at)).toBe(true);
-        expect(step.at).toBeGreaterThanOrEqual(0);
-      }
-    }
-  });
-
-  it("every step's `action` is a member of the ButtonAction union", () => {
-    for (const key of SCENARIO_KEYS) {
-      for (const step of BUTTON_SCENARIOS[key]) {
-        expect(VALID_ACTIONS).toContain(step.action);
-      }
-    }
-  });
-
-  it("`idle` is empty", () => {
-    expect(BUTTON_SCENARIOS.idle).toEqual([]);
-  });
-
-  it("`happy` and `error` have strictly increasing `at` values", () => {
-    for (const key of ["happy", "error"] as const) {
-      const ats = BUTTON_SCENARIOS[key].map((s) => s.at);
-      for (let i = 1; i < ats.length; i++) {
-        expect(ats[i]).toBeGreaterThan(ats[i - 1]);
-      }
-    }
-  });
-
-  it("`happy` ends with a `success` action", () => {
-    const steps = BUTTON_SCENARIOS.happy;
-    expect(steps.length).toBeGreaterThan(0);
-    expect(steps[steps.length - 1].action).toBe("success");
-  });
-
-  it("`error` ends with a `reset` action", () => {
-    const steps = BUTTON_SCENARIOS.error;
-    expect(steps.length).toBeGreaterThan(0);
-    expect(steps[steps.length - 1].action).toBe("reset");
-  });
-
-  it("`loading` is a single `loading` step", () => {
-    expect(BUTTON_SCENARIOS.loading).toHaveLength(1);
-    expect(BUTTON_SCENARIOS.loading[0].action).toBe("loading");
-  });
-});
-
-// ===========================================================================
-// 2. Reducer phase mapping — MIRROR of index.tsx reducer (lines 90-109)
-//    The reducer is NOT exported; this replica pins the documented contract.
-//    See TESTABILITY GAP note at the bottom of this file.
-// ===========================================================================
-
-/**
- * MIRROR of the module-private `reducer` in index.tsx (lines 90-109) plus the
- * DEFAULT_STATE seed (line 79). Phase per action:
- *   hover→hover, press→press, release→hover, loading→loading,
- *   success→success, reset→idle (the destructive flash is IN-FLIGHT ONLY via
- *   isActiveReset; once the reset window closes the button settles to idle).
- */
-const PHASE_AFTER_ACTION: Record<ButtonAction, ButtonPhase> = {
-  hover: "hover",
-  press: "press",
-  release: "hover",
-  loading: "loading",
-  success: "success",
-  reset: "idle",
-};
-
-/** MIRROR fold: seed = idle, apply each step's action via the map. */
-function phaseAfter(steps: { action: ButtonAction }[]): ButtonPhase {
-  let phase: ButtonPhase = "idle";
-  for (const step of steps) {
-    phase = PHASE_AFTER_ACTION[step.action];
-  }
-  return phase;
-}
-
-describe("reducer phase mapping (spec mirror of index.tsx:88-107)", () => {
-  it("each action maps to its documented terminal phase", () => {
-    expect(PHASE_AFTER_ACTION.hover).toBe("hover");
-    expect(PHASE_AFTER_ACTION.press).toBe("press");
-    expect(PHASE_AFTER_ACTION.release).toBe("hover");
-    expect(PHASE_AFTER_ACTION.loading).toBe("loading");
-    expect(PHASE_AFTER_ACTION.success).toBe("success");
-    // `reset` settles to idle. The destructive flash is in-flight only
-    // (driven by isActiveReset in the render path), NOT a settled phase.
-    expect(PHASE_AFTER_ACTION.reset).toBe("idle");
-  });
-
-  it("folding `idle` (empty) stays idle", () => {
-    expect(phaseAfter(BUTTON_SCENARIOS.idle)).toBe("idle");
-  });
-
-  it("folding `happy` lands on `success`", () => {
-    expect(phaseAfter(BUTTON_SCENARIOS.happy)).toBe("success");
-  });
-
-  it("folding `error` lands on `idle` (reset settles to idle, flash is in-flight only)", () => {
-    expect(phaseAfter(BUTTON_SCENARIOS.error)).toBe("idle");
-  });
-
-  it("folding `loading` lands on `loading`", () => {
-    expect(phaseAfter(BUTTON_SCENARIOS.loading)).toBe("loading");
-  });
-
-  it("the terminal phase agrees with the scenario's last action", () => {
-    for (const key of SCENARIO_KEYS) {
-      const steps = BUTTON_SCENARIOS[key];
-      if (steps.length === 0) {
-        expect(phaseAfter(steps)).toBe("idle");
-        continue;
-      }
-      const lastAction = steps[steps.length - 1].action;
-      expect(phaseAfter(steps)).toBe(PHASE_AFTER_ACTION[lastAction]);
-    }
-  });
-});
-
-// ===========================================================================
-// 3. buttonConfig.snippet — REAL pure string builder (high value)
-// ===========================================================================
 
 /** Minimal shape mirroring the customizer's value bag passed to snippet(). */
 type SnippetValues = {
-  scenario?: string;
+  state?: string;
   label?: string;
   variant?: string;
   size?: string;
@@ -217,9 +62,135 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   buttonConfig.snippet(values as Record<string, unknown>);
 
-describe("buttonConfig.snippet", () => {
-  const happy = snippet({
-    scenario: "happy",
+// ===========================================================================
+// 1. ButtonState union membership
+// ===========================================================================
+
+describe("ButtonState union", () => {
+  it("contains exactly the five documented states", () => {
+    // We can't enumerate a TS type at runtime, but we can assert the REAL
+    // controls.state options match and that all known states are members.
+    const control = buttonConfig.controls.state;
+    if (control.type !== "select") throw new Error("state control must be a select");
+    expect(control.options).toEqual([
+      "idle",
+      "hover",
+      "press",
+      "loading",
+      "success",
+    ]);
+  });
+
+  it("every VALID_STATES entry is assignable (no typos in the fixture)", () => {
+    // Belt-and-suspenders: the fixture array must have exactly 5 entries and
+    // match the options list from the real config.
+    const control = buttonConfig.controls.state;
+    if (control.type !== "select") throw new Error("state control must be a select");
+    expect(VALID_STATES).toHaveLength(5);
+    for (const s of VALID_STATES) {
+      expect(control.options).toContain(s);
+    }
+  });
+});
+
+// ===========================================================================
+// 2. buttonConfig.controls.state — customizer control wiring
+// ===========================================================================
+
+describe("buttonConfig.controls.state", () => {
+  it("is a select control", () => {
+    expect(buttonConfig.controls.state.type).toBe("select");
+  });
+
+  it("has exactly the five ButtonState options in order", () => {
+    const control = buttonConfig.controls.state;
+    if (control.type !== "select") throw new Error("state control must be a select");
+    expect(control.options).toEqual([
+      "idle",
+      "hover",
+      "press",
+      "loading",
+      "success",
+    ]);
+  });
+
+  it("defaults to 'loading' so the preview showcases the live Spinner", () => {
+    const control = buttonConfig.controls.state;
+    expect(control.default).toBe("loading");
+  });
+
+  it("every option is a member of the ButtonState union", () => {
+    const control = buttonConfig.controls.state;
+    if (control.type !== "select") throw new Error("state control must be a select");
+    for (const option of control.options) {
+      expect(VALID_STATES).toContain(option as ButtonState);
+    }
+  });
+});
+
+// ===========================================================================
+// 3. buttonConfig.snippet — pure string builder
+//    State model: snippet emits `state="<state>"` as a bare JSX prop.
+//    It NEVER emits `steps` or `action`.
+// ===========================================================================
+
+describe("buttonConfig.snippet: state prop emission", () => {
+  it("emits state=\"idle\" for the idle option", () => {
+    expect(snippet({ state: "idle" })).toContain('state="idle"');
+  });
+
+  it("emits state=\"hover\" for the hover option", () => {
+    expect(snippet({ state: "hover" })).toContain('state="hover"');
+  });
+
+  it("emits state=\"press\" for the press option", () => {
+    expect(snippet({ state: "press" })).toContain('state="press"');
+  });
+
+  it("emits state=\"loading\" for the loading option", () => {
+    expect(snippet({ state: "loading" })).toContain('state="loading"');
+  });
+
+  it("emits state=\"success\" for the success option", () => {
+    expect(snippet({ state: "success" })).toContain('state="success"');
+  });
+
+  it("emits the correct state for every control option", () => {
+    const control = buttonConfig.controls.state;
+    if (control.type !== "select") throw new Error("state control must be a select");
+    for (const state of control.options) {
+      const out = snippet({ state });
+      expect(out).toContain(`state="${state}"`);
+    }
+  });
+});
+
+describe("buttonConfig.snippet: NEVER emits steps or action", () => {
+  it("never emits `steps` in any state", () => {
+    for (const state of VALID_STATES) {
+      expect(snippet({ state })).not.toContain("steps");
+    }
+  });
+
+  it("never emits `action` in any state", () => {
+    for (const state of VALID_STATES) {
+      expect(snippet({ state })).not.toContain("action");
+    }
+  });
+});
+
+describe("buttonConfig.snippet: import line", () => {
+  it("includes `import { Button }` from the correct path", () => {
+    const out = snippet({ state: "loading" });
+    expect(out).toContain('import { Button }');
+    expect(out).toContain('from "@/components/remocn/button"');
+  });
+});
+
+describe("buttonConfig.snippet: default props are omitted", () => {
+  // Defaults: label=Continue, variant=default, size=default, mode=light, primary=#171717
+  const allDefaults = snippet({
+    state: "loading",
     label: "Continue",
     variant: "default",
     size: "default",
@@ -227,141 +198,357 @@ describe("buttonConfig.snippet", () => {
     primary: "#171717",
   });
 
-  it("emits the `steps={[` literal", () => {
-    expect(happy).toContain("steps={[");
+  it("omits label when it equals the default 'Continue'", () => {
+    expect(allDefaults).not.toContain("label=");
   });
 
-  it("does NOT leak the `scenario` prop into the snippet", () => {
-    // scenario is resolved to steps at snippet time; it must never appear as a
-    // prop or key in the emitted JSX.
-    expect(happy).not.toContain("scenario");
+  it("omits variant when it equals the default 'default'", () => {
+    expect(allDefaults).not.toContain("variant=");
   });
 
-  it("includes the `import { Button }` line", () => {
-    expect(happy).toContain('import { Button }');
-    expect(happy).toContain('from "@/components/remocn/button"');
+  it("omits size when it equals the default 'default'", () => {
+    expect(allDefaults).not.toContain("size=");
   });
 
-  it("omits all props that equal their defaults", () => {
-    // label=Continue, variant=default, size=default, mode=light, primary=#171717
-    // are all defaults → only `steps` should remain.
-    expect(happy).not.toContain("label=");
-    expect(happy).not.toContain("variant=");
-    expect(happy).not.toContain("size=");
-    expect(happy).not.toContain("mode=");
-    expect(happy).not.toContain("primary=");
-    expect(happy).toContain("steps={");
+  it("omits mode when it equals the default 'light'", () => {
+    expect(allDefaults).not.toContain("mode=");
   });
 
-  it("emits a non-default `label`", () => {
-    const out = snippet({ scenario: "happy", label: "Submit" });
-    expect(out).toContain('label="Submit"');
+  it("omits primary when it equals the default '#171717'", () => {
+    expect(allDefaults).not.toContain("primary=");
+  });
+});
+
+describe("buttonConfig.snippet: non-default props are emitted", () => {
+  it("emits a non-default label", () => {
+    expect(snippet({ state: "success", label: "Submit" })).toContain('label="Submit"');
   });
 
-  it("emits a non-default `variant`", () => {
-    const out = snippet({ scenario: "happy", variant: "destructive" });
-    expect(out).toContain('variant="destructive"');
+  it("emits a non-default variant", () => {
+    expect(snippet({ state: "success", variant: "destructive" })).toContain('variant="destructive"');
   });
 
-  it("emits a non-default `size`", () => {
-    const out = snippet({ scenario: "happy", size: "lg" });
-    expect(out).toContain('size="lg"');
+  it("emits a non-default size", () => {
+    expect(snippet({ state: "success", size: "lg" })).toContain('size="lg"');
   });
 
-  it("emits a non-default `mode`", () => {
-    const out = snippet({ scenario: "happy", mode: "dark" });
-    expect(out).toContain('mode="dark"');
+  it("emits a non-default mode", () => {
+    expect(snippet({ state: "success", mode: "dark" })).toContain('mode="dark"');
   });
 
-  it("omits `primary` when it equals the default #171717", () => {
-    const out = snippet({ scenario: "happy", primary: "#171717" });
-    expect(out).not.toContain("primary=");
+  it("emits a non-default primary color", () => {
+    expect(snippet({ state: "success", primary: "#6366f1" })).toContain('primary="#6366f1"');
+  });
+});
+
+describe("buttonConfig.snippet: structural round-trip", () => {
+  const out = snippet({ state: "loading" });
+
+  it("starts with the import line", () => {
+    expect(out.startsWith('import { Button }')).toBe(true);
   });
 
-  it("emits a non-default `primary`", () => {
-    const out = snippet({ scenario: "happy", primary: "#6366f1" });
-    expect(out).toContain('primary="#6366f1"');
+  it("contains a <Button JSX opening", () => {
+    expect(out).toContain("<Button");
   });
 
-  it("defaults scenario to `happy` when omitted", () => {
-    const withDefault = snippet({});
-    const explicitHappy = snippet({ scenario: "happy" });
-    expect(withDefault).toBe(explicitHappy);
-  });
-
-  it("serializes each happy step's `at` and `action` into the steps literal", () => {
-    for (const step of BUTTON_SCENARIOS.happy) {
-      expect(happy).toContain(`at: ${step.at}`);
-      expect(happy).toContain(`action: "${step.action}"`);
-    }
-  });
-
-  it("emits `steps={[]}` for the empty `idle` scenario", () => {
-    const out = snippet({ scenario: "idle" });
-    expect(out).toContain("steps={[]}");
-  });
-
-  it("emits the right number of step entries for each scenario", () => {
-    for (const key of SCENARIO_KEYS) {
-      const out = snippet({ scenario: key });
-      const entryCount = (out.match(/action:/g) ?? []).length;
-      expect(entryCount).toBe(BUTTON_SCENARIOS[key].length);
-    }
-  });
-
-  it("produces output that round-trips to a valid-looking JSX block", () => {
-    // Structural smoke: opens with the import, contains a self-closing Button.
-    expect(happy.startsWith("import { Button }")).toBe(true);
-    expect(happy).toContain("<Button");
-    expect(happy.trimEnd().endsWith("/>")).toBe(true);
+  it("ends with a self-closing />", () => {
+    expect(out.trimEnd().endsWith("/>")).toBe(true);
   });
 });
 
 // ===========================================================================
-// 4. serializeSteps emission — MIRROR of config.ts serializeSteps (lines 9-19)
-//    serializeSteps is NOT exported; this replica pins the emission format and
-//    is cross-checked against the REAL snippet output above.
-//    See TESTABILITY GAP note at the bottom.
+// 4. buttonStyle presets — pure (state, ctx) => ButtonStyle
+//    buttonStyleContext and buttonStyle are now exported and frame-free.
+//    Build one ctx from the default light theme + "default" variant, then
+//    assert the numeric/opacity invariants for every state.
+//    background is a derived oklch/rgb string — asserted non-empty only
+//    (its exact value is an implementation detail of mixOklch).
 // ===========================================================================
 
-/** MIRROR of config.ts:serializeSteps (lines 9-19). */
-function serializeStepsMirror(
-  steps: { at: number; action: ButtonAction; duration?: number }[],
-): string {
-  if (steps.length === 0) return "[]";
-  const body = steps
-    .map((step) => {
-      const parts = [`at: ${step.at}`, `action: "${step.action}"`];
-      if (step.duration !== undefined) parts.push(`duration: ${step.duration}`);
-      return `    { ${parts.join(", ")} },`;
-    })
-    .join("\n");
-  return `[\n${body}\n  ]`;
-}
+const ctx = buttonStyleContext("default", defaultLightTheme);
 
-describe("serializeSteps emission (spec mirror of config.ts:9-19)", () => {
-  it("returns `[]` for empty steps", () => {
-    expect(serializeStepsMirror([])).toBe("[]");
+describe("buttonStyle: idle state", () => {
+  const s = buttonStyle("idle", ctx);
+
+  it("translateY is 0 (at rest, not lifted)", () => {
+    expect(s.translateY).toBe(0);
   });
 
-  it("omits the `duration` key when undefined", () => {
-    const out = serializeStepsMirror([{ at: 10, action: "hover" }]);
-    expect(out).not.toContain("duration");
-    expect(out).toContain('at: 10, action: "hover"');
+  it("scale is 1 (no shrink)", () => {
+    expect(s.scale).toBe(1);
   });
 
-  it("includes the `duration` key when present", () => {
-    const out = serializeStepsMirror([
-      { at: 10, action: "loading", duration: 12 },
-    ]);
-    expect(out).toContain("duration: 12");
+  it("labelOpacity is 1 (label visible)", () => {
+    expect(s.labelOpacity).toBe(1);
   });
 
-  it("the mirror's happy output is a substring of the REAL snippet", () => {
-    // Cross-check: proves the mirror tracks the real serializer, and that the
-    // real snippet embeds exactly the BUTTON_SCENARIOS.happy steps.
-    const mirrored = serializeStepsMirror(BUTTON_SCENARIOS.happy);
-    const real = snippet({ scenario: "happy" });
-    expect(real).toContain(mirrored);
+  it("spinnerOpacity is 0 (spinner hidden)", () => {
+    expect(s.spinnerOpacity).toBe(0);
+  });
+
+  it("checkOpacity is 0 (check hidden)", () => {
+    expect(s.checkOpacity).toBe(0);
+  });
+
+  it("background is a non-empty string", () => {
+    expect(typeof s.background).toBe("string");
+    expect(s.background.length).toBeGreaterThan(0);
+  });
+});
+
+describe("buttonStyle: hover state", () => {
+  const s = buttonStyle("hover", ctx);
+
+  it("translateY is -1 (button lifts)", () => {
+    expect(s.translateY).toBe(-1);
+  });
+
+  it("scale is 1 (no shrink on hover)", () => {
+    expect(s.scale).toBe(1);
+  });
+
+  it("labelOpacity is 1 (label stays visible)", () => {
+    expect(s.labelOpacity).toBe(1);
+  });
+
+  it("spinnerOpacity is 0", () => {
+    expect(s.spinnerOpacity).toBe(0);
+  });
+
+  it("checkOpacity is 0", () => {
+    expect(s.checkOpacity).toBe(0);
+  });
+
+  it("background is a non-empty string", () => {
+    expect(typeof s.background).toBe("string");
+    expect(s.background.length).toBeGreaterThan(0);
+  });
+});
+
+describe("buttonStyle: press state", () => {
+  const s = buttonStyle("press", ctx);
+
+  it("translateY is -1", () => {
+    expect(s.translateY).toBe(-1);
+  });
+
+  it("scale is 0.97 (slight shrink on press)", () => {
+    expect(s.scale).toBeCloseTo(0.97, 10);
+  });
+
+  it("labelOpacity is 1", () => {
+    expect(s.labelOpacity).toBe(1);
+  });
+
+  it("spinnerOpacity is 0", () => {
+    expect(s.spinnerOpacity).toBe(0);
+  });
+
+  it("checkOpacity is 0", () => {
+    expect(s.checkOpacity).toBe(0);
+  });
+
+  it("background is a non-empty string", () => {
+    expect(typeof s.background).toBe("string");
+    expect(s.background.length).toBeGreaterThan(0);
+  });
+});
+
+describe("buttonStyle: loading state", () => {
+  const s = buttonStyle("loading", ctx);
+
+  it("labelOpacity is 0 (label hidden while loading)", () => {
+    expect(s.labelOpacity).toBe(0);
+  });
+
+  it("spinnerOpacity is 1 (spinner fully visible)", () => {
+    expect(s.spinnerOpacity).toBe(1);
+  });
+
+  it("checkOpacity is 0 (check not yet shown)", () => {
+    expect(s.checkOpacity).toBe(0);
+  });
+
+  it("background is a non-empty string", () => {
+    expect(typeof s.background).toBe("string");
+    expect(s.background.length).toBeGreaterThan(0);
+  });
+});
+
+describe("buttonStyle: success state", () => {
+  const s = buttonStyle("success", ctx);
+
+  it("labelOpacity is 0 (label replaced by check)", () => {
+    expect(s.labelOpacity).toBe(0);
+  });
+
+  it("spinnerOpacity is 0 (spinner gone)", () => {
+    expect(s.spinnerOpacity).toBe(0);
+  });
+
+  it("checkOpacity is 1 (checkmark fully visible)", () => {
+    expect(s.checkOpacity).toBe(1);
+  });
+
+  it("background is a non-empty string", () => {
+    expect(typeof s.background).toBe("string");
+    expect(s.background.length).toBeGreaterThan(0);
+  });
+});
+
+describe("buttonStyle: opacity invariant — exactly one of label/spinner/check is visible per non-idle state", () => {
+  // For non-animated states the three opacities are always discrete 0 or 1.
+  const states: ButtonState[] = ["idle", "hover", "press", "loading", "success"];
+
+  it("sum of label+spinner+check opacities equals 1 for every state (exactly one is shown)", () => {
+    for (const state of states) {
+      const s = buttonStyle(state, ctx);
+      const sum = s.labelOpacity + s.spinnerOpacity + s.checkOpacity;
+      expect(sum).toBe(1);
+    }
+  });
+});
+
+// ===========================================================================
+// 5. tweenButtonStyle — pure linear interpolation between two ButtonStyles.
+//    Numbers lerp linearly; background is an oklch color string at all t.
+//    Concrete expectations: idle(translateY=0,scale=1) → hover(translateY=-1,scale=1)
+//    and idle(spinnerOpacity=0) → loading(spinnerOpacity=1) for midpoint math.
+// ===========================================================================
+
+describe("tweenButtonStyle: t=0 returns values equal to `a`", () => {
+  const a = buttonStyle("idle", ctx);
+  const b = buttonStyle("hover", ctx);
+  const r = tweenButtonStyle(a, b, 0);
+
+  it("translateY equals a.translateY at t=0", () => {
+    expect(r.translateY).toBeCloseTo(a.translateY, 10);
+  });
+
+  it("scale equals a.scale at t=0", () => {
+    expect(r.scale).toBeCloseTo(a.scale, 10);
+  });
+
+  it("labelOpacity equals a.labelOpacity at t=0", () => {
+    expect(r.labelOpacity).toBeCloseTo(a.labelOpacity, 10);
+  });
+
+  it("spinnerOpacity equals a.spinnerOpacity at t=0", () => {
+    expect(r.spinnerOpacity).toBeCloseTo(a.spinnerOpacity, 10);
+  });
+
+  it("checkOpacity equals a.checkOpacity at t=0", () => {
+    expect(r.checkOpacity).toBeCloseTo(a.checkOpacity, 10);
+  });
+
+  it("background is a non-empty string at t=0", () => {
+    expect(typeof r.background).toBe("string");
+    expect(r.background.length).toBeGreaterThan(0);
+  });
+});
+
+describe("tweenButtonStyle: t=1 returns values equal to `b`", () => {
+  const a = buttonStyle("idle", ctx);
+  const b = buttonStyle("hover", ctx);
+  const r = tweenButtonStyle(a, b, 1);
+
+  it("translateY equals b.translateY at t=1", () => {
+    expect(r.translateY).toBeCloseTo(b.translateY, 10);
+  });
+
+  it("scale equals b.scale at t=1", () => {
+    expect(r.scale).toBeCloseTo(b.scale, 10);
+  });
+
+  it("labelOpacity equals b.labelOpacity at t=1", () => {
+    expect(r.labelOpacity).toBeCloseTo(b.labelOpacity, 10);
+  });
+
+  it("spinnerOpacity equals b.spinnerOpacity at t=1", () => {
+    expect(r.spinnerOpacity).toBeCloseTo(b.spinnerOpacity, 10);
+  });
+
+  it("checkOpacity equals b.checkOpacity at t=1", () => {
+    expect(r.checkOpacity).toBeCloseTo(b.checkOpacity, 10);
+  });
+
+  it("background is a non-empty string at t=1", () => {
+    expect(typeof r.background).toBe("string");
+    expect(r.background.length).toBeGreaterThan(0);
+  });
+});
+
+describe("tweenButtonStyle: t=0.5 midpoint numeric lerp (idle → hover)", () => {
+  // idle: translateY=0, scale=1, labelOpacity=1, spinnerOpacity=0, checkOpacity=0
+  // hover: translateY=-1, scale=1, labelOpacity=1, spinnerOpacity=0, checkOpacity=0
+  const a = buttonStyle("idle", ctx);
+  const b = buttonStyle("hover", ctx);
+  const r = tweenButtonStyle(a, b, 0.5);
+
+  it("translateY midpoint: 0 → -1 gives -0.5", () => {
+    expect(r.translateY).toBeCloseTo(-0.5, 10);
+  });
+
+  it("scale midpoint: 1 → 1 gives 1 (both same)", () => {
+    expect(r.scale).toBeCloseTo(1, 10);
+  });
+
+  it("labelOpacity midpoint: 1 → 1 gives 1 (both same)", () => {
+    expect(r.labelOpacity).toBeCloseTo(1, 10);
+  });
+
+  it("background is a non-empty string at t=0.5", () => {
+    expect(typeof r.background).toBe("string");
+    expect(r.background.length).toBeGreaterThan(0);
+  });
+});
+
+describe("tweenButtonStyle: t=0.5 midpoint numeric lerp (idle → loading)", () => {
+  // idle: translateY=0, scale=1, labelOpacity=1, spinnerOpacity=0, checkOpacity=0
+  // loading: translateY=-1, scale=1, labelOpacity=0, spinnerOpacity=1, checkOpacity=0
+  const a = buttonStyle("idle", ctx);
+  const b = buttonStyle("loading", ctx);
+  const r = tweenButtonStyle(a, b, 0.5);
+
+  it("translateY midpoint: 0 → -1 gives -0.5", () => {
+    expect(r.translateY).toBeCloseTo(-0.5, 10);
+  });
+
+  it("scale midpoint: 1 → 1 gives 1", () => {
+    expect(r.scale).toBeCloseTo(1, 10);
+  });
+
+  it("labelOpacity midpoint: 1 → 0 gives 0.5", () => {
+    expect(r.labelOpacity).toBeCloseTo(0.5, 10);
+  });
+
+  it("spinnerOpacity midpoint: 0 → 1 gives 0.5", () => {
+    expect(r.spinnerOpacity).toBeCloseTo(0.5, 10);
+  });
+
+  it("checkOpacity midpoint: 0 → 0 gives 0", () => {
+    expect(r.checkOpacity).toBeCloseTo(0, 10);
+  });
+
+  it("background is a non-empty string at t=0.5", () => {
+    expect(typeof r.background).toBe("string");
+    expect(r.background.length).toBeGreaterThan(0);
+  });
+});
+
+describe("tweenButtonStyle: t=0.5 midpoint numeric lerp (hover → press)", () => {
+  // hover: translateY=-1, scale=1
+  // press: translateY=-1, scale=0.97
+  const a = buttonStyle("hover", ctx);
+  const b = buttonStyle("press", ctx);
+  const r = tweenButtonStyle(a, b, 0.5);
+
+  it("translateY midpoint: -1 → -1 gives -1 (both same)", () => {
+    expect(r.translateY).toBeCloseTo(-1, 10);
+  });
+
+  it("scale midpoint: 1 → 0.97 gives 0.985", () => {
+    expect(r.scale).toBeCloseTo(0.985, 10);
   });
 });
