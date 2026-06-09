@@ -13,6 +13,8 @@ import {
   CheckboxExampleScene,
   checkboxExampleCode,
 } from "./checkbox-example";
+import { RadioExampleScene, radioExampleCode } from "./radio-example";
+import { SwitchExampleScene, switchExampleCode } from "./switch-example";
 
 export interface ExampleEntry {
   Component: ComponentType;
@@ -53,6 +55,22 @@ export const examples: Record<string, ExampleEntry> = {
   "checkbox-example": {
     Component: CheckboxExampleScene,
     code: checkboxExampleCode,
+    durationInFrames: 100,
+    fps: FPS,
+    width: W,
+    height: H,
+  },
+  "radio-example": {
+    Component: RadioExampleScene,
+    code: radioExampleCode,
+    durationInFrames: 100,
+    fps: FPS,
+    width: W,
+    height: H,
+  },
+  "switch-example": {
+    Component: SwitchExampleScene,
+    code: switchExampleCode,
     durationInFrames: 100,
     fps: FPS,
     width: W,
