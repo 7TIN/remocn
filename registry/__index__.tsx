@@ -111,6 +111,8 @@ import { AlertDialog } from "@/registry/remocn-ui/alert-dialog";
 import { alertDialogConfig } from "@/registry/remocn-ui/alert-dialog/config";
 import { Button } from "@/registry/remocn-ui/button";
 import { buttonConfig } from "@/registry/remocn-ui/button/config";
+import { Checkbox } from "@/registry/remocn-ui/checkbox";
+import { checkboxConfig } from "@/registry/remocn-ui/checkbox/config";
 import { Spinner } from "@/registry/remocn-ui/spinner";
 import { spinnerConfig } from "@/registry/remocn-ui/spinner/config";
 import { ZoomThroughTransition } from "@/registry/remocn/zoom-through-transition";
@@ -289,6 +291,7 @@ const registry: Record<string, RegistryEntry> = {
   "button": { Component: Button, config: buttonConfig },
   "accordion": { Component: Accordion, config: accordionConfig },
   "alert-dialog": { Component: AlertDialog, config: alertDialogConfig },
+  "checkbox": { Component: Checkbox, config: checkboxConfig },
   "spinner": { Component: Spinner, config: spinnerConfig },
 };
 

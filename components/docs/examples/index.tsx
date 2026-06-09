@@ -9,6 +9,10 @@ import {
   alertDialogExampleCode,
 } from "./alert-dialog-example";
 import { ButtonExampleScene, buttonExampleCode } from "./button-example";
+import {
+  CheckboxExampleScene,
+  checkboxExampleCode,
+} from "./checkbox-example";
 
 export interface ExampleEntry {
   Component: ComponentType;
@@ -42,6 +46,14 @@ export const examples: Record<string, ExampleEntry> = {
     code: alertDialogExampleCode,
     // Dialog closes at 92 + dur 12 = 104; a short settle then loop.
     durationInFrames: 120,
+    fps: FPS,
+    width: W,
+    height: H,
+  },
+  "checkbox-example": {
+    Component: CheckboxExampleScene,
+    code: checkboxExampleCode,
+    durationInFrames: 100,
     fps: FPS,
     width: W,
     height: H,
