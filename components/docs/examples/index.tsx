@@ -24,6 +24,7 @@ import {
   DropdownMenuExampleScene,
   dropdownMenuExampleCode,
 } from "./dropdown-menu-example";
+import { TabsExampleScene, tabsExampleCode } from "./tabs-example";
 
 export interface ExampleEntry {
   Component: ComponentType;
@@ -133,6 +134,15 @@ export const examples: Record<string, ExampleEntry> = {
     Component: DropdownMenuExampleScene,
     code: dropdownMenuExampleCode,
     // Panel closes at 96 + dur 12 = 108; a short settle then loop.
+    durationInFrames: 120,
+    fps: FPS,
+    width: W,
+    height: H,
+  },
+  "tabs-example": {
+    Component: TabsExampleScene,
+    code: tabsExampleCode,
+    // Settings transition completes at 94 + dur 12 = 106; a short settle then loop.
     durationInFrames: 120,
     fps: FPS,
     width: W,

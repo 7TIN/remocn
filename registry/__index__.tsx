@@ -135,6 +135,8 @@ import { DropdownMenu } from "@/registry/remocn-ui/dropdown-menu";
 import { dropdownMenuConfig } from "@/registry/remocn-ui/dropdown-menu/config";
 import { DropdownMenuItem } from "@/registry/remocn-ui/dropdown-menu-item";
 import { dropdownMenuItemConfig } from "@/registry/remocn-ui/dropdown-menu-item/config";
+import { Tabs } from "@/registry/remocn-ui/tabs";
+import { tabsConfig } from "@/registry/remocn-ui/tabs/config";
 import { ZoomThroughTransition } from "@/registry/remocn/zoom-through-transition";
 import { zoomThroughTransitionConfig } from "@/registry/remocn/zoom-through-transition/config";
 
@@ -325,6 +327,7 @@ const registry: Record<string, RegistryEntry> = {
     Component: DropdownMenuItem,
     config: dropdownMenuItemConfig,
   },
+  "tabs": { Component: Tabs, config: tabsConfig },
   "spinner": { Component: Spinner, config: spinnerConfig },
 };
 
