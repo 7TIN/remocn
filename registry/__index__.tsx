@@ -111,6 +111,10 @@ import { AlertDialog } from "@/registry/remocn-ui/alert-dialog";
 import { alertDialogConfig } from "@/registry/remocn-ui/alert-dialog/config";
 import { Dialog } from "@/registry/remocn-ui/dialog";
 import { dialogConfig } from "@/registry/remocn-ui/dialog/config";
+import { Drawer } from "@/registry/remocn-ui/drawer";
+import { drawerConfig } from "@/registry/remocn-ui/drawer/config";
+import { Sheet } from "@/registry/remocn-ui/sheet";
+import { sheetConfig } from "@/registry/remocn-ui/sheet/config";
 import { Button } from "@/registry/remocn-ui/button";
 import { buttonConfig } from "@/registry/remocn-ui/button/config";
 import { Checkbox } from "@/registry/remocn-ui/checkbox";
@@ -308,6 +312,8 @@ const registry: Record<string, RegistryEntry> = {
   "accordion": { Component: Accordion, config: accordionConfig },
   "alert-dialog": { Component: AlertDialog, config: alertDialogConfig },
   "dialog": { Component: Dialog, config: dialogConfig },
+  "sheet": { Component: Sheet, config: sheetConfig },
+  "drawer": { Component: Drawer, config: drawerConfig },
   "checkbox": { Component: Checkbox, config: checkboxConfig },
   "input": { Component: Input, config: inputConfig },
   "radio": { Component: Radio, config: radioConfig },

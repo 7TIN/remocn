@@ -9,6 +9,8 @@ import {
   alertDialogExampleCode,
 } from "./alert-dialog-example";
 import { DialogExampleScene, dialogExampleCode } from "./dialog-example";
+import { SheetExampleScene, sheetExampleCode } from "./sheet-example";
+import { DrawerExampleScene, drawerExampleCode } from "./drawer-example";
 import { ButtonExampleScene, buttonExampleCode } from "./button-example";
 import {
   CheckboxExampleScene,
@@ -63,6 +65,24 @@ export const examples: Record<string, ExampleEntry> = {
     Component: DialogExampleScene,
     code: dialogExampleCode,
     // Dialog closes at 92 + dur 12 = 104; a short settle then loop.
+    durationInFrames: 120,
+    fps: FPS,
+    width: W,
+    height: H,
+  },
+  "sheet-example": {
+    Component: SheetExampleScene,
+    code: sheetExampleCode,
+    // Sheet closes at 92 + dur 12 = 104; a short settle then loop.
+    durationInFrames: 120,
+    fps: FPS,
+    width: W,
+    height: H,
+  },
+  "drawer-example": {
+    Component: DrawerExampleScene,
+    code: drawerExampleCode,
+    // Drawer closes at 92 + dur 12 = 104; a short settle then loop.
     durationInFrames: 120,
     fps: FPS,
     width: W,
