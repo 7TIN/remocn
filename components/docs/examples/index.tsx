@@ -64,6 +64,10 @@ import {
   StepperExampleScene,
   stepperExampleCode,
 } from "./stepper-example";
+import {
+  ResizableExampleScene,
+  resizableExampleCode,
+} from "./resizable-example";
 
 export interface ExampleEntry {
   Component: ComponentType;
@@ -293,6 +297,15 @@ export const examples: Record<string, ExampleEntry> = {
     code: stepperExampleCode,
     // Final step (index 2) ease completes at 110 + 24 = 134; a short settle then loop.
     durationInFrames: 150,
+    fps: FPS,
+    width: W,
+    height: H,
+  },
+  "resizable-example": {
+    Component: ResizableExampleScene,
+    code: resizableExampleCode,
+    // Sweep right→left→center ends at 176; handle idle at 184+8=192; settle then loop.
+    durationInFrames: 205,
     fps: FPS,
     width: W,
     height: H,

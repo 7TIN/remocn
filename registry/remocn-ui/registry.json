@@ -631,6 +631,26 @@
           "target": "components/remocn/use-stepper-transition.ts"
         }
       ]
+    },
+    {
+      "name": "resizable",
+      "type": "registry:component",
+      "title": "UI Resizable",
+      "description": "Two panels split by a draggable handle, where the split ratio is a numeric channel plus a handle idle/hover/press channel (dual-channel value-channel deviation). The Resizable renderer is pure (clamped 0–1 ratio, handle scale, grab-ring opacity); useResizableTransition reads the frame and eases both channels — ratio as a numeric lerp, the handle visual from its state presets. Horizontal and vertical splits; 1px divider + centered grip pill with a derived grab ring.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["remocn-ui"],
+      "files": [
+        {
+          "path": "resizable/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/resizable.tsx"
+        },
+        {
+          "path": "resizable/use-resizable-transition.ts",
+          "type": "registry:component",
+          "target": "components/remocn/use-resizable-transition.ts"
+        }
+      ]
     }
   ]
 }

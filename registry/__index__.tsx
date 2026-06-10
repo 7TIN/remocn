@@ -165,6 +165,8 @@ import { ToggleGroup } from "@/registry/remocn-ui/toggle-group";
 import { toggleGroupConfig } from "@/registry/remocn-ui/toggle-group/config";
 import { StepperPreview } from "@/registry/remocn-ui/stepper/preview";
 import { stepperConfig } from "@/registry/remocn-ui/stepper/config";
+import { Resizable } from "@/registry/remocn-ui/resizable";
+import { resizableConfig } from "@/registry/remocn-ui/resizable/config";
 import { ZoomThroughTransition } from "@/registry/remocn/zoom-through-transition";
 import { zoomThroughTransitionConfig } from "@/registry/remocn/zoom-through-transition/config";
 
@@ -403,6 +405,9 @@ const registry: Record<string, RegistryEntry> = {
   // stepper's customizer Component is the preview-only StepperPreview wrapper: a
   // bare wide horizontal element would sit top-left, so the wrapper centers it.
   "stepper": { Component: StepperPreview, config: stepperConfig },
+  // resizable registers RAW (no preview wrapper): its index.tsx already paints
+  // an opaque inset:0 stage that centers the fixed-size bordered box, like tabs.
+  "resizable": { Component: Resizable, config: resizableConfig },
   "spinner": { Component: Spinner, config: spinnerConfig },
 };
 
