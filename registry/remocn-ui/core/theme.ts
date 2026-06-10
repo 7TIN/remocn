@@ -32,6 +32,7 @@ export interface RemocnTheme {
   radius: number;
 }
 
+
 /** Stock shadcn "neutral" light theme (oklch tokens). */
 export const defaultLightTheme: RemocnTheme = {
   background: "oklch(1 0 0)",
@@ -54,7 +55,7 @@ export const defaultLightTheme: RemocnTheme = {
   input: "oklch(0.922 0 0)",
   ring: "oklch(0.708 0 0)",
   radius: 10,
-};
+}
 
 /** Stock shadcn "neutral" dark theme (oklch tokens). */
 export const defaultDarkTheme: RemocnTheme = {

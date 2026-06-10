@@ -163,8 +163,8 @@ export function Select({
   // The trigger reuses the Button `outline` visual. Defaults to the resting
   // `idle` look; the caller can pass a tweened `triggerStyle` (from
   // `useButtonTransition`) so the trigger shows the hover/press "click".
-  const trigger: ButtonStyle = triggerStyle ?? buttonStyle("idle", ctx.triggerCtx);
-  const itemRadius = theme.radius - 2;
+  const trigger: ButtonStyle =
+    triggerStyle ?? buttonStyle("idle", ctx.triggerCtx);
 
   return (
     <div
@@ -259,7 +259,7 @@ export function Select({
                 ctx={ctx.itemCtx}
                 label={item}
                 width={WIDTH - 8}
-                radius={itemRadius}
+                radius={theme.radius}
                 check={ctx.itemCtx.check}
               />
             );

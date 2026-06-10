@@ -15,6 +15,10 @@ A state atom whose appearance (idle, hover, active, typing, invalid) is a pure f
 Installing `input` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`) via `registryDependencies`. You do not need to install it separately.
 </Note>
 
+## Example
+
+<LiveExample name="input-example" />
+
 ## States
 
 `InputState` is:
@@ -85,12 +89,6 @@ export const Scene = () => {
 The `duration` field on each step overrides the file's `DEFAULT_DURATION` for that specific transition. To globally tune timing and easing, edit `use-input-transition.ts` directly in your project — that file is yours (shadcn "own your code" philosophy).
 
 `style` takes precedence over `state` when both are provided.
-
-## Full lifecycle
-
-A complete idle → hover → active → typing → invalid run using the smooth transition path. Copy the code to drop it into your own composition.
-
-<LiveExample name="input-example" />
 
 ## Props
 

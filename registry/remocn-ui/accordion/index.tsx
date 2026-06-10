@@ -174,7 +174,7 @@ export function Accordion({
           border: ctx.bordered
             ? `1px solid ${ctx.border}`
             : "1px solid transparent",
-          borderRadius: theme.radius + 6,
+          borderRadius: theme.radius,
           overflow: "hidden",
         }}
       >

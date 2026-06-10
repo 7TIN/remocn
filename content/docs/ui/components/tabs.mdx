@@ -15,6 +15,10 @@ A state atom whose appearance (which tab is active) is a pure function of the `s
 Installing `tabs` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`) via `registryDependencies`. You do not need to install it separately.
 </Note>
 
+## Example
+
+<LiveExample name="tabs-example" />
+
 ## States
 
 `TabsState` is:
@@ -78,12 +82,6 @@ export const Scene = () => {
 The `duration` field on each step overrides the file's `DEFAULT_DURATION` for that specific transition. To globally tune timing and easing, edit `use-tabs-transition.ts` directly in your project — that file is yours (shadcn "own your code" philosophy).
 
 `style` takes precedence over `state` when both are provided.
-
-## Full lifecycle
-
-A complete Account → Password → Settings run using the smooth transition path. Copy the code to drop it into your own composition.
-
-<LiveExample name="tabs-example" />
 
 ## Props
 

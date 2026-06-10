@@ -15,6 +15,10 @@ A state atom whose appearance (idle, hover, press, loading, success) is a pure f
 Installing `button` automatically installs `spinner` and the shared `remocn-ui` core (`lib/remocn-ui/`) via `registryDependencies`. You do not need to install either separately.
 </Note>
 
+## Example
+
+<LiveExample name="button-example" />
+
 ## States
 
 `ButtonState` is:
@@ -86,11 +90,6 @@ The `duration` field on each step overrides the file's `DEFAULT_DURATION` for th
 
 `style` takes precedence over `state` when both are provided.
 
-## Full lifecycle
-
-A complete idle → hover → press → loading → success run using the smooth transition path. Copy the code to drop it into your own composition.
-
-<LiveExample name="button-example" />
 
 ## Props
 

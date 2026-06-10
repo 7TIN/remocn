@@ -219,7 +219,7 @@ export function SelectItem({
         ctx={ctx}
         label={label}
         width={width}
-        radius={theme.radius - 2}
+        radius={theme.radius}
         check={ctx.check}
       />
     </div>

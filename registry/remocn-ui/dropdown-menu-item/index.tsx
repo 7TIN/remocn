@@ -101,7 +101,7 @@ export function DropdownMenuItemRow({
         alignItems: "center",
         width,
         padding: "8px 12px",
-        borderRadius: theme.radius - 2,
+        borderRadius: theme.radius,
         background: v.background,
         color: v.labelColor,
         transform: `scale(${v.scale})`,
