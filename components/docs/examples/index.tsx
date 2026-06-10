@@ -27,6 +27,10 @@ import {
 import { TabsExampleScene, tabsExampleCode } from "./tabs-example";
 import { CursorExampleScene, cursorExampleCode } from "./cursor-example";
 import { ToastExampleScene, toastExampleCode } from "./toast-example";
+import {
+  CommandMenuExampleScene,
+  commandMenuExampleCode,
+} from "./command-menu-example";
 
 export interface ExampleEntry {
   Component: ComponentType;
@@ -164,6 +168,15 @@ export const examples: Record<string, ExampleEntry> = {
     code: toastExampleCode,
     // Toast dismiss completes at 144 + dur 12 = 156; a short settle then loop.
     durationInFrames: 170,
+    fps: FPS,
+    width: W,
+    height: H,
+  },
+  "command-menu-example": {
+    Component: CommandMenuExampleScene,
+    code: commandMenuExampleCode,
+    // Panel closes at 108 + dur 12 = 120; a short settle then loop.
+    durationInFrames: 130,
     fps: FPS,
     width: W,
     height: H,

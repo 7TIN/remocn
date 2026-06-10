@@ -141,6 +141,10 @@ import { CursorPreview } from "@/registry/remocn-ui/cursor/preview";
 import { cursorConfig } from "@/registry/remocn-ui/cursor/config";
 import { ToastPreview } from "@/registry/remocn-ui/toast/preview";
 import { toastConfig } from "@/registry/remocn-ui/toast/config";
+import { CommandMenuItem } from "@/registry/remocn-ui/command-menu-item";
+import { commandMenuItemConfig } from "@/registry/remocn-ui/command-menu-item/config";
+import { CommandMenu } from "@/registry/remocn-ui/command-menu";
+import { commandMenuConfig } from "@/registry/remocn-ui/command-menu/config";
 import { ZoomThroughTransition } from "@/registry/remocn/zoom-through-transition";
 import { zoomThroughTransitionConfig } from "@/registry/remocn/zoom-through-transition/config";
 
@@ -339,6 +343,13 @@ const registry: Record<string, RegistryEntry> = {
   // centers the toast on a theme-background stage); the shipped Toast is a
   // placement-agnostic card the caller positions.
   "toast": { Component: ToastPreview, config: toastConfig },
+  "command-menu-item": {
+    Component: CommandMenuItem,
+    config: commandMenuItemConfig,
+  },
+  // command-menu needs NO preview wrapper: like dialog it renders an intrinsic
+  // inset:0 backdrop + centered panel, so the customizer mounts it directly.
+  "command-menu": { Component: CommandMenu, config: commandMenuConfig },
   "spinner": { Component: Spinner, config: spinnerConfig },
 };
 
