@@ -14,7 +14,6 @@ export const radioConfig: ComponentConfig = {
     },
     state: {
       type: "select",
-      // Default to `checked` so the preview shows the filled dot.
       default: "checked",
       options: ["unchecked", "checked"],
       label: "State",

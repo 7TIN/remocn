@@ -1,35 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `dropdown-menu-item`.
- *
- * Scope:
- *   - registry/remocn-ui/dropdown-menu-item/index.tsx  — DropdownMenuItemState
- *     union membership, dropdownMenuItemStyle presets, dropdownMenuItemStyleContext
- *   - registry/remocn-ui/dropdown-menu-item/config.ts  — dropdownMenuItemConfig
- *     .controls wiring + .snippet output (the state → JSX codegen)
- *   - registry/remocn-ui/dropdown-menu-item/use-dropdown-menu-item-transition.ts
- *     — tweenDropdownMenuItemStyle interpolation, DEFAULT_DURATION
- *
- * The render path (index.tsx) is a PURE-STATE model: `(state) => visual`.
- * `<DropdownMenuItem>` reads `useRemocnTheme()` internally — that hook is pure
- * at call-time in test context, but the JSX render tree is not exercised here.
- * The pure-testable surface is: the style presets + tween + customizer wiring
- * + snippet codegen.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/dropdown-menu-item/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * `config.ts` imports `DropdownMenuItemState` from
- * `@/registry/remocn-ui/dropdown-menu-item` and the pieces under test never
- * CALL a Remotion runtime API at import time — `dropdownMenuItemConfig` is a
- * plain object; `.snippet` is a pure string builder; `dropdownMenuItemStyle`
- * and `tweenDropdownMenuItemStyle` are pure value functions.
- * We import via RELATIVE paths (matching the existing test suite pattern),
- * annotating each import with the source it corresponds to.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -41,17 +9,8 @@ import { tweenDropdownMenuItemStyle, DEFAULT_DURATION } from "../use-dropdown-me
 import { dropdownMenuItemConfig } from "../config";
 import { defaultLightTheme } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/**
- * The DropdownMenuItemState union, enumerated as a runtime list for membership
- * checks. Must stay in sync with `export type DropdownMenuItemState` in index.tsx.
- */
 const VALID_STATES: readonly DropdownMenuItemState[] = ["idle", "hover", "press"];
 
-/** Minimal shape mirroring the customizer's value bag passed to snippet(). */
 type SnippetValues = {
   state?: string;
   label?: string;
@@ -61,15 +20,7 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   dropdownMenuItemConfig.snippet(values as Record<string, unknown>);
 
-/**
- * A shared DropdownMenuItemStyleContext built from the default light theme.
- * `dropdownMenuItemStyleContext` takes only `(theme)` — no variant arg.
- */
 const ctx = dropdownMenuItemStyleContext(defaultLightTheme);
-
-// ===========================================================================
-// 1. DropdownMenuItemState union membership
-// ===========================================================================
 
 describe("DropdownMenuItemState union", () => {
   it("contains exactly the three documented states", () => {
@@ -87,10 +38,6 @@ describe("DropdownMenuItemState union", () => {
     }
   });
 });
-
-// ===========================================================================
-// 2. dropdownMenuItemConfig.controls.state — customizer control wiring
-// ===========================================================================
 
 describe("dropdownMenuItemConfig.controls.state", () => {
   it("is a select control", () => {
@@ -116,11 +63,6 @@ describe("dropdownMenuItemConfig.controls.state", () => {
     }
   });
 });
-
-// ===========================================================================
-// 3. dropdownMenuItemConfig.snippet — pure string builder
-//    State model: snippet ALWAYS emits `state="<state>"` as a bare JSX prop.
-// ===========================================================================
 
 describe("dropdownMenuItemConfig.snippet: state prop emission", () => {
   it("emits state=\"idle\" for the idle option", () => {
@@ -154,7 +96,6 @@ describe("dropdownMenuItemConfig.snippet: import line", () => {
 });
 
 describe("dropdownMenuItemConfig.snippet: default props are omitted", () => {
-  // Defaults: label="Profile", mode="light"
   const allDefaults = snippet({
     state: "hover",
     label: "Profile",
@@ -198,12 +139,6 @@ describe("dropdownMenuItemConfig.snippet: structural round-trip", () => {
   });
 });
 
-// ===========================================================================
-// 4. dropdownMenuItemStyleContext — derives concrete colors from the theme.
-//    Signature is `(theme)` — NO variant argument.
-//    Build ctx from the default light theme and assert each field is populated.
-// ===========================================================================
-
 describe("dropdownMenuItemStyleContext: field types from defaultLightTheme", () => {
   it("idleBg is a non-empty string", () => {
     expect(typeof ctx.idleBg).toBe("string");
@@ -239,12 +174,6 @@ describe("dropdownMenuItemStyleContext: maps theme tokens correctly", () => {
     expect(ctx.idleFg).toBe(defaultLightTheme.popoverForeground);
   });
 });
-
-// ===========================================================================
-// 5. dropdownMenuItemStyle presets — pure (state, ctx) => DropdownMenuItemStyle
-//    No check icon, no `selected` state (3 states only).
-//    Build one ctx from the default light theme, then assert the numeric invariants.
-// ===========================================================================
 
 describe("dropdownMenuItemStyle: idle state", () => {
   const s = dropdownMenuItemStyle("idle", ctx);
@@ -308,12 +237,6 @@ describe("dropdownMenuItemStyle: scale invariant summary", () => {
   });
 });
 
-// ===========================================================================
-// 6. tweenDropdownMenuItemStyle — pure interpolation between two
-//    DropdownMenuItemStyles. Numeric fields lerp; color fields via mixOklch.
-//    Concrete expectations: idle → press for scale midpoint math.
-// ===========================================================================
-
 describe("tweenDropdownMenuItemStyle: t=0 returns values equal to `a`", () => {
   const a = dropdownMenuItemStyle("idle", ctx);
   const b = dropdownMenuItemStyle("press", ctx);
@@ -355,8 +278,6 @@ describe("tweenDropdownMenuItemStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenDropdownMenuItemStyle: t=0.5 midpoint numeric lerp (idle → press)", () => {
-  // idle:  scale=1
-  // press: scale=0.98
   const a = dropdownMenuItemStyle("idle", ctx);
   const b = dropdownMenuItemStyle("press", ctx);
   const r = tweenDropdownMenuItemStyle(a, b, 0.5);
@@ -367,8 +288,6 @@ describe("tweenDropdownMenuItemStyle: t=0.5 midpoint numeric lerp (idle → pres
 });
 
 describe("tweenDropdownMenuItemStyle: t=0.5 midpoint numeric lerp (hover → idle)", () => {
-  // hover: scale=1
-  // idle:  scale=1
   const a = dropdownMenuItemStyle("hover", ctx);
   const b = dropdownMenuItemStyle("idle", ctx);
   const r = tweenDropdownMenuItemStyle(a, b, 0.5);
@@ -377,10 +296,6 @@ describe("tweenDropdownMenuItemStyle: t=0.5 midpoint numeric lerp (hover → idl
     expect(r.scale).toBeCloseTo(1, 10);
   });
 });
-
-// ===========================================================================
-// 7. DEFAULT_DURATION — sanity check the exported constant
-// ===========================================================================
 
 describe("DEFAULT_DURATION", () => {
   it("is a positive number", () => {

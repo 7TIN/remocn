@@ -14,7 +14,6 @@ export const checkboxConfig: ComponentConfig = {
     },
     state: {
       type: "select",
-      // Default to `checked` so the preview shows the filled box + checkmark.
       default: "checked",
       options: ["unchecked", "checked"],
       label: "State",

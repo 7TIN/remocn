@@ -1,35 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `slider`.
- *
- * Scope:
- *   - registry/remocn-ui/slider/index.tsx
- *       clampValue (internal)              — exercised via SliderStyle semantics
- *       sliderThumbStyle(thumbState)       — pure thumb-channel preset map
- *       sliderStyleContext(theme)          — pure theme → color derivation
- *   - registry/remocn-ui/slider/use-slider-transition.ts
- *       tweenSliderStyle(a, b, t)          — pure lerp across all three fields
- *       sliderStyleAt(steps, raw, opts)    — pure exported dual-channel core
- *       DEFAULT_DURATION constant
- *   - registry/remocn-ui/slider/config.ts
- *       sliderConfig.controls wiring + sliderConfig.snippet codegen
- *
- * The render path (index.tsx) imports `useRemocnTheme` which requires React
- * context — it is NOT exercised here. `useSliderTransition` IS a hook (calls
- * `useCurrentFrame()`) and is NOT imported; its pure body is the exported
- * `sliderStyleAt` which we call directly.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/slider/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * Relative imports from component source; `@/lib/remocn-ui` alias for core.
- * `sliderThumbStyle`, `sliderStyleContext`, and `tweenSliderStyle` / `sliderStyleAt`
- * are pure value functions. `useSliderTransition` IS a hook and is NOT imported;
- * we call `sliderStyleAt` directly (the exported pure core).
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -46,13 +14,8 @@ import {
 import { sliderConfig } from "../config";
 import { defaultLightTheme, defaultDarkTheme, easings, clamp01 } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
 const VALID_THUMB_STATES: readonly SliderThumbState[] = ["idle", "hover", "press"];
 
-/** Convenience wrapper for snippet(). */
 type SnippetValues = {
   value?: number;
   thumbState?: string;
@@ -63,22 +26,12 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   sliderConfig.snippet(values as Record<string, unknown>);
 
-// ===========================================================================
-// 1. DEFAULT_DURATION constant
-// ===========================================================================
-
 describe("DEFAULT_DURATION", () => {
   it("is 18 frames", () => {
     expect(DEFAULT_DURATION).toBe(18);
   });
 });
 
-// ===========================================================================
-// 2. clampValue semantics — the component applies clamp01(value/100)*100
-//    MIRROR of index.tsx lines 53-55 (clampValue function).
-// ===========================================================================
-
-/** MIRROR of index.tsx:clampValue */
 function clampValue(value: number): number {
   return clamp01(value / 100) * 100;
 }
@@ -121,11 +74,6 @@ describe("clampValue: in-range values pass through unchanged", () => {
   });
 });
 
-// ===========================================================================
-// 3. showValue label — renders Math.round(pct)
-//    MIRROR of index.tsx line 218: {Math.round(pct)}
-// ===========================================================================
-
 describe("showValue label: Math.round applied to clamped value", () => {
   it("Math.round(62.4) = 62", () => {
     expect(Math.round(clampValue(62.4))).toBe(62);
@@ -143,11 +91,6 @@ describe("showValue label: Math.round applied to clamped value", () => {
     expect(Math.round(clampValue(0))).toBe(0);
   });
 });
-
-// ===========================================================================
-// 4. sliderThumbStyle — pure (thumbState) => {thumbScale, ringOpacity} map
-//    MIRROR of index.tsx lines 62-74
-// ===========================================================================
 
 describe("sliderThumbStyle: idle state — default thumb", () => {
   const s = sliderThumbStyle("idle");
@@ -208,20 +151,6 @@ describe("sliderThumbStyle: every state returns numeric fields", () => {
     }
   });
 });
-
-// ===========================================================================
-// 5. sliderStyleContext — pure theme → SliderStyleContext
-//    MIRROR of index.tsx lines 100-113 (post-shadcn retheme)
-//
-//    Field changes vs original:
-//      track:      was theme.muted, now mixOklch(theme.input, theme.background, 0.1)
-//      range:      unchanged — theme.primary
-//      thumbBorder: REMOVED (no longer a field)
-//      thumbBg:    was theme.background, now literal "oklch(1 0 0)" (white, theme-independent)
-//      thumbRing:  NEW — literal "rgba(0, 0, 0, 0.1)" (resting hairline, theme-independent)
-//      ring:       was mixOklch(primary,bg,0.55), now mixOklch(theme.ring, theme.background, 0.7)
-//      valueText:  unchanged — theme.foreground
-// ===========================================================================
 
 describe("sliderStyleContext: light theme", () => {
   const ctx = sliderStyleContext(defaultLightTheme);
@@ -291,12 +220,6 @@ describe("sliderStyleContext: all fields are non-empty strings", () => {
   });
 });
 
-// ===========================================================================
-// 6. tweenSliderStyle — pure lerp across all three fields
-//    MIRROR of use-slider-transition.ts lines 42-52
-//    Both channels (value + thumb) are covered in one tween.
-// ===========================================================================
-
 describe("tweenSliderStyle: t=0 returns values equal to `a`", () => {
   const a = { value: 0,   thumbScale: 1,   ringOpacity: 0 };
   const b = { value: 100, thumbScale: 1.1, ringOpacity: 1 };
@@ -330,9 +253,6 @@ describe("tweenSliderStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenSliderStyle: t=0.5 midpoint", () => {
-  // a: value=0, thumbScale=1(idle), ringOpacity=0
-  // b: value=100, thumbScale=1.1(hover), ringOpacity=1
-  // midpoints: value=50, thumbScale=1.05, ringOpacity=0.5
   const a = { value: 0,   thumbScale: 1,   ringOpacity: 0 };
   const b = { value: 100, thumbScale: 1.1, ringOpacity: 1 };
   const r = tweenSliderStyle(a, b, 0.5);
@@ -360,9 +280,6 @@ describe("tweenSliderStyle: identity (a === b, any t)", () => {
 });
 
 describe("tweenSliderStyle: idle → press thumb channel", () => {
-  // idle: thumbScale=1, ringOpacity=0
-  // press: thumbScale=1.15, ringOpacity=1
-  // t=0.5: thumbScale=1.075, ringOpacity=0.5
   const a = { value: 0, ...sliderThumbStyle("idle") };
   const b = { value: 0, ...sliderThumbStyle("press") };
   const r = tweenSliderStyle(a, b, 0.5);
@@ -375,21 +292,7 @@ describe("tweenSliderStyle: idle → press thumb channel", () => {
   });
 });
 
-// ===========================================================================
-// 7. sliderStyleAt — pure exported dual-channel core
-//    MIRROR of use-slider-transition.ts lines 148-161.
-//    useSliderTransition is exactly sliderStyleAt(steps, useCurrentFrame()*speed, opts).
-//    We call sliderStyleAt directly with the frame injected as `raw`.
-//
-//    The two channels (value + thumb) are folded INDEPENDENTLY from the same
-//    step list, filtering to value-bearing and thumb-bearing steps respectively.
-//
-//    MAINTENANCE CONTRACT: if use-slider-transition.ts lines 69-161 change,
-//    update these tests in lockstep. Annotated source lines below.
-// ===========================================================================
-
 describe("sliderStyleAt: empty steps → value=0, thumb=idle", () => {
-  // source lines 78/112: empty value/thumb steps → return 0 / sliderThumbStyle('idle')
   it("empty steps returns {value:0, thumbScale:1, ringOpacity:0}", () => {
     const r = sliderStyleAt([], 0);
     expect(r.value).toBe(0);
@@ -399,7 +302,6 @@ describe("sliderStyleAt: empty steps → value=0, thumb=idle", () => {
 });
 
 describe("sliderStyleAt: before first value step — holds at first.value", () => {
-  // source line 80: if (raw <= first.at) return first.value
   const steps: SliderStep[] = [{ at: 10, value: 60 }];
 
   it("raw=5 < first.at=10 → holds at first.value=60", () => {
@@ -412,7 +314,6 @@ describe("sliderStyleAt: before first value step — holds at first.value", () =
 });
 
 describe("sliderStyleAt: before first thumb step — holds at first.thumbState preset", () => {
-  // source line 114: if (raw <= first.at) return sliderThumbStyle(first.thumbState)
   const steps: SliderStep[] = [{ at: 10, thumbState: "hover" }];
 
   it("raw=5 holds at hover preset (thumbScale=1.1)", () => {
@@ -421,7 +322,6 @@ describe("sliderStyleAt: before first thumb step — holds at first.thumbState p
 });
 
 describe("sliderStyleAt: past last value step — rests at last.value", () => {
-  // source lines 89-92: pastLast → to=from=last, t=1
   const steps: SliderStep[] = [{ at: 0, value: 0 }, { at: 18, value: 75 }];
 
   it("raw=50 → value=75 (rests at last)", () => {
@@ -430,8 +330,6 @@ describe("sliderStyleAt: past last value step — rests at last.value", () => {
 });
 
 describe("sliderStyleAt: value channel mid-window uses easings.out", () => {
-  // [{at:0,value:0},{at:18,value:100}], raw=9 → start=0, linear=0.5, t=out(0.5)=0.875
-  // value = 0 + 100*0.875 = 87.5
   const steps: SliderStep[] = [{ at: 0, value: 0 }, { at: 18, value: 100 }];
 
   it("value at raw=9 is 87.5 (out-eased, not linear 50)", () => {
@@ -445,9 +343,6 @@ describe("sliderStyleAt: value channel mid-window uses easings.out", () => {
 });
 
 describe("sliderStyleAt: thumb channel mid-window uses easings.out", () => {
-  // [{at:0,thumbState:'idle'},{at:18,thumbState:'hover'}], raw=9
-  // t=out(0.5)=0.875; idle={1,0}, hover={1.1,1}
-  // thumbScale: 1 + 0.1*0.875 = 1.0875, ringOpacity: 0 + 1*0.875 = 0.875
   const steps: SliderStep[] = [{ at: 0, thumbState: "idle" }, { at: 18, thumbState: "hover" }];
 
   it("thumbScale at raw=9 is 1.0875 (out-eased)", () => {
@@ -460,9 +355,6 @@ describe("sliderStyleAt: thumb channel mid-window uses easings.out", () => {
 });
 
 describe("sliderStyleAt: dual-channel steps fold independently", () => {
-  // value steps: [{at:0,value:0},{at:18,value:100}]
-  // thumb steps: [{at:0,thumbState:'idle'},{at:18,thumbState:'hover'}]
-  // Both in same step list via combined steps
   const steps: SliderStep[] = [
     { at: 0, value: 0, thumbState: "idle" },
     { at: 18, value: 100, thumbState: "hover" },
@@ -480,7 +372,6 @@ describe("sliderStyleAt: dual-channel steps fold independently", () => {
 });
 
 describe("sliderStyleAt: channels can have different step counts", () => {
-  // Only value steps, no thumb steps → thumb stays idle
   const valueOnlySteps: SliderStep[] = [{ at: 0, value: 0 }, { at: 18, value: 100 }];
 
   it("thumb is idle when no thumb steps are present", () => {
@@ -489,7 +380,6 @@ describe("sliderStyleAt: channels can have different step counts", () => {
     expect(r.ringOpacity).toBe(sliderThumbStyle("idle").ringOpacity);
   });
 
-  // Only thumb steps, no value steps → value stays 0
   const thumbOnlySteps: SliderStep[] = [{ at: 0, thumbState: "idle" }, { at: 18, thumbState: "hover" }];
 
   it("value is 0 when no value steps are present", () => {
@@ -507,10 +397,6 @@ describe("sliderStyleAt: past last with both channels", () => {
     expect(r.ringOpacity).toBeCloseTo(sliderThumbStyle("press").ringOpacity, 10);
   });
 });
-
-// ===========================================================================
-// 8. sliderConfig.controls — customizer control wiring
-// ===========================================================================
 
 describe("sliderConfig.controls: value", () => {
   it("value is a number control", () => {
@@ -570,10 +456,6 @@ describe("sliderConfig.controls: mode", () => {
     expect(ctrl.default).toBe("light");
   });
 });
-
-// ===========================================================================
-// 9. sliderConfig.snippet — pure JSX string builder
-// ===========================================================================
 
 describe("sliderConfig.snippet: import line", () => {
   it("includes 'import { Slider }' from the correct path", () => {

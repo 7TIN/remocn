@@ -13,12 +13,9 @@ import {
   type SheetState,
   type SheetStyle,
 } from "@/components/remocn/sheet";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 12;
 
-/** Blend two sheet visuals: all three fields are pure numeric lerps. */
 export function tweenSheetStyle(
   a: SheetStyle,
   b: SheetStyle,
@@ -39,11 +36,6 @@ export interface SheetTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) SheetStyle. The CALLER invokes this;
- * it reads the frame, the `<Sheet>` component does not. Feed the result to
- * `<Sheet style={...} />` for smooth open/close transitions.
- */
 export function useSheetTransition(
   steps: Step<SheetState>[],
   opts: SheetTransitionOptions = {},

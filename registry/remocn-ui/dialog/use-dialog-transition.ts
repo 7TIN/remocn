@@ -13,12 +13,9 @@ import {
   type DialogState,
   type DialogStyle,
 } from "@/components/remocn/dialog";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 12;
 
-/** Blend two dialog visuals: all four fields are pure numeric lerps. */
 export function tweenDialogStyle(
   a: DialogStyle,
   b: DialogStyle,
@@ -40,11 +37,6 @@ export interface DialogTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) DialogStyle. The CALLER invokes this;
- * it reads the frame, the `<Dialog>` component does not. Feed the result to
- * `<Dialog style={...} />` for smooth open/close transitions.
- */
 export function useDialogTransition(
   steps: Step<DialogState>[],
   opts: DialogTransitionOptions = {},

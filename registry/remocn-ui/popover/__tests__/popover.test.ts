@@ -1,36 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `popover`.
- *
- * Scope:
- *   - registry/remocn-ui/popover/index.tsx
- *       popoverStyle(state)    — complete state→visual preset map
- *       (no popoverStyleContext — Popover uses theme tokens directly; no pure
- *        style-context export on this component; `offsetFor` is module-private)
- *   - registry/remocn-ui/popover/use-popover-transition.ts
- *       tweenPopoverStyle(a, b, t)   — pure lerp across all three fields
- *       DEFAULT_DURATION constant
- *       usePopoverTransition resolver — mirrored as resolvePopoverTransition
- *         with frame injected as `raw` (annotated source lines)
- *   - registry/remocn-ui/popover/config.ts
- *       popoverConfig.controls wiring + popoverConfig.snippet codegen
- *
- * The render path (index.tsx) imports `useRemocnTheme` which requires React
- * context and cannot run headlessly — it is NOT exercised here. `offsetFor` is
- * a module-private helper that turns the `translate` magnitude into a CSS
- * transform offset for a side; it is not exported, so its contract is documented
- * in the README and covered indirectly through the render path.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/popover/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * Relative imports for component source; `@/lib/remocn-ui` alias for core.
- * `usePopoverTransition` is NOT imported — it reads `useCurrentFrame()`.
- * Its pure body is mirrored as `resolvePopoverTransition` with frame injected.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -46,14 +13,9 @@ import { popoverConfig } from "../config";
 import { easings } from "@/lib/remocn-ui";
 import type { Step } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
 const VALID_STATES: readonly PopoverState[] = ["opened", "closed"];
 const VALID_SIDES: readonly PopoverSide[] = ["top", "bottom", "left", "right"];
 
-/** Convenience wrapper for snippet(). */
 type SnippetValues = {
   state?: string;
   title?: string;
@@ -65,21 +27,11 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   popoverConfig.snippet(values as Record<string, unknown>);
 
-// ===========================================================================
-// 1. DEFAULT_DURATION constant
-// ===========================================================================
-
 describe("DEFAULT_DURATION", () => {
   it("is 10 frames", () => {
     expect(DEFAULT_DURATION).toBe(10);
   });
 });
-
-// ===========================================================================
-// 2. popoverStyle — pure (state) => PopoverStyle map
-//    MIRROR of index.tsx lines 65-72
-//    Every field asserted for both states.
-// ===========================================================================
 
 describe("popoverStyle: closed state — off-screen keyframe", () => {
   const s = popoverStyle("closed");
@@ -140,17 +92,10 @@ describe("popoverStyle: both states are complete keyframes", () => {
 });
 
 describe("popoverStyle: unknown state falls through to closed preset", () => {
-  // The switch has only an explicit 'opened' arm; default → closed
   it("'closed' returns opacity=0 (via default arm)", () => {
     expect(popoverStyle("closed").opacity).toBe(0);
   });
 });
-
-// ===========================================================================
-// 3. tweenPopoverStyle — pure lerp across all three numeric fields
-//    MIRROR of use-popover-transition.ts lines 20-30
-//    All fields are numeric (no animated colors); no mixOklch call.
-// ===========================================================================
 
 describe("tweenPopoverStyle: t=0 returns values equal to `a`", () => {
   const a = popoverStyle("closed");
@@ -189,9 +134,6 @@ describe("tweenPopoverStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenPopoverStyle: t=0.5 midpoint (closed → opened)", () => {
-  // closed: opacity=0, scale=0.97, translate=6
-  // opened: opacity=1, scale=1,    translate=0
-  // midpoint: opacity=0.5, scale=0.985, translate=3
   const a = popoverStyle("closed");
   const b = popoverStyle("opened");
   const r = tweenPopoverStyle(a, b, 0.5);
@@ -210,7 +152,6 @@ describe("tweenPopoverStyle: t=0.5 midpoint (closed → opened)", () => {
 });
 
 describe("tweenPopoverStyle: t=0.25 quarter-point (closed → opened)", () => {
-  // opacity: 0.25, scale: 0.97+0.03*0.25=0.9775, translate: 6-6*0.25=4.5
   const a = popoverStyle("closed");
   const b = popoverStyle("opened");
   const r = tweenPopoverStyle(a, b, 0.25);
@@ -240,7 +181,6 @@ describe("tweenPopoverStyle: identity (a === b)", () => {
 });
 
 describe("tweenPopoverStyle: reverse direction (opened → closed)", () => {
-  // By symmetry midpoints are the same magnitude
   const a = popoverStyle("opened");
   const b = popoverStyle("closed");
   const r = tweenPopoverStyle(a, b, 0.5);
@@ -258,29 +198,10 @@ describe("tweenPopoverStyle: reverse direction (opened → closed)", () => {
   });
 });
 
-// ===========================================================================
-// 4. usePopoverTransition resolver replica
-//    MIRRORS use-popover-transition.ts lines 44-57.
-//    `usePopoverTransition` calls `useStateTransition` (reads useCurrentFrame())
-//    then applies `easings.out(progress)` and `tweenPopoverStyle`.
-//    We inject `raw` in place of useCurrentFrame().
-//
-//    Key additional contract: progress is eased with `easings.out` before the
-//    tween, making the result non-linear. out(0.5) = 0.875.
-//
-//    MAINTENANCE CONTRACT: if use-popover-transition.ts lines 44-57 change,
-//    update this replica in lockstep. Annotated source lines below.
-// ===========================================================================
-
-/** MIRROR of core/timeline.ts:clamp01. */
 function clamp01(t: number): number {
   return Math.max(0, Math.min(1, t));
 }
 
-/**
- * MIRROR of timeline.ts:useStateTransition pure resolver body.
- * `raw` is injected in place of useCurrentFrame().
- */
 function resolveStateTransition<S extends string>(
   raw: number,
   steps: Step<S>[],
@@ -302,40 +223,27 @@ function resolveStateTransition<S extends string>(
   return { from: from ? from.state : defaultState, to: to.state, progress };
 }
 
-/**
- * MIRROR of use-popover-transition.ts:usePopoverTransition (lines 44-57).
- * `raw` is injected in place of useCurrentFrame().
- * Annotated source lines:
- *   line 48: destructure speed + defaultDuration from opts
- *   lines 49-54: useStateTransition (mirrored as resolveStateTransition)
- *   line 55: t = easings.out(progress)                      ← MIRROR line 55
- *   line 56: tweenPopoverStyle(from, to, t)                 ← MIRROR line 56
- */
 function resolvePopoverTransition(
   raw: number,                                           // injected useCurrentFrame() — MIRROR line 49
   steps: Step<PopoverState>[],
   speed = 1,
   defaultDuration = DEFAULT_DURATION,
 ): { opacity: number; scale: number; translate: number; from: PopoverState; to: PopoverState; progress: number } {
-  const { from, to, progress } = resolveStateTransition( // MIRROR lines 49-54
+  const { from, to, progress } = resolveStateTransition(
     raw,
     steps,
     "closed",
     speed,
     defaultDuration,
   );
-  const t = easings.out(progress);                        // MIRROR line 55
-  const style = tweenPopoverStyle(                        // MIRROR line 56
+  const t = easings.out(progress);
+  const style = tweenPopoverStyle(
     popoverStyle(from as PopoverState),
     popoverStyle(to as PopoverState),
     t,
   );
   return { ...style, from: from as PopoverState, to: to as PopoverState, progress };
 }
-
-// ---------------------------------------------------------------------------
-// Before any step: holds at closed (progress=1, tween(closed,closed,out(1)))
-// ---------------------------------------------------------------------------
 
 describe("resolvePopoverTransition: before any step — holds at closed", () => {
   it("returns the closed style when no steps have started", () => {
@@ -352,10 +260,6 @@ describe("resolvePopoverTransition: before any step — holds at closed", () => 
     expect(r.to).toBe("closed");
   });
 });
-
-// ---------------------------------------------------------------------------
-// Exactly at a step boundary: progress=0, t=out(0)=0 → closed style
-// ---------------------------------------------------------------------------
 
 describe("resolvePopoverTransition: exactly at closed→opened step boundary", () => {
   const steps: Step<PopoverState>[] = [{ at: 10, state: "opened" }];
@@ -376,34 +280,26 @@ describe("resolvePopoverTransition: exactly at closed→opened step boundary", (
   });
 });
 
-// ---------------------------------------------------------------------------
-// Mid-window: easings.out applied — non-linear (not raw 0.5)
-// step at=0, duration=10, raw=5: linear=0.5, out(0.5)=0.875
-// opacity: tween(0,1,0.875) = 0.875
-// scale:   tween(0.97,1,0.875) = 0.97 + 0.03*0.875 = 0.99625
-// translate: tween(6,0,0.875) = 6*(1-0.875) = 0.75
-// ---------------------------------------------------------------------------
-
 describe("resolvePopoverTransition: mid-window uses easings.out (not linear)", () => {
   const steps: Step<PopoverState>[] = [{ at: 0, state: "opened" }];
 
   it("opacity at raw=5 is out(0.5)=0.875 (not linear 0.5)", () => {
     const r = resolvePopoverTransition(5, steps, 1, 10);
-    const t = easings.out(0.5); // 0.875
+    const t = easings.out(0.5);
     expect(r.opacity).toBeCloseTo(t, 8);
   });
 
   it("scale at raw=5 is 0.97 + 0.03*out(0.5) = 0.99625", () => {
     const r = resolvePopoverTransition(5, steps, 1, 10);
     const t = easings.out(0.5);
-    const expected = 0.97 + (1 - 0.97) * t; // 0.99625
+    const expected = 0.97 + (1 - 0.97) * t;
     expect(r.scale).toBeCloseTo(expected, 8);
   });
 
   it("translate at raw=5 is 6*(1-out(0.5)) = 0.75", () => {
     const r = resolvePopoverTransition(5, steps, 1, 10);
     const t = easings.out(0.5);
-    const expected = 6 * (1 - t); // lerp(6,0,t) = 0.75
+    const expected = 6 * (1 - t);
     expect(r.translate).toBeCloseTo(expected, 8);
   });
 
@@ -412,10 +308,6 @@ describe("resolvePopoverTransition: mid-window uses easings.out (not linear)", (
     expect(r.opacity).not.toBeCloseTo(0.5, 2);
   });
 });
-
-// ---------------------------------------------------------------------------
-// Past the window: fully opened
-// ---------------------------------------------------------------------------
 
 describe("resolvePopoverTransition: past the window → fully opened", () => {
   const steps: Step<PopoverState>[] = [{ at: 0, state: "opened" }];
@@ -433,10 +325,6 @@ describe("resolvePopoverTransition: past the window → fully opened", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// Speed contract
-// ---------------------------------------------------------------------------
-
 describe("resolvePopoverTransition: speed contract", () => {
   const steps: Step<PopoverState>[] = [{ at: 10, state: "opened" }];
 
@@ -448,10 +336,6 @@ describe("resolvePopoverTransition: speed contract", () => {
     expect(resolvePopoverTransition(4, steps, 2).to).toBe("closed");
   });
 });
-
-// ===========================================================================
-// 5. popoverConfig.controls — customizer control wiring
-// ===========================================================================
 
 describe("popoverConfig.controls: state", () => {
   it("state is a select control", () => {
@@ -548,10 +432,6 @@ describe("popoverConfig.controls: mode", () => {
     expect(popoverConfig.controls.mode.default).toBe("light");
   });
 });
-
-// ===========================================================================
-// 6. popoverConfig.snippet — pure JSX string builder
-// ===========================================================================
 
 describe("popoverConfig.snippet: import line", () => {
   it("includes 'import { Popover }' from the correct path", () => {

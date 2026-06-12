@@ -14,12 +14,9 @@ import {
   type SwitchState,
   type SwitchStyle,
 } from "@/components/remocn/switch";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 10;
 
-/** Blend two switch visuals: numbers lerp, colors via oklch mix. */
 export function tweenSwitchStyle(
   a: SwitchStyle,
   b: SwitchStyle,
@@ -39,11 +36,6 @@ export interface SwitchTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) SwitchStyle. The CALLER invokes this;
- * it reads the frame, the `<Switch>` component does not. Feed the result to
- * `<Switch style={...} />` for smooth toggle transitions.
- */
 export function useSwitchTransition(
   steps: Step<SwitchState>[],
   opts: SwitchTransitionOptions = {},

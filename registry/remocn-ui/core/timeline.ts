@@ -1,12 +1,10 @@
 import { useCurrentFrame } from "remotion";
 import type { Step } from "./types";
 
-/** duration(seconds-or-frames) -> frames. Number = frames; {seconds} -> *fps. */
 export function framesFor(d: number | { seconds: number }, fps: number): number {
   return typeof d === "number" ? d : Math.round(d.seconds * fps);
 }
 
-/** Deterministic char-reveal count (same math as the typewriter component). */
 export function revealCount(
   localFrame: number,
   fps: number,
@@ -22,12 +20,6 @@ export function clamp01(t: number): number {
   return Math.max(0, Math.min(1, t));
 }
 
-/**
- * Resolve the current state from a `steps` timeline: the state of the latest
- * step whose `at <= effectiveFrame`, else `defaultState`. Pure deterministic
- * fold; `speed` scales the playhead (effectiveFrame = useCurrentFrame()*speed).
- * Ties on `at` resolve by array order (later wins).
- */
 export function useCurrentState<S extends string>(
   steps: Step<S>[],
   defaultState: S,
@@ -45,13 +37,6 @@ export function useCurrentState<S extends string>(
   return current;
 }
 
-/**
- * Resolve the in-flight transition for keyframe-style atoms. `to` = latest step
- * with at<=effectiveFrame (else defaultState); `from` = the step just before it
- * (else defaultState); `progress` ramps 0→1 over [to.at, to.at + (to.duration ??
- * defaultDuration)), then holds at 1. effectiveFrame = useCurrentFrame()*speed.
- * Ties on `at` resolve later-array-wins.
- */
 export function useStateTransition<S extends string>(
   steps: Step<S>[],
   defaultState: S,

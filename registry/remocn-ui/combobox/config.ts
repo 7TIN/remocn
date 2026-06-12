@@ -10,7 +10,6 @@ export const comboboxConfig: ComponentConfig = {
   controls: {
     state: {
       type: "select",
-      // Default to `opened` so the preview shows the revealed panel.
       default: "opened",
       options: ["opened", "closed"],
       label: "State",

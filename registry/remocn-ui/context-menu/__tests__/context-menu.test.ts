@@ -1,37 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `context-menu`.
- *
- * Scope:
- *   - registry/remocn-ui/context-menu/index.tsx
- *       contextMenuStyleContext(theme)   — pure theme → context derivation
- *       contextMenuStyle(state, ctx)     — complete state→visual map
- *       (rowState is module-private — not exported; documented in README)
- *   - registry/remocn-ui/context-menu/use-context-menu-transition.ts
- *       tweenContextMenuStyle(a, b, t)  — pure lerp across all three fields
- *       DEFAULT_DURATION constant
- *       useContextMenuTransition resolver — mirrored as resolveContextMenuTransition
- *         with frame injected as `raw` (annotated source lines)
- *   - registry/remocn-ui/context-menu/config.ts
- *       contextMenuConfig.controls wiring + contextMenuConfig.snippet codegen
- *
- * The render path (index.tsx) imports `useRemocnTheme` which requires React
- * context and cannot run headlessly — it is NOT exercised here.
- * `contextMenuStyleContext` delegates to `dropdownMenuItemStyleContext` for
- * the item context; that sub-function's correctness is covered by
- * dropdown-menu/__tests__. Here it is called only to build the shared `ctx`
- * fixture for `contextMenuStyle`.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/context-menu/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * Relative imports for component source; `@/lib/remocn-ui` alias for core.
- * `useContextMenuTransition` is NOT imported — it reads `useCurrentFrame()`.
- * Its pure body is mirrored as `resolveContextMenuTransition` with frame injected.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -48,16 +14,10 @@ import { contextMenuConfig } from "../config";
 import { defaultLightTheme, defaultDarkTheme, easings } from "@/lib/remocn-ui";
 import type { Step } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
 const VALID_STATES: readonly ContextMenuState[] = ["opened", "closed"];
 
-/** Build a shared ctx for style assertions (no React needed — pure function). */
 const ctx = contextMenuStyleContext(defaultLightTheme);
 
-/** Convenience wrapper for snippet(). */
 type SnippetValues = {
   state?: string;
   highlightedIndex?: number;
@@ -66,20 +26,11 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   contextMenuConfig.snippet(values as Record<string, unknown>);
 
-// ===========================================================================
-// 1. DEFAULT_DURATION constant
-// ===========================================================================
-
 describe("DEFAULT_DURATION", () => {
   it("is 10 frames", () => {
     expect(DEFAULT_DURATION).toBe(10);
   });
 });
-
-// ===========================================================================
-// 2. contextMenuStyleContext — pure theme → context derivation
-//    MIRROR of index.tsx lines 73-82
-// ===========================================================================
 
 describe("contextMenuStyleContext: maps theme tokens correctly", () => {
   it("panelBg equals theme.popover", () => {
@@ -111,12 +62,6 @@ describe("contextMenuStyleContext: theme independence", () => {
     expect(ctx.panelBorder).not.toBe(ctxDark.panelBorder);
   });
 });
-
-// ===========================================================================
-// 3. contextMenuStyle — pure (state, ctx) => ContextMenuStyle map
-//    MIRROR of index.tsx lines 89-99
-//    Every field asserted for both states.
-// ===========================================================================
 
 describe("contextMenuStyle: closed state — off-screen keyframe", () => {
   const s = contextMenuStyle("closed", ctx);
@@ -179,17 +124,10 @@ describe("contextMenuStyle: every state produces a complete ContextMenuStyle", (
 });
 
 describe("contextMenuStyle: unknown state falls through to closed preset", () => {
-  // The switch has only an explicit 'opened' arm; default → closed
   it("'closed' returns opacity=0 (via default arm)", () => {
     expect(contextMenuStyle("closed", ctx).opacity).toBe(0);
   });
 });
-
-// ===========================================================================
-// 4. tweenContextMenuStyle — pure lerp across all three numeric fields
-//    MIRROR of use-context-menu-transition.ts lines 22-32
-//    All fields are numbers — straight lerp on everything.
-// ===========================================================================
 
 describe("tweenContextMenuStyle: t=0 returns values equal to `a`", () => {
   const a = contextMenuStyle("closed", ctx);
@@ -228,9 +166,6 @@ describe("tweenContextMenuStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenContextMenuStyle: t=0.5 midpoint (closed → opened)", () => {
-  // closed: opacity=0, scale=0.95, translateY=-4
-  // opened: opacity=1, scale=1,    translateY=0
-  // midpoint: opacity=0.5, scale=0.975, translateY=-2
   const a = contextMenuStyle("closed", ctx);
   const b = contextMenuStyle("opened", ctx);
   const r = tweenContextMenuStyle(a, b, 0.5);
@@ -249,7 +184,6 @@ describe("tweenContextMenuStyle: t=0.5 midpoint (closed → opened)", () => {
 });
 
 describe("tweenContextMenuStyle: t=0.25 quarter-point (closed → opened)", () => {
-  // opacity: 0.25, scale: 0.95+0.05*0.25=0.9625, translateY: -4+4*0.25=-3
   const a = contextMenuStyle("closed", ctx);
   const b = contextMenuStyle("opened", ctx);
   const r = tweenContextMenuStyle(a, b, 0.25);
@@ -292,29 +226,10 @@ describe("tweenContextMenuStyle: reverse direction (opened → closed)", () => {
   });
 });
 
-// ===========================================================================
-// 5. useContextMenuTransition resolver replica
-//    MIRRORS use-context-menu-transition.ts lines 46-70.
-//    `useContextMenuTransition` calls `useStateTransition` (reads useCurrentFrame())
-//    then applies `easings.out(progress)` and `tweenContextMenuStyle`.
-//    We inject `raw` in place of useCurrentFrame().
-//
-//    Key additional contract: progress is eased with `easings.out` before the
-//    tween, making the result non-linear. out(0.5) = 0.875.
-//
-//    MAINTENANCE CONTRACT: if use-context-menu-transition.ts lines 46-70 change,
-//    update this replica in lockstep. Annotated source lines below.
-// ===========================================================================
-
-/** MIRROR of core/timeline.ts:clamp01. */
 function clamp01(t: number): number {
   return Math.max(0, Math.min(1, t));
 }
 
-/**
- * MIRROR of timeline.ts:useStateTransition pure resolver body.
- * `raw` is injected in place of useCurrentFrame().
- */
 function resolveStateTransition<S extends string>(
   raw: number,
   steps: Step<S>[],
@@ -336,40 +251,27 @@ function resolveStateTransition<S extends string>(
   return { from: from ? from.state : defaultState, to: to.state, progress };
 }
 
-/**
- * MIRROR of use-context-menu-transition.ts:useContextMenuTransition (lines 46-70).
- * `raw` is injected in place of useCurrentFrame().
- * Annotated source lines:
- *   lines 51-55: destructure opts (speed, defaultDuration)
- *   lines 58-63: useStateTransition (mirrored as resolveStateTransition)
- *   line 64: t = easings.out(progress)                      ← MIRROR line 64
- *   lines 65-69: tweenContextMenuStyle(from, to, t)         ← MIRROR lines 65-69
- */
 function resolveContextMenuTransition(
   raw: number,                                           // injected useCurrentFrame() — MIRROR line 58
   steps: Step<ContextMenuState>[],
   speed = 1,
   defaultDuration = DEFAULT_DURATION,
 ): ContextMenuStyle & { from: ContextMenuState; to: ContextMenuState; progress: number } {
-  const { from, to, progress } = resolveStateTransition( // MIRROR lines 58-63
+  const { from, to, progress } = resolveStateTransition(
     raw,
     steps,
     "closed",
     speed,
     defaultDuration,
   );
-  const t = easings.out(progress);                        // MIRROR line 64
-  const style = tweenContextMenuStyle(                    // MIRROR lines 65-69
+  const t = easings.out(progress);
+  const style = tweenContextMenuStyle(
     contextMenuStyle(from as ContextMenuState, ctx),
     contextMenuStyle(to as ContextMenuState, ctx),
     t,
   );
   return { ...style, from: from as ContextMenuState, to: to as ContextMenuState, progress };
 }
-
-// ---------------------------------------------------------------------------
-// Before any step: holds at closed (progress=1, tween(closed,closed,out(1)))
-// ---------------------------------------------------------------------------
 
 describe("resolveContextMenuTransition: before any step — holds at closed", () => {
   it("returns the closed style when no steps have started", () => {
@@ -386,10 +288,6 @@ describe("resolveContextMenuTransition: before any step — holds at closed", ()
     expect(r.to).toBe("closed");
   });
 });
-
-// ---------------------------------------------------------------------------
-// Exactly at a step boundary: progress=0, t=out(0)=0 → closed style
-// ---------------------------------------------------------------------------
 
 describe("resolveContextMenuTransition: exactly at closed→opened step boundary", () => {
   const steps: Step<ContextMenuState>[] = [{ at: 10, state: "opened" }];
@@ -410,32 +308,26 @@ describe("resolveContextMenuTransition: exactly at closed→opened step boundary
   });
 });
 
-// ---------------------------------------------------------------------------
-// Mid-window: easings.out applied — non-linear (not raw 0.5)
-// step at=0, duration=10, raw=5: progress=0.5, out(0.5)=0.875
-// opacity: 0.875, scale: 0.95+0.05*0.875=0.99375, translateY: -4+4*0.875=-0.5
-// ---------------------------------------------------------------------------
-
 describe("resolveContextMenuTransition: mid-window uses easings.out (not linear)", () => {
   const steps: Step<ContextMenuState>[] = [{ at: 0, state: "opened" }];
 
   it("opacity at raw=5 is out(0.5)=0.875 (not linear 0.5)", () => {
     const r = resolveContextMenuTransition(5, steps, 1, 10);
-    const t = easings.out(0.5); // 0.875
+    const t = easings.out(0.5);
     expect(r.opacity).toBeCloseTo(t, 8);
   });
 
   it("scale at raw=5 is 0.95 + 0.05*out(0.5) = 0.99375", () => {
     const r = resolveContextMenuTransition(5, steps, 1, 10);
     const t = easings.out(0.5);
-    const expected = 0.95 + (1 - 0.95) * t; // 0.99375
+    const expected = 0.95 + (1 - 0.95) * t;
     expect(r.scale).toBeCloseTo(expected, 8);
   });
 
   it("translateY at raw=5 is -4*(1-out(0.5)) = -0.5", () => {
     const r = resolveContextMenuTransition(5, steps, 1, 10);
     const t = easings.out(0.5);
-    const expected = -4 + (0 - (-4)) * t; // -4 + 3.5 = -0.5
+    const expected = -4 + (0 - (-4)) * t;
     expect(r.translateY).toBeCloseTo(expected, 8);
   });
 
@@ -444,10 +336,6 @@ describe("resolveContextMenuTransition: mid-window uses easings.out (not linear)
     expect(r.opacity).not.toBeCloseTo(0.5, 2);
   });
 });
-
-// ---------------------------------------------------------------------------
-// Past the window: fully opened
-// ---------------------------------------------------------------------------
 
 describe("resolveContextMenuTransition: past the window → fully opened", () => {
   const steps: Step<ContextMenuState>[] = [{ at: 0, state: "opened" }];
@@ -465,10 +353,6 @@ describe("resolveContextMenuTransition: past the window → fully opened", () =>
   });
 });
 
-// ---------------------------------------------------------------------------
-// Speed contract
-// ---------------------------------------------------------------------------
-
 describe("resolveContextMenuTransition: speed contract", () => {
   const steps: Step<ContextMenuState>[] = [{ at: 10, state: "opened" }];
 
@@ -480,10 +364,6 @@ describe("resolveContextMenuTransition: speed contract", () => {
     expect(resolveContextMenuTransition(4, steps, 2).to).toBe("closed");
   });
 });
-
-// ===========================================================================
-// 6. contextMenuConfig.controls — customizer control wiring
-// ===========================================================================
 
 describe("contextMenuConfig.controls: state", () => {
   it("state is a select control", () => {
@@ -534,10 +414,6 @@ describe("contextMenuConfig.controls: mode", () => {
     expect(contextMenuConfig.controls.mode.default).toBe("light");
   });
 });
-
-// ===========================================================================
-// 7. contextMenuConfig.snippet — pure JSX string builder
-// ===========================================================================
 
 describe("contextMenuConfig.snippet: import line", () => {
   it("includes 'import { ContextMenu }' from the correct path", () => {

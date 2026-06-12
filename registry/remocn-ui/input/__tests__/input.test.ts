@@ -1,35 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `input`.
- *
- * Scope:
- *   - registry/remocn-ui/input/index.tsx  — InputState union membership,
- *     inputStyleContext, inputStyle presets
- *   - registry/remocn-ui/input/config.ts  — inputConfig.controls.state
- *     wiring + inputConfig.snippet output (the state → JSX codegen)
- *   - registry/remocn-ui/input/use-input-transition.ts — tweenInputStyle lerp
- *
- * The render path (index.tsx) is a PURE-STATE model: `(state) => visual`.
- * Every visual is the complete resting look for that state — state changes
- * snap (no tweening). `useInputTransition` reads `useCurrentFrame()` via
- * `useStateTransition`; it cannot run outside a Remotion render tree.
- * So Input render is NOT exercised here. The pure-testable surface is the
- * customizer wiring + snippet codegen + style presets + tween (below).
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/input/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * `config.ts` imports `InputState` from `@/registry/remocn-ui/input` and
- * the pieces under test never CALL a Remotion runtime API at import time —
- * `inputConfig` is a plain object; `.snippet` is a pure string builder;
- * `inputStyle`/`inputStyleContext` are pure value functions; `tweenInputStyle`
- * is a pure lerp function.
- * We import via RELATIVE paths (matching the existing test suite pattern),
- * annotating each import with the source it corresponds to.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import { type InputState, inputStyle, inputStyleContext } from "../index";
@@ -37,14 +5,6 @@ import { tweenInputStyle } from "../use-input-transition";
 import { inputConfig } from "../config";
 import { defaultLightTheme } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/**
- * The InputState union, enumerated as a runtime list for membership checks.
- * Must stay in sync with `export type InputState` in index.tsx.
- */
 const VALID_STATES: readonly InputState[] = [
   "idle",
   "hover",
@@ -54,7 +14,6 @@ const VALID_STATES: readonly InputState[] = [
   "invalid",
 ];
 
-/** Minimal shape mirroring the customizer's value bag passed to snippet(). */
 type SnippetValues = {
   state?: string;
   placeholder?: string;
@@ -67,14 +26,8 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   inputConfig.snippet(values as Record<string, unknown>);
 
-// ===========================================================================
-// 1. InputState union membership
-// ===========================================================================
-
 describe("InputState union", () => {
   it("contains exactly the six documented states", () => {
-    // We can't enumerate a TS type at runtime, but we can assert the REAL
-    // controls.state options match and that all known states are members.
     const control = inputConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(control.options).toEqual([
@@ -88,8 +41,6 @@ describe("InputState union", () => {
   });
 
   it("every VALID_STATES entry is assignable (no typos in the fixture)", () => {
-    // Belt-and-suspenders: the fixture array must have exactly 6 entries and
-    // match the options list from the real config.
     const control = inputConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(VALID_STATES).toHaveLength(6);
@@ -98,10 +49,6 @@ describe("InputState union", () => {
     }
   });
 });
-
-// ===========================================================================
-// 2. inputConfig.controls.state — customizer control wiring
-// ===========================================================================
 
 describe("inputConfig.controls.state", () => {
   it("is a select control", () => {
@@ -134,12 +81,6 @@ describe("inputConfig.controls.state", () => {
     }
   });
 });
-
-// ===========================================================================
-// 3. inputConfig.snippet — pure string builder
-//    State model: snippet emits `state="<state>"` as a bare JSX prop.
-//    It NEVER emits `steps` or `action`.
-// ===========================================================================
 
 describe("inputConfig.snippet: state prop emission", () => {
   it("emits state=\"idle\" for the idle option", () => {
@@ -199,8 +140,6 @@ describe("inputConfig.snippet: import line", () => {
 });
 
 describe("inputConfig.snippet: default props are omitted", () => {
-  // Defaults: placeholder=you@example.com, value=remotion@remocn.dev,
-  //           size=default, mode=light, primary=#171717
   const allDefaults = snippet({
     state: "typing",
     placeholder: "you@example.com",
@@ -268,15 +207,6 @@ describe("inputConfig.snippet: structural round-trip", () => {
     expect(out.trimEnd().endsWith("/>")).toBe(true);
   });
 });
-
-// ===========================================================================
-// 4. inputStyle presets — pure (state, ctx) => InputStyle
-//    inputStyleContext and inputStyle are exported and frame-free.
-//    Build one ctx from the default light theme, then assert the
-//    numeric/opacity invariants for every state.
-//    borderColor/ringColor/background are derived strings — asserted non-empty
-//    only (exact values are implementation details of mixOklch).
-// ===========================================================================
 
 const ctx = inputStyleContext(defaultLightTheme);
 
@@ -501,12 +431,6 @@ describe("inputStyle: string-field invariant — borderColor/ringColor/backgroun
   });
 });
 
-// ===========================================================================
-// 5. tweenInputStyle — pure linear interpolation between two InputStyles.
-//    Numbers lerp linearly; colors are oklch strings at all t.
-//    Concrete pair checks below cover the seven fields.
-// ===========================================================================
-
 describe("tweenInputStyle: t=0 returns values equal to `a`", () => {
   const a = inputStyle("idle", ctx);
   const b = inputStyle("active", ctx);
@@ -582,8 +506,6 @@ describe("tweenInputStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenInputStyle: t=0.5 midpoint numeric lerp (idle → active)", () => {
-  // idle:   ringWidth=0, caretOpacity=0, valueReveal=0, placeholderOpacity=1
-  // active: ringWidth=3, caretOpacity=1, valueReveal=0, placeholderOpacity=1
   const a = inputStyle("idle", ctx);
   const b = inputStyle("active", ctx);
   const r = tweenInputStyle(a, b, 0.5);
@@ -621,8 +543,6 @@ describe("tweenInputStyle: t=0.5 midpoint numeric lerp (idle → active)", () =>
 });
 
 describe("tweenInputStyle: t=0.5 midpoint numeric lerp (active → typing)", () => {
-  // active: ringWidth=3, caretOpacity=1, valueReveal=0, placeholderOpacity=1
-  // typing: ringWidth=3, caretOpacity=1, valueReveal=1, placeholderOpacity=0
   const a = inputStyle("active", ctx);
   const b = inputStyle("typing", ctx);
   const r = tweenInputStyle(a, b, 0.5);
@@ -650,8 +570,6 @@ describe("tweenInputStyle: t=0.5 midpoint numeric lerp (active → typing)", () 
 });
 
 describe("tweenInputStyle: t=0.5 midpoint numeric lerp (typing → invalid)", () => {
-  // typing: ringWidth=3, caretOpacity=1, valueReveal=1, placeholderOpacity=0
-  // invalid: ringWidth=3, caretOpacity=0, valueReveal=1, placeholderOpacity=0
   const a = inputStyle("typing", ctx);
   const b = inputStyle("invalid", ctx);
   const r = tweenInputStyle(a, b, 0.5);

@@ -10,13 +10,6 @@ export interface ProgressPreviewProps {
   mode?: "light" | "dark";
 }
 
-/**
- * Preview-only wrapper for the customizer. The shipped `Progress` is a
- * placement-agnostic inline bar — the caller positions it. The customizer Player
- * renders its `component` as the composition root, so a bare `Progress` would sit
- * top-left in normal flow; this thin wrapper centers it on a theme-background
- * stage just for the preview. NOT shipped: not listed in registry.json files.
- */
 export function ProgressPreview({
   value = 62,
   width = 320,

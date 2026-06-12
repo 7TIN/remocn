@@ -5,44 +5,24 @@ import { mixOklch, type RemocnTheme, useRemocnTheme } from "@/lib/remocn-ui";
 export type SelectItemState = "idle" | "hover" | "press" | "selected";
 
 export interface SelectItemProps {
-  /** Current visual state (snap path). State changes snap (no enter-tweens). */
   state?: SelectItemState;
-  /**
-   * Resolved animated visual (smooth path). When provided, takes precedence over
-   * `state` — feed it an interpolated `SelectItemStyle` from `useSelectItemTransition`.
-   */
   style?: SelectItemStyle;
-  /** Option text. */
   label?: string;
-  /** Row width (px). Matches the panel width when composed in `Select`. */
   width?: number;
   theme?: Partial<RemocnTheme>;
   mode?: "light" | "dark";
   className?: string;
 }
 
-/** Standalone row width (px) when the atom is mounted on its own. */
 const ROW_WIDTH = 260;
 
-// ===========================================================================
-// Select-item visual — the COMPLETE animated look for a moment in time. A
-// `state` is a named preset of this visual (`selectItemStyle`); the smooth path
-// feeds an interpolated `SelectItemStyle` straight through. The component is a
-// pure renderer of whichever `SelectItemStyle` it receives.
-// ===========================================================================
-
 export interface SelectItemStyle {
-  /** Animated row background (a concrete color, never "transparent"). */
   background: string;
-  /** Animated label color. */
   labelColor: string;
-  /** Check-icon opacity: 0 unless `selected` → 1. */
   checkOpacity: number;
-  /** Row zoom: 1 default, 0.98 on press. */
   scale: number;
 }
 
-/** Concrete colors for the active theme, resolved once per render. */
 export interface SelectItemStyleContext {
   idleBg: string;
   hoverBg: string;
@@ -53,10 +33,6 @@ export interface SelectItemStyleContext {
   check: string;
 }
 
-/**
- * Derive the concrete colors for a theme. Pure — call it once and reuse the
- * result for every `selectItemStyle(state, ctx)` preset.
- */
 export function selectItemStyleContext(
   theme: RemocnTheme,
 ): SelectItemStyleContext {
@@ -71,10 +47,6 @@ export function selectItemStyleContext(
   };
 }
 
-/**
- * The COMPLETE resting visual for a state — a pure `(state, ctx) => SelectItemStyle`
- * map. To change how a state looks, edit one entry.
- */
 export function selectItemStyle(
   state: SelectItemState,
   ctx: SelectItemStyleContext,
@@ -111,27 +83,16 @@ export function selectItemStyle(
   }
 }
 
-/** Props for the inline row — the shared visual that `Select` reuses. */
 export interface SelectItemRowProps {
-  /** Resolved animated visual (smooth path); wins over `state` when present. */
   style?: SelectItemStyle;
-  /** Current visual state (snap path) when no `style` is supplied. */
   state?: SelectItemState;
-  /** Pre-derived ctx (the container passes its shared one to avoid re-resolving). */
   ctx: SelectItemStyleContext;
   label: string;
   width: number;
-  /** Row corner radius (px). */
   radius: number;
-  /** Check-icon color. */
   check: string;
 }
 
-/**
- * INLINE option row — no full-frame wrapper. One row of a select panel: label
- * left, check icon right (opacity from style). The `Select` container renders a
- * column of these; the standalone `SelectItem` wraps one in a centering frame.
- */
 export function SelectItemRow({
   style,
   state = "idle",
@@ -181,12 +142,6 @@ export function SelectItemRow({
   );
 }
 
-/**
- * Standalone option-row atom — resolves theme/ctx/style then wraps a single
- * `<SelectItemRow>` in the standard full-frame centering wrapper. THIS is what
- * the registry registers and the customizer mounts. The `Select` container does
- * NOT use this — it reuses `SelectItemRow` directly inside its panel.
- */
 export function SelectItem({
   state = "idle",
   style,

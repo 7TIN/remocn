@@ -13,12 +13,9 @@ import {
   type AlertDialogState,
   type AlertDialogStyle,
 } from "@/components/remocn/alert-dialog";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 12;
 
-/** Blend two alert-dialog visuals: all four fields are pure numeric lerps. */
 export function tweenAlertDialogStyle(
   a: AlertDialogStyle,
   b: AlertDialogStyle,
@@ -40,11 +37,6 @@ export interface AlertDialogTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) AlertDialogStyle. The CALLER invokes this;
- * it reads the frame, the `<AlertDialog>` component does not. Feed the result to
- * `<AlertDialog style={...} />` for smooth open/close transitions.
- */
 export function useAlertDialogTransition(
   steps: Step<AlertDialogState>[],
   opts: AlertDialogTransitionOptions = {},

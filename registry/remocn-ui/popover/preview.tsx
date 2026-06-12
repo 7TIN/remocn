@@ -16,14 +16,6 @@ export interface PopoverPreviewProps {
   mode?: "light" | "dark";
 }
 
-/**
- * Preview-only wrapper for the customizer. The shipped `Popover` is a
- * placement-agnostic card in a transparent wrapper — the caller anchors it to a
- * trigger (see the example). The customizer Player renders its `component` as the
- * composition root, so a bare `Popover` would sit in normal flow and not center;
- * this thin wrapper centers it on a theme-background stage just for the preview.
- * NOT shipped: not listed in registry.json files.
- */
 export function PopoverPreview({
   title = "Dimensions",
   description = "Set the dimensions for the layer.",

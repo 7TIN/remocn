@@ -30,7 +30,6 @@ export const popoverConfig: ComponentConfig = {
     },
     state: {
       type: "select",
-      // Default to `opened` so the preview shows the resting card.
       default: "opened",
       options: ["opened", "closed"],
       label: "State",

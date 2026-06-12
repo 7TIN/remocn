@@ -14,12 +14,9 @@ import {
   type RadioState,
   type RadioStyle,
 } from "@/components/remocn/radio";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 10;
 
-/** Blend two radio visuals: numbers lerp, colors via oklch mix. */
 export function tweenRadioStyle(
   a: RadioStyle,
   b: RadioStyle,
@@ -40,11 +37,6 @@ export interface RadioTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) RadioStyle. The CALLER invokes this;
- * it reads the frame, the `<Radio>` component does not. Feed the result to
- * `<Radio style={...} />` for smooth check/uncheck transitions.
- */
 export function useRadioTransition(
   steps: Step<RadioState>[],
   opts: RadioTransitionOptions = {},

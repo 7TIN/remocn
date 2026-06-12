@@ -14,22 +14,14 @@ import {
   type ToggleGroupState,
   type ToggleGroupStyle,
 } from "@/components/remocn/toggle-group";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default segments — mirrors the component's default `items`. */
 const DEFAULT_ITEMS: ToggleGroupItem[] = [
   { value: "Monthly", label: "Monthly" },
   { value: "Yearly", label: "Yearly" },
 ];
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 14;
 
-/**
- * Blend two toggle-group visuals: `indicatorOffset` lerps (it's the only field).
- * The thumb position AND width, plus the label colors, all derive from this
- * single value inside the pure render — so a lerp slides the thumb without jumps.
- */
 export function tweenToggleGroupStyle(
   a: ToggleGroupStyle,
   b: ToggleGroupStyle,
@@ -49,11 +41,6 @@ export interface ToggleGroupTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) ToggleGroupStyle. The CALLER invokes
- * this; it reads the frame, the `<ToggleGroup>` component does not. Feed the
- * result to `<ToggleGroup style={...} />` for a smooth sliding thumb.
- */
 export function useToggleGroupTransition(
   steps: Step<ToggleGroupState>[],
   opts: ToggleGroupTransitionOptions = {},

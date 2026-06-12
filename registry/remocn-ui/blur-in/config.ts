@@ -16,7 +16,6 @@ export const blurInConfig: ComponentConfig = {
   controls: {
     state: {
       type: "select",
-      // Default to `revealed` so the preview shows the settled, sharp child.
       default: "revealed",
       options: ["hidden", "revealed"],
       label: "State",

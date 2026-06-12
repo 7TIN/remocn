@@ -1,39 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `stepper`.
- *
- * Scope:
- *   - registry/remocn-ui/stepper/index.tsx
- *       StepperStyle interface — position field semantics
- *       stepperStyle(activeIndex)   — pure identity preset
- *       stepperStyleContext(theme)  — token mapping
- *       stepCircleAt(i, position)   — per-step fill/checkDraw/active thresholds
- *       connectorFillAt(i, position) — connector fill fraction
- *   - registry/remocn-ui/stepper/use-stepper-transition.ts
- *       tweenStepperStyle(a, b, t)  — pure single-field lerp
- *       stepperStyleAt(steps, raw, opts) — pure exported core of useStepperTransition
- *       DEFAULT_DURATION constant
- *       StepperStep interface semantics
- *   - registry/remocn-ui/stepper/config.ts
- *       stepperConfig.controls wiring + stepperConfig.snippet codegen
- *
- * The render path (Stepper JSX) calls `useRemocnTheme` (React context) — NOT
- * exercised here. `useStepperTransition` is exactly
- * `stepperStyleAt(steps, useCurrentFrame() * speed, opts)` — we call
- * `stepperStyleAt` directly (the exported pure core).
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/stepper/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * Relative imports for component source; `@/lib/remocn-ui` for core alias.
- * `stepperStyleAt` and `tweenStepperStyle` are pure value functions — they
- * call neither `useCurrentFrame()` nor `useRemocnTheme` at import or call time.
- * `useStepperTransition` IS a hook and is NOT imported; we call `stepperStyleAt`
- * directly (the exported pure core, documented as such in the source).
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -51,21 +15,12 @@ import {
 import { stepperConfig } from "../config";
 import { defaultLightTheme, easings } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/** Convenience wrapper for snippet(). */
 type SnippetValues = {
   activeIndex?: number;
   mode?: string;
 };
 const snippet = (values: SnippetValues): string =>
   stepperConfig.snippet(values as Record<string, unknown>);
-
-// ===========================================================================
-// 1. DEFAULT_DURATION constant
-// ===========================================================================
 
 describe("DEFAULT_DURATION", () => {
   it("is a positive number", () => {
@@ -77,12 +32,6 @@ describe("DEFAULT_DURATION", () => {
     expect(DEFAULT_DURATION).toBe(24);
   });
 });
-
-// ===========================================================================
-// 2. stepperStyleContext — token mapping
-//    MIRROR of index.tsx lines 76-85.
-//    Maps: primary, primaryFg, mutedBg, border, mutedFg, foreground.
-// ===========================================================================
 
 describe("stepperStyleContext: token mapping (light theme)", () => {
   const ctx = stepperStyleContext(defaultLightTheme);
@@ -112,12 +61,6 @@ describe("stepperStyleContext: token mapping (light theme)", () => {
   });
 });
 
-// ===========================================================================
-// 3. stepperStyle preset — pure (activeIndex) => StepperStyle
-//    MIRROR of index.tsx lines 91-93.
-//    stepperStyle(activeIndex) = { position: activeIndex }
-// ===========================================================================
-
 describe("stepperStyle: identity map", () => {
   it("stepperStyle(0) returns position=0", () => {
     expect(stepperStyle(0).position).toBe(0);
@@ -135,21 +78,6 @@ describe("stepperStyle: identity map", () => {
     expect(stepperStyle(1.5).position).toBe(1.5);
   });
 });
-
-// ===========================================================================
-// 4. stepCircleAt — per-step fill / checkDraw / active thresholds
-//    MIRROR of index.tsx lines 108-123.
-//    fill     = clamp01(position - i)
-//    checkDraw = fill
-//    active   = Math.floor(position) === i && fill < 1
-//
-//    Key positions tested (3-step stepper, i in {0,1,2}):
-//      position=0:   step 0 active, steps 1/2 future
-//      position=0.5: step 0 mid-fill (active), step 1 future
-//      position=1:   step 0 completed, step 1 active
-//      position=1.5: step 0 completed, step 1 mid-fill (active), step 2 future
-//      position=2:   steps 0/1 completed, step 2 active (fill=0)
-// ===========================================================================
 
 describe("stepCircleAt: position=0 (first step active, rest future)", () => {
   it("step 0: fill=0, checkDraw=0, active=true", () => {
@@ -252,7 +180,6 @@ describe("stepCircleAt: position=2 (steps 0/1 completed, step 2 active)", () => 
   });
 
   it("step 2: fill=0, checkDraw=0, active=true (last step reached)", () => {
-    // floor(2)=2, fill=clamp(2-2)=0 → active=true
     const r = stepCircleAt(2, 2);
     expect(r.fill).toBe(0);
     expect(r.checkDraw).toBe(0);
@@ -285,13 +212,6 @@ describe("stepCircleAt: fill and checkDraw are always equal", () => {
     });
   }
 });
-
-// ===========================================================================
-// 5. connectorFillAt — connector primary-fill fraction between steps
-//    MIRROR of index.tsx lines 126-128.
-//    connectorFillAt(i, position) = clamp01(position - i)
-//    Same formula as stepCircleAt fill — tests confirm the identity.
-// ===========================================================================
 
 describe("connectorFillAt: connector between step 0 and 1", () => {
   it("position=0: fill=0 (connector empty)", () => {
@@ -331,12 +251,6 @@ describe("connectorFillAt: negative result is clamped to 0", () => {
   });
 });
 
-// ===========================================================================
-// 6. tweenStepperStyle — pure single-field lerp
-//    MIRROR of use-stepper-transition.ts lines 34-40.
-//    position lerps linearly: a.position + (b.position - a.position) * t
-// ===========================================================================
-
 describe("tweenStepperStyle: t=0 returns value equal to a", () => {
   it("position equals a.position at t=0", () => {
     const r = tweenStepperStyle({ position: 0 }, { position: 2 }, 0);
@@ -352,7 +266,6 @@ describe("tweenStepperStyle: t=1 returns value equal to b", () => {
 });
 
 describe("tweenStepperStyle: t=0.5 midpoint (0 → 2)", () => {
-  // 0 + (2-0)*0.5 = 1
   it("0 → 2 at t=0.5 gives position=1", () => {
     const r = tweenStepperStyle({ position: 0 }, { position: 2 }, 0.5);
     expect(r.position).toBeCloseTo(1, 10);
@@ -360,7 +273,6 @@ describe("tweenStepperStyle: t=0.5 midpoint (0 → 2)", () => {
 });
 
 describe("tweenStepperStyle: t=0.5 midpoint (1 → 0, reverse)", () => {
-  // 1 + (0-1)*0.5 = 0.5
   it("1 → 0 at t=0.5 gives position=0.5", () => {
     const r = tweenStepperStyle({ position: 1 }, { position: 0 }, 0.5);
     expect(r.position).toBeCloseTo(0.5, 10);
@@ -375,25 +287,13 @@ describe("tweenStepperStyle: identity (a === b)", () => {
 });
 
 describe("tweenStepperStyle: t=0.25 quarter-point", () => {
-  // 0 + (2-0)*0.25 = 0.5
   it("0 → 2 at t=0.25 gives position=0.5", () => {
     const r = tweenStepperStyle({ position: 0 }, { position: 2 }, 0.25);
     expect(r.position).toBeCloseTo(0.5, 10);
   });
 });
 
-// ===========================================================================
-// 7. stepperStyleAt — pure exported core of useStepperTransition
-//    MIRROR of use-stepper-transition.ts lines 66-102.
-//    useStepperTransition = stepperStyleAt(steps, useCurrentFrame() * speed, opts).
-//    Call stepperStyleAt directly with frame injected as `raw`.
-//
-//    MAINTENANCE CONTRACT: if use-stepper-transition.ts lines 66-102 change,
-//    update these tests in lockstep. Annotated source lines below.
-// ===========================================================================
-
 describe("stepperStyleAt: empty steps → position=0", () => {
-  // source line 73: if (steps.length === 0) return { position: 0 }
   it("returns {position:0} for any raw frame when steps is empty", () => {
     expect(stepperStyleAt([], 0).position).toBe(0);
     expect(stepperStyleAt([], 100).position).toBe(0);
@@ -401,7 +301,6 @@ describe("stepperStyleAt: empty steps → position=0", () => {
 });
 
 describe("stepperStyleAt: before first step — holds at first.index", () => {
-  // source line 79: if (raw <= first.at) return { position: first.index }
   const steps: StepperStep[] = [{ at: 30, index: 1 }];
 
   it("raw=0 < first.at=30 → holds at first.index=1", () => {
@@ -418,7 +317,6 @@ describe("stepperStyleAt: before first step — holds at first.index", () => {
 });
 
 describe("stepperStyleAt: past last step — rests at last.index", () => {
-  // source lines 90-92: pastLast → to=from=last, t=1
   const steps: StepperStep[] = [{ at: 0, index: 0 }, { at: 24, index: 1 }];
 
   it("raw=50 past last.at=24 → position=1 (last index)", () => {
@@ -431,11 +329,6 @@ describe("stepperStyleAt: past last step — rests at last.index", () => {
 });
 
 describe("stepperStyleAt: mid-window uses easings.out (non-linear)", () => {
-  // steps=[{at:0,index:0},{at:24,index:1}], raw=12
-  // pastLast: 12>=24? no. toIndex=1 (steps[1].at=24>12)
-  // to={at:24,index:1}, from={at:0,index:0}
-  // dur=24, start=0, t=out(clamp01((12-0)/24))=out(0.5)=0.875
-  // position = 0 + (1-0)*0.875 = 0.875
   const steps: StepperStep[] = [{ at: 0, index: 0 }, { at: 24, index: 1 }];
 
   it("raw=12 gives position=0.875 (out-eased, not linear 0.5)", () => {
@@ -454,7 +347,6 @@ describe("stepperStyleAt: mid-window uses easings.out (non-linear)", () => {
 });
 
 describe("stepperStyleAt: at last step boundary — pastLast → t=1", () => {
-  // raw=24: steps[1].at=24, pastLast = raw(24) >= 24 = true → t=1 → position=1
   const steps: StepperStep[] = [{ at: 0, index: 0 }, { at: 24, index: 1 }];
 
   it("raw=24 exactly at last step → position=1", () => {
@@ -463,12 +355,6 @@ describe("stepperStyleAt: at last step boundary — pastLast → t=1", () => {
 });
 
 describe("stepperStyleAt: two-step multi-segment timeline", () => {
-  // steps=[{at:0,index:0},{at:24,index:1},{at:48,index:2}]
-  // raw=36 (mid of second segment [24→48], dur=24):
-  // toIndex search: steps[2].at=48>36 → toIndex=2
-  // pastLast: 36>=48? no. to={at:48,index:2}, from={at:24,index:1}
-  // dur=24, start=24, t=out((36-24)/24)=out(0.5)=0.875
-  // position = 1 + (2-1)*0.875 = 1.875
   const steps: StepperStep[] = [
     { at: 0, index: 0 },
     { at: 24, index: 1 },
@@ -480,16 +366,11 @@ describe("stepperStyleAt: two-step multi-segment timeline", () => {
   });
 
   it("raw=24 (start of second segment boundary) → pastLast=false, t=out(0)=0 → position=1", () => {
-    // steps[2].at=48>24 → toIndex=2; start=48-24=24; t=out((24-24)/24)=out(0)=0
-    // position = 1 + (2-1)*0 = 1
     expect(stepperStyleAt(steps, 24).position).toBeCloseTo(1, 10);
   });
 });
 
 describe("stepperStyleAt: custom duration on a step", () => {
-  // steps=[{at:0,index:0},{at:12,index:1,duration:12}]
-  // raw=6: toIndex=1, dur=12, start=0, t=out(6/12)=out(0.5)=0.875
-  // position=0+(1-0)*0.875=0.875
   const steps: StepperStep[] = [{ at: 0, index: 0 }, { at: 12, index: 1, duration: 12 }];
 
   it("custom duration=12: raw=6 gives position=0.875", () => {
@@ -510,7 +391,6 @@ describe("stepperStyleAt: past last with three steps", () => {
 });
 
 describe("stepperStyleAt: single-step timeline (no from step)", () => {
-  // Only one step: hold at its index before and after
   const steps: StepperStep[] = [{ at: 0, index: 1 }];
 
   it("raw=0 (at first.at) → holds at position=1", () => {
@@ -521,10 +401,6 @@ describe("stepperStyleAt: single-step timeline (no from step)", () => {
     expect(stepperStyleAt(steps, 50).position).toBeCloseTo(1, 10);
   });
 });
-
-// ===========================================================================
-// 8. stepperConfig.controls — customizer control wiring
-// ===========================================================================
 
 describe("stepperConfig.controls.activeIndex", () => {
   it("is a number control", () => {
@@ -570,10 +446,6 @@ describe("stepperConfig.controls.mode", () => {
   });
 });
 
-// ===========================================================================
-// 9. stepperConfig.snippet — pure JSX string builder
-// ===========================================================================
-
 describe("stepperConfig.snippet: import line", () => {
   it("includes 'import { Stepper }' from the correct path", () => {
     const out = snippet({ activeIndex: 1 });
@@ -610,7 +482,6 @@ describe("stepperConfig.snippet: activeIndex is always emitted", () => {
   });
 
   it("emits activeIndex={0} when activeIndex is omitted from values (falls back to 0)", () => {
-    // snippet uses `activeIndex ?? 0`
     expect(snippet({})).toContain("activeIndex={0}");
   });
 });

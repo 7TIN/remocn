@@ -8,7 +8,6 @@ export const selectItemConfig: ComponentConfig = {
     label: { type: "text", default: "Banana", label: "Label" },
     state: {
       type: "select",
-      // Default to `selected` so the preview shows the check icon + accent.
       default: "selected",
       options: ["idle", "hover", "press", "selected"],
       label: "State",

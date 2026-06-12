@@ -1,35 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `skeleton`.
- *
- * Scope:
- *   - registry/remocn-ui/skeleton/index.tsx
- *       skeletonStyle(state)    — complete state→visual preset map
- *                                 (crossfade invariant: opacities sum to 1)
- *   - registry/remocn-ui/skeleton/use-skeleton-transition.ts
- *       tweenSkeletonStyle(a, b, t) — pure lerp across both fields
- *       DEFAULT_DURATION constant
- *       useSkeletonTransition resolver — mirrored as resolveSkeletonTransition
- *         with frame injected as `raw` (annotated source lines)
- *   - registry/remocn-ui/skeleton/config.ts
- *       skeletonConfig.controls wiring + skeletonConfig.snippet codegen
- *
- * The render path (index.tsx) imports `useRemocnTheme` which requires React
- * context — it is NOT exercised here. The pure-testable surface is everything
- * above.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/skeleton/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * Relative imports from component source; `@/lib/remocn-ui` alias for core.
- * `skeletonStyle` and `tweenSkeletonStyle` are pure value functions — they call
- * neither `useCurrentFrame()` nor `useRemocnTheme` at import or call time.
- * `useSkeletonTransition` IS a hook (calls `useStateTransition` → `useCurrentFrame`)
- * and is NOT imported; we mirror its pure resolver body below.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -45,14 +13,9 @@ import { skeletonConfig } from "../config";
 import { defaultLightTheme, defaultDarkTheme, easings } from "@/lib/remocn-ui";
 import type { Step } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
 const VALID_STATES: readonly SkeletonState[] = ["loading", "loaded"];
 const VALID_LAYOUTS: readonly SkeletonLayout[] = ["lines", "card"];
 
-/** Convenience wrapper for snippet(). */
 type SnippetValues = {
   state?: string;
   layout?: string;
@@ -61,21 +24,11 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   skeletonConfig.snippet(values as Record<string, unknown>);
 
-// ===========================================================================
-// 1. DEFAULT_DURATION constant
-// ===========================================================================
-
 describe("DEFAULT_DURATION", () => {
   it("is 12 frames", () => {
     expect(DEFAULT_DURATION).toBe(12);
   });
 });
-
-// ===========================================================================
-// 2. skeletonStyle — pure (state) => SkeletonStyle map
-//    MIRROR of index.tsx lines 56-63
-//    KEY INVARIANT: skeletonOpacity + contentOpacity === 1 in every preset.
-// ===========================================================================
 
 describe("skeletonStyle: loading state — placeholder visible", () => {
   const s = skeletonStyle("loading");
@@ -136,17 +89,9 @@ describe("skeletonStyle: both states satisfy the crossfade invariant", () => {
   });
 
   it("unknown state falls through to loading preset (skeletonOpacity=1)", () => {
-    // switch default arm → loading preset
     expect(skeletonStyle("loading").skeletonOpacity).toBe(1);
   });
 });
-
-// ===========================================================================
-// 3. tweenSkeletonStyle — pure lerp across both fields
-//    MIRROR of use-skeleton-transition.ts lines 23-34
-//    KEY INVARIANT: the tween of two complementary pairs is complementary —
-//    the crossfade invariant is preserved at every t.
-// ===========================================================================
 
 describe("tweenSkeletonStyle: t=0 returns values equal to `a`", () => {
   const a = skeletonStyle("loading");
@@ -185,9 +130,6 @@ describe("tweenSkeletonStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenSkeletonStyle: t=0.5 midpoint (loading → loaded)", () => {
-  // loading: skeletonOpacity=1, contentOpacity=0
-  // loaded:  skeletonOpacity=0, contentOpacity=1
-  // midpoint: skeletonOpacity=0.5, contentOpacity=0.5
   const a = skeletonStyle("loading");
   const b = skeletonStyle("loaded");
   const r = tweenSkeletonStyle(a, b, 0.5);
@@ -241,8 +183,6 @@ describe("tweenSkeletonStyle: identity (a === b, any t)", () => {
 });
 
 describe("tweenSkeletonStyle: t=0.25 quarter-point (loading → loaded)", () => {
-  // skeletonOpacity: 1 + 0.25*(0-1) = 0.75
-  // contentOpacity:  0 + 0.25*(1-0) = 0.25
   const a = skeletonStyle("loading");
   const b = skeletonStyle("loaded");
   const r = tweenSkeletonStyle(a, b, 0.25);
@@ -280,34 +220,14 @@ describe("tweenSkeletonStyle: crossfade invariant holds at any arbitrary t", () 
   });
 });
 
-// ===========================================================================
-// 4. useSkeletonTransition resolver replica
-//    MIRRORS use-skeleton-transition.ts lines 47-60.
-//    `useSkeletonTransition` calls `useStateTransition` (which reads
-//    `useCurrentFrame()`) then applies `easings.out(progress)` and
-//    `tweenSkeletonStyle`. We inject `raw` in place of `useCurrentFrame()`.
-//
-//    Key additional contract: progress is eased with `easings.out` before the
-//    tween. The crossfade invariant must hold on the eased result too.
-//
-//    MAINTENANCE CONTRACT: if use-skeleton-transition.ts lines 47-60 change,
-//    update this replica in lockstep. Annotated source lines below.
-// ===========================================================================
-
-/** MIRROR of core/timeline.ts:clamp01. */
 function clamp01Mirror(t: number): number {
   return Math.max(0, Math.min(1, t));
 }
 
-/** MIRROR of core/motion.ts:easings.out (cubic ease-out). */
 function easingOut(t: number): number {
   return 1 - (1 - t) ** 3;
 }
 
-/**
- * MIRROR of timeline.ts:useStateTransition pure resolver body,
- * with `raw` injected.
- */
 function resolveStateTransition<S extends string>(
   raw: number,
   steps: Step<S>[],
@@ -329,40 +249,27 @@ function resolveStateTransition<S extends string>(
   return { from: from ? from.state : defaultState, to: to.state, progress };
 }
 
-/**
- * MIRROR of use-skeleton-transition.ts:useSkeletonTransition (lines 47-60).
- * `raw` is injected in place of useCurrentFrame().
- * Annotated source lines:
- *   line 51: destructure speed + defaultDuration from opts
- *   line 52-57: call useStateTransition (mirrored as resolveStateTransition)
- *   line 58: t = easings.out(progress)            ← MIRROR line 58
- *   line 59: tweenSkeletonStyle(from, to, t)       ← MIRROR line 59
- */
 function resolveSkeletonTransition(
   raw: number,                                      // injected useCurrentFrame() — MIRROR line 52
   steps: Step<SkeletonState>[],
   speed = 1,
   defaultDuration = DEFAULT_DURATION,
 ): { style: ReturnType<typeof tweenSkeletonStyle>; progress: number; from: SkeletonState; to: SkeletonState } {
-  const { from, to, progress } = resolveStateTransition( // MIRROR lines 52-57
+  const { from, to, progress } = resolveStateTransition(
     raw,
     steps,
     "loading",
     speed,
     defaultDuration,
   );
-  const t = easingOut(progress);                         // MIRROR line 58
+  const t = easingOut(progress);
   const style = tweenSkeletonStyle(
     skeletonStyle(from as SkeletonState),
     skeletonStyle(to as SkeletonState),
     t,
-  );                                                     // MIRROR line 59
+  );
   return { style, progress, from: from as SkeletonState, to: to as SkeletonState };
 }
-
-// ---------------------------------------------------------------------------
-// Before any step: holds at loading
-// ---------------------------------------------------------------------------
 
 describe("resolveSkeletonTransition: before any step — holds at loading", () => {
   it("returns the loading style when no steps have started", () => {
@@ -384,10 +291,6 @@ describe("resolveSkeletonTransition: before any step — holds at loading", () =
   });
 });
 
-// ---------------------------------------------------------------------------
-// Exactly at a step boundary: progress=0, t=out(0)=0
-// ---------------------------------------------------------------------------
-
 describe("resolveSkeletonTransition: exactly at loading→loaded step boundary", () => {
   const steps: Step<SkeletonState>[] = [{ at: 10, state: "loaded" }];
 
@@ -406,14 +309,7 @@ describe("resolveSkeletonTransition: exactly at loading→loaded step boundary",
   });
 });
 
-// ---------------------------------------------------------------------------
-// Mid-window: easings.out applied — non-linear + crossfade invariant
-// ---------------------------------------------------------------------------
-
 describe("resolveSkeletonTransition: mid-window uses easings.out (not linear)", () => {
-  // step at=0, dur=12. At raw=6: progress=0.5, t=out(0.5)=0.875
-  // skeletonOpacity: tween(1, 0, 0.875) = 1 - 0.875 = 0.125
-  // contentOpacity:  tween(0, 1, 0.875) = 0.875
   const steps: Step<SkeletonState>[] = [{ at: 0, state: "loaded" }];
 
   it("skeletonOpacity at raw=6 is tween(1,0,out(0.5))=0.125 (not linear 0.5)", () => {
@@ -431,10 +327,6 @@ describe("resolveSkeletonTransition: mid-window uses easings.out (not linear)", 
     expect(style.skeletonOpacity + style.contentOpacity).toBeCloseTo(1, 8);
   });
 });
-
-// ---------------------------------------------------------------------------
-// Past the window: fully loaded
-// ---------------------------------------------------------------------------
 
 describe("resolveSkeletonTransition: past the transition window → fully loaded", () => {
   const steps: Step<SkeletonState>[] = [{ at: 0, state: "loaded" }];
@@ -455,12 +347,7 @@ describe("resolveSkeletonTransition: past the transition window → fully loaded
   });
 });
 
-// ---------------------------------------------------------------------------
-// Speed contract
-// ---------------------------------------------------------------------------
-
 describe("resolveSkeletonTransition: speed contract", () => {
-  // step at=12. speed=2: effectiveFrame = raw*2 → fires at raw=6.
   const steps: Step<SkeletonState>[] = [{ at: 12, state: "loaded" }];
 
   it("speed=2: step at=12 fires at raw=6 (eff=12)", () => {
@@ -473,10 +360,6 @@ describe("resolveSkeletonTransition: speed contract", () => {
     expect(to).toBe("loading");
   });
 });
-
-// ===========================================================================
-// 5. skeletonConfig.controls — customizer control wiring
-// ===========================================================================
 
 describe("skeletonConfig.controls: state", () => {
   it("state is a select control", () => {
@@ -542,10 +425,6 @@ describe("skeletonConfig.controls: mode", () => {
   });
 });
 
-// ===========================================================================
-// 6. skeletonConfig.snippet — pure JSX string builder
-// ===========================================================================
-
 describe("skeletonConfig.snippet: import line", () => {
   it("includes 'import { Skeleton }' from the correct path", () => {
     const out = snippet({ state: "loading" });
@@ -574,7 +453,6 @@ describe("skeletonConfig.snippet: structural invariants", () => {
 });
 
 describe("skeletonConfig.snippet: default props are omitted", () => {
-  // Defaults: layout='lines' (snippet omits when 'lines'), mode='light'
   it("omits layout when it equals the default 'lines'", () => {
     const out = snippet({ state: "loading", layout: "lines" });
     expect(out).not.toContain("layout=");

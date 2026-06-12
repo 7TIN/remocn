@@ -7,18 +7,11 @@ export type SwitchState = "unchecked" | "checked";
 type SwitchSize = "sm" | "default" | "lg";
 
 export interface SwitchProps {
-  /** Current visual state (snap path). State changes snap (no enter-tweens). */
   state?: SwitchState;
-  /**
-   * Resolved animated visual (smooth path). When provided, takes precedence over
-   * `state` — feed it an interpolated `SwitchStyle` from `useSwitchTransition`.
-   */
   style?: SwitchStyle;
-  /** Optional text label rendered next to the track. */
   label?: string;
   size?: SwitchSize;
   theme?: Partial<RemocnTheme>;
-  /** Convenience override for the `primary` theme token — merged into `theme`. */
   primary?: string;
   mode?: "light" | "dark";
   className?: string;
@@ -33,35 +26,17 @@ const SIZE_STYLES: Record<
   lg:      { trackW: 52, trackH: 28, thumb: 24, pad: 2, fontSize: 17, gap: 12 },
 };
 
-// ===========================================================================
-// Switch visual — the COMPLETE animated look for a moment in time. A `state`
-// is a named preset of this visual (`switchStyle`); the smooth path feeds an
-// interpolated `SwitchStyle` straight through. The component is a pure
-// renderer of whichever `SwitchStyle` it receives.
-// ===========================================================================
-
 export interface SwitchStyle {
-  /** Animated track fill color (a concrete color, never "transparent"). */
   trackBackground: string;
-  /**
-   * Thumb position fraction 0→1: fraction of `travel` the thumb has slid.
-   * 0 = unchecked (left), 1 = checked (right).
-   */
   thumbOffset: number;
 }
 
-/** Concrete colors for the active theme, resolved once per render. */
 export interface SwitchStyleContext {
   uncheckedTrack: string;
   checkedTrack: string;
-  /** Static thumb fill color (never animated). */
   thumbColor: string;
 }
 
-/**
- * Derive the concrete colors for a theme. Pure — call it once and reuse the
- * result for every `switchStyle(state, ctx)` preset.
- */
 export function switchStyleContext(theme: RemocnTheme): SwitchStyleContext {
   return {
     uncheckedTrack: theme.input,
@@ -70,10 +45,6 @@ export function switchStyleContext(theme: RemocnTheme): SwitchStyleContext {
   };
 }
 
-/**
- * The COMPLETE resting visual for a state — a pure `(state, ctx) => SwitchStyle`
- * map. To change how a state looks, edit one entry.
- */
 export function switchStyle(
   state: SwitchState,
   ctx: SwitchStyleContext,
@@ -134,7 +105,7 @@ export function Switch({
           gap: sizeStyle.gap,
         }}
       >
-        {/* The track — animated fill; the thumb slides inside it. */}
+        {}
         <span
           style={{
             position: "relative",
@@ -146,7 +117,7 @@ export function Switch({
             background: v.trackBackground,
           }}
         >
-          {/* The thumb — translates horizontally by thumbOffset * travel. */}
+          {}
           <span
             style={{
               position: "absolute",

@@ -8,7 +8,6 @@ export const selectConfig: ComponentConfig = {
     label: { type: "text", default: "Select a fruit", label: "Label" },
     state: {
       type: "select",
-      // Default to `opened` so the preview shows the revealed panel.
       default: "opened",
       options: ["opened", "closed"],
       label: "State",

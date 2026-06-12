@@ -9,14 +9,6 @@ export interface ContextMenuPreviewProps {
   mode?: "light" | "dark";
 }
 
-/**
- * Preview-only wrapper for the customizer. The shipped `ContextMenu` is a
- * placement-agnostic panel that opens at the click point — the caller positions
- * it with an absolute wrapper. The customizer Player renders its `component` as
- * the composition root, so a bare panel would sit top-left; this thin wrapper
- * centers it on a theme-background stage just for the preview. NOT shipped: not
- * listed in registry.json files.
- */
 export function ContextMenuPreview({
   state = "opened",
   highlightedIndex = 1,

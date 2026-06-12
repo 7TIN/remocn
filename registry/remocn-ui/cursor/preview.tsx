@@ -11,13 +11,6 @@ export interface CursorPreviewProps {
   speed?: number;
 }
 
-/**
- * Preview-only wrapper for the customizer. The shipped `Cursor` is a pure
- * renderer driven by `useCursorPath`; the customizer Player can only pass scalar
- * control values, so this thin wrapper runs a fixed demo path (move → click →
- * drag → move) and feeds the resulting `CursorStyle` to `<Cursor>`. NOT shipped:
- * not listed in registry.json files; users author their own path.
- */
 export function CursorPreview({
   variant = "arrow",
   size = 28,

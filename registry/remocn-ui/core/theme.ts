@@ -3,11 +3,6 @@
 import { createContext, createElement, useContext } from "react";
 import type { ReactNode } from "react";
 
-/**
- * The remocn UI theme — stock shadcn token names. Values are concrete oklch
- * strings (NOT `var(...)`) so they can be interpolated under Remotion's headless
- * per-frame render. `radius` is a pixel number (not the CSS `rem`).
- */
 export interface RemocnTheme {
   background: string;
   foreground: string;
@@ -28,12 +23,9 @@ export interface RemocnTheme {
   border: string;
   input: string;
   ring: string;
-  /** Border radius in px. */
   radius: number;
 }
 
-
-/** Stock shadcn "neutral" light theme (oklch tokens). */
 export const defaultLightTheme: RemocnTheme = {
   background: "oklch(1 0 0)",
   foreground: "oklch(0.145 0 0)",
@@ -57,7 +49,6 @@ export const defaultLightTheme: RemocnTheme = {
   radius: 10,
 }
 
-/** Stock shadcn "neutral" dark theme (oklch tokens). */
 export const defaultDarkTheme: RemocnTheme = {
   background: "oklch(0.145 0 0)",
   foreground: "oklch(0.985 0 0)",
@@ -106,13 +97,6 @@ export function RemocnUIProvider({
   );
 }
 
-/**
- * Resolve the active theme.
- *
- * Token resolution order: per-component `override` ▸ Provider `theme` ▸ default[mode].
- * `mode` precedence: per-component `modeOverride` (the component's own `mode` prop)
- * ▸ Provider `mode` ▸ "light".
- */
 export function useRemocnTheme(
   override?: Partial<RemocnTheme>,
   modeOverride?: "light" | "dark",

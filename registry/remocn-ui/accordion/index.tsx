@@ -7,22 +7,10 @@ export type AccordionState = "opened" | "closed";
 type AccordionVariant = "default" | "ghost";
 
 export interface AccordionProps {
-  /** Current visual state (snap path). State changes snap (no enter-tweens). */
   state?: AccordionState;
-  /**
-   * Resolved animated visual (smooth path). When provided, takes precedence over
-   * `state` — feed it an interpolated `AccordionStyle` from `useAccordionTransition`.
-   */
   style?: AccordionStyle;
-  /** Trigger label (the always-visible header row). */
   title?: string;
-  /** Panel body text revealed when opened. */
   content?: string;
-  /**
-   * Natural height (px) of the panel body at full reveal. The panel animates
-   * `panelHeight * contentHeight` — Remotion's headless render can't measure
-   * auto height, so the resting height is authored, not measured.
-   */
   contentHeight?: number;
   variant?: AccordionVariant;
   theme?: Partial<RemocnTheme>;
@@ -30,15 +18,11 @@ export interface AccordionProps {
   className?: string;
 }
 
-/** Card width (px) of the rendered disclosure. */
 const CARD_WIDTH = 440;
 
 interface VariantTokens {
-  /** Whether the card draws a 1px border. */
   bordered: boolean;
-  /** Resting (closed) item background. */
   closedBg: string;
-  /** Open item background. */
   openBg: string;
 }
 
@@ -50,13 +34,11 @@ function variantTokens(
     ghost: {
       bordered: false,
       closedBg: theme.background,
-      // Subtle wash so the open state still reads without a border.
       openBg: mixOklch(theme.background, theme.muted, 0.25),
     },
     default: {
       bordered: true,
       closedBg: theme.background,
-      // shadcn `data-open:bg-muted/50` — muted at half strength over the page.
       openBg: mixOklch(theme.background, theme.muted, 0.5),
     },
   };
@@ -64,25 +46,13 @@ function variantTokens(
   return variants[variant] ?? variants.default;
 }
 
-// ===========================================================================
-// Accordion visual — the COMPLETE animated look for a moment in time. A `state`
-// is a named preset of this visual (`accordionStyle`); the smooth path feeds an
-// interpolated `AccordionStyle` straight through. The component is a pure
-// renderer of whichever `AccordionStyle` it receives.
-// ===========================================================================
-
 export interface AccordionStyle {
-  /** Panel reveal fraction 0→1; multiplies `contentHeight` for the box height. */
   panelHeight: number;
-  /** Panel body opacity 0→1. */
   panelOpacity: number;
-  /** Chevron rotation in degrees: 0 (closed, points down) → 180 (opened, up). */
   chevronRotation: number;
-  /** Animated item background (a concrete color, never "transparent"). */
   background: string;
 }
 
-/** Concrete colors for the active variant/theme, resolved once per render. */
 export interface AccordionStyleContext {
   bordered: boolean;
   closedBg: string;
@@ -92,10 +62,6 @@ export interface AccordionStyleContext {
   mutedForeground: string;
 }
 
-/**
- * Derive the concrete colors for a variant/theme. Pure — call it once and reuse
- * the result for every `accordionStyle(state, ctx)` preset.
- */
 export function accordionStyleContext(
   variant: AccordionVariant,
   theme: RemocnTheme,
@@ -111,10 +77,6 @@ export function accordionStyleContext(
   };
 }
 
-/**
- * The COMPLETE resting visual for a state — a pure `(state, ctx) => AccordionStyle`
- * map. To change how a state looks, edit one entry.
- */
 export function accordionStyle(
   state: AccordionState,
   ctx: AccordionStyleContext,
@@ -178,7 +140,7 @@ export function Accordion({
           overflow: "hidden",
         }}
       >
-        {/* Trigger row — always visible; sets the card width. */}
+        {}
         <div
           style={{
             display: "flex",
@@ -212,7 +174,7 @@ export function Accordion({
             />
           </svg>
         </div>
-        {/* Panel — height + opacity animate the reveal; content stays mounted. */}
+        {}
         <div
           style={{
             height: contentHeight * v.panelHeight,

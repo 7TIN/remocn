@@ -7,38 +7,22 @@ import {
   type SliderStyle,
   type SliderThumbState,
 } from "@/components/remocn/slider";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/**
- * One scripted slider keyframe. A step may move the `value` channel, the
- * `thumbState` channel, or both. The value eases from the previous value-bearing
- * step to this one; the thumb visual tweens from the previous thumb-bearing
- * step's preset to this one.
- */
 export interface SliderStep {
-  /** LOCAL (Sequence-relative) authored frame this keyframe is reached. */
   at: number;
-  /** Target fill percentage 0–100 (this step moves the value channel). */
   value?: number;
-  /** Target thumb state (this step moves the thumb channel). */
   thumbState?: SliderThumbState;
-  /** Frames the move INTO this step takes. Omitted → DEFAULT_DURATION. */
   duration?: number;
-  /** Override the easing for the move into this step. Default `out`. */
   easing?: EasingName;
 }
 
-/** Default frames for a move into a step when it omits `duration`. */
 export const DEFAULT_DURATION = 18;
 
 export interface SliderTransitionOptions {
-  /** Playhead scale (effectiveFrame = useCurrentFrame() * speed). */
   speed?: number;
-  /** Move duration (frames) when a step omits `duration`. */
   defaultDuration?: number;
 }
 
-/** Blend two slider visuals: all three fields lerp (value + thumb channels). */
 export function tweenSliderStyle(
   a: SliderStyle,
   b: SliderStyle,
@@ -51,12 +35,6 @@ export function tweenSliderStyle(
   };
 }
 
-/**
- * Resolve the slider's `SliderStyle` for a dual-channel timeline. THIS is the
- * only frame-reading file — `<Slider>` itself stays pure. The fold is a pure
- * function of `raw = useCurrentFrame() * speed`; tests replicate
- * `sliderStyleAt(steps, raw, opts)` with the frame injected.
- */
 export function useSliderTransition(
   steps: SliderStep[],
   opts: SliderTransitionOptions = {},
@@ -66,7 +44,6 @@ export function useSliderTransition(
   return sliderStyleAt(steps, raw, opts);
 }
 
-/** Eased value at `raw` over the value-bearing steps (numeric channel). */
 function valueAt(
   steps: SliderStep[],
   raw: number,
@@ -99,7 +76,6 @@ function valueAt(
   return from.value + (to.value - from.value) * t;
 }
 
-/** Eased thumb visual at `raw` over the thumb-bearing steps (state channel). */
 function thumbAt(
   steps: SliderStep[],
   raw: number,
@@ -139,12 +115,6 @@ function thumbAt(
   };
 }
 
-/**
- * Pure core of `useSliderTransition` with the effective frame injected as `raw`.
- * The two channels are folded independently and merged: `value` eases over the
- * value-bearing steps, the thumb visual tweens over the thumb-bearing steps.
- * Kept separate so it can be unit-tested without a Remotion render.
- */
 export function sliderStyleAt(
   steps: SliderStep[],
   raw: number,

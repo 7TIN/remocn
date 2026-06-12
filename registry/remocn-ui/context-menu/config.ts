@@ -9,7 +9,6 @@ export const contextMenuConfig: ComponentConfig = {
   controls: {
     state: {
       type: "select",
-      // Default to `opened` so the preview shows the revealed menu.
       default: "opened",
       options: ["opened", "closed"],
       label: "State",

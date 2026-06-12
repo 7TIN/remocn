@@ -13,12 +13,9 @@ import {
   type DrawerState,
   type DrawerStyle,
 } from "@/components/remocn/drawer";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 12;
 
-/** Blend two drawer visuals: all three fields are pure numeric lerps. */
 export function tweenDrawerStyle(
   a: DrawerStyle,
   b: DrawerStyle,
@@ -39,11 +36,6 @@ export interface DrawerTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) DrawerStyle. The CALLER invokes this;
- * it reads the frame, the `<Drawer>` component does not. Feed the result to
- * `<Drawer style={...} />` for smooth open/close transitions.
- */
 export function useDrawerTransition(
   steps: Step<DrawerState>[],
   opts: DrawerTransitionOptions = {},

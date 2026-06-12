@@ -15,28 +15,19 @@ type ButtonVariant =
 type ButtonSize = "sm" | "default" | "lg";
 
 export interface ButtonProps {
-  /** Current visual state (snap path). State changes snap (no enter-tweens). */
   state?: ButtonState;
-  /**
-   * Resolved animated visual (smooth path). When provided, takes precedence over
-   * `state` — feed it an interpolated `ButtonStyle` from `useButtonTransition`.
-   */
   style?: ButtonStyle;
   label?: string;
   variant?: ButtonVariant;
   size?: ButtonSize;
   theme?: Partial<RemocnTheme>;
-  /** Convenience override for the `primary` theme token — merged into `theme`. */
   primary?: string;
   mode?: "light" | "dark";
-  /** Playhead scale, forwarded to the loading Spinner. */
   speed?: number;
-  /** Horizontal placement of the button within its (full-width) slot. */
   align?: "start" | "center" | "end";
   className?: string;
 }
 
-/** Map an `align` value to a flexbox `justifyContent`. */
 function justify(align: "start" | "center" | "end"): string {
   return align === "start"
     ? "flex-start"
@@ -45,7 +36,6 @@ function justify(align: "start" | "center" | "end"): string {
       : "center";
 }
 
-/** Checkmark stroke length (svg path units). */
 const CHECK_PATH_LENGTH = 14;
 
 const SIZE_STYLES: Record<
@@ -104,13 +94,6 @@ function variantTokens(
   return variants[variant] ?? variants.default;
 }
 
-// ===========================================================================
-// Button visual — the COMPLETE animated look for a moment in time. A `state` is
-// a named preset of this visual (`buttonStyle`); the smooth path feeds an
-// interpolated `ButtonStyle` straight through. The component is a pure renderer
-// of whichever `ButtonStyle` it receives.
-// ===========================================================================
-
 export interface ButtonStyle {
   translateY: number;
   scale: number;
@@ -120,26 +103,18 @@ export interface ButtonStyle {
   checkOpacity: number;
 }
 
-/** Concrete colors for the active variant/theme, resolved once per render. */
 export interface ButtonStyleContext {
-  /** Resting background (a concrete color, never "transparent"). */
   restBg: string;
   hoverBg: string;
   pressBg: string;
   primary: string;
 }
 
-/**
- * Derive the concrete colors for a variant/theme. Pure — call it once and reuse
- * the result for every `buttonStyle(state, ctx)` preset.
- */
 export function buttonStyleContext(
   variant: ButtonVariant,
   theme: RemocnTheme,
 ): ButtonStyleContext {
   const tokens = variantTokens(variant, theme);
-  // Transparent variants (outline/ghost) rest on the page background so the
-  // resting state has a concrete color.
   const restBg = tokens.bg === "transparent" ? theme.background : tokens.bg;
   return {
     restBg,
@@ -152,10 +127,6 @@ export function buttonStyleContext(
   };
 }
 
-/**
- * The COMPLETE resting visual for a state — a pure `(state, ctx) => ButtonStyle`
- * map. To change how a state looks, edit one entry.
- */
 export function buttonStyle(
   state: ButtonState,
   ctx: ButtonStyleContext,
@@ -272,9 +243,7 @@ export function Button({
           cursor: "pointer",
         }}
       >
-        {/* The label stays in normal flow so it sets the button width; the
-            spinner and checkmark are absolutely-positioned overlays that
-            crossfade over it. */}
+        {}
         <span style={{ position: "relative", display: "inline-flex" }}>
           <span style={{ opacity: v.labelOpacity }}>{label}</span>
           <span

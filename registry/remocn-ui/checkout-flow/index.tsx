@@ -25,65 +25,37 @@ import {
   FieldLabel,
 } from "@/components/remocn/field";
 
-/**
- * Checkout flow — a shippable composition scene rendered as a real card (no
- * Dialog). Pure orchestrator: it scripts the lifecycle by calling each
- * primitive's transition hook (which legitimately read the frame) and lays the
- * primitives out on a position:relative stage. The block holds no
- * state/effect/frame of its own.
- *
- * The card itself, its header, and each field blur-in in sequence (card →
- * header → toggle → card number → terms → pay), then a cursor flips the billing
- * toggle monthly → yearly, types the card number, ticks the terms checkbox, and
- * presses Pay → loading → success → success Toast. Beat `at` values are the
- * single source of truth and are frame-synced so each cursor click lands on the
- * same frame as the state change it triggers.
- */
-
-// Default plan segments for the billing toggle (value === label by default).
 const DEFAULT_PLANS: ToggleGroupItem[] = [
   { value: "monthly", label: "Monthly" },
   { value: "yearly", label: "Yearly" },
 ];
 
-// Stage geometry (1280×720). The card is centered; cursor Y targets are the
-// vertical centers of each clickable control as they stack in the card column.
-// Fields are left-aligned and the Pay button is right-aligned, so the X targets
-// are anchored to the card's content edges, not its center.
 const STAGE_W = 1280;
 const CARD_W = 420;
 const CARD_PAD = 28;
 const CARD_TOP = 96;
-const CARD_LEFT = (STAGE_W - CARD_W) / 2; // 430
-const CENTER_X = STAGE_W / 2; // 640
-const CONTENT_LEFT = CARD_LEFT + CARD_PAD; // 458
-const CONTENT_RIGHT = CARD_LEFT + CARD_W - CARD_PAD; // 822
+const CARD_LEFT = (STAGE_W - CARD_W) / 2;
+const CENTER_X = STAGE_W / 2;
+const CONTENT_LEFT = CARD_LEFT + CARD_PAD;
+const CONTENT_RIGHT = CARD_LEFT + CARD_W - CARD_PAD;
 
 const TOGGLE_Y = 222;
-const YEARLY_X = CONTENT_LEFT + 4 + 88 + 44; // 594 — "Yearly" segment center
-const CARD_X = CENTER_X; // the input fills the row; click its middle
+const YEARLY_X = CONTENT_LEFT + 4 + 88 + 44;
+const CARD_X = CENTER_X;
 const CARD_Y = 312;
-const TERMS_X = CONTENT_LEFT + 12; // 470 — over the left-aligned checkbox box
+const TERMS_X = CONTENT_LEFT + 12;
 const TERMS_Y = 376;
-const PAY_X = CONTENT_RIGHT - 48; // 774 — over the right-aligned Pay button
+const PAY_X = CONTENT_RIGHT - 48;
 const PAY_Y = 442;
 
 export interface CheckoutFlowProps {
-  /** Card title. */
   title?: string;
-  /** Card description under the title. */
   description?: string;
-  /** Billing toggle segments. The first is the resting selection. */
   plans?: ToggleGroupItem[];
-  /** Label above the card-number input. */
   cardLabel?: string;
-  /** Card-number value revealed by the typing input. */
   cardPlaceholder?: string;
-  /** Label shown beside the terms checkbox. */
   termsLabel?: string;
-  /** Primary (pay) button label. */
   payLabel?: string;
-  /** Headline of the success toast. */
   toastTitle?: string;
   mode?: "light" | "dark";
   theme?: Partial<RemocnTheme>;
@@ -104,10 +76,6 @@ export function CheckoutFlow({
   const resolved = useRemocnTheme(theme, mode);
   const opts = { mode, theme };
 
-  // Entrance — card surface fades in place (distance 0 → no slide, so it never
-  // becomes a transform containing block for the inset:0 atoms it holds), then
-  // the header and each field blur-in staggered. All complete by frame 58,
-  // before the first cursor click at 64.
   const cardEnter = useBlurInTransition(
     [{ at: 0, state: "revealed", duration: 18 }],
     { distance: 0 },
@@ -128,9 +96,6 @@ export function CheckoutFlow({
     { at: 42, state: "revealed", duration: 16 },
   ]);
 
-  // Cursor — clicks the Yearly segment (64), the card-number field (96), the
-  // terms checkbox (150), then the Pay button (180). Each click `at` equals the
-  // `at` of the state change it drives.
   const cursorStyle = useCursorPath([
     { at: 0, x: 140, y: 90 },
     { at: 64, x: YEARLY_X, y: TOGGLE_Y, duration: 22, click: true },
@@ -139,14 +104,11 @@ export function CheckoutFlow({
     { at: 180, x: PAY_X, y: PAY_Y, duration: 26, click: true },
   ]);
 
-  // Billing toggle slides monthly → yearly on the click at 64.
   const toggleStyle = useToggleGroupTransition(
     [{ at: 64, state: plans[1]?.value ?? "yearly", duration: 16 }],
     { items: plans, ...opts },
   );
 
-  // Card-number field — focus on the click at 96, type 100→140, then settle to
-  // the static blur (filled/unfocused) state as the cursor leaves at 150.
   const cardStyle = useInputTransition(
     [
       { at: 96, state: "active", duration: 6 },
@@ -156,13 +118,11 @@ export function CheckoutFlow({
     opts,
   );
 
-  // Terms checkbox ticks on the click at 150.
   const checkboxStyle = useCheckboxTransition(
     [{ at: 150, state: "checked", duration: 14 }],
     opts,
   );
 
-  // Pay button — hovers, presses into the click at 180, loads, then succeeds.
   const payStyle = useButtonTransition(
     [
       { at: 172, state: "hover", duration: 8 },
@@ -173,8 +133,6 @@ export function CheckoutFlow({
     opts,
   );
 
-  // Success toast enters at 224, auto-dismisses at 286. The toast hook tints by
-  // `mode` only; `theme` rides the component prop below.
   const toastStyle = useToastTransition(
     [
       { at: 224, state: "visible", duration: 14 },

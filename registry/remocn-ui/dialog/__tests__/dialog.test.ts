@@ -1,34 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `dialog`.
- *
- * Scope:
- *   - registry/remocn-ui/dialog/index.tsx  — DialogState union membership,
- *     dialogStyle presets, dialogStyleContext
- *   - registry/remocn-ui/dialog/config.ts  — dialogConfig.controls wiring
- *     + dialogConfig.snippet output (the state → JSX codegen)
- *   - registry/remocn-ui/dialog/use-dialog-transition.ts
- *     — tweenDialogStyle interpolation, DEFAULT_DURATION
- *
- * The render path (index.tsx) is a PURE-STATE model: `(state) => visual`.
- * `<Dialog>` reads `useRemocnTheme()` internally — that hook is pure at
- * call-time in test context, but the JSX render tree is not exercised here.
- * The pure-testable surface is: the style presets + tween + customizer wiring
- * + snippet codegen.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/dialog/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * `config.ts` imports `DialogState` from `@/registry/remocn-ui/dialog`
- * and the pieces under test never CALL a Remotion runtime API at import time —
- * `dialogConfig` is a plain object; `.snippet` is a pure string builder;
- * `dialogStyle` and `tweenDialogStyle` are pure value functions.
- * We import via RELATIVE paths (matching the existing test suite pattern),
- * annotating each import with the source it corresponds to.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -40,17 +9,8 @@ import { tweenDialogStyle, DEFAULT_DURATION } from "../use-dialog-transition";
 import { dialogConfig } from "../config";
 import { defaultLightTheme } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/**
- * The DialogState union, enumerated as a runtime list for membership checks.
- * Must stay in sync with `export type DialogState` in index.tsx.
- */
 const VALID_STATES: readonly DialogState[] = ["opened", "closed"];
 
-/** Minimal shape mirroring the customizer's value bag passed to snippet(). */
 type SnippetValues = {
   state?: string;
   title?: string;
@@ -63,28 +23,16 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   dialogConfig.snippet(values as Record<string, unknown>);
 
-/**
- * A shared DialogStyleContext built from the default light theme.
- * `dialogStyleContext` takes only `(theme)` — no variant arg, unlike accordion.
- */
 const ctx = dialogStyleContext(defaultLightTheme);
-
-// ===========================================================================
-// 1. DialogState union membership
-// ===========================================================================
 
 describe("DialogState union", () => {
   it("contains exactly the two documented states", () => {
-    // We can't enumerate a TS type at runtime, but we can assert the REAL
-    // controls.state options match and that all known states are members.
     const control = dialogConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(control.options).toEqual(["opened", "closed"]);
   });
 
   it("every VALID_STATES entry is assignable (no typos in the fixture)", () => {
-    // Belt-and-suspenders: the fixture array must have exactly 2 entries and
-    // match the options list from the real config.
     const control = dialogConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(VALID_STATES).toHaveLength(2);
@@ -93,10 +41,6 @@ describe("DialogState union", () => {
     }
   });
 });
-
-// ===========================================================================
-// 2. dialogConfig.controls.state — customizer control wiring
-// ===========================================================================
 
 describe("dialogConfig.controls.state", () => {
   it("is a select control", () => {
@@ -123,15 +67,6 @@ describe("dialogConfig.controls.state", () => {
   });
 });
 
-// ===========================================================================
-// 3. dialogConfig.snippet — pure string builder
-//    State model: snippet ALWAYS emits `state="<state>"` as a bare JSX prop.
-//    It NEVER emits `steps`.
-//    Note on `action`: the snippet emits `actionLabel=` (a legitimate prop) but
-//    must never emit a bare `action=` attribute. We assert `steps` is absent and
-//    add a targeted check that `action=` only ever appears as `actionLabel=`.
-// ===========================================================================
-
 describe("dialogConfig.snippet: state prop emission", () => {
   it("emits state=\"opened\" for the opened option", () => {
     expect(snippet({ state: "opened" })).toContain('state="opened"');
@@ -152,9 +87,6 @@ describe("dialogConfig.snippet: state prop emission", () => {
 });
 
 describe("dialogConfig.snippet: NEVER emits steps", () => {
-  // `action=` is intentionally NOT checked here because `actionLabel=` is a
-  // legitimate emitted prop and would cause a false positive on a naive
-  // `.toContain("action")` check. Assert `steps` absence only.
   it("never emits `steps` in any state", () => {
     for (const state of VALID_STATES) {
       expect(snippet({ state })).not.toContain("steps");
@@ -171,9 +103,6 @@ describe("dialogConfig.snippet: import line", () => {
 });
 
 describe("dialogConfig.snippet: default props are omitted", () => {
-  // Defaults: title="Edit profile",
-  //           description="Make changes to your profile here. Click save when you're done.",
-  //           actionLabel="Save changes", cancelLabel="Cancel", mode="light"
   const allDefaults = snippet({
     state: "opened",
     title: "Edit profile",
@@ -247,13 +176,6 @@ describe("dialogConfig.snippet: structural round-trip", () => {
   });
 });
 
-// ===========================================================================
-// 4. dialogStyleContext — derives concrete colors from the theme.
-//    Signature is `(theme)` — NO variant argument (unlike accordion).
-//    Build ctx from the default light theme and assert each field is populated.
-//    `radius` is a number (px); all other fields are non-empty strings.
-// ===========================================================================
-
 describe("dialogStyleContext: field types from defaultLightTheme", () => {
   it("popoverBg is a non-empty string", () => {
     expect(typeof ctx.popoverBg).toBe("string");
@@ -294,13 +216,6 @@ describe("dialogStyleContext: field types from defaultLightTheme", () => {
     expect(ctx.cancelFg.length).toBeGreaterThan(0);
   });
 });
-
-// ===========================================================================
-// 5. dialogStyle presets — pure (state, ctx) => DialogStyle
-//    dialogStyleContext and dialogStyle are exported and frame-free.
-//    Build one ctx from the default light theme, then assert the numeric
-//    invariants for every state.
-// ===========================================================================
 
 describe("dialogStyle: closed state", () => {
   const s = dialogStyle("closed", ctx);
@@ -360,12 +275,6 @@ describe("dialogStyle: closed/opened invariant", () => {
   });
 });
 
-// ===========================================================================
-// 6. tweenDialogStyle — pure linear interpolation between two DialogStyles.
-//    All four fields are pure numeric lerps (no color fields, unlike accordion).
-//    Concrete expectations: closed → opened for midpoint math.
-// ===========================================================================
-
 describe("tweenDialogStyle: t=0 returns values equal to `a`", () => {
   const a = dialogStyle("closed", ctx);
   const b = dialogStyle("opened", ctx);
@@ -411,8 +320,6 @@ describe("tweenDialogStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenDialogStyle: t=0.5 midpoint numeric lerp (closed → opened)", () => {
-  // closed:  overlayOpacity=0, popupOpacity=0, popupScale=0.95, popupTranslateY=8
-  // opened:  overlayOpacity=1, popupOpacity=1, popupScale=1,    popupTranslateY=0
   const a = dialogStyle("closed", ctx);
   const b = dialogStyle("opened", ctx);
   const r = tweenDialogStyle(a, b, 0.5);
@@ -435,8 +342,6 @@ describe("tweenDialogStyle: t=0.5 midpoint numeric lerp (closed → opened)", ()
 });
 
 describe("tweenDialogStyle: t=0.5 midpoint numeric lerp (opened → closed)", () => {
-  // opened:  overlayOpacity=1, popupOpacity=1, popupScale=1,    popupTranslateY=0
-  // closed:  overlayOpacity=0, popupOpacity=0, popupScale=0.95, popupTranslateY=8
   const a = dialogStyle("opened", ctx);
   const b = dialogStyle("closed", ctx);
   const r = tweenDialogStyle(a, b, 0.5);
@@ -457,10 +362,6 @@ describe("tweenDialogStyle: t=0.5 midpoint numeric lerp (opened → closed)", ()
     expect(r.popupTranslateY).toBeCloseTo(4, 10);
   });
 });
-
-// ===========================================================================
-// 7. DEFAULT_DURATION — sanity check the exported constant
-// ===========================================================================
 
 describe("DEFAULT_DURATION", () => {
   it("is a positive number", () => {

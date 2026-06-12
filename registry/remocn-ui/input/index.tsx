@@ -13,32 +13,18 @@ export type InputState =
 type InputSize = "sm" | "default" | "lg";
 
 export interface InputProps {
-  /** Current visual state (snap path). State changes snap (no enter-tweens). */
   state?: InputState;
-  /**
-   * Resolved animated visual (smooth path). When provided, takes precedence over
-   * `state` — feed it an interpolated `InputStyle` from `useInputTransition`.
-   */
   style?: InputStyle;
-  /** Placeholder text shown while the field is empty (idle/hover/active). */
   placeholder?: string;
-  /** The "typed" value revealed in the typing/invalid states. */
   value?: string;
   size?: InputSize;
   theme?: Partial<RemocnTheme>;
-  /** Convenience override for the `primary` theme token — merged into `theme`. */
   primary?: string;
   mode?: "light" | "dark";
-  /**
-   * Stretch the field to fill its slot instead of the intrinsic `FIELD_WIDTH`.
-   * Use inside a sized container (e.g. a card column) so the box is flush with
-   * the surrounding labels and controls.
-   */
   fullWidth?: boolean;
   className?: string;
 }
 
-/** Intrinsic field width (px) when not stretched to fill its slot. */
 const FIELD_WIDTH = 320;
 
 const SIZE_STYLES: Record<
@@ -50,58 +36,35 @@ const SIZE_STYLES: Record<
   lg: { height: 48, padding: 16, fontSize: 17 },
 };
 
-// ===========================================================================
-// Input visual — the COMPLETE animated look for a moment in time. A `state` is
-// a named preset of this visual (`inputStyle`); the smooth path feeds an
-// interpolated `InputStyle` straight through. The component is a pure renderer
-// of whichever `InputStyle` it receives.
-// ===========================================================================
-
 export interface InputStyle {
-  /** Animated border color (a concrete color, never "transparent"). */
   borderColor: string;
-  /** Animated focus-ring color (concrete; softened toward the page bg). */
   ringColor: string;
-  /** Focus-ring spread in px (box-shadow). 0 = no ring. */
   ringWidth: number;
-  /** Animated field background (a concrete color, never "transparent"). */
   background: string;
-  /** Caret bar opacity 0→1. */
   caretOpacity: number;
-  /** Value reveal 0→1; the fraction of the value shown as a substring (typewriter). */
   valueReveal: number;
-  /** Placeholder opacity 0→1 (fades out as the value reveals). */
   placeholderOpacity: number;
 }
 
-/** Concrete colors for the active theme, resolved once per render. */
 export interface InputStyleContext {
   idleBorder: string;
   hoverBorder: string;
   activeBorder: string;
   invalidBorder: string;
-  /** Resting focus ring (shadcn `ring/50` — ring mixed halfway to the bg). */
   ring: string;
   invalidRing: string;
   background: string;
-  /** Subtle hover wash over the page background. */
   hoverBackground: string;
   foreground: string;
   mutedForeground: string;
 }
 
-/**
- * Derive the concrete colors for a theme. Pure — call it once and reuse the
- * result for every `inputStyle(state, ctx)` preset.
- */
 export function inputStyleContext(theme: RemocnTheme): InputStyleContext {
   return {
     idleBorder: theme.input,
     hoverBorder: mixOklch(theme.input, theme.foreground, 0.18),
     activeBorder: theme.ring,
     invalidBorder: theme.destructive,
-    // shadcn focus ring is `ring/50` — soften toward the page background so the
-    // mix has a concrete endpoint (never pass "transparent" to mixOklch).
     ring: mixOklch(theme.background, theme.ring, 0.5),
     invalidRing: mixOklch(theme.background, theme.destructive, 0.4),
     background: theme.background,
@@ -111,10 +74,6 @@ export function inputStyleContext(theme: RemocnTheme): InputStyleContext {
   };
 }
 
-/**
- * The COMPLETE resting visual for a state — a pure `(state, ctx) => InputStyle`
- * map. To change how a state looks, edit one entry.
- */
 export function inputStyle(
   state: InputState,
   ctx: InputStyleContext,
@@ -151,9 +110,6 @@ export function inputStyle(
         placeholderOpacity: 0,
       };
     case "blur":
-      // Filled but unfocused: the value stays fully shown (valueReveal 1, so a
-      // typing→blur transition never un-types), but the focus ring and caret are
-      // gone and the border relaxes to its resting tone.
       return {
         borderColor: ctx.idleBorder,
         ringColor: ctx.ring,
@@ -206,9 +162,6 @@ export function Input({
   const sizeStyle = SIZE_STYLES[size];
   const ctx = inputStyleContext(theme);
   const v = style ?? inputStyle(state, ctx);
-  // Typewriter substring — reveal `valueReveal` of the value character-by-
-  // character. The value box is content-sized, so the caret sits a fixed 4px
-  // after the last visible glyph (no authored width, no floating caret).
   const revealed = value.slice(0, Math.round(value.length * v.valueReveal));
 
   return (
@@ -238,14 +191,10 @@ export function Input({
           background: v.background,
           border: `1px solid ${v.borderColor}`,
           borderRadius: theme.radius,
-          // Focus ring — an outset box-shadow that grows from 0 (no ring) to a
-          // 3px spread when focused/invalid. Not clipped by overflow.
           boxShadow: `0 0 0 ${v.ringWidth}px ${v.ringColor}`,
         }}
       >
-        {/* Placeholder — absolute layer. It vanishes the INSTANT the value
-            starts revealing (typing begins), rather than cross-fading, so the
-            field never shows placeholder + typed text at once. */}
+        {}
         <span
           style={{
             position: "absolute",
@@ -258,11 +207,7 @@ export function Input({
         >
           {placeholder}
         </span>
-        {/* Value + caret. The value is a content-sized substring (typewriter),
-            so the caret sits a fixed 4px after the last visible glyph — never
-            floating in authored whitespace. With no value revealed (the `active`
-            focus state) the caret rests at the field's start. The caret is shown
-            only by `caretOpacity` (on in `active`/`typing`, off otherwise). */}
+        {}
         <div style={{ display: "flex", alignItems: "center", minWidth: 0 }}>
           <span style={{ whiteSpace: "nowrap", color: ctx.foreground }}>
             {revealed}

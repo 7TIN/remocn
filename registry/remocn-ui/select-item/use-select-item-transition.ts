@@ -14,12 +14,9 @@ import {
   type SelectItemState,
   type SelectItemStyle,
 } from "@/components/remocn/select-item";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 8;
 
-/** Blend two select-item visuals: numbers lerp, colors via oklch mix. */
 export function tweenSelectItemStyle(
   a: SelectItemStyle,
   b: SelectItemStyle,
@@ -40,11 +37,6 @@ export interface SelectItemTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) SelectItemStyle. The CALLER invokes this;
- * it reads the frame, the `<SelectItem>` component does not. Feed the result to
- * `<SelectItem style={...} />` (or a `SelectItemRow`) for smooth transitions.
- */
 export function useSelectItemTransition(
   steps: Step<SelectItemState>[],
   opts: SelectItemTransitionOptions = {},

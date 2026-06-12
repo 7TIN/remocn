@@ -1,34 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `accordion`.
- *
- * Scope:
- *   - registry/remocn-ui/accordion/index.tsx  — AccordionState union membership,
- *     accordionStyle presets, accordionStyleContext
- *   - registry/remocn-ui/accordion/config.ts  — accordionConfig.controls wiring
- *     + accordionConfig.snippet output (the state → JSX codegen)
- *   - registry/remocn-ui/accordion/use-accordion-transition.ts
- *     — tweenAccordionStyle interpolation, DEFAULT_DURATION
- *
- * The render path (index.tsx) is a PURE-STATE model: `(state) => visual`.
- * `<Accordion>` reads `useRemocnTheme()` internally — that hook is pure at
- * call-time in test context, but the JSX render tree is not exercised here.
- * The pure-testable surface is: the style presets + tween + customizer wiring
- * + snippet codegen.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/accordion/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * `config.ts` imports `AccordionState` from `@/registry/remocn-ui/accordion`
- * and the pieces under test never CALL a Remotion runtime API at import time —
- * `accordionConfig` is a plain object; `.snippet` is a pure string builder;
- * `accordionStyle` and `tweenAccordionStyle` are pure value functions.
- * We import via RELATIVE paths (matching the existing test suite pattern),
- * annotating each import with the source it corresponds to.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -40,17 +9,8 @@ import { tweenAccordionStyle, DEFAULT_DURATION } from "../use-accordion-transiti
 import { accordionConfig } from "../config";
 import { defaultLightTheme } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/**
- * The AccordionState union, enumerated as a runtime list for membership checks.
- * Must stay in sync with `export type AccordionState` in index.tsx.
- */
 const VALID_STATES: readonly AccordionState[] = ["opened", "closed"];
 
-/** Minimal shape mirroring the customizer's value bag passed to snippet(). */
 type SnippetValues = {
   state?: string;
   title?: string;
@@ -62,28 +22,16 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   accordionConfig.snippet(values as Record<string, unknown>);
 
-/**
- * A shared AccordionStyleContext built from the default light theme + "default"
- * variant. Mirrors how the component builds its own context internally.
- */
 const ctx = accordionStyleContext("default", defaultLightTheme);
-
-// ===========================================================================
-// 1. AccordionState union membership
-// ===========================================================================
 
 describe("AccordionState union", () => {
   it("contains exactly the two documented states", () => {
-    // We can't enumerate a TS type at runtime, but we can assert the REAL
-    // controls.state options match and that all known states are members.
     const control = accordionConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(control.options).toEqual(["opened", "closed"]);
   });
 
   it("every VALID_STATES entry is assignable (no typos in the fixture)", () => {
-    // Belt-and-suspenders: the fixture array must have exactly 2 entries and
-    // match the options list from the real config.
     const control = accordionConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(VALID_STATES).toHaveLength(2);
@@ -92,10 +40,6 @@ describe("AccordionState union", () => {
     }
   });
 });
-
-// ===========================================================================
-// 2. accordionConfig.controls.state — customizer control wiring
-// ===========================================================================
 
 describe("accordionConfig.controls.state", () => {
   it("is a select control", () => {
@@ -122,10 +66,6 @@ describe("accordionConfig.controls.state", () => {
   });
 });
 
-// ===========================================================================
-// 3. accordionConfig.controls.variant — customizer control wiring
-// ===========================================================================
-
 describe("accordionConfig.controls.variant", () => {
   it("is a select control", () => {
     expect(accordionConfig.controls.variant.type).toBe("select");
@@ -141,12 +81,6 @@ describe("accordionConfig.controls.variant", () => {
     expect(accordionConfig.controls.variant.default).toBe("default");
   });
 });
-
-// ===========================================================================
-// 4. accordionConfig.snippet — pure string builder
-//    State model: snippet ALWAYS emits `state="<state>"` as a bare JSX prop.
-//    It NEVER emits `steps` or `action`.
-// ===========================================================================
 
 describe("accordionConfig.snippet: state prop emission", () => {
   it("emits state=\"opened\" for the opened option", () => {
@@ -190,8 +124,6 @@ describe("accordionConfig.snippet: import line", () => {
 });
 
 describe("accordionConfig.snippet: default props are omitted", () => {
-  // Defaults: title="Is it accessible?", content="Yes. It adheres to the WAI-ARIA design pattern.",
-  //           variant="default", mode="light"
   const allDefaults = snippet({
     state: "opened",
     title: "Is it accessible?",
@@ -254,15 +186,6 @@ describe("accordionConfig.snippet: structural round-trip", () => {
     expect(out.trimEnd().endsWith("/>")).toBe(true);
   });
 });
-
-// ===========================================================================
-// 5. accordionStyle presets — pure (state, ctx) => AccordionStyle
-//    accordionStyleContext and accordionStyle are exported and frame-free.
-//    Build one ctx from the default light theme + "default" variant, then
-//    assert the numeric invariants for every state.
-//    background is a derived oklch/rgb string — asserted non-empty only
-//    (its exact value is an implementation detail of mixOklch).
-// ===========================================================================
 
 describe("accordionStyle: closed state", () => {
   const s = accordionStyle("closed", ctx);
@@ -332,13 +255,6 @@ describe("accordionStyle: closed/opened invariant", () => {
   });
 });
 
-// ===========================================================================
-// 6. tweenAccordionStyle — pure linear interpolation between two AccordionStyles.
-//    Numbers lerp linearly; background is an oklch color string at all t.
-//    Concrete expectations: closed(panelHeight=0) → opened(panelHeight=1)
-//    for midpoint math.
-// ===========================================================================
-
 describe("tweenAccordionStyle: t=0 returns values equal to `a`", () => {
   const a = accordionStyle("closed", ctx);
   const b = accordionStyle("opened", ctx);
@@ -386,8 +302,6 @@ describe("tweenAccordionStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenAccordionStyle: t=0.5 midpoint numeric lerp (closed → opened)", () => {
-  // closed:  panelHeight=0, panelOpacity=0, chevronRotation=0
-  // opened:  panelHeight=1, panelOpacity=1, chevronRotation=180
   const a = accordionStyle("closed", ctx);
   const b = accordionStyle("opened", ctx);
   const r = tweenAccordionStyle(a, b, 0.5);
@@ -411,8 +325,6 @@ describe("tweenAccordionStyle: t=0.5 midpoint numeric lerp (closed → opened)",
 });
 
 describe("tweenAccordionStyle: t=0.5 midpoint numeric lerp (opened → closed)", () => {
-  // opened:  panelHeight=1, panelOpacity=1, chevronRotation=180
-  // closed:  panelHeight=0, panelOpacity=0, chevronRotation=0
   const a = accordionStyle("opened", ctx);
   const b = accordionStyle("closed", ctx);
   const r = tweenAccordionStyle(a, b, 0.5);
@@ -434,10 +346,6 @@ describe("tweenAccordionStyle: t=0.5 midpoint numeric lerp (opened → closed)",
     expect(r.background.length).toBeGreaterThan(0);
   });
 });
-
-// ===========================================================================
-// 7. DEFAULT_DURATION — sanity check the exported constant
-// ===========================================================================
 
 describe("DEFAULT_DURATION", () => {
   it("is a positive number", () => {

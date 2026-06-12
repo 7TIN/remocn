@@ -14,12 +14,9 @@ import {
   type InputState,
   type InputStyle,
 } from "@/components/remocn/input";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 8;
 
-/** Blend two input visuals: numbers lerp, colors via oklch mix. Covers EVERY field. */
 export function tweenInputStyle(
   a: InputStyle,
   b: InputStyle,
@@ -45,11 +42,6 @@ export interface InputTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) InputStyle. The CALLER invokes this; it
- * reads the frame, the `<Input>` component does not. Feed the result to
- * `<Input style={...} />` for smooth transitions.
- */
 export function useInputTransition(
   steps: Step<InputState>[],
   opts: InputTransitionOptions = {},

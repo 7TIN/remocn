@@ -5,48 +5,26 @@ import { type RemocnTheme, useRemocnTheme } from "@/lib/remocn-ui";
 export type SheetState = "opened" | "closed";
 
 export interface SheetProps {
-  /** Current visual state (snap path). State changes snap (no enter-tweens). */
   state?: SheetState;
-  /**
-   * Resolved animated visual (smooth path). When provided, takes precedence over
-   * `state` — feed it an interpolated `SheetStyle` from `useSheetTransition`.
-   */
   style?: SheetStyle;
-  /** Headline of the sheet. */
   title?: string;
-  /** Body copy under the title. */
   description?: string;
-  /** Label of the confirming (primary) action. */
   actionLabel?: string;
-  /** Label of the dismissing action. */
   cancelLabel?: string;
   theme?: Partial<RemocnTheme>;
   mode?: "light" | "dark";
   className?: string;
 }
 
-/** Side panel width (px). */
 const SHEET_WIDTH = 400;
-/** Backdrop dim at full reveal — the overlay opacity scales up to this alpha. */
 const MAX_OVERLAY_ALPHA = 0.5;
 
-// ===========================================================================
-// Sheet visual — the COMPLETE animated look for a moment in time. A `state` is
-// a named preset of this visual (`sheetStyle`); the smooth path feeds an
-// interpolated `SheetStyle` straight through. The component is a pure renderer
-// of whichever `SheetStyle` it receives.
-// ===========================================================================
-
 export interface SheetStyle {
-  /** Backdrop dim reveal 0→1 (scales `MAX_OVERLAY_ALPHA`). */
   overlayOpacity: number;
-  /** Panel fade 0→1. */
   panelOpacity: number;
-  /** Panel slide in px: SHEET_WIDTH = off-screen-right → 0 = resting. */
   panelTranslateX: number;
 }
 
-/** Concrete colors for the active theme, resolved once per render. */
 export interface SheetStyleContext {
   popoverBg: string;
   popoverFg: string;
@@ -58,10 +36,6 @@ export interface SheetStyleContext {
   cancelFg: string;
 }
 
-/**
- * Derive the concrete colors for a theme. Pure — call it once and reuse the
- * result for every `sheetStyle(state, ctx)` preset.
- */
 export function sheetStyleContext(theme: RemocnTheme): SheetStyleContext {
   return {
     popoverBg: theme.popover,
@@ -69,17 +43,12 @@ export function sheetStyleContext(theme: RemocnTheme): SheetStyleContext {
     mutedFg: theme.mutedForeground,
     border: theme.border,
     radius: theme.radius,
-    // The action is the PRIMARY (affirmative) action — not destructive.
     actionBg: theme.primary,
     actionFg: theme.primaryForeground,
     cancelFg: theme.foreground,
   };
 }
 
-/**
- * The COMPLETE resting visual for a state — a pure `(state, ctx) => SheetStyle`
- * map. To change how a state looks, edit one entry.
- */
 export function sheetStyle(
   state: SheetState,
   _ctx: SheetStyleContext,
@@ -116,10 +85,6 @@ export function Sheet({
   const ctx = sheetStyleContext(theme);
   const v = style ?? sheetStyle(state, ctx);
 
-  // Shared base for the two footer buttons. These are plain inline `<button>`s,
-  // not the remocn `Button` component — that renders a full-frame scene wrapper
-  // (absolute inset) and so can't nest inline here; the sizing mirrors its
-  // `default` size.
   const buttonBase: React.CSSProperties = {
     height: 40,
     padding: "0 20px",
@@ -134,9 +99,6 @@ export function Sheet({
   };
 
   return (
-    // The wrapper is TRANSPARENT — unlike button/accordion (which paint an
-    // opaque `theme.background`), this atom is a modal layer meant to compose
-    // OVER another scene, so it must not blanket the frame with a background.
     <div
       style={{
         position: "absolute",
@@ -145,7 +107,7 @@ export function Sheet({
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
       }}
     >
-      {/* Backdrop dim — fades in as the sheet opens. */}
+      {}
       <div
         style={{
           position: "absolute",
@@ -173,7 +135,7 @@ export function Sheet({
           boxShadow: "-24px 0 48px -12px rgba(0,0,0,0.25)",
         }}
       >
-        {/* Close (X) — static chrome in the top-right corner, not animated. */}
+        {}
         <button
           type="button"
           style={{
@@ -223,7 +185,7 @@ export function Sheet({
             marginTop: "auto",
           }}
         >
-          {/* Cancel — outline variant. */}
+          {}
           <button
             type="button"
             style={{
@@ -235,7 +197,7 @@ export function Sheet({
           >
             {cancelLabel}
           </button>
-          {/* Action — primary variant. */}
+          {}
           <button
             type="button"
             style={{

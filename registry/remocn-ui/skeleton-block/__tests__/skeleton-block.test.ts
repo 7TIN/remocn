@@ -1,43 +1,7 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `skeleton-block`.
- *
- * Scope:
- *   - registry/remocn-ui/skeleton-block/config.ts
- *       skeletonBlockConfig.controls wiring + skeletonBlockConfig.snippet codegen
- *
- * WHY RENDER IS NOT UNIT-TESTED:
- * `SkeletonBlock` is a MOTION ATOM — it is the only file in the skeleton
- * primitive family explicitly allowed to read the frame. It calls
- * `useCurrentFrame()` directly (line 52 of index.tsx) and also calls
- * `useRemocnTheme()`. Neither can be called outside a Remotion render context.
- * The shimmer offset computation (`positionX = 100 - progress * 200`, where
- * `progress = (frame * speed % SWEEP_FRAMES) / SWEEP_FRAMES`) is module-private
- * and not exported. Per STYLE-GUIDE §10, frame-reading hooks are excluded from
- * unit tests; only the pure surface is in scope here.
- *
- * The shimmer seamless-loop property (frame 0 and frame SWEEP_FRAMES render
- * identically, positionX is monotonically decreasing within a cycle) is
- * documented in README.md and verified by reading the source; it cannot be
- * tested without a Remotion render context.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/skeleton-block/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * Relative import for config only. SkeletonBlock itself is NOT imported here.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import { skeletonBlockConfig } from "../config";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/** Convenience wrapper for snippet(). */
 type SnippetValues = {
   width?: number;
   height?: number;
@@ -45,10 +9,6 @@ type SnippetValues = {
 };
 const snippet = (values: SnippetValues): string =>
   skeletonBlockConfig.snippet(values as Record<string, unknown>);
-
-// ===========================================================================
-// 1. skeletonBlockConfig.controls — customizer control wiring
-// ===========================================================================
 
 describe("skeletonBlockConfig.controls: width", () => {
   it("width is a number control", () => {
@@ -101,10 +61,6 @@ describe("skeletonBlockConfig.controls: radius", () => {
   });
 });
 
-// ===========================================================================
-// 2. skeletonBlockConfig.snippet — pure JSX string builder
-// ===========================================================================
-
 describe("skeletonBlockConfig.snippet: import line", () => {
   it("includes 'import { SkeletonBlock }' from the correct path", () => {
     const out = snippet({});
@@ -124,7 +80,6 @@ describe("skeletonBlockConfig.snippet: structural invariants", () => {
 });
 
 describe("skeletonBlockConfig.snippet: default props are omitted", () => {
-  // Defaults: width=240, height=20, radius=6
 
   it("omits width when it equals the default 240", () => {
     const out = snippet({ width: 240 });
@@ -142,7 +97,6 @@ describe("skeletonBlockConfig.snippet: default props are omitted", () => {
   });
 
   it("all defaults omitted → compact self-closing element on one line", () => {
-    // When all props are default, propsBlock is "" and the element is compact
     const out = snippet({ width: 240, height: 20, radius: 6 });
     expect(out).toContain("<SkeletonBlock/>");
   });

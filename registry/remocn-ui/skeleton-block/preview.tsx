@@ -10,12 +10,6 @@ export interface SkeletonBlockPreviewProps {
   speed?: number;
 }
 
-/**
- * Preview-only wrapper for the customizer. The shipped `SkeletonBlock` is a bare
- * inline block; the customizer Player renders its `component` as the composition
- * root, so this thin wrapper centers it on a theme-background stage just for the
- * preview. NOT shipped: not listed in registry.json files.
- */
 export function SkeletonBlockPreview({
   width = 240,
   height = 20,

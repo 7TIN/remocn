@@ -1,7 +1,3 @@
-// Thin wrapper over culori. All color objects use culori's NATIVE shapes and
-// scales: `Rgb` channels are 0..1 (mode "rgb", optional `alpha`), `Oklch` uses
-// lowercase `l,c,h` (mode "oklch", optional `alpha`). The public channel scale
-// is culori-native 0..1 (NOT 0..255).
 
 import {
   clampChroma,
@@ -44,13 +40,10 @@ export function parseColor(c: string): Rgb {
 }
 
 export function oklchToRgb(l: number, c: number, h: number): Rgb {
-  // Map into the sRGB gamut before converting so the result is displayable.
   const mapped = clampChroma({ mode: "oklch", l, c, h }, "oklch", "rgb");
   return toRgb(mapped);
 }
 
-// Takes a culori `Rgb` object (0..1). Achromatic colors yield an undefined/NaN
-// hue from culori; we normalize it to `0` to keep a numeric hue.
 export function rgbToOklch(rgb: Rgb): Oklch {
   const { l, c, h } = toOklch(rgb);
   return { mode: "oklch", l, c, h: Number.isFinite(h) ? h : 0 };
@@ -86,8 +79,6 @@ export function mixOklch(a: string, b: string, t: number): string {
   return toCss(toRgb(mixed));
 }
 
-// Emits an inline-style sRGB string using culori's own formatter. `formatRgb`
-// produces the legacy `rgb()/rgba()` form.
 export function toCss(color: Rgb): string {
   return formatRgb(color);
 }

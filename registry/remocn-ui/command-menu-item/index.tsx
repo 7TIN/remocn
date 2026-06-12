@@ -5,54 +5,28 @@ import { mixOklch, type RemocnTheme, useRemocnTheme } from "@/lib/remocn-ui";
 export type CommandMenuItemState = "idle" | "hover" | "press" | "selected";
 
 export interface CommandMenuItemProps {
-  /** Current visual state (snap path). State changes snap (no enter-tweens). */
   state?: CommandMenuItemState;
-  /**
-   * Resolved animated visual (smooth path). When provided, takes precedence over
-   * `state` — feed it an interpolated `CommandMenuItemStyle` from
-   * `useCommandMenuItemTransition`.
-   */
   style?: CommandMenuItemStyle;
-  /** Row label. */
   label?: string;
-  /** Optional leading icon name from the built-in set (search/settings/user/file). */
   icon?: CommandMenuIcon;
-  /** Optional trailing keyboard shortcut, e.g. "⌘K" or "⌘ S". */
   shortcut?: string;
-  /** Row width (px). Matches the panel content width when composed in CommandMenu. */
   width?: number;
   theme?: Partial<RemocnTheme>;
   mode?: "light" | "dark";
   className?: string;
 }
 
-/** The built-in leading icons. Hand-drawn so nothing is imported from a kit. */
 export type CommandMenuIcon = "search" | "settings" | "user" | "file";
 
-/** Standalone row width (px) when the atom is mounted on its own. */
 const ROW_WIDTH = 360;
 
-// ===========================================================================
-// Command-menu-item visual — the COMPLETE animated look for a moment in time. A
-// `state` is a named preset of this visual (`commandMenuItemStyle`); the smooth
-// path feeds an interpolated `CommandMenuItemStyle` straight through. The
-// component is a pure renderer of whichever style it receives. This atom is NOT
-// a copy of select-item: its row is icon + label + trailing shortcut kbd, not
-// label + check icon.
-// ===========================================================================
-
 export interface CommandMenuItemStyle {
-  /** Animated row background (a concrete color, never "transparent"). */
   background: string;
-  /** Animated label color. */
   labelColor: string;
-  /** Animated icon color. */
   iconColor: string;
-  /** Row zoom: 1 default, 0.98 on press. */
   scale: number;
 }
 
-/** Concrete colors for the active theme, resolved once per render. */
 export interface CommandMenuItemStyleContext {
   idleBg: string;
   hoverBg: string;
@@ -62,16 +36,11 @@ export interface CommandMenuItemStyleContext {
   selectedFg: string;
   idleIcon: string;
   selectedIcon: string;
-  /** Static shortcut-kbd colors (never animated). */
   kbdBg: string;
   kbdFg: string;
   kbdBorder: string;
 }
 
-/**
- * Derive the concrete colors for a theme. Pure — call it once and reuse the
- * result for every `commandMenuItemStyle(state, ctx)` preset.
- */
 export function commandMenuItemStyleContext(
   theme: RemocnTheme,
 ): CommandMenuItemStyleContext {
@@ -90,10 +59,6 @@ export function commandMenuItemStyleContext(
   };
 }
 
-/**
- * The COMPLETE resting visual for a state — a pure `(state, ctx) =>
- * CommandMenuItemStyle` map. To change how a state looks, edit one entry.
- */
 export function commandMenuItemStyle(
   state: CommandMenuItemState,
   ctx: CommandMenuItemStyleContext,
@@ -130,7 +95,6 @@ export function commandMenuItemStyle(
   }
 }
 
-/** Hand-drawn leading icon paths on a 24×24 grid (stroke-driven). */
 const ICON_PATHS: Record<CommandMenuIcon, string> = {
   search: "M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14ZM20 20l-3.5-3.5",
   settings:
@@ -159,28 +123,17 @@ function CommandMenuItemIcon({
   );
 }
 
-/** Props for the inline row — the shared visual that `CommandMenu` reuses. */
 export interface CommandMenuItemRowProps {
-  /** Resolved animated visual (smooth path); wins over `state` when present. */
   style?: CommandMenuItemStyle;
-  /** Current visual state (snap path) when no `style` is supplied. */
   state?: CommandMenuItemState;
-  /** Pre-derived ctx (the container passes its shared one to avoid re-resolving). */
   ctx: CommandMenuItemStyleContext;
   label: string;
   icon?: CommandMenuIcon;
   shortcut?: string;
   width: number;
-  /** Row corner radius (px). */
   radius: number;
 }
 
-/**
- * INLINE command row — no full-frame wrapper. One row of a command palette:
- * leading icon (optional) + label on the left, trailing shortcut kbd on the
- * right. The `CommandMenu` container renders a column of these; the standalone
- * `CommandMenuItem` wraps one in a centering frame.
- */
 export function CommandMenuItemRow({
   style,
   state = "idle",
@@ -258,12 +211,6 @@ export function CommandMenuItemRow({
   );
 }
 
-/**
- * Standalone command-row atom — resolves theme/ctx/style then wraps a single
- * `<CommandMenuItemRow>` in the standard full-frame centering wrapper. THIS is
- * what the registry registers and the customizer mounts. The `CommandMenu`
- * container does NOT use this — it reuses `CommandMenuItemRow` directly.
- */
 export function CommandMenuItem({
   state = "idle",
   style,

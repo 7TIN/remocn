@@ -14,12 +14,9 @@ import {
   type CheckboxState,
   type CheckboxStyle,
 } from "@/components/remocn/checkbox";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 10;
 
-/** Blend two checkbox visuals: numbers lerp, colors via oklch mix. */
 export function tweenCheckboxStyle(
   a: CheckboxStyle,
   b: CheckboxStyle,
@@ -42,11 +39,6 @@ export interface CheckboxTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) CheckboxStyle. The CALLER invokes this;
- * it reads the frame, the `<Checkbox>` component does not. Feed the result to
- * `<Checkbox style={...} />` for smooth check/uncheck transitions.
- */
 export function useCheckboxTransition(
   steps: Step<CheckboxState>[],
   opts: CheckboxTransitionOptions = {},

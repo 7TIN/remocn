@@ -1,34 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `alert-dialog`.
- *
- * Scope:
- *   - registry/remocn-ui/alert-dialog/index.tsx  — AlertDialogState union membership,
- *     alertDialogStyle presets, alertDialogStyleContext
- *   - registry/remocn-ui/alert-dialog/config.ts  — alertDialogConfig.controls wiring
- *     + alertDialogConfig.snippet output (the state → JSX codegen)
- *   - registry/remocn-ui/alert-dialog/use-alert-dialog-transition.ts
- *     — tweenAlertDialogStyle interpolation, DEFAULT_DURATION
- *
- * The render path (index.tsx) is a PURE-STATE model: `(state) => visual`.
- * `<AlertDialog>` reads `useRemocnTheme()` internally — that hook is pure at
- * call-time in test context, but the JSX render tree is not exercised here.
- * The pure-testable surface is: the style presets + tween + customizer wiring
- * + snippet codegen.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/alert-dialog/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * `config.ts` imports `AlertDialogState` from `@/registry/remocn-ui/alert-dialog`
- * and the pieces under test never CALL a Remotion runtime API at import time —
- * `alertDialogConfig` is a plain object; `.snippet` is a pure string builder;
- * `alertDialogStyle` and `tweenAlertDialogStyle` are pure value functions.
- * We import via RELATIVE paths (matching the existing test suite pattern),
- * annotating each import with the source it corresponds to.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -40,17 +9,8 @@ import { tweenAlertDialogStyle, DEFAULT_DURATION } from "../use-alert-dialog-tra
 import { alertDialogConfig } from "../config";
 import { defaultLightTheme } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/**
- * The AlertDialogState union, enumerated as a runtime list for membership checks.
- * Must stay in sync with `export type AlertDialogState` in index.tsx.
- */
 const VALID_STATES: readonly AlertDialogState[] = ["opened", "closed"];
 
-/** Minimal shape mirroring the customizer's value bag passed to snippet(). */
 type SnippetValues = {
   state?: string;
   title?: string;
@@ -63,28 +23,16 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   alertDialogConfig.snippet(values as Record<string, unknown>);
 
-/**
- * A shared AlertDialogStyleContext built from the default light theme.
- * `alertDialogStyleContext` takes only `(theme)` — no variant arg, unlike accordion.
- */
 const ctx = alertDialogStyleContext(defaultLightTheme);
-
-// ===========================================================================
-// 1. AlertDialogState union membership
-// ===========================================================================
 
 describe("AlertDialogState union", () => {
   it("contains exactly the two documented states", () => {
-    // We can't enumerate a TS type at runtime, but we can assert the REAL
-    // controls.state options match and that all known states are members.
     const control = alertDialogConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(control.options).toEqual(["opened", "closed"]);
   });
 
   it("every VALID_STATES entry is assignable (no typos in the fixture)", () => {
-    // Belt-and-suspenders: the fixture array must have exactly 2 entries and
-    // match the options list from the real config.
     const control = alertDialogConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(VALID_STATES).toHaveLength(2);
@@ -93,10 +41,6 @@ describe("AlertDialogState union", () => {
     }
   });
 });
-
-// ===========================================================================
-// 2. alertDialogConfig.controls.state — customizer control wiring
-// ===========================================================================
 
 describe("alertDialogConfig.controls.state", () => {
   it("is a select control", () => {
@@ -123,15 +67,6 @@ describe("alertDialogConfig.controls.state", () => {
   });
 });
 
-// ===========================================================================
-// 3. alertDialogConfig.snippet — pure string builder
-//    State model: snippet ALWAYS emits `state="<state>"` as a bare JSX prop.
-//    It NEVER emits `steps`.
-//    Note on `action`: the snippet emits `actionLabel=` (a legitimate prop) but
-//    must never emit a bare `action=` attribute. We assert `steps` is absent and
-//    add a targeted check that `action=` only ever appears as `actionLabel=`.
-// ===========================================================================
-
 describe("alertDialogConfig.snippet: state prop emission", () => {
   it("emits state=\"opened\" for the opened option", () => {
     expect(snippet({ state: "opened" })).toContain('state="opened"');
@@ -152,9 +87,6 @@ describe("alertDialogConfig.snippet: state prop emission", () => {
 });
 
 describe("alertDialogConfig.snippet: NEVER emits steps", () => {
-  // `action=` is intentionally NOT checked here because `actionLabel=` is a
-  // legitimate emitted prop and would cause a false positive on a naive
-  // `.toContain("action")` check. Assert `steps` absence only.
   it("never emits `steps` in any state", () => {
     for (const state of VALID_STATES) {
       expect(snippet({ state })).not.toContain("steps");
@@ -171,9 +103,6 @@ describe("alertDialogConfig.snippet: import line", () => {
 });
 
 describe("alertDialogConfig.snippet: default props are omitted", () => {
-  // Defaults: title="Delete account?",
-  //           description="This action cannot be undone. This will permanently remove your data from our servers.",
-  //           actionLabel="Delete", cancelLabel="Cancel", mode="light"
   const allDefaults = snippet({
     state: "opened",
     title: "Delete account?",
@@ -247,13 +176,6 @@ describe("alertDialogConfig.snippet: structural round-trip", () => {
   });
 });
 
-// ===========================================================================
-// 4. alertDialogStyleContext — derives concrete colors from the theme.
-//    Signature is `(theme)` — NO variant argument (unlike accordion).
-//    Build ctx from the default light theme and assert each field is populated.
-//    `radius` is a number (px); all other fields are non-empty strings.
-// ===========================================================================
-
 describe("alertDialogStyleContext: field types from defaultLightTheme", () => {
   it("popoverBg is a non-empty string", () => {
     expect(typeof ctx.popoverBg).toBe("string");
@@ -294,13 +216,6 @@ describe("alertDialogStyleContext: field types from defaultLightTheme", () => {
     expect(ctx.cancelFg.length).toBeGreaterThan(0);
   });
 });
-
-// ===========================================================================
-// 5. alertDialogStyle presets — pure (state, ctx) => AlertDialogStyle
-//    alertDialogStyleContext and alertDialogStyle are exported and frame-free.
-//    Build one ctx from the default light theme, then assert the numeric
-//    invariants for every state.
-// ===========================================================================
 
 describe("alertDialogStyle: closed state", () => {
   const s = alertDialogStyle("closed", ctx);
@@ -360,12 +275,6 @@ describe("alertDialogStyle: closed/opened invariant", () => {
   });
 });
 
-// ===========================================================================
-// 6. tweenAlertDialogStyle — pure linear interpolation between two AlertDialogStyles.
-//    All four fields are pure numeric lerps (no color fields, unlike accordion).
-//    Concrete expectations: closed → opened for midpoint math.
-// ===========================================================================
-
 describe("tweenAlertDialogStyle: t=0 returns values equal to `a`", () => {
   const a = alertDialogStyle("closed", ctx);
   const b = alertDialogStyle("opened", ctx);
@@ -411,8 +320,6 @@ describe("tweenAlertDialogStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenAlertDialogStyle: t=0.5 midpoint numeric lerp (closed → opened)", () => {
-  // closed:  overlayOpacity=0, popupOpacity=0, popupScale=0.95, popupTranslateY=8
-  // opened:  overlayOpacity=1, popupOpacity=1, popupScale=1,    popupTranslateY=0
   const a = alertDialogStyle("closed", ctx);
   const b = alertDialogStyle("opened", ctx);
   const r = tweenAlertDialogStyle(a, b, 0.5);
@@ -435,8 +342,6 @@ describe("tweenAlertDialogStyle: t=0.5 midpoint numeric lerp (closed → opened)
 });
 
 describe("tweenAlertDialogStyle: t=0.5 midpoint numeric lerp (opened → closed)", () => {
-  // opened:  overlayOpacity=1, popupOpacity=1, popupScale=1,    popupTranslateY=0
-  // closed:  overlayOpacity=0, popupOpacity=0, popupScale=0.95, popupTranslateY=8
   const a = alertDialogStyle("opened", ctx);
   const b = alertDialogStyle("closed", ctx);
   const r = tweenAlertDialogStyle(a, b, 0.5);
@@ -457,10 +362,6 @@ describe("tweenAlertDialogStyle: t=0.5 midpoint numeric lerp (opened → closed)
     expect(r.popupTranslateY).toBeCloseTo(4, 10);
   });
 });
-
-// ===========================================================================
-// 7. DEFAULT_DURATION — sanity check the exported constant
-// ===========================================================================
 
 describe("DEFAULT_DURATION", () => {
   it("is a positive number", () => {

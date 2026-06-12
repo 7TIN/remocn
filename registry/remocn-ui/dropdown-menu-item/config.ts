@@ -8,7 +8,6 @@ export const dropdownMenuItemConfig: ComponentConfig = {
     label: { type: "text", default: "Profile", label: "Label" },
     state: {
       type: "select",
-      // Default to `hover` so the preview shows the highlighted row.
       default: "hover",
       options: ["idle", "hover", "press"],
       label: "State",

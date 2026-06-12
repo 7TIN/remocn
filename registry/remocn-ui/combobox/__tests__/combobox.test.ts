@@ -1,36 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `combobox`.
- *
- * Scope:
- *   - registry/remocn-ui/combobox/index.tsx
- *       filterComboboxItems(items, query, revealCount) — exported pure filter
- *       comboboxStyle(state, ctx)                      — complete state→visual map
- *   - registry/remocn-ui/combobox/use-combobox-transition.ts
- *       tweenComboboxStyle(a, b, t)     — pure lerp across all three fields
- *       DEFAULT_DURATION constant
- *       useComboboxTransition resolver — mirrored as resolveComboboxTransition
- *         with frame injected as `raw` (annotated source lines)
- *   - registry/remocn-ui/combobox/config.ts
- *       comboboxConfig.controls wiring + comboboxConfig.snippet codegen
- *
- * The render path (index.tsx) imports `useRemocnTheme` / `useRemocnTheme` which
- * requires React context and cannot run headlessly — it is NOT exercised here.
- * `comboboxStyleContext` re-delegates to `inputStyleContext` and
- * `selectItemStyleContext`, both of which also require no React; they ARE called
- * here for fixture construction, but their internal correctness is covered by
- * the select/__tests__ suite.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/combobox/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * Relative imports for component source; `@/lib/remocn-ui` alias for core.
- * `useComboboxTransition` is NOT imported — it reads `useCurrentFrame()`.
- * Its pure body is mirrored as `resolveComboboxTransition` with frame injected.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -48,18 +15,12 @@ import { comboboxConfig } from "../config";
 import { defaultLightTheme, defaultDarkTheme, easings } from "@/lib/remocn-ui";
 import type { Step } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
 const VALID_STATES: readonly ComboboxState[] = ["opened", "closed"];
 
 const SAMPLE_ITEMS = ["Apple", "Banana", "Orange", "Grape"];
 
-/** Build a shared ctx for style assertions (no React needed — pure function). */
 const ctx = comboboxStyleContext(defaultLightTheme);
 
-/** Convenience wrapper for snippet(). */
 type SnippetValues = {
   state?: string;
   query?: string;
@@ -72,22 +33,11 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   comboboxConfig.snippet(values as Record<string, unknown>);
 
-// ===========================================================================
-// 1. DEFAULT_DURATION constant
-// ===========================================================================
-
 describe("DEFAULT_DURATION", () => {
   it("is 12 frames", () => {
     expect(DEFAULT_DURATION).toBe(12);
   });
 });
-
-// ===========================================================================
-// 2. filterComboboxItems — exported pure filter
-//    MIRROR of index.tsx lines 77-89
-//    Case-insensitive substring on query.slice(0, revealCount).
-//    Items are plain strings (unlike command-menu's .label entries).
-// ===========================================================================
 
 describe("filterComboboxItems: empty visible prefix → all items returned", () => {
   it("returns all items when query is empty string", () => {
@@ -133,7 +83,6 @@ describe("filterComboboxItems: prefix narrows results", () => {
   });
 
   it("'a' matches Apple, Banana, Orange, Grape (all contain 'a')", () => {
-    // Apple(a), Banana(a), Orange(a), Grape(a)
     const result = filterComboboxItems(SAMPLE_ITEMS, "a", undefined);
     expect(result).toHaveLength(4);
   });
@@ -186,7 +135,6 @@ describe("filterComboboxItems: revealCount slices the query", () => {
   });
 
   it("revealCount > query length uses full query (no index error)", () => {
-    // query='ap' (2 chars), revealCount=100 → uses full 'ap'
     const result = filterComboboxItems(SAMPLE_ITEMS, "ap", 100);
     expect(result).toHaveLength(1);
     expect(result[0]).toBe("Apple");
@@ -196,16 +144,9 @@ describe("filterComboboxItems: revealCount slices the query", () => {
 describe("filterComboboxItems: result preserves original string references", () => {
   it("filtered items are the same string references (no cloning)", () => {
     const result = filterComboboxItems(SAMPLE_ITEMS, "apple", undefined);
-    // strings are primitives — identity check via toBe confirms no mutation
     expect(result[0]).toBe(SAMPLE_ITEMS[0]);
   });
 });
-
-// ===========================================================================
-// 3. comboboxStyle — pure (state, ctx) => ComboboxStyle presets
-//    MIRROR of index.tsx lines 138-148
-//    Every field is asserted for both states.
-// ===========================================================================
 
 describe("comboboxStyle: closed state — off-screen keyframe", () => {
   const s = comboboxStyle("closed", ctx);
@@ -267,12 +208,6 @@ describe("comboboxStyle: every state produces a complete ComboboxStyle", () => {
   });
 });
 
-// ===========================================================================
-// 4. tweenComboboxStyle — pure lerp across all three numeric fields
-//    MIRROR of use-combobox-transition.ts lines 22-33
-//    All fields are numbers — straight lerp on everything.
-// ===========================================================================
-
 describe("tweenComboboxStyle: t=0 returns values equal to `a`", () => {
   const a = comboboxStyle("closed", ctx);
   const b = comboboxStyle("opened", ctx);
@@ -310,9 +245,6 @@ describe("tweenComboboxStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenComboboxStyle: t=0.5 midpoint (closed → opened)", () => {
-  // closed: panelOpacity=0, panelScale=0.96, panelTranslateY=-4
-  // opened: panelOpacity=1, panelScale=1,    panelTranslateY=0
-  // midpoint: 0.5,           0.98,            -2
   const a = comboboxStyle("closed", ctx);
   const b = comboboxStyle("opened", ctx);
   const r = tweenComboboxStyle(a, b, 0.5);
@@ -331,7 +263,6 @@ describe("tweenComboboxStyle: t=0.5 midpoint (closed → opened)", () => {
 });
 
 describe("tweenComboboxStyle: t=0.25 quarter-point (closed → opened)", () => {
-  // panelOpacity: 0.25, panelScale: 0.97, panelTranslateY: -3
   const a = comboboxStyle("closed", ctx);
   const b = comboboxStyle("opened", ctx);
   const r = tweenComboboxStyle(a, b, 0.25);
@@ -374,29 +305,10 @@ describe("tweenComboboxStyle: reverse direction (opened → closed)", () => {
   });
 });
 
-// ===========================================================================
-// 5. useComboboxTransition resolver replica
-//    MIRRORS use-combobox-transition.ts lines 47-71.
-//    `useComboboxTransition` calls `useStateTransition` (reads useCurrentFrame())
-//    then applies `easings.out(progress)` and `tweenComboboxStyle`.
-//    We inject `raw` in place of useCurrentFrame().
-//
-//    The key additional contract: progress is eased with `easings.out` before
-//    the tween, making the result non-linear (confirmed: out(0.5) = 0.875).
-//
-//    MAINTENANCE CONTRACT: if use-combobox-transition.ts lines 47-71 change,
-//    update this replica in lockstep. Annotated source lines below.
-// ===========================================================================
-
-/** MIRROR of core/timeline.ts:clamp01. */
 function clamp01(t: number): number {
   return Math.max(0, Math.min(1, t));
 }
 
-/**
- * MIRROR of timeline.ts:useStateTransition pure resolver body.
- * `raw` is injected in place of useCurrentFrame().
- */
 function resolveStateTransition<S extends string>(
   raw: number,
   steps: Step<S>[],
@@ -418,40 +330,27 @@ function resolveStateTransition<S extends string>(
   return { from: from ? from.state : defaultState, to: to.state, progress };
 }
 
-/**
- * MIRROR of use-combobox-transition.ts:useComboboxTransition (lines 47-71).
- * `raw` is injected in place of useCurrentFrame().
- * Annotated source lines:
- *   line 54: destructure speed + defaultDuration from opts
- *   lines 59-64: useStateTransition (mirrored as resolveStateTransition)
- *   line 65: t = easings.out(progress)                     ← MIRROR line 65
- *   lines 66-70: tweenComboboxStyle(from, to, t)           ← MIRROR lines 66-70
- */
 function resolveComboboxTransition(
   raw: number,                                          // injected useCurrentFrame() — MIRROR line 59
   steps: Step<ComboboxState>[],
   speed = 1,
   defaultDuration = DEFAULT_DURATION,
 ): ComboboxStyle & { from: ComboboxState; to: ComboboxState; progress: number } {
-  const { from, to, progress } = resolveStateTransition(   // MIRROR lines 59-64
+  const { from, to, progress } = resolveStateTransition(
     raw,
     steps,
     "closed",
     speed,
     defaultDuration,
   );
-  const t = easings.out(progress);                          // MIRROR line 65
-  const style = tweenComboboxStyle(                         // MIRROR lines 66-70
+  const t = easings.out(progress);
+  const style = tweenComboboxStyle(
     comboboxStyle(from as ComboboxState, ctx),
     comboboxStyle(to as ComboboxState, ctx),
     t,
   );
   return { ...style, from: from as ComboboxState, to: to as ComboboxState, progress };
 }
-
-// ---------------------------------------------------------------------------
-// Before any step: holds at closed (progress=1, tween(closed,closed,out(1)))
-// ---------------------------------------------------------------------------
 
 describe("resolveComboboxTransition: before any step — holds at closed", () => {
   it("returns the closed style when no steps have started", () => {
@@ -468,10 +367,6 @@ describe("resolveComboboxTransition: before any step — holds at closed", () =>
     expect(to).toBe("closed");
   });
 });
-
-// ---------------------------------------------------------------------------
-// Exactly at a step boundary: progress=0, t=out(0)=0 → closed style
-// ---------------------------------------------------------------------------
 
 describe("resolveComboboxTransition: exactly at closed→opened step boundary", () => {
   const steps: Step<ComboboxState>[] = [{ at: 10, state: "opened" }];
@@ -491,33 +386,26 @@ describe("resolveComboboxTransition: exactly at closed→opened step boundary", 
   });
 });
 
-// ---------------------------------------------------------------------------
-// Mid-window: easings.out applied — non-linear (not raw 0.5)
-// out(0.5) = 1-(1-0.5)^3 = 1-0.125 = 0.875
-// ---------------------------------------------------------------------------
-
 describe("resolveComboboxTransition: mid-window uses easings.out (not linear)", () => {
-  // step at=0, defaultDuration=12. At raw=6: linear progress=0.5, out(0.5)=0.875
   const steps: Step<ComboboxState>[] = [{ at: 0, state: "opened" }];
 
   it("panelOpacity at raw=6 is out(0.5)=0.875 (not linear 0.5)", () => {
     const r = resolveComboboxTransition(6, steps, 1, 12);
-    const t = easings.out(0.5); // 0.875
-    // tween(0, 1, 0.875) = 0.875
+    const t = easings.out(0.5);
     expect(r.panelOpacity).toBeCloseTo(t, 8);
   });
 
   it("panelScale at raw=6 is 0.96 + 0.04*out(0.5) = 0.995", () => {
     const r = resolveComboboxTransition(6, steps, 1, 12);
-    const t = easings.out(0.5); // 0.875
-    const expected = 0.96 + (1 - 0.96) * t; // 0.995
+    const t = easings.out(0.5);
+    const expected = 0.96 + (1 - 0.96) * t;
     expect(r.panelScale).toBeCloseTo(expected, 8);
   });
 
   it("panelTranslateY at raw=6 is -4*(1-out(0.5)) = -0.5", () => {
     const r = resolveComboboxTransition(6, steps, 1, 12);
-    const t = easings.out(0.5); // 0.875
-    const expected = -4 + (0 - (-4)) * t; // -4 + 4*0.875 = -0.5
+    const t = easings.out(0.5);
+    const expected = -4 + (0 - (-4)) * t;
     expect(r.panelTranslateY).toBeCloseTo(expected, 8);
   });
 
@@ -526,10 +414,6 @@ describe("resolveComboboxTransition: mid-window uses easings.out (not linear)", 
     expect(r.panelOpacity).not.toBeCloseTo(0.5, 2);
   });
 });
-
-// ---------------------------------------------------------------------------
-// Past the window: fully opened
-// ---------------------------------------------------------------------------
 
 describe("resolveComboboxTransition: past the window → fully opened", () => {
   const steps: Step<ComboboxState>[] = [{ at: 0, state: "opened" }];
@@ -547,10 +431,6 @@ describe("resolveComboboxTransition: past the window → fully opened", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// Speed contract
-// ---------------------------------------------------------------------------
-
 describe("resolveComboboxTransition: speed contract", () => {
   const steps: Step<ComboboxState>[] = [{ at: 12, state: "opened" }];
 
@@ -562,10 +442,6 @@ describe("resolveComboboxTransition: speed contract", () => {
     expect(resolveComboboxTransition(5, steps, 2).to).toBe("closed");
   });
 });
-
-// ===========================================================================
-// 6. comboboxConfig.controls — customizer control wiring
-// ===========================================================================
 
 describe("comboboxConfig.controls: state", () => {
   it("state is a select control", () => {
@@ -638,10 +514,6 @@ describe("comboboxConfig.controls: mode", () => {
     expect(comboboxConfig.controls.mode.default).toBe("light");
   });
 });
-
-// ===========================================================================
-// 7. comboboxConfig.snippet — pure JSX string builder
-// ===========================================================================
 
 describe("comboboxConfig.snippet: import line", () => {
   it("includes 'import { Combobox }' from the correct path", () => {

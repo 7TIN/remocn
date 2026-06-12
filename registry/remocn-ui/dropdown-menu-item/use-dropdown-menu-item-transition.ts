@@ -14,12 +14,9 @@ import {
   type DropdownMenuItemState,
   type DropdownMenuItemStyle,
 } from "@/components/remocn/dropdown-menu-item";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 8;
 
-/** Blend two row visuals: numbers lerp, colors via oklch mix. */
 export function tweenDropdownMenuItemStyle(
   a: DropdownMenuItemStyle,
   b: DropdownMenuItemStyle,
@@ -40,11 +37,6 @@ export interface DropdownMenuItemTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) DropdownMenuItemStyle. The CALLER invokes
- * this; it reads the frame, the row component does not. Feed the result to
- * `<DropdownMenuItemRow style={...} />` (or the panel rows) for smooth transitions.
- */
 export function useDropdownMenuItemTransition(
   steps: Step<DropdownMenuItemState>[],
   opts: DropdownMenuItemTransitionOptions = {},

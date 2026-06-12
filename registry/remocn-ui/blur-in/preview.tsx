@@ -10,13 +10,6 @@ export interface BlurInPreviewProps {
   speed?: number;
 }
 
-/**
- * Preview-only wrapper for the customizer. `BlurIn` wraps a SINGLE child, so it
- * needs sample content — this thin wrapper supplies a fixed ~160×96 card and
- * centers it on a stage just for the preview. The customizer Player renders its
- * `component` as the composition root, so a bare wrapped child would sit
- * top-left. NOT shipped: not listed in registry.json files.
- */
 export function BlurInPreview({
   state = "revealed",
   blur = 8,

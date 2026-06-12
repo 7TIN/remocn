@@ -22,7 +22,6 @@ export const toastConfig: ComponentConfig = {
     },
     state: {
       type: "select",
-      // Default to `visible` so the preview shows the resting toast.
       default: "visible",
       options: ["hidden", "visible"],
       label: "State",
@@ -45,7 +44,6 @@ export const toastConfig: ComponentConfig = {
     const variant = values.variant as string | undefined;
     const mode = values.mode as string | undefined;
 
-    // `title` is required, so it is always emitted.
     const props: string[] = [
       `  state="${state}"`,
       `  title="${title ?? DEFAULT_TITLE}"`,

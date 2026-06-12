@@ -15,7 +15,6 @@ export const commandMenuItemConfig: ComponentConfig = {
     shortcut: { type: "text", default: "⌘ S", label: "Shortcut" },
     state: {
       type: "select",
-      // Default to `selected` so the preview shows the highlighted row.
       default: "selected",
       options: ["idle", "hover", "press", "selected"],
       label: "State",

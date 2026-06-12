@@ -19,65 +19,30 @@ import {
 export type SelectState = "opened" | "closed";
 
 export interface SelectProps {
-  /** Current visual state (snap path). State changes snap (no enter-tweens). */
   state?: SelectState;
-  /**
-   * Resolved animated visual (smooth path). When provided, takes precedence over
-   * `state` — feed it an interpolated `SelectStyle` from `useSelectTransition`.
-   */
   style?: SelectStyle;
-  /** Trigger text (the always-visible row). */
   label?: string;
-  /**
-   * Resolved Button visual for the trigger (smooth path). Drive it with
-   * `useButtonTransition` for a hover/press "click". Defaults to the resting
-   * Button `outline` look.
-   */
   triggerStyle?: ButtonStyle;
-  /** Option labels rendered in the panel. */
   items?: string[];
-  /** Index of the persisted selection (check icon + accent). `-1` for none. */
   selectedIndex?: number;
-  /** Index of the row under the pointer (hover wash). `-1` for none. */
   highlightedIndex?: number;
-  /** Index of the row being pressed (press wash + shrink). `-1` for none. */
   pressedIndex?: number;
-  /**
-   * Per-item resolved visual override (smooth path). When an entry is present it
-   * wins over the index→state derivation — used by the live example to tween a
-   * single row through hover → press → selected.
-   */
   itemStyles?: (SelectItemStyle | undefined)[];
   theme?: Partial<RemocnTheme>;
   mode?: "light" | "dark";
   className?: string;
 }
 
-/** Trigger width = panel width (px). */
 const WIDTH = 260;
 
-// ===========================================================================
-// Select visual — the COMPLETE animated look for a moment in time. A `state` is
-// a named preset of this visual (`selectStyle`); the smooth path feeds an
-// interpolated `SelectStyle` straight through. The component is a pure renderer
-// of whichever `SelectStyle` it receives. Per-row visuals are derived from the
-// index props (or `itemStyles`), independent of this container reveal.
-// ===========================================================================
-
 export interface SelectStyle {
-  /** Panel fade 0 (closed) → 1 (opened). */
   panelOpacity: number;
-  /** Panel zoom 0.96 (closed) → 1 (opened). */
   panelScale: number;
-  /** Panel lift -4 (closed) → 0 (opened) px. */
   panelTranslateY: number;
-  /** Trigger chevron rotation 0 (closed) → 180 (opened) degrees. */
   chevronRotation: number;
 }
 
-/** Concrete colors for the active theme, resolved once per render. */
 export interface SelectStyleContext {
-  /** Button `outline` presets — reused so the trigger IS the Button look. */
   triggerCtx: ButtonStyleContext;
   panelBg: string;
   panelBorder: string;
@@ -87,10 +52,6 @@ export interface SelectStyleContext {
   itemCtx: SelectItemStyleContext;
 }
 
-/**
- * Derive the concrete colors for a theme. Pure — call it once and reuse the
- * result for every `selectStyle(state, ctx)` preset.
- */
 export function selectStyleContext(theme: RemocnTheme): SelectStyleContext {
   return {
     triggerCtx: buttonStyleContext("outline", theme),
@@ -103,10 +64,6 @@ export function selectStyleContext(theme: RemocnTheme): SelectStyleContext {
   };
 }
 
-/**
- * The COMPLETE resting visual for a state — a pure `(state, ctx) => SelectStyle`
- * map. To change how a state looks, edit one entry.
- */
 export function selectStyle(
   state: SelectState,
   _ctx: SelectStyleContext,
@@ -129,7 +86,6 @@ export function selectStyle(
   }
 }
 
-/** Resolve one row's state from the index props (used when no itemStyle override). */
 function rowState(
   i: number,
   selectedIndex: number,
@@ -160,9 +116,6 @@ export function Select({
   const ctx = selectStyleContext(theme);
   const v = style ?? selectStyle(state, ctx);
 
-  // The trigger reuses the Button `outline` visual. Defaults to the resting
-  // `idle` look; the caller can pass a tweened `triggerStyle` (from
-  // `useButtonTransition`) so the trigger shows the hover/press "click".
   const trigger: ButtonStyle =
     triggerStyle ?? buttonStyle("idle", ctx.triggerCtx);
 
@@ -175,14 +128,13 @@ export function Select({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        // OPAQUE wrapper — a select is a self-contained widget, not a modal layer.
         background: theme.background,
         fontFamily:
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
       }}
     >
       <div style={{ position: "relative", width: WIDTH }}>
-        {/* Trigger — the Button `outline` look, rendered inline. */}
+        {}
         <div
           style={{
             width: WIDTH,
@@ -223,7 +175,7 @@ export function Select({
             />
           </svg>
         </div>
-        {/* Panel — opacity/scale/translateY animate the reveal below the trigger. */}
+        {}
         <div
           style={{
             position: "absolute",

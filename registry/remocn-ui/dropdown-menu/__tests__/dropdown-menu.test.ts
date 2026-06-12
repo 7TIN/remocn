@@ -1,34 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `dropdown-menu`.
- *
- * Scope:
- *   - registry/remocn-ui/dropdown-menu/index.tsx  — DropdownMenuState union
- *     membership, dropdownMenuStyle presets, dropdownMenuStyleContext
- *   - registry/remocn-ui/dropdown-menu/config.ts  — dropdownMenuConfig.controls
- *     wiring + .snippet output (the state → JSX codegen)
- *   - registry/remocn-ui/dropdown-menu/use-dropdown-menu-transition.ts
- *     — tweenDropdownMenuStyle interpolation, DEFAULT_DURATION
- *
- * The render path (index.tsx) is a PURE-STATE model: `(state) => visual`.
- * `<DropdownMenu>` reads `useRemocnTheme()` internally — that hook is pure at
- * call-time in test context, but the JSX render tree is not exercised here.
- * The pure-testable surface is: the style presets + tween + customizer wiring
- * + snippet codegen.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/dropdown-menu/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * `config.ts` imports `DropdownMenuState` from `@/registry/remocn-ui/dropdown-menu`
- * and the pieces under test never CALL a Remotion runtime API at import time —
- * `dropdownMenuConfig` is a plain object; `.snippet` is a pure string builder;
- * `dropdownMenuStyle` and `tweenDropdownMenuStyle` are pure value functions.
- * We import via RELATIVE paths (matching the existing test suite pattern),
- * annotating each import with the source it corresponds to.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -40,17 +9,8 @@ import { tweenDropdownMenuStyle, DEFAULT_DURATION } from "../use-dropdown-menu-t
 import { dropdownMenuConfig } from "../config";
 import { defaultLightTheme } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/**
- * The DropdownMenuState union, enumerated as a runtime list for membership checks.
- * Must stay in sync with `export type DropdownMenuState` in index.tsx.
- */
 const VALID_STATES: readonly DropdownMenuState[] = ["opened", "closed"];
 
-/** Minimal shape mirroring the customizer's value bag passed to snippet(). */
 type SnippetValues = {
   state?: string;
   label?: string;
@@ -61,15 +21,7 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   dropdownMenuConfig.snippet(values as Record<string, unknown>);
 
-/**
- * A shared DropdownMenuStyleContext built from the default light theme.
- * `dropdownMenuStyleContext` takes only `(theme)` — no variant arg.
- */
 const ctx = dropdownMenuStyleContext(defaultLightTheme);
-
-// ===========================================================================
-// 1. DropdownMenuState union membership
-// ===========================================================================
 
 describe("DropdownMenuState union", () => {
   it("contains exactly the two documented states", () => {
@@ -87,10 +39,6 @@ describe("DropdownMenuState union", () => {
     }
   });
 });
-
-// ===========================================================================
-// 2. dropdownMenuConfig.controls.state — customizer control wiring
-// ===========================================================================
 
 describe("dropdownMenuConfig.controls.state", () => {
   it("is a select control", () => {
@@ -116,11 +64,6 @@ describe("dropdownMenuConfig.controls.state", () => {
     }
   });
 });
-
-// ===========================================================================
-// 3. dropdownMenuConfig.snippet — pure string builder
-//    State model: snippet ALWAYS emits `state="<state>"` as a bare JSX prop.
-// ===========================================================================
 
 describe("dropdownMenuConfig.snippet: state prop emission", () => {
   it("emits state=\"opened\" for the opened option", () => {
@@ -150,9 +93,6 @@ describe("dropdownMenuConfig.snippet: import line", () => {
 });
 
 describe("dropdownMenuConfig.snippet: default props are omitted", () => {
-  // Defaults: label="Options", highlightedIndex=-1, mode="light"
-  // Note: config default for highlightedIndex is 0, but the omit condition is !== -1,
-  // so highlightedIndex=0 IS emitted. We test the -1 case here (the condition boundary).
   const allDefaults = snippet({
     state: "opened",
     label: "Options",
@@ -205,13 +145,6 @@ describe("dropdownMenuConfig.snippet: structural round-trip", () => {
     expect(out.trimEnd().endsWith("/>")).toBe(true);
   });
 });
-
-// ===========================================================================
-// 4. dropdownMenuStyleContext — derives concrete colors from the theme.
-//    Signature is `(theme)` — NO variant argument.
-//    Build ctx from the default light theme and assert each field is populated.
-//    `radius` is a number; all other non-nested fields are non-empty strings.
-// ===========================================================================
 
 describe("dropdownMenuStyleContext: field types from defaultLightTheme", () => {
   it("panelBg is a non-empty string", () => {
@@ -271,13 +204,6 @@ describe("dropdownMenuStyleContext: maps theme tokens correctly", () => {
   });
 });
 
-// ===========================================================================
-// 5. dropdownMenuStyle presets — pure (state, ctx) => DropdownMenuStyle
-//    All four fields are numeric. Assert per-state invariants:
-//    opened → { panelOpacity:1, panelScale:1, panelTranslateY:0, chevronRotation:180 }
-//    closed → { panelOpacity:0, panelScale:0.96, panelTranslateY:-4, chevronRotation:0 }
-// ===========================================================================
-
 describe("dropdownMenuStyle: opened state", () => {
   const s = dropdownMenuStyle("opened", ctx);
 
@@ -336,12 +262,6 @@ describe("dropdownMenuStyle: closed/opened invariant", () => {
   });
 });
 
-// ===========================================================================
-// 6. tweenDropdownMenuStyle — pure linear interpolation between two
-//    DropdownMenuStyles. All four fields are pure numeric lerps.
-//    Concrete expectations: closed → opened for midpoint math.
-// ===========================================================================
-
 describe("tweenDropdownMenuStyle: t=0 returns values equal to `a`", () => {
   const a = dropdownMenuStyle("closed", ctx);
   const b = dropdownMenuStyle("opened", ctx);
@@ -387,8 +307,6 @@ describe("tweenDropdownMenuStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenDropdownMenuStyle: t=0.5 midpoint numeric lerp (closed → opened)", () => {
-  // closed: panelOpacity=0, panelScale=0.96, panelTranslateY=-4, chevronRotation=0
-  // opened: panelOpacity=1, panelScale=1,    panelTranslateY=0,  chevronRotation=180
   const a = dropdownMenuStyle("closed", ctx);
   const b = dropdownMenuStyle("opened", ctx);
   const r = tweenDropdownMenuStyle(a, b, 0.5);
@@ -411,8 +329,6 @@ describe("tweenDropdownMenuStyle: t=0.5 midpoint numeric lerp (closed → opened
 });
 
 describe("tweenDropdownMenuStyle: t=0.5 midpoint numeric lerp (opened → closed)", () => {
-  // opened: panelOpacity=1, panelScale=1,    panelTranslateY=0,  chevronRotation=180
-  // closed: panelOpacity=0, panelScale=0.96, panelTranslateY=-4, chevronRotation=0
   const a = dropdownMenuStyle("opened", ctx);
   const b = dropdownMenuStyle("closed", ctx);
   const r = tweenDropdownMenuStyle(a, b, 0.5);
@@ -433,10 +349,6 @@ describe("tweenDropdownMenuStyle: t=0.5 midpoint numeric lerp (opened → closed
     expect(r.chevronRotation).toBeCloseTo(90, 10);
   });
 });
-
-// ===========================================================================
-// 7. DEFAULT_DURATION — sanity check the exported constant
-// ===========================================================================
 
 describe("DEFAULT_DURATION", () => {
   it("is a positive number", () => {

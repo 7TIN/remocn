@@ -13,12 +13,9 @@ import {
   type ContextMenuState,
   type ContextMenuStyle,
 } from "@/components/remocn/context-menu";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 10;
 
-/** Blend two context-menu visuals: all fields are numbers, so a straight lerp. */
 export function tweenContextMenuStyle(
   a: ContextMenuStyle,
   b: ContextMenuStyle,
@@ -38,11 +35,6 @@ export interface ContextMenuTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) ContextMenuStyle. The CALLER invokes
- * this; it reads the frame, the `<ContextMenu>` component does not. Feed the
- * result to `<ContextMenu style={...} />` for a smooth open/close.
- */
 export function useContextMenuTransition(
   steps: Step<ContextMenuState>[],
   opts: ContextMenuTransitionOptions = {},

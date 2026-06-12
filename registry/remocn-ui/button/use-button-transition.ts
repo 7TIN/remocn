@@ -14,12 +14,9 @@ import {
   type ButtonState,
   type ButtonStyle,
 } from "@/components/remocn/button";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 8;
 
-/** Blend two button visuals: numbers lerp, background via oklch mix. */
 export function tweenButtonStyle(
   a: ButtonStyle,
   b: ButtonStyle,
@@ -45,11 +42,6 @@ export interface ButtonTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) ButtonStyle. The CALLER invokes this; it
- * reads the frame, the `<Button>` component does not. Feed the result to
- * `<Button style={...} />` for smooth transitions.
- */
 export function useButtonTransition(
   steps: Step<ButtonState>[],
   opts: ButtonTransitionOptions = {},

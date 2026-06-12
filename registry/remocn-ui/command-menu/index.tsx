@@ -13,7 +13,6 @@ import {
 
 export type CommandMenuState = "opened" | "closed";
 
-/** One command row's data. */
 export interface CommandMenuEntry {
   icon?: CommandMenuIcon;
   label: string;
@@ -21,51 +20,24 @@ export interface CommandMenuEntry {
 }
 
 export interface CommandMenuProps {
-  /** Current visual state (snap path). State changes snap (no enter-tweens). */
   state?: CommandMenuState;
-  /**
-   * Resolved animated visual (smooth path). When provided, takes precedence over
-   * `state` — feed it an interpolated `CommandMenuStyle` from `useCommandMenuTransition`.
-   */
   style?: CommandMenuStyle;
-  /** Full search query text (the visible prefix is `query.slice(0, revealCount)`). */
   query?: string;
-  /**
-   * Number of query characters revealed so far (the caller computes this with
-   * core `revealCount`). Omitted → the whole `query` is shown.
-   */
   revealCount?: number;
-  /** The rows to show before filtering. */
   items?: CommandMenuEntry[];
-  /** Index (into the FILTERED list) of the persisted selection. `-1` for none. */
   selectedIndex?: number;
-  /** Index (into the FILTERED list) of the row under the pointer. `-1` for none. */
   highlightedIndex?: number;
-  /** Index (into the FILTERED list) of the row being pressed. `-1` for none. */
   pressedIndex?: number;
-  /**
-   * Per-item resolved visual override (smooth path), indexed into the FILTERED
-   * list. When an entry is present it wins over the index→state derivation.
-   */
   itemStyles?: (CommandMenuItemStyle | undefined)[];
   theme?: Partial<RemocnTheme>;
   mode?: "light" | "dark";
   className?: string;
 }
 
-/** Panel width (px). */
 const PANEL_WIDTH = 440;
-/** Inner content width (panel minus padding). */
 const CONTENT_WIDTH = PANEL_WIDTH - 16;
-/** Backdrop dim at full reveal — the overlay opacity scales up to this alpha. */
 const MAX_OVERLAY_ALPHA = 0.5;
 
-/**
- * Filter command entries by the visible query prefix. PURE — a case-insensitive
- * substring match on `query.slice(0, revealCount)`. An empty visible prefix
- * matches everything. Exported so tests can mirror it and the example can keep
- * its filtered indices in sync.
- */
 export function filterCommandItems(
   items: CommandMenuEntry[],
   query: string,
@@ -80,26 +52,13 @@ export function filterCommandItems(
   return items.filter((item) => item.label.toLowerCase().includes(visible));
 }
 
-// ===========================================================================
-// Command-menu visual — the COMPLETE animated look for a moment in time. A
-// `state` is a named preset of this visual (`commandMenuStyle`); the smooth path
-// feeds an interpolated `CommandMenuStyle` straight through. The component is a
-// pure renderer of whichever style it receives. Per-row visuals are derived from
-// the index props (or `itemStyles`), independent of this container reveal.
-// ===========================================================================
-
 export interface CommandMenuStyle {
-  /** Backdrop dim reveal 0→1 (scales `MAX_OVERLAY_ALPHA`). */
   backdropOpacity: number;
-  /** Panel fade 0→1. */
   panelOpacity: number;
-  /** Panel zoom 0.96→1. */
   panelScale: number;
-  /** Panel lift 8→0 (px). */
   panelTranslateY: number;
 }
 
-/** Concrete colors for the active theme, resolved once per render. */
 export interface CommandMenuStyleContext {
   panelBg: string;
   panelBorder: string;
@@ -112,10 +71,6 @@ export interface CommandMenuStyleContext {
   itemCtx: CommandMenuItemStyleContext;
 }
 
-/**
- * Derive the concrete colors for a theme. Pure — call it once and reuse the
- * result for every `commandMenuStyle(state, ctx)` preset.
- */
 export function commandMenuStyleContext(
   theme: RemocnTheme,
 ): CommandMenuStyleContext {
@@ -132,10 +87,6 @@ export function commandMenuStyleContext(
   };
 }
 
-/**
- * The COMPLETE resting visual for a state — a pure `(state, ctx) =>
- * CommandMenuStyle` map. To change how a state looks, edit one entry.
- */
 export function commandMenuStyle(
   state: CommandMenuState,
   _ctx: CommandMenuStyleContext,
@@ -158,7 +109,6 @@ export function commandMenuStyle(
   }
 }
 
-/** Resolve one row's state from the index props (used when no itemStyle override). */
 function rowState(
   i: number,
   selectedIndex: number,
@@ -199,15 +149,11 @@ export function CommandMenu({
   const filtered = filterCommandItems(items, query, revealCount);
 
   return (
-    // TRANSPARENT modal wrapper — like dialog, this composes OVER another scene,
-    // so it paints no opaque background. Its intrinsic inset:0 backdrop is why no
-    // preview wrapper is needed (the customizer mounts this directly).
     <div
       style={{
         position: "absolute",
         inset: 0,
         display: "flex",
-        // Command palettes sit in the upper third, not dead-center.
         alignItems: "flex-start",
         justifyContent: "center",
         paddingTop: "18%",
@@ -215,7 +161,7 @@ export function CommandMenu({
           "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif",
       }}
     >
-      {/* Backdrop dim — fades in as the palette opens. */}
+      {}
       <div
         style={{
           position: "absolute",
@@ -241,7 +187,7 @@ export function CommandMenu({
           boxShadow: "0 24px 48px -12px rgba(0,0,0,0.25)",
         }}
       >
-        {/* Search row — magnifier + typed query + caret. */}
+        {}
         <div
           style={{
             display: "flex",
@@ -269,7 +215,7 @@ export function CommandMenu({
             }}
           >
             {visibleQuery || "Type a command or search…"}
-            {/* Caret sits after the revealed text. */}
+            {}
             <span
               style={{
                 display: "inline-block",
@@ -281,7 +227,7 @@ export function CommandMenu({
             />
           </span>
         </div>
-        {/* Divider. */}
+        {}
         <div
           style={{
             height: 1,
@@ -289,7 +235,7 @@ export function CommandMenu({
             margin: "4px 0",
           }}
         />
-        {/* List of rows, or the empty state. */}
+        {}
         <div
           style={{
             display: "flex",

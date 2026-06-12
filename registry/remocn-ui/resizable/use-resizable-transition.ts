@@ -7,38 +7,22 @@ import {
   type ResizableHandleState,
   type ResizableStyle,
 } from "@/components/remocn/resizable";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/**
- * One scripted resizable keyframe. A step may move the `ratio` channel, the
- * `handleState` channel, or both. The ratio eases from the previous ratio-bearing
- * step to this one; the handle visual tweens from the previous handle-bearing
- * step's preset to this one.
- */
 export interface ResizableStep {
-  /** LOCAL (Sequence-relative) authored frame this keyframe is reached. */
   at: number;
-  /** Target first-panel fraction 0–1 (this step moves the ratio channel). */
   ratio?: number;
-  /** Target handle state (this step moves the handle channel). */
   handleState?: ResizableHandleState;
-  /** Frames the move INTO this step takes. Omitted → DEFAULT_DURATION. */
   duration?: number;
-  /** Override the easing for the move into this step. Default `out`. */
   easing?: EasingName;
 }
 
-/** Default frames for a move into a step when it omits `duration`. */
 export const DEFAULT_DURATION = 18;
 
 export interface ResizableTransitionOptions {
-  /** Playhead scale (effectiveFrame = useCurrentFrame() * speed). */
   speed?: number;
-  /** Move duration (frames) when a step omits `duration`. */
   defaultDuration?: number;
 }
 
-/** Blend two resizable visuals: all three fields lerp (ratio + handle channels). */
 export function tweenResizableStyle(
   a: ResizableStyle,
   b: ResizableStyle,
@@ -52,12 +36,6 @@ export function tweenResizableStyle(
   };
 }
 
-/**
- * Resolve the resizable's `ResizableStyle` for a dual-channel timeline. THIS is
- * the only frame-reading file — `<Resizable>` itself stays pure. The fold is a
- * pure function of `raw = useCurrentFrame() * speed`; tests replicate
- * `resizableStyleAt(steps, raw, opts)` with the frame injected.
- */
 export function useResizableTransition(
   steps: ResizableStep[],
   opts: ResizableTransitionOptions = {},
@@ -67,7 +45,6 @@ export function useResizableTransition(
   return resizableStyleAt(steps, raw, opts);
 }
 
-/** Eased ratio at `raw` over the ratio-bearing steps (numeric channel). */
 function ratioAt(
   steps: ResizableStep[],
   raw: number,
@@ -100,7 +77,6 @@ function ratioAt(
   return from.ratio + (to.ratio - from.ratio) * t;
 }
 
-/** Eased handle visual at `raw` over the handle-bearing steps (state channel). */
 function handleAt(
   steps: ResizableStep[],
   raw: number,
@@ -143,12 +119,6 @@ function handleAt(
   };
 }
 
-/**
- * Pure core of `useResizableTransition` with the effective frame injected as
- * `raw`. The two channels are folded independently and merged: `ratio` eases over
- * the ratio-bearing steps, the handle visual tweens over the handle-bearing
- * steps. Kept separate so it can be unit-tested without a Remotion render.
- */
 export function resizableStyleAt(
   steps: ResizableStep[],
   raw: number,

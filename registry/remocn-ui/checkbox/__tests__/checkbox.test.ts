@@ -1,34 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `checkbox`.
- *
- * Scope:
- *   - registry/remocn-ui/checkbox/index.tsx  — CheckboxState union membership,
- *     checkboxStyleContext, checkboxStyle presets
- *   - registry/remocn-ui/checkbox/use-checkbox-transition.ts — tweenCheckboxStyle
- *   - registry/remocn-ui/checkbox/config.ts  — checkboxConfig.controls.state
- *     wiring + checkboxConfig.snippet output (the state → JSX codegen)
- *
- * The render path (index.tsx) is a PURE-STATE model: `(state) => visual`.
- * State changes snap (no tweening inside the component). The smooth-path hook
- * `useCheckboxTransition` reads `useCurrentFrame()` via `useStateTransition`
- * internally; it cannot run outside a Remotion render tree. So Checkbox render
- * is NOT exercised here. The pure-testable surface is the customizer wiring,
- * snippet codegen, style presets, and tween interpolation (below).
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/checkbox/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * `config.ts` imports `CheckboxState` from `@/registry/remocn-ui/checkbox`
- * and the pieces under test never CALL a Remotion runtime API at import time —
- * `checkboxConfig` is a plain object; `.snippet` is a pure string builder;
- * `checkboxStyle` and `tweenCheckboxStyle` are pure value functions.
- * We import via RELATIVE paths (matching the existing test suite pattern),
- * annotating each import with the source it corresponds to.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -40,17 +9,8 @@ import { tweenCheckboxStyle } from "../use-checkbox-transition";
 import { checkboxConfig } from "../config";
 import { defaultLightTheme } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/**
- * The CheckboxState union, enumerated as a runtime list for membership checks.
- * Must stay in sync with `export type CheckboxState` in index.tsx.
- */
 const VALID_STATES: readonly CheckboxState[] = ["unchecked", "checked"];
 
-/** Minimal shape mirroring the customizer's value bag passed to snippet(). */
 type SnippetValues = {
   state?: string;
   label?: string;
@@ -62,22 +22,14 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   checkboxConfig.snippet(values as Record<string, unknown>);
 
-// ===========================================================================
-// 1. CheckboxState union membership
-// ===========================================================================
-
 describe("CheckboxState union", () => {
   it("contains exactly the two documented states", () => {
-    // We can't enumerate a TS type at runtime, but we can assert the REAL
-    // controls.state options match and that all known states are members.
     const control = checkboxConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(control.options).toEqual(["unchecked", "checked"]);
   });
 
   it("every VALID_STATES entry is assignable (no typos in the fixture)", () => {
-    // Belt-and-suspenders: the fixture array must have exactly 2 entries and
-    // match the options list from the real config.
     const control = checkboxConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(VALID_STATES).toHaveLength(2);
@@ -86,10 +38,6 @@ describe("CheckboxState union", () => {
     }
   });
 });
-
-// ===========================================================================
-// 2. checkboxConfig.controls.state — customizer control wiring
-// ===========================================================================
 
 describe("checkboxConfig.controls.state", () => {
   it("is a select control", () => {
@@ -115,12 +63,6 @@ describe("checkboxConfig.controls.state", () => {
     }
   });
 });
-
-// ===========================================================================
-// 3. checkboxConfig.snippet — pure string builder
-//    State model: snippet emits `state="<state>"` as a bare JSX prop.
-//    It NEVER emits `steps` or `action`.
-// ===========================================================================
 
 describe("checkboxConfig.snippet: state prop emission", () => {
   it("emits state=\"unchecked\" for the unchecked option", () => {
@@ -164,7 +106,6 @@ describe("checkboxConfig.snippet: import line", () => {
 });
 
 describe("checkboxConfig.snippet: default props are omitted", () => {
-  // Defaults: label="", size=default, mode=light, primary=#171717
   const allDefaults = snippet({
     state: "checked",
     label: "",
@@ -223,15 +164,6 @@ describe("checkboxConfig.snippet: structural round-trip", () => {
     expect(out.trimEnd().endsWith("/>")).toBe(true);
   });
 });
-
-// ===========================================================================
-// 4. checkboxStyle presets — pure (state, ctx) => CheckboxStyle
-//    checkboxStyleContext and checkboxStyle are now exported and frame-free.
-//    Build one ctx from the default light theme, then assert the
-//    numeric/opacity invariants for both states.
-//    boxBackground and boxBorderColor are derived oklch strings — asserted
-//    non-empty only (exact value is an implementation detail of the theme).
-// ===========================================================================
 
 const ctx = checkboxStyleContext(defaultLightTheme);
 
@@ -301,14 +233,6 @@ describe("checkboxStyle: invariants — unchecked hides mark, checked shows mark
   });
 });
 
-// ===========================================================================
-// 5. tweenCheckboxStyle — pure linear interpolation between two CheckboxStyles.
-//    Numbers lerp linearly; colors via oklch mix → non-empty string at all t.
-//    Concrete expectations: unchecked→checked for midpoint math.
-//      unchecked: checkOpacity=0, checkScale=0.6, checkDraw=0
-//      checked:   checkOpacity=1, checkScale=1,   checkDraw=1
-// ===========================================================================
-
 describe("tweenCheckboxStyle: t=0 returns values equal to `a`", () => {
   const a = checkboxStyle("unchecked", ctx);
   const b = checkboxStyle("checked", ctx);
@@ -366,8 +290,6 @@ describe("tweenCheckboxStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenCheckboxStyle: t=0.5 midpoint numeric lerp (unchecked → checked)", () => {
-  // unchecked: checkOpacity=0, checkScale=0.6, checkDraw=0
-  // checked:   checkOpacity=1, checkScale=1,   checkDraw=1
   const a = checkboxStyle("unchecked", ctx);
   const b = checkboxStyle("checked", ctx);
   const r = tweenCheckboxStyle(a, b, 0.5);

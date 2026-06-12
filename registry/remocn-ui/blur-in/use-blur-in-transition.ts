@@ -12,12 +12,9 @@ import {
   type BlurInState,
   type BlurInStyle,
 } from "@/components/remocn/blur-in";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 18;
 
-/** Blend two blur-in visuals: every field is a number, so all four lerp linearly. */
 export function tweenBlurInStyle(
   a: BlurInStyle,
   b: BlurInStyle,
@@ -39,11 +36,6 @@ export interface BlurInTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) BlurInStyle. The CALLER invokes this; it
- * reads the frame, the `<BlurIn>` component does not. Feed the result to
- * `<BlurIn style={...} />` for smooth transitions.
- */
 export function useBlurInTransition(
   steps: Step<BlurInState>[],
   opts: BlurInTransitionOptions = {},

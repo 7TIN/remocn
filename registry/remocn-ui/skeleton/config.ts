@@ -13,7 +13,6 @@ export const skeletonConfig: ComponentConfig = {
     },
     state: {
       type: "select",
-      // Default to `loading` so the preview showcases the live shimmer.
       default: "loading",
       options: ["loading", "loaded"],
       label: "State",

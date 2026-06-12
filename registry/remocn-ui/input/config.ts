@@ -19,7 +19,6 @@ export const inputConfig: ComponentConfig = {
     },
     state: {
       type: "select",
-      // Default to `typing` so the preview shows the caret + revealed value.
       default: "typing",
       options: ["idle", "hover", "active", "typing", "blur", "invalid"],
       label: "State",

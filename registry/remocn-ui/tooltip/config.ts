@@ -16,7 +16,6 @@ export const tooltipConfig: ComponentConfig = {
     },
     state: {
       type: "select",
-      // Default to `visible` so the preview shows the resting tooltip.
       default: "visible",
       options: ["hidden", "visible"],
       label: "State",

@@ -1,36 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `progress`.
- *
- * Scope:
- *   - registry/remocn-ui/progress/index.tsx
- *       clampValue (internal) — exercised via exported ProgressStyle + render logic
- *       ProgressStyle interface — value field semantics
- *   - registry/remocn-ui/progress/use-progress-transition.ts
- *       tweenProgressStyle(a, b, t)       — pure single-field lerp
- *       progressValueAt(steps, raw, opts) — pure exported core of useProgressTransition
- *       DEFAULT_DURATION constant
- *       ProgressStep interface semantics
- *   - registry/remocn-ui/progress/config.ts
- *       progressConfig.controls wiring + progressConfig.snippet codegen
- *
- * The render path (index.tsx) imports `useRemocnTheme` which requires React
- * context — it is NOT exercised here. `useProgressTransition` IS a hook (calls
- * `useCurrentFrame()`) and is NOT imported; its pure body is the exported
- * `progressValueAt` which we call directly.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/progress/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * Relative imports from component source; `@/lib/remocn-ui` alias for core.
- * `tweenProgressStyle` and `progressValueAt` are pure value functions — they
- * call neither `useCurrentFrame()` nor `useRemocnTheme` at import or call time.
- * `useProgressTransition` IS a hook and is NOT imported; we call `progressValueAt`
- * directly (it is the exported pure core, annotated as such in the source).
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -42,11 +9,6 @@ import {
 import { progressConfig } from "../config";
 import { easings, clamp01 } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/** Convenience wrapper for snippet(). */
 type SnippetValues = {
   value?: number;
   width?: number;
@@ -56,26 +18,12 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   progressConfig.snippet(values as Record<string, unknown>);
 
-// ===========================================================================
-// 1. DEFAULT_DURATION constant
-// ===========================================================================
-
 describe("DEFAULT_DURATION", () => {
   it("is 24 frames", () => {
     expect(DEFAULT_DURATION).toBe(24);
   });
 });
 
-// ===========================================================================
-// 2. clampValue semantics — the component applies clamp01(value/100)*100
-//    This is the value-channel equivalent of the state-atom clamp.
-//    MIRROR of index.tsx lines 43-45 (clampValue function).
-// ===========================================================================
-
-/**
- * MIRROR of index.tsx:clampValue (lines 43-45).
- * clamp01 is `Math.max(0, Math.min(1, t))`.
- */
 function clampValue(value: number): number {
   return clamp01(value / 100) * 100;
 }
@@ -122,11 +70,6 @@ describe("clampValue: in-range values pass through unchanged", () => {
   });
 });
 
-// ===========================================================================
-// 3. showLabel floor — the label renders Math.floor(v)%
-//    MIRROR of index.tsx line 113: {Math.floor(v)}%
-// ===========================================================================
-
 describe("showLabel floor: Math.floor applied to clamped value", () => {
   it("Math.floor(62.7) = 62", () => {
     expect(Math.floor(clampValue(62.7))).toBe(62);
@@ -148,11 +91,6 @@ describe("showLabel floor: Math.floor applied to clamped value", () => {
     expect(Math.floor(clampValue(87.5))).toBe(87);
   });
 });
-
-// ===========================================================================
-// 4. tweenProgressStyle — pure single-field lerp
-//    MIRROR of use-progress-transition.ts lines 34-40
-// ===========================================================================
 
 describe("tweenProgressStyle: t=0 returns value equal to `a`", () => {
   it("value equals a.value at t=0", () => {
@@ -188,7 +126,6 @@ describe("tweenProgressStyle: identity (a === b, any t)", () => {
 });
 
 describe("tweenProgressStyle: t=0.25 quarter-point", () => {
-  // 0→100 at t=0.25: 0 + 0.25*(100-0) = 25
   it("0→100 at t=0.25 gives 25", () => {
     const r = tweenProgressStyle({ value: 0 }, { value: 100 }, 0.25);
     expect(r.value).toBeCloseTo(25, 10);
@@ -209,18 +146,7 @@ describe("tweenProgressStyle: result has only a `value` field", () => {
   });
 });
 
-// ===========================================================================
-// 5. progressValueAt — pure exported core of useProgressTransition
-//    MIRROR of use-progress-transition.ts lines 66-102.
-//    useProgressTransition is exactly progressValueAt(steps, useCurrentFrame()*speed, opts).
-//    We call progressValueAt directly with the frame injected as `raw`.
-//
-//    MAINTENANCE CONTRACT: if use-progress-transition.ts lines 66-102 change,
-//    update these tests in lockstep. Annotated source lines below.
-// ===========================================================================
-
 describe("progressValueAt: empty steps → value=0", () => {
-  // source line 73: if (steps.length === 0) return { value: 0 }
   it("returns {value:0} for any raw frame when steps is empty", () => {
     expect(progressValueAt([], 0).value).toBe(0);
     expect(progressValueAt([], 100).value).toBe(0);
@@ -228,7 +154,6 @@ describe("progressValueAt: empty steps → value=0", () => {
 });
 
 describe("progressValueAt: before first step — holds at first.value", () => {
-  // source lines 78-79: if (raw <= first.at) return { value: first.value }
   const steps: ProgressStep[] = [{ at: 10, value: 60 }];
 
   it("raw=5 < first.at=10 → holds at first.value=60", () => {
@@ -245,7 +170,6 @@ describe("progressValueAt: before first step — holds at first.value", () => {
 });
 
 describe("progressValueAt: past last step — rests at last.value", () => {
-  // source lines 90-92: pastLast → to=from=last step, t=1
   const steps: ProgressStep[] = [{ at: 20, value: 75 }];
 
   it("raw=50 > last.at=20 → value=75 (rests at last)", () => {
@@ -258,9 +182,6 @@ describe("progressValueAt: past last step — rests at last.value", () => {
 });
 
 describe("progressValueAt: mid-window uses easings.out (not linear)", () => {
-  // Two steps: [{at:0,value:0},{at:24,value:100}], default dur=24.
-  // At raw=12: start=24-24=0, linear=(12-0)/24=0.5, t=out(0.5)=0.875
-  // value = 0 + 100*0.875 = 87.5
   const steps: ProgressStep[] = [{ at: 0, value: 0 }, { at: 24, value: 100 }];
 
   it("raw=12 gives value=87.5 (out-eased, not linear 50)", () => {
@@ -269,15 +190,11 @@ describe("progressValueAt: mid-window uses easings.out (not linear)", () => {
   });
 
   it("out(0.5)=0.875 — easing is non-linear at the midpoint", () => {
-    // This confirms the test above is not accidentally passing with linear math
     expect(easings.out(0.5)).toBeCloseTo(0.875, 8);
   });
 });
 
 describe("progressValueAt: exactly at a step boundary — progress=0", () => {
-  // At raw just past first.at, before dur expires:
-  // steps=[{at:0,value:0},{at:24,value:100}], raw=0.0001 (just after step[1].at=24? no)
-  // Actually raw=24: steps[1].at=24. pastLast = raw(24) >= steps[1].at(24) = true → t=1 → value=100
   const steps: ProgressStep[] = [{ at: 0, value: 0 }, { at: 24, value: 100 }];
 
   it("raw=24 exactly (at last step boundary) → pastLast=true → value=100", () => {
@@ -290,13 +207,6 @@ describe("progressValueAt: exactly at a step boundary — progress=0", () => {
 });
 
 describe("progressValueAt: two-step timeline mid-second segment", () => {
-  // steps=[{at:0,value:0},{at:24,value:50},{at:48,value:100}]
-  // At raw=36 (mid of second segment [24→48], dur=24):
-  // toIndex search: steps[2].at=48 > 36 → toIndex=2
-  // pastLast = 36 >= 48 → false
-  // to=steps[2]={at:48,value:100}, from=steps[1]={at:24,value:50}
-  // dur=24, start=48-24=24, t=out(clamp01((36-24)/24))=out(0.5)=0.875
-  // value=50+(100-50)*0.875=50+43.75=93.75
   const steps: ProgressStep[] = [
     { at: 0, value: 0 },
     { at: 24, value: 50 },
@@ -308,17 +218,11 @@ describe("progressValueAt: two-step timeline mid-second segment", () => {
   });
 
   it("raw=24 (start of second segment, pastLast=false) is still in first segment end", () => {
-    // raw=24: steps[2].at=48 > 24 → toIndex=2 (not pastLast)
-    // Wait — steps[1].at=24 is NOT > raw(24), so we keep searching. steps[2].at=48 > 24 → toIndex=2
-    // to=steps[2], from=steps[1]. start=48-24=24, t=out((24-24)/24)=out(0)=0
-    // value=50+(100-50)*0=50
     expect(progressValueAt(steps, 24).value).toBeCloseTo(50, 10);
   });
 });
 
 describe("progressValueAt: custom duration on a step", () => {
-  // steps=[{at:0,value:0},{at:12,value:100,duration:12}]
-  // At raw=6: start=12-12=0, t=out(6/12)=out(0.5)=0.875, value=87.5
   const steps: ProgressStep[] = [{ at: 0, value: 0 }, { at: 12, value: 100, duration: 12 }];
 
   it("custom duration=12: raw=6 gives value=87.5", () => {
@@ -327,9 +231,6 @@ describe("progressValueAt: custom duration on a step", () => {
 });
 
 describe("progressValueAt: easing applied before lerp (default 'out')", () => {
-  // Confirms t=easings.out(linear_progress), not raw linear_progress.
-  // steps=[{at:0,value:0},{at:24,value:100}], raw=12 → linear=0.5
-  // If linear: value=50. With out-easing: value=87.5.
   const steps: ProgressStep[] = [{ at: 0, value: 0 }, { at: 24, value: 100 }];
 
   it("value at raw=12 (linear 0.5) is 87.5, not 50", () => {
@@ -340,7 +241,6 @@ describe("progressValueAt: easing applied before lerp (default 'out')", () => {
 });
 
 describe("progressValueAt: past last with multiple steps", () => {
-  // When past last, to=from=last → t=1 → value=last.value (from.value + 0*t = last.value)
   const steps: ProgressStep[] = [
     { at: 0, value: 0 },
     { at: 24, value: 50 },
@@ -351,10 +251,6 @@ describe("progressValueAt: past last with multiple steps", () => {
     expect(progressValueAt(steps, 100).value).toBeCloseTo(100, 10);
   });
 });
-
-// ===========================================================================
-// 6. progressConfig.controls — customizer control wiring
-// ===========================================================================
 
 describe("progressConfig.controls: value", () => {
   it("value is a number control", () => {
@@ -416,10 +312,6 @@ describe("progressConfig.controls: mode", () => {
   });
 });
 
-// ===========================================================================
-// 7. progressConfig.snippet — pure JSX string builder
-// ===========================================================================
-
 describe("progressConfig.snippet: import line", () => {
   it("includes 'import { Progress }' from the correct path", () => {
     const out = snippet({ value: 50 });
@@ -439,7 +331,6 @@ describe("progressConfig.snippet: structural invariants", () => {
 });
 
 describe("progressConfig.snippet: value is always emitted", () => {
-  // value is always emitted (including 0)
   it("emits value={62} for the default value", () => {
     const out = snippet({ value: 62 });
     expect(out).toContain("value={62}");
@@ -456,14 +347,12 @@ describe("progressConfig.snippet: value is always emitted", () => {
   });
 
   it("emits value={0} when value is omitted from values (falls back to 0)", () => {
-    // snippet uses `value ?? 0`
     const out = snippet({});
     expect(out).toContain("value={0}");
   });
 });
 
 describe("progressConfig.snippet: default props are omitted", () => {
-  // Defaults: width=320, mode=light; showLabel is omitted when falsy
 
   it("omits width when it equals the default 320", () => {
     const out = snippet({ value: 50, width: 320 });
@@ -500,10 +389,8 @@ describe("progressConfig.snippet: non-default props are emitted", () => {
   });
 
   it("emits showLabel (boolean shorthand) when true", () => {
-    // snippet: if (showLabel) props.push('  showLabel') — no value, just the attribute
     const out = snippet({ value: 50, showLabel: true });
     expect(out).toContain("showLabel");
-    // Must NOT be showLabel={true} — it's a boolean shorthand prop
     expect(out).not.toContain("showLabel={true}");
   });
 });

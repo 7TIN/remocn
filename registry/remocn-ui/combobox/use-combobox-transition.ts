@@ -13,12 +13,9 @@ import {
   type ComboboxState,
   type ComboboxStyle,
 } from "@/components/remocn/combobox";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 12;
 
-/** Blend two combobox visuals: all fields are numbers, so a straight lerp. */
 export function tweenComboboxStyle(
   a: ComboboxStyle,
   b: ComboboxStyle,
@@ -39,11 +36,6 @@ export interface ComboboxTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) ComboboxStyle. The CALLER invokes this;
- * it reads the frame, the `<Combobox>` component does not. Feed the result to
- * `<Combobox style={...} />` for a smooth open/close.
- */
 export function useComboboxTransition(
   steps: Step<ComboboxState>[],
   opts: ComboboxTransitionOptions = {},

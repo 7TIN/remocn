@@ -1,38 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `tooltip`.
- *
- * Scope:
- *   - registry/remocn-ui/tooltip/index.tsx
- *       tooltipStyle(state)                  — complete state→visual preset map
- *       (no tooltipStyleContext — Tooltip uses theme.primary/primaryForeground
- *        directly; no pure style-context export on this component)
- *   - registry/remocn-ui/tooltip/use-tooltip-transition.ts
- *       tweenTooltipStyle(a, b, t)           — pure lerp across every field
- *       DEFAULT_DURATION constant
- *       useTooltipTransition resolver        — mirrored as resolveTooltipTransition
- *         with frame injected as `raw` (annotated source lines)
- *   - registry/remocn-ui/tooltip/config.ts
- *       tooltipConfig.controls wiring + tooltipConfig.snippet codegen
- *
- * The render path (index.tsx) imports `useRemocnTheme` which requires React
- * context — it is NOT exercised here. `offsetFor` is a module-private function
- * (not exported) — its logic is covered indirectly through the component render
- * path and documented in the README; pure assertions on `tooltipStyle` cover the
- * full pure surface.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/tooltip/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * Relative imports from component source; `@/lib/remocn-ui` alias for core.
- * `tooltipStyle` and `tweenTooltipStyle` are pure value functions — they call
- * neither `useCurrentFrame()` nor `useRemocnTheme` at import or call time.
- * `useTooltipTransition` IS a hook (calls `useStateTransition` → `useCurrentFrame`)
- * and is NOT imported; we mirror its pure resolver body below.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -48,14 +13,9 @@ import { tooltipConfig } from "../config";
 import { defaultLightTheme, defaultDarkTheme, easings } from "@/lib/remocn-ui";
 import type { Step } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
 const VALID_STATES: readonly TooltipState[] = ["hidden", "visible"];
 const VALID_SIDES: readonly TooltipSide[] = ["top", "bottom", "left", "right"];
 
-/** Convenience wrapper for snippet(). */
 type SnippetValues = {
   state?: string;
   label?: string;
@@ -65,20 +25,11 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   tooltipConfig.snippet(values as Record<string, unknown>);
 
-// ===========================================================================
-// 1. DEFAULT_DURATION constant
-// ===========================================================================
-
 describe("DEFAULT_DURATION", () => {
   it("is 8 frames", () => {
     expect(DEFAULT_DURATION).toBe(8);
   });
 });
-
-// ===========================================================================
-// 2. tooltipStyle — pure (state) => TooltipStyle map
-//    MIRROR of index.tsx lines 59-66
-// ===========================================================================
 
 describe("tooltipStyle: hidden state — off-screen keyframe", () => {
   const s = tooltipStyle("hidden");
@@ -139,17 +90,10 @@ describe("tooltipStyle: both states are complete keyframes", () => {
 });
 
 describe("tooltipStyle: unknown state falls through to hidden preset", () => {
-  // The switch has no explicit 'hidden' arm — only 'visible'; default → hidden
   it("'hidden' returns opacity=0 (via default arm)", () => {
     expect(tooltipStyle("hidden").opacity).toBe(0);
   });
 });
-
-// ===========================================================================
-// 3. tweenTooltipStyle — pure lerp across all three fields
-//    MIRROR of use-tooltip-transition.ts lines 24-33
-//    All fields are numeric (no animated colors); no mixOklch call.
-// ===========================================================================
 
 describe("tweenTooltipStyle: t=0 returns values equal to `a`", () => {
   const a = tooltipStyle("hidden");
@@ -188,9 +132,6 @@ describe("tweenTooltipStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenTooltipStyle: t=0.5 midpoint (hidden → visible)", () => {
-  // hidden: opacity=0, scale=0.96, translate=4
-  // visible: opacity=1, scale=1, translate=0
-  // midpoint: opacity=0.5, scale=0.98, translate=2
   const a = tooltipStyle("hidden");
   const b = tooltipStyle("visible");
   const r = tweenTooltipStyle(a, b, 0.5);
@@ -209,8 +150,6 @@ describe("tweenTooltipStyle: t=0.5 midpoint (hidden → visible)", () => {
 });
 
 describe("tweenTooltipStyle: t=0.5 midpoint (visible → hidden, dismiss direction)", () => {
-  // Reverse direction: visible→hidden
-  // midpoint: opacity=0.5, scale=0.98, translate=2
   const a = tooltipStyle("visible");
   const b = tooltipStyle("hidden");
   const r = tweenTooltipStyle(a, b, 0.5);
@@ -245,9 +184,6 @@ describe("tweenTooltipStyle: identity (a === b, any t)", () => {
 });
 
 describe("tweenTooltipStyle: t=0.25 quarter-point (hidden → visible)", () => {
-  // opacity: 0 + 0.25*(1-0) = 0.25
-  // scale: 0.96 + 0.25*(1-0.96) = 0.96 + 0.01 = 0.97
-  // translate: 4 + 0.25*(0-4) = 4 - 1 = 3
   const a = tooltipStyle("hidden");
   const b = tooltipStyle("visible");
   const r = tweenTooltipStyle(a, b, 0.25);
@@ -265,36 +201,14 @@ describe("tweenTooltipStyle: t=0.25 quarter-point (hidden → visible)", () => {
   });
 });
 
-// ===========================================================================
-// 4. useTooltipTransition resolver replica
-//    MIRRORS use-tooltip-transition.ts lines 48-61.
-//    `useTooltipTransition` calls `useStateTransition` (which reads
-//    `useCurrentFrame()`) then applies `easings.out(progress)` and
-//    `tweenTooltipStyle`. We inject `raw` in place of `useCurrentFrame()`.
-//
-//    This replica re-derives only the logic BEYOND the core
-//    `useStateTransition` (already tested in core/__tests__/timeline.test.ts).
-//    The key additional contract: progress is eased with `easings.out` before
-//    the tween, so field values are out-eased, not linear.
-//
-//    MAINTENANCE CONTRACT: if use-tooltip-transition.ts lines 48-61 change,
-//    update this replica in lockstep. Annotated source lines below.
-// ===========================================================================
-
-/** MIRROR of core/timeline.ts:clamp01. */
 function clamp01Mirror(t: number): number {
   return Math.max(0, Math.min(1, t));
 }
 
-/** MIRROR of core/motion.ts:easings.out (cubic ease-out). */
 function easingOut(t: number): number {
   return 1 - (1 - t) ** 3;
 }
 
-/**
- * MIRROR of timeline.ts:useStateTransition pure resolver body,
- * with `raw` injected.
- */
 function resolveStateTransition<S extends string>(
   raw: number,
   steps: Step<S>[],
@@ -316,42 +230,28 @@ function resolveStateTransition<S extends string>(
   return { from: from ? from.state : defaultState, to: to.state, progress };
 }
 
-/**
- * MIRROR of use-tooltip-transition.ts:useTooltipTransition (lines 48-61).
- * `raw` is injected in place of useCurrentFrame().
- * Annotated source lines:
- *   line 52: destructure speed + defaultDuration from opts
- *   line 53-58: call useStateTransition (mirrored as resolveStateTransition)
- *   line 59: t = easings.out(progress)          ← MIRROR line 59
- *   line 60: tweenTooltipStyle(from, to, t)      ← MIRROR line 60
- */
 function resolveTooltipTransition(
   raw: number,                                    // injected useCurrentFrame() — MIRROR line 53
   steps: Step<TooltipState>[],
   speed = 1,
   defaultDuration = DEFAULT_DURATION,
 ): { style: ReturnType<typeof tweenTooltipStyle>; progress: number; from: TooltipState; to: TooltipState } {
-  const { from, to, progress } = resolveStateTransition( // MIRROR lines 53-58
+  const { from, to, progress } = resolveStateTransition(
     raw,
     steps,
     "hidden",
     speed,
     defaultDuration,
   );
-  const t = easingOut(progress);                         // MIRROR line 59
-  const style = tweenTooltipStyle(tooltipStyle(from as TooltipState), tooltipStyle(to as TooltipState), t); // MIRROR line 60
+  const t = easingOut(progress);
+  const style = tweenTooltipStyle(tooltipStyle(from as TooltipState), tooltipStyle(to as TooltipState), t);
   return { style, progress, from: from as TooltipState, to: to as TooltipState };
 }
-
-// ---------------------------------------------------------------------------
-// Before any step: holds at hidden (progress=1, tween(hidden,hidden,out(1)))
-// ---------------------------------------------------------------------------
 
 describe("resolveTooltipTransition: before any step — holds at hidden", () => {
   it("returns the hidden style when no steps have started", () => {
     const { style } = resolveTooltipTransition(0, []);
     const hidden = tooltipStyle("hidden");
-    // out(1)=1, so tween(hidden,hidden,1) = hidden
     expect(style.opacity).toBeCloseTo(hidden.opacity, 10);
     expect(style.scale).toBeCloseTo(hidden.scale, 10);
     expect(style.translate).toBeCloseTo(hidden.translate, 10);
@@ -364,17 +264,12 @@ describe("resolveTooltipTransition: before any step — holds at hidden", () => 
   });
 });
 
-// ---------------------------------------------------------------------------
-// Exactly at a step boundary: progress=0, t=easings.out(0)=0
-// ---------------------------------------------------------------------------
-
 describe("resolveTooltipTransition: exactly at hidden→visible step boundary", () => {
   const steps: Step<TooltipState>[] = [{ at: 10, state: "visible" }];
 
   it("at raw=10 exactly, progress=0, t=out(0)=0 → style equals hidden (from)", () => {
     const { style, progress } = resolveTooltipTransition(10, steps);
     expect(progress).toBe(0);
-    // t = out(0) = 0, so style = tween(hidden, visible, 0) = hidden
     const hidden = tooltipStyle("hidden");
     expect(style.opacity).toBeCloseTo(hidden.opacity, 10);
     expect(style.scale).toBeCloseTo(hidden.scale, 10);
@@ -388,41 +283,29 @@ describe("resolveTooltipTransition: exactly at hidden→visible step boundary", 
   });
 });
 
-// ---------------------------------------------------------------------------
-// Mid-window: easings.out applied to progress (non-linear)
-// ---------------------------------------------------------------------------
-
 describe("resolveTooltipTransition: mid-window uses easings.out (not linear)", () => {
-  // step at=0, defaultDuration=8. At raw=4: linear progress=0.5, out(0.5)=0.875
-  // opacity: tween(0, 1, 0.875) = 0.875
-  // scale: tween(0.96, 1, 0.875) = 0.96 + 0.04*0.875 = 0.995
-  // translate: tween(4, 0, 0.875) = 4*(1-0.875) = 0.5
   const steps: Step<TooltipState>[] = [{ at: 0, state: "visible" }];
 
   it("opacity at raw=4 is tween(0,1,out(0.5)) ≈ 0.875 (not linear 0.5)", () => {
     const { style } = resolveTooltipTransition(4, steps, 1, 8);
-    const expectedT = easingOut(0.5); // 0.875
+    const expectedT = easingOut(0.5);
     expect(style.opacity).toBeCloseTo(expectedT, 8);
   });
 
   it("scale at raw=4 is tween(0.96,1,out(0.5)): 0.96 + 0.04*0.875 = 0.995", () => {
     const { style } = resolveTooltipTransition(4, steps, 1, 8);
     const t = easingOut(0.5);
-    const expected = 0.96 + (1 - 0.96) * t; // 0.995
+    const expected = 0.96 + (1 - 0.96) * t;
     expect(style.scale).toBeCloseTo(expected, 8);
   });
 
   it("translate at raw=4 is tween(4,0,out(0.5)): 4*(1-0.875) = 0.5", () => {
     const { style } = resolveTooltipTransition(4, steps, 1, 8);
     const t = easingOut(0.5);
-    const expected = 4 * (1 - t); // 0.5
+    const expected = 4 * (1 - t);
     expect(style.translate).toBeCloseTo(expected, 8);
   });
 });
-
-// ---------------------------------------------------------------------------
-// Past the window: progress=1, t=out(1)=1 → fully visible
-// ---------------------------------------------------------------------------
 
 describe("resolveTooltipTransition: past the transition window → fully visible", () => {
   const steps: Step<TooltipState>[] = [{ at: 0, state: "visible" }];
@@ -443,12 +326,7 @@ describe("resolveTooltipTransition: past the transition window → fully visible
   });
 });
 
-// ---------------------------------------------------------------------------
-// Speed contract
-// ---------------------------------------------------------------------------
-
 describe("resolveTooltipTransition: speed contract", () => {
-  // step at=8. speed=2: effectiveFrame = raw*2 → fires at raw=4.
   const steps: Step<TooltipState>[] = [{ at: 8, state: "visible" }];
 
   it("speed=2: step at=8 fires at raw=4 (eff=8)", () => {
@@ -461,10 +339,6 @@ describe("resolveTooltipTransition: speed contract", () => {
     expect(to).toBe("hidden");
   });
 });
-
-// ===========================================================================
-// 5. tooltipConfig.controls — customizer control wiring
-// ===========================================================================
 
 describe("tooltipConfig.controls: state", () => {
   it("state is a select control", () => {
@@ -540,10 +414,6 @@ describe("tooltipConfig.controls: label", () => {
   });
 });
 
-// ===========================================================================
-// 6. tooltipConfig.snippet — pure JSX string builder
-// ===========================================================================
-
 describe("tooltipConfig.snippet: import line", () => {
   it("includes 'import { Tooltip }' from the correct path", () => {
     const out = snippet({ state: "visible" });
@@ -572,7 +442,6 @@ describe("tooltipConfig.snippet: structural invariants", () => {
 });
 
 describe("tooltipConfig.snippet: label is always emitted", () => {
-  // label is required on <Tooltip>, always emitted even for the default.
   it("emits label='Add to library' when label is the default", () => {
     const out = snippet({ state: "visible", label: "Add to library" });
     expect(out).toContain('label="Add to library"');
@@ -590,7 +459,6 @@ describe("tooltipConfig.snippet: label is always emitted", () => {
 });
 
 describe("tooltipConfig.snippet: default props are omitted", () => {
-  // Defaults: side=top, mode=light
 
   it("omits side when it equals the default 'top'", () => {
     const out = snippet({ state: "visible", side: "top" });

@@ -1,38 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `blur-in`.
- *
- * Scope:
- *   - registry/remocn-ui/blur-in/index.tsx  — BlurInState union membership,
- *     blurInStyleContext (direction → axis/sign), blurInStyle presets
- *   - registry/remocn-ui/blur-in/config.ts  — blurInConfig.controls.state
- *     wiring + blurInConfig.snippet output (the state → JSX codegen)
- *   - registry/remocn-ui/blur-in/use-blur-in-transition.ts — tweenBlurInStyle lerp
- *
- * The render path (index.tsx) is a PURE-STATE model: `(state) => visual`.
- * Every visual is the complete resting look for that state — state changes
- * snap (no tweening). `useBlurInTransition` reads `useCurrentFrame()` via
- * `useStateTransition`; it cannot run outside a Remotion render tree.
- * So BlurIn render is NOT exercised here. The pure-testable surface is the
- * customizer wiring + snippet codegen + style presets + tween (below).
- *
- * blur-in is THEME-INDEPENDENT: no theme/mode/primary anywhere, and the
- * "context" is a MOTION config (blur/distance/axis/sign), so no theme fixture
- * is imported here (unlike the other state atoms).
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/blur-in/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * The pieces under test never CALL a Remotion runtime API at import time —
- * `blurInConfig` is a plain object; `.snippet` is a pure string builder;
- * `blurInStyle`/`blurInStyleContext` are pure value functions;
- * `tweenBlurInStyle` is a pure lerp function.
- * We import via RELATIVE paths (matching the existing test suite pattern),
- * annotating each import with the source it corresponds to.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -44,17 +9,8 @@ import {
 import { tweenBlurInStyle } from "../use-blur-in-transition";
 import { blurInConfig } from "../config";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/**
- * The BlurInState union, enumerated as a runtime list for membership checks.
- * Must stay in sync with `export type BlurInState` in index.tsx.
- */
 const VALID_STATES: readonly BlurInState[] = ["hidden", "revealed"];
 
-/** The BlurInDirection union, enumerated as a runtime list. */
 const VALID_DIRECTIONS: readonly BlurInDirection[] = [
   "up",
   "down",
@@ -62,7 +18,6 @@ const VALID_DIRECTIONS: readonly BlurInDirection[] = [
   "right",
 ];
 
-/** Minimal shape mirroring the customizer's value bag passed to snippet(). */
 type SnippetValues = {
   state?: string;
   blur?: number;
@@ -72,10 +27,6 @@ type SnippetValues = {
 
 const snippet = (values: SnippetValues): string =>
   blurInConfig.snippet(values as Record<string, unknown>);
-
-// ===========================================================================
-// 1. BlurInState union membership
-// ===========================================================================
 
 describe("BlurInState union", () => {
   it("contains exactly the two documented states", () => {
@@ -95,10 +46,6 @@ describe("BlurInState union", () => {
     }
   });
 });
-
-// ===========================================================================
-// 2. blurInConfig.controls — customizer control wiring
-// ===========================================================================
 
 describe("blurInConfig.controls.state", () => {
   it("is a select control", () => {
@@ -147,14 +94,6 @@ describe("blurInConfig.controls numeric knobs", () => {
   });
 });
 
-// ===========================================================================
-// 3. blurInStyleContext — direction → motion config (axis + sign)
-//    up    → y / +1   (starts BELOW, travels up into place)
-//    down  → y / −1   (starts above, travels down into place)
-//    left  → x / +1   (starts to the right, travels left into place)
-//    right → x / −1   (starts to the left, travels right into place)
-// ===========================================================================
-
 describe("blurInStyleContext: direction → axis + sign", () => {
   it("up → axis y, sign +1", () => {
     const ctx = blurInStyleContext(8, "up", 12);
@@ -194,14 +133,6 @@ describe("blurInStyleContext: direction → axis + sign", () => {
     }
   });
 });
-
-// ===========================================================================
-// 4. blurInStyle presets — pure (state, ctx) => BlurInStyle
-//    revealed is always { blur:0, opacity:1, translateX:0, translateY:0 }.
-//    hidden carries ctx.blur, opacity 0, and the directional offset on the
-//    ctx axis (ctx.sign * ctx.distance), the other axis 0.
-//    Built with blur=8, distance=12 ctx (the control defaults).
-// ===========================================================================
 
 describe("blurInStyle: revealed preset (direction-independent)", () => {
   for (const direction of VALID_DIRECTIONS) {
@@ -258,11 +189,6 @@ describe("blurInStyle: hidden preset per direction (blur=8, distance=12)", () =>
   });
 });
 
-// ===========================================================================
-// 5. tweenBlurInStyle — pure linear interpolation between two BlurInStyles.
-//    All four fields are numbers and lerp linearly.
-// ===========================================================================
-
 describe("tweenBlurInStyle: t=0 returns values equal to `a`", () => {
   const a = blurInStyle("hidden", blurInStyleContext(8, "up", 12));
   const b = blurInStyle("revealed", blurInStyleContext(8, "up", 12));
@@ -302,8 +228,6 @@ describe("tweenBlurInStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenBlurInStyle: t=0.5 midpoint numeric lerp (hidden up → revealed)", () => {
-  // hidden(up):  blur=8, opacity=0, translateX=0, translateY=12
-  // revealed:    blur=0, opacity=1, translateX=0, translateY=0
   const a = blurInStyle("hidden", blurInStyleContext(8, "up", 12));
   const b = blurInStyle("revealed", blurInStyleContext(8, "up", 12));
   const r = tweenBlurInStyle(a, b, 0.5);
@@ -323,7 +247,6 @@ describe("tweenBlurInStyle: t=0.5 midpoint numeric lerp (hidden up → revealed)
 });
 
 describe("tweenBlurInStyle: t=0.5 midpoint on the x axis (hidden left → revealed)", () => {
-  // hidden(left): blur=8, opacity=0, translateX=12, translateY=0
   const a = blurInStyle("hidden", blurInStyleContext(8, "left", 12));
   const b = blurInStyle("revealed", blurInStyleContext(8, "left", 12));
   const r = tweenBlurInStyle(a, b, 0.5);
@@ -335,12 +258,6 @@ describe("tweenBlurInStyle: t=0.5 midpoint on the x axis (hidden left → reveal
     expect(r.translateY).toBeCloseTo(0, 10);
   });
 });
-
-// ===========================================================================
-// 6. blurInConfig.snippet — pure string builder
-//    Emits `state="<state>"` always; emits direction/blur/distance ONLY when
-//    they differ from the control defaults (up / 8 / 12); never the speed knob.
-// ===========================================================================
 
 describe("blurInConfig.snippet: state prop emission", () => {
   it('emits state="hidden" for the hidden option', () => {

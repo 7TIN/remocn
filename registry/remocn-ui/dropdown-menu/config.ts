@@ -8,7 +8,6 @@ export const dropdownMenuConfig: ComponentConfig = {
     label: { type: "text", default: "Options", label: "Label" },
     state: {
       type: "select",
-      // Default to `opened` so the preview shows the panel.
       default: "opened",
       options: ["opened", "closed"],
       label: "State",

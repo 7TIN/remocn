@@ -7,18 +7,11 @@ export type RadioState = "unchecked" | "checked";
 type RadioSize = "sm" | "default" | "lg";
 
 export interface RadioProps {
-  /** Current visual state (snap path). State changes snap (no enter-tweens). */
   state?: RadioState;
-  /**
-   * Resolved animated visual (smooth path). When provided, takes precedence over
-   * `state` — feed it an interpolated `RadioStyle` from `useRadioTransition`.
-   */
   style?: RadioStyle;
-  /** Optional text label rendered next to the circle. */
   label?: string;
   size?: RadioSize;
   theme?: Partial<RemocnTheme>;
-  /** Convenience override for the `primary` theme token — merged into `theme`. */
   primary?: string;
   mode?: "light" | "dark";
   className?: string;
@@ -33,34 +26,18 @@ const SIZE_STYLES: Record<
   lg: { box: 24, fontSize: 17, gap: 12 },
 };
 
-// ===========================================================================
-// Radio visual — the COMPLETE animated look for a moment in time. A `state`
-// is a named preset of this visual (`radioStyle`); the smooth path feeds an
-// interpolated `RadioStyle` straight through. The component is a pure
-// renderer of whichever `RadioStyle` it receives.
-// ===========================================================================
-
 export interface RadioStyle {
-  /** Animated outer-ring border color. */
   ringBorderColor: string;
-  /** Inner dot opacity 0→1. */
   dotOpacity: number;
-  /** Inner dot scale 0.4→1 (a slight pop on check). */
   dotScale: number;
 }
 
-/** Concrete colors for the active theme, resolved once per render. */
 export interface RadioStyleContext {
   uncheckedBorder: string;
   checkedBorder: string;
-  /** Static dot fill color (never animated). */
   dotColor: string;
 }
 
-/**
- * Derive the concrete colors for a theme. Pure — call it once and reuse the
- * result for every `radioStyle(state, ctx)` preset.
- */
 export function radioStyleContext(theme: RemocnTheme): RadioStyleContext {
   return {
     uncheckedBorder: theme.border,
@@ -69,10 +46,6 @@ export function radioStyleContext(theme: RemocnTheme): RadioStyleContext {
   };
 }
 
-/**
- * The COMPLETE resting visual for a state — a pure `(state, ctx) => RadioStyle`
- * map. To change how a state looks, edit one entry.
- */
 export function radioStyle(
   state: RadioState,
   ctx: RadioStyleContext,
@@ -134,7 +107,7 @@ export function Radio({
           gap: sizeStyle.gap,
         }}
       >
-        {/* The ring — animated border; the inner dot appears inside it. */}
+        {}
         <span
           style={{
             display: "flex",
@@ -147,7 +120,7 @@ export function Radio({
             background: theme.background,
           }}
         >
-          {/* Inner dot — scales + fades in on check. */}
+          {}
           <span
             style={{
               width: Math.round(boxSize * 0.45),

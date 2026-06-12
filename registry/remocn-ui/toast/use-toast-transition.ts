@@ -10,16 +10,9 @@ import {
   type ToastState,
   type ToastStyle,
 } from "@/components/remocn/toast";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 12;
 
-/**
- * Blend two toast visuals: every field lerps. `ToastStyle` carries no animated
- * colors (only transform + opacity), so there is no `mixOklch` here — but every
- * field is covered so neither enter nor dismiss freezes a channel.
- */
 export function tweenToastStyle(
   a: ToastStyle,
   b: ToastStyle,
@@ -38,12 +31,6 @@ export interface ToastTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) ToastStyle. The CALLER invokes this; it
- * reads the frame, the `<Toast>` component does not. Feed the result to
- * `<Toast style={...} />`. Both the enter (hidden→visible) and the auto-dismiss
- * (visible→hidden) read from the same eased tween, so both look smooth.
- */
 export function useToastTransition(
   steps: Step<ToastState>[],
   opts: ToastTransitionOptions = {},

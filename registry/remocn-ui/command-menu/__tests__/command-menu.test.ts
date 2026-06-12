@@ -1,33 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `command-menu`.
- *
- * Scope:
- *   - registry/remocn-ui/command-menu/index.tsx
- *       filterCommandItems(items, query, revealCount) — exported pure filter
- *       commandMenuStyleContext(theme)                 — pure color derivation
- *       commandMenuStyle(state, ctx)                   — complete state→visual map
- *   - registry/remocn-ui/command-menu/use-command-menu-transition.ts
- *       tweenCommandMenuStyle(a, b, t)                 — pure lerp across every field
- *       DEFAULT_DURATION constant
- *       useCommandMenuTransition resolver              — mirrored as resolveCommandMenuTransition
- *         with frame injected as `raw` (annotated source lines)
- *   - registry/remocn-ui/command-menu/config.ts
- *       commandMenuConfig.controls wiring + commandMenuConfig.snippet codegen
- *
- * The render path (index.tsx) imports `useRemocnTheme` which requires React
- * context and cannot run headlessly — it is NOT exercised here.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/command-menu/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * Relative imports for component source; `@/lib/remocn-ui` alias for core.
- * `useCommandMenuTransition` is NOT imported — it reads `useCurrentFrame()`.
- * Its pure body is mirrored as `resolveCommandMenuTransition` with frame injected.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -45,10 +15,6 @@ import { commandMenuConfig } from "../config";
 import { defaultLightTheme, defaultDarkTheme, easings } from "@/lib/remocn-ui";
 import type { Step } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
 const VALID_STATES: readonly CommandMenuState[] = ["opened", "closed"];
 
 const SAMPLE_ITEMS: CommandMenuEntry[] = [
@@ -58,10 +24,8 @@ const SAMPLE_ITEMS: CommandMenuEntry[] = [
   { icon: "search",   label: "Search docs" },
 ];
 
-/** Build a shared ctx for style assertions. */
 const ctx = commandMenuStyleContext(defaultLightTheme);
 
-/** Convenience wrapper for snippet(). */
 type SnippetValues = {
   state?: string;
   query?: string;
@@ -73,21 +37,11 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   commandMenuConfig.snippet(values as Record<string, unknown>);
 
-// ===========================================================================
-// 1. DEFAULT_DURATION constant
-// ===========================================================================
-
 describe("DEFAULT_DURATION", () => {
   it("is 12 frames (container default — longer than item's 8)", () => {
     expect(DEFAULT_DURATION).toBe(12);
   });
 });
-
-// ===========================================================================
-// 2. filterCommandItems — exported pure filter
-//    MIRROR of index.tsx lines 69-81
-//    Case-insensitive substring on query.slice(0, revealCount).
-// ===========================================================================
 
 describe("filterCommandItems: empty visible prefix → all items returned", () => {
   it("returns all items when query is empty string", () => {
@@ -183,13 +137,11 @@ describe("filterCommandItems: revealCount slices the query", () => {
 
   it("revealCount=1 on 'profile' uses only 'p' → Profile matches", () => {
     const result = filterCommandItems(SAMPLE_ITEMS, "profile", 1);
-    // 'p' should match Profile
     const labels = result.map((i) => i.label);
     expect(labels).toContain("Profile");
   });
 
   it("revealCount > query length uses full query (no index error)", () => {
-    // query='se' (2 chars), revealCount=100 → uses full 'se'
     const result = filterCommandItems(SAMPLE_ITEMS, "se", 100);
     expect(result).toHaveLength(2);
   });
@@ -201,11 +153,6 @@ describe("filterCommandItems: result preserves original item objects", () => {
     expect(result[0]).toBe(SAMPLE_ITEMS[0]);
   });
 });
-
-// ===========================================================================
-// 3. commandMenuStyleContext — pure theme → context derivation
-//    MIRROR of index.tsx lines 119-133
-// ===========================================================================
 
 describe("commandMenuStyleContext: maps theme tokens correctly", () => {
   it("panelBg equals theme.popover", () => {
@@ -259,12 +206,6 @@ describe("commandMenuStyleContext: theme independence", () => {
     expect(ctx.panelBg).not.toBe(ctxDark.panelBg);
   });
 });
-
-// ===========================================================================
-// 4. commandMenuStyle — pure (state, ctx) => CommandMenuStyle presets
-//    MIRROR of index.tsx lines 139-159
-//    Every field is asserted for every state.
-// ===========================================================================
 
 describe("commandMenuStyle: closed state — off-screen keyframe", () => {
   const s = commandMenuStyle("closed", ctx);
@@ -339,12 +280,6 @@ describe("commandMenuStyle: every state produces complete CommandMenuStyle", () 
   });
 });
 
-// ===========================================================================
-// 5. tweenCommandMenuStyle — pure lerp across all four numeric fields
-//    MIRROR of use-command-menu-transition.ts lines 22-35
-//    All fields are numbers — no color mixing; straight lerp on everything.
-// ===========================================================================
-
 describe("tweenCommandMenuStyle: t=0 returns values equal to `a`", () => {
   const a = commandMenuStyle("closed", ctx);
   const b = commandMenuStyle("opened", ctx);
@@ -390,9 +325,6 @@ describe("tweenCommandMenuStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenCommandMenuStyle: t=0.5 midpoint (closed → opened)", () => {
-  // closed: backdropOpacity=0, panelOpacity=0, panelScale=0.96, panelTranslateY=8
-  // opened: backdropOpacity=1, panelOpacity=1, panelScale=1,    panelTranslateY=0
-  // midpoint:  0.5,            0.5,            0.98,            4
   const a = commandMenuStyle("closed", ctx);
   const b = commandMenuStyle("opened", ctx);
   const r = tweenCommandMenuStyle(a, b, 0.5);
@@ -415,7 +347,6 @@ describe("tweenCommandMenuStyle: t=0.5 midpoint (closed → opened)", () => {
 });
 
 describe("tweenCommandMenuStyle: t=0.25 quarter-point (closed → opened)", () => {
-  // backdropOpacity: 0.25, panelOpacity: 0.25, panelScale: 0.97, panelTranslateY: 6
   const a = commandMenuStyle("closed", ctx);
   const b = commandMenuStyle("opened", ctx);
   const r = tweenCommandMenuStyle(a, b, 0.25);
@@ -450,7 +381,6 @@ describe("tweenCommandMenuStyle: identity (a === b)", () => {
 });
 
 describe("tweenCommandMenuStyle: reverse direction (opened → closed)", () => {
-  // Same midpoints by symmetry
   const a = commandMenuStyle("opened", ctx);
   const b = commandMenuStyle("closed", ctx);
   const r = tweenCommandMenuStyle(a, b, 0.5);
@@ -464,29 +394,10 @@ describe("tweenCommandMenuStyle: reverse direction (opened → closed)", () => {
   });
 });
 
-// ===========================================================================
-// 6. useCommandMenuTransition resolver replica
-//    MIRRORS use-command-menu-transition.ts lines 49-73.
-//    `useCommandMenuTransition` calls `useStateTransition` (reads useCurrentFrame())
-//    then applies `easings.out(progress)` and `tweenCommandMenuStyle`.
-//    We inject `raw` in place of useCurrentFrame().
-//
-//    The key additional contract beyond core timeline.test.ts: progress is
-//    eased with `easings.out` before the tween, making the result non-linear.
-//
-//    MAINTENANCE CONTRACT: if use-command-menu-transition.ts lines 49-73 change,
-//    update this replica in lockstep. Annotated source lines below.
-// ===========================================================================
-
-/** MIRROR of core/timeline.ts:clamp01. */
 function clamp01(t: number): number {
   return Math.max(0, Math.min(1, t));
 }
 
-/**
- * MIRROR of timeline.ts:useStateTransition pure resolver body (lines 55-73).
- * `raw` is injected in place of useCurrentFrame().
- */
 function resolveStateTransition<S extends string>(
   raw: number,
   steps: Step<S>[],
@@ -508,40 +419,27 @@ function resolveStateTransition<S extends string>(
   return { from: from ? from.state : defaultState, to: to.state, progress };
 }
 
-/**
- * MIRROR of use-command-menu-transition.ts:useCommandMenuTransition (lines 49-73).
- * `raw` is injected in place of useCurrentFrame().
- * Annotated source lines:
- *   line 57: destructure speed + defaultDuration from opts
- *   lines 61-66: useStateTransition (mirrored as resolveStateTransition)
- *   line 67: t = easings.out(progress)                       ← MIRROR line 67
- *   lines 68-72: tweenCommandMenuStyle(from, to, t)          ← MIRROR lines 68-72
- */
 function resolveCommandMenuTransition(
   raw: number,                                         // injected useCurrentFrame() — MIRROR line 61
   steps: Step<CommandMenuState>[],
   speed = 1,
   defaultDuration = DEFAULT_DURATION,
 ): ReturnType<typeof tweenCommandMenuStyle> & { from: CommandMenuState; to: CommandMenuState; progress: number } {
-  const { from, to, progress } = resolveStateTransition( // MIRROR lines 61-66
+  const { from, to, progress } = resolveStateTransition(
     raw,
     steps,
     "closed",
     speed,
     defaultDuration,
   );
-  const t = easings.out(progress);                       // MIRROR line 67
-  const style = tweenCommandMenuStyle(                   // MIRROR lines 68-72
+  const t = easings.out(progress);
+  const style = tweenCommandMenuStyle(
     commandMenuStyle(from as CommandMenuState, ctx),
     commandMenuStyle(to as CommandMenuState, ctx),
     t,
   );
   return { ...style, from: from as CommandMenuState, to: to as CommandMenuState, progress };
 }
-
-// ---------------------------------------------------------------------------
-// Before any step: holds at closed (progress=1, tween(closed,closed,out(1)))
-// ---------------------------------------------------------------------------
 
 describe("resolveCommandMenuTransition: before any step — holds at closed", () => {
   it("returns the closed style when no steps have started", () => {
@@ -559,10 +457,6 @@ describe("resolveCommandMenuTransition: before any step — holds at closed", ()
     expect(to).toBe("closed");
   });
 });
-
-// ---------------------------------------------------------------------------
-// Exactly at a step boundary: progress=0, t=out(0)=0 → closed style
-// ---------------------------------------------------------------------------
 
 describe("resolveCommandMenuTransition: exactly at closed→opened step boundary", () => {
   const steps: Step<CommandMenuState>[] = [{ at: 10, state: "opened" }];
@@ -582,25 +476,19 @@ describe("resolveCommandMenuTransition: exactly at closed→opened step boundary
   });
 });
 
-// ---------------------------------------------------------------------------
-// Mid-window: easings.out applied — non-linear (not raw 0.5)
-// ---------------------------------------------------------------------------
-
 describe("resolveCommandMenuTransition: mid-window uses easings.out (not linear)", () => {
-  // step at=0, defaultDuration=12. At raw=6: linear progress=0.5, out(0.5)=0.875
-  // backdropOpacity: tween(0, 1, 0.875) = 0.875 (not linear 0.5)
   const steps: Step<CommandMenuState>[] = [{ at: 0, state: "opened" }];
 
   it("backdropOpacity at raw=6 is out(0.5) ≈ 0.875 (not linear 0.5)", () => {
     const r = resolveCommandMenuTransition(6, steps, 1, 12);
-    const t = easings.out(0.5); // 0.875
+    const t = easings.out(0.5);
     expect(r.backdropOpacity).toBeCloseTo(t, 8);
   });
 
   it("panelTranslateY at raw=6 is 8*(1-out(0.5)): 8*0.125=1", () => {
     const r = resolveCommandMenuTransition(6, steps, 1, 12);
-    const t = easings.out(0.5); // 0.875
-    const expected = 8 * (1 - t); // lerp(8, 0, t)
+    const t = easings.out(0.5);
+    const expected = 8 * (1 - t);
     expect(r.panelTranslateY).toBeCloseTo(expected, 8);
   });
 
@@ -611,10 +499,6 @@ describe("resolveCommandMenuTransition: mid-window uses easings.out (not linear)
     expect(r.panelScale).toBeCloseTo(expected, 8);
   });
 });
-
-// ---------------------------------------------------------------------------
-// Past the window: fully opened
-// ---------------------------------------------------------------------------
 
 describe("resolveCommandMenuTransition: past the window → fully opened", () => {
   const steps: Step<CommandMenuState>[] = [{ at: 0, state: "opened" }];
@@ -636,10 +520,6 @@ describe("resolveCommandMenuTransition: past the window → fully opened", () =>
   });
 });
 
-// ---------------------------------------------------------------------------
-// Speed contract
-// ---------------------------------------------------------------------------
-
 describe("resolveCommandMenuTransition: speed contract", () => {
   const steps: Step<CommandMenuState>[] = [{ at: 12, state: "opened" }];
 
@@ -651,10 +531,6 @@ describe("resolveCommandMenuTransition: speed contract", () => {
     expect(resolveCommandMenuTransition(5, steps, 2).to).toBe("closed");
   });
 });
-
-// ===========================================================================
-// 7. commandMenuConfig.controls — customizer control wiring
-// ===========================================================================
 
 describe("commandMenuConfig.controls: state", () => {
   it("state is a select control", () => {
@@ -728,10 +604,6 @@ describe("commandMenuConfig.controls: mode", () => {
   });
 });
 
-// ===========================================================================
-// 8. commandMenuConfig.snippet — pure JSX string builder
-// ===========================================================================
-
 describe("commandMenuConfig.snippet: import line", () => {
   it("includes 'import { CommandMenu }' from the correct path", () => {
     const out = snippet({ state: "opened" });
@@ -770,7 +642,6 @@ describe("commandMenuConfig.snippet: default props are omitted", () => {
   });
 
   it("omits highlightedIndex when it equals -1 (no highlight)", () => {
-    // highlightedIndex default in snippet omission is -1 (not highlighted)
     expect(snippet({ state: "opened", highlightedIndex: -1 })).not.toContain("highlightedIndex=");
   });
 

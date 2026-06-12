@@ -1,35 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `resizable`.
- *
- * Scope:
- *   - registry/remocn-ui/resizable/index.tsx
- *       resizableHandleStyle(handleState)    — pure handle-channel preset map
- *       resizableStyleContext(theme)         — pure theme → color derivation
- *       resizableStyle(ratio, handleState)   — pure snap-path composer
- *   - registry/remocn-ui/resizable/use-resizable-transition.ts
- *       tweenResizableStyle(a, b, t)         — pure lerp across all three fields
- *       resizableStyleAt(steps, raw, opts)   — pure exported dual-channel core
- *       DEFAULT_DURATION constant
- *   - registry/remocn-ui/resizable/config.ts
- *       resizableConfig.controls wiring + resizableConfig.snippet codegen
- *
- * The render path (index.tsx) imports `useRemocnTheme` which requires React
- * context — it is NOT exercised here. `useResizableTransition` IS a hook (calls
- * `useCurrentFrame()`) and is NOT imported; its pure body is the exported
- * `resizableStyleAt` which we call directly.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/resizable/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * Relative imports from component source; `@/lib/remocn-ui` alias for core.
- * `resizableHandleStyle`, `resizableStyleContext`, `resizableStyle` are pure
- * value functions. `useResizableTransition` IS a hook and is NOT imported;
- * we call `resizableStyleAt` directly (the exported pure core).
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -47,17 +15,12 @@ import {
 import { resizableConfig } from "../config";
 import { defaultLightTheme, defaultDarkTheme } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
 const VALID_HANDLE_STATES: readonly ResizableHandleState[] = [
   "idle",
   "hover",
   "press",
 ];
 
-/** Convenience wrapper for snippet(). */
 type SnippetValues = {
   ratio?: number;
   handleState?: string;
@@ -67,20 +30,11 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   resizableConfig.snippet(values as Record<string, unknown>);
 
-// ===========================================================================
-// 1. DEFAULT_DURATION constant
-// ===========================================================================
-
 describe("DEFAULT_DURATION", () => {
   it("is 18 frames", () => {
     expect(DEFAULT_DURATION).toBe(18);
   });
 });
-
-// ===========================================================================
-// 2. resizableHandleStyle — pure (handleState) => {handleScale, handleRingOpacity}
-//    MIRROR of index.tsx lines 75-87
-// ===========================================================================
 
 describe("resizableHandleStyle: idle state — resting handle", () => {
   const s = resizableHandleStyle("idle");
@@ -146,15 +100,6 @@ describe("resizableHandleStyle: every state returns numeric fields", () => {
   });
 });
 
-// ===========================================================================
-// 3. clampRatio — the renderer clamps ratio to [minRatio, maxRatio]
-//    MIRROR of index.tsx lines 66-68 (clampRatio function)
-//
-//    Default minRatio=0.15, maxRatio=0.85 from ResizableProps.
-//    The function is unexported but its semantics are contractual.
-// ===========================================================================
-
-/** MIRROR of index.tsx:clampRatio */
 function clampRatio(
   ratio: number,
   minRatio: number,
@@ -214,11 +159,6 @@ describe("clampRatio: in-range values pass through unchanged", () => {
     expect(clampRatio(0.75, 0.15, 0.85)).toBeCloseTo(0.75, 10);
   });
 });
-
-// ===========================================================================
-// 4. resizableStyleContext — pure theme → ResizableStyleContext
-//    MIRROR of index.tsx lines 106-116
-// ===========================================================================
 
 describe("resizableStyleContext: light theme — token mapping", () => {
   const ctx = resizableStyleContext(defaultLightTheme);
@@ -283,11 +223,6 @@ describe("resizableStyleContext: all fields are present and correctly typed", ()
     expect(typeof ctx.radius).toBe("number");
   });
 });
-
-// ===========================================================================
-// 5. resizableStyle — pure (ratio, handleState) => ResizableStyle
-//    MIRROR of index.tsx lines 123-133
-// ===========================================================================
 
 describe("resizableStyle: idle handle preset", () => {
   const s = resizableStyle(0.5, "idle");
@@ -359,15 +294,9 @@ describe("resizableStyle: all three ResizableStyle fields are present", () => {
   });
 });
 
-// ===========================================================================
-// 6. tweenResizableStyle — pure lerp across all three fields
-//    MIRROR of use-resizable-transition.ts lines 42-53
-//    Both channels (ratio + handle) are covered in one tween.
-// ===========================================================================
-
 describe("tweenResizableStyle: t=0 returns values equal to `a`", () => {
-  const a = resizableStyle(0.3, "idle");   // {ratio:0.3, handleScale:1, handleRingOpacity:0}
-  const b = resizableStyle(0.7, "hover");  // {ratio:0.7, handleScale:1.15, handleRingOpacity:1}
+  const a = resizableStyle(0.3, "idle");
+  const b = resizableStyle(0.7, "hover");
   const r = tweenResizableStyle(a, b, 0);
 
   it("ratio equals a.ratio at t=0", () => {
@@ -398,9 +327,6 @@ describe("tweenResizableStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenResizableStyle: t=0.5 midpoint", () => {
-  // a: ratio=0.3, handleScale=1(idle), handleRingOpacity=0
-  // b: ratio=0.7, handleScale=1.15(hover), handleRingOpacity=1
-  // midpoints: ratio=0.5, handleScale=1.075, handleRingOpacity=0.5
   const a = resizableStyle(0.3, "idle");
   const b = resizableStyle(0.7, "hover");
   const r = tweenResizableStyle(a, b, 0.5);
@@ -428,9 +354,6 @@ describe("tweenResizableStyle: identity (a === b, any t)", () => {
 });
 
 describe("tweenResizableStyle: idle → press handle channel", () => {
-  // idle: handleScale=1, handleRingOpacity=0
-  // press: handleScale=1.25, handleRingOpacity=1
-  // t=0.5: handleScale=1.125, handleRingOpacity=0.5
   const a = resizableStyle(0.5, "idle");
   const b = resizableStyle(0.5, "press");
   const r = tweenResizableStyle(a, b, 0.5);
@@ -444,9 +367,6 @@ describe("tweenResizableStyle: idle → press handle channel", () => {
 });
 
 describe("tweenResizableStyle: hover → press handle channel", () => {
-  // hover: handleScale=1.15, handleRingOpacity=1
-  // press: handleScale=1.25, handleRingOpacity=1
-  // t=0.5: handleScale=1.2, handleRingOpacity=1 (ring stays at 1)
   const a = resizableStyle(0.5, "hover");
   const b = resizableStyle(0.5, "press");
   const r = tweenResizableStyle(a, b, 0.5);
@@ -459,21 +379,7 @@ describe("tweenResizableStyle: hover → press handle channel", () => {
   });
 });
 
-// ===========================================================================
-// 7. resizableStyleAt — pure exported dual-channel core
-//    MIRROR of use-resizable-transition.ts lines 152-165.
-//    useResizableTransition is exactly resizableStyleAt(steps, useCurrentFrame()*speed, opts).
-//    We call resizableStyleAt directly with the frame injected as `raw`.
-//
-//    The two channels (ratio + handle) are folded INDEPENDENTLY from the same
-//    step list, filtering to ratio-bearing and handle-bearing steps respectively.
-//
-//    MAINTENANCE CONTRACT: if use-resizable-transition.ts lines 70-165 change,
-//    update these tests in lockstep. Annotated source lines below.
-// ===========================================================================
-
 describe("resizableStyleAt: empty steps → ratio=0.5, handle=idle", () => {
-  // source lines 78/113: empty ratio/handle steps → return 0.5 / resizableHandleStyle('idle')
   it("empty steps returns {ratio:0.5, handleScale:1, handleRingOpacity:0}", () => {
     const r = resizableStyleAt([], 0);
     expect(r.ratio).toBe(0.5);
@@ -483,7 +389,6 @@ describe("resizableStyleAt: empty steps → ratio=0.5, handle=idle", () => {
 });
 
 describe("resizableStyleAt: before first ratio step — holds at first.ratio", () => {
-  // source line 81: if (raw <= first.at) return first.ratio
   const steps: ResizableStep[] = [{ at: 10, ratio: 0.6 }];
 
   it("raw=5 < first.at=10 → holds at first.ratio=0.6", () => {
@@ -496,7 +401,6 @@ describe("resizableStyleAt: before first ratio step — holds at first.ratio", (
 });
 
 describe("resizableStyleAt: before first handle step — holds at first.handleState preset", () => {
-  // source line 115: if (raw <= first.at) return resizableHandleStyle(first.handleState)
   const steps: ResizableStep[] = [{ at: 10, handleState: "hover" }];
 
   it("raw=5 holds at hover preset (handleScale=1.15)", () => {
@@ -509,7 +413,6 @@ describe("resizableStyleAt: before first handle step — holds at first.handleSt
 });
 
 describe("resizableStyleAt: past last ratio step — rests at last.ratio", () => {
-  // source lines 90-93: pastLast → to=from=last, t=1
   const steps: ResizableStep[] = [
     { at: 0, ratio: 0.3 },
     { at: 18, ratio: 0.7 },
@@ -539,8 +442,6 @@ describe("resizableStyleAt: past last handle step — rests at last.handleState 
 });
 
 describe("resizableStyleAt: ratio channel mid-window uses easings.out", () => {
-  // [{at:0,ratio:0.3},{at:18,ratio:0.7}], raw=9 → start=0, linear=0.5, t=out(0.5)=0.875
-  // ratio = 0.3 + (0.7-0.3)*0.875 = 0.3 + 0.35 = 0.65
   const steps: ResizableStep[] = [
     { at: 0, ratio: 0.3 },
     { at: 18, ratio: 0.7 },
@@ -557,9 +458,6 @@ describe("resizableStyleAt: ratio channel mid-window uses easings.out", () => {
 });
 
 describe("resizableStyleAt: handle channel mid-window uses easings.out", () => {
-  // [{at:0,handleState:'idle'},{at:18,handleState:'hover'}], raw=9
-  // t=out(0.5)=0.875; idle={hs:1,hro:0}, hover={hs:1.15,hro:1}
-  // handleScale: 1 + 0.15*0.875 = 1.13125, handleRingOpacity: 0 + 1*0.875 = 0.875
   const steps: ResizableStep[] = [
     { at: 0, handleState: "idle" },
     { at: 18, handleState: "hover" },
@@ -575,7 +473,6 @@ describe("resizableStyleAt: handle channel mid-window uses easings.out", () => {
 });
 
 describe("resizableStyleAt: dual-channel steps fold independently", () => {
-  // Combined steps — both channels active simultaneously
   const steps: ResizableStep[] = [
     { at: 0, ratio: 0.3, handleState: "idle" },
     { at: 18, ratio: 0.7, handleState: "hover" },
@@ -602,7 +499,6 @@ describe("resizableStyleAt: dual-channel steps fold independently", () => {
 });
 
 describe("resizableStyleAt: channels can have different step counts", () => {
-  // Only ratio steps, no handle steps → handle stays idle
   const ratioOnlySteps: ResizableStep[] = [
     { at: 0, ratio: 0.3 },
     { at: 18, ratio: 0.7 },
@@ -614,7 +510,6 @@ describe("resizableStyleAt: channels can have different step counts", () => {
     expect(r.handleRingOpacity).toBe(resizableHandleStyle("idle").handleRingOpacity);
   });
 
-  // Only handle steps, no ratio steps → ratio stays 0.5
   const handleOnlySteps: ResizableStep[] = [
     { at: 0, handleState: "idle" },
     { at: 18, handleState: "hover" },
@@ -650,9 +545,6 @@ describe("resizableStyleAt: before first with both channels — single-step time
 });
 
 describe("resizableStyleAt: custom defaultDuration override", () => {
-  // With defaultDuration=9, a step at=9 with no explicit duration uses a 9-frame window
-  // [0..9], raw=4.5 is mid → linear=0.5, out-eased → 0.875
-  // ratio = 0.3 + (0.7-0.3)*0.875 = 0.65
   const steps: ResizableStep[] = [
     { at: 0, ratio: 0.3 },
     { at: 9, ratio: 0.7 },
@@ -663,10 +555,6 @@ describe("resizableStyleAt: custom defaultDuration override", () => {
     expect(r.ratio).toBeCloseTo(0.65, 8);
   });
 });
-
-// ===========================================================================
-// 8. resizableConfig.controls — customizer control wiring
-// ===========================================================================
 
 describe("resizableConfig.controls: ratio", () => {
   it("ratio is a number control", () => {
@@ -727,10 +615,6 @@ describe("resizableConfig.controls: mode", () => {
     expect(ctrl.default).toBe("light");
   });
 });
-
-// ===========================================================================
-// 9. resizableConfig.snippet — pure JSX string builder
-// ===========================================================================
 
 describe("resizableConfig.snippet: import line", () => {
   it("includes 'import { Resizable }' from the correct path", () => {

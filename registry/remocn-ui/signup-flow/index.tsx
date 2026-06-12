@@ -20,23 +20,14 @@ import {
 } from "@/components/remocn/field";
 
 export interface SignupFlowProps {
-  /** Card title. */
   title?: string;
-  /** Card description under the title. */
   description?: string;
-  /** Value typed into the Full Name field. */
   fullName?: string;
-  /** Value typed into the Email field. */
   email?: string;
-  /** Value typed into the password fields (rendered as the masked string). */
   password?: string;
-  /** Primary submit button label. */
   createLabel?: string;
-  /** Outline (social) button label. */
   googleLabel?: string;
-  /** Footer prompt shown before the "Sign in" link. */
   signinText?: string;
-  /** Title shown in the success toast. */
   toastTitle?: string;
   mode?: "light" | "dark";
   theme?: Partial<RemocnTheme>;
@@ -45,8 +36,8 @@ export interface SignupFlowProps {
 const STAGE_W = 1280;
 const CARD_W = 376;
 const CARD_TOP = 48;
-const CARD_LEFT = (STAGE_W - CARD_W) / 2; // 452
-const CENTER_X = STAGE_W / 2; // 640 — the centered content column
+const CARD_LEFT = (STAGE_W - CARD_W) / 2;
+const CENTER_X = STAGE_W / 2;
 
 const NAME_Y = 216;
 const EMAIL_Y = 296;

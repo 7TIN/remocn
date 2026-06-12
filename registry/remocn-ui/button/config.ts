@@ -20,7 +20,6 @@ export const buttonConfig: ComponentConfig = {
     },
     state: {
       type: "select",
-      // Default to `loading` so the preview showcases the live spinner motion.
       default: "loading",
       options: ["idle", "hover", "press", "loading", "success"],
       label: "State",

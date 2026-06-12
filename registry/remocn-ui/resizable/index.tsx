@@ -7,46 +7,21 @@ export type ResizableHandleState = "idle" | "hover" | "press";
 
 export type ResizableDirection = "horizontal" | "vertical";
 
-// ===========================================================================
-// Resizable visual — the COMPLETE animated look for a moment in time. This is a
-// DUAL-channel atom (value-channel deviation §0, like slider): the numeric
-// `ratio` animates as a lerp while the handle visuals (`handleScale`,
-// `handleRingOpacity`) come from a `handleState` preset. Both live in one
-// `ResizableStyle`; `useResizableTransition` feeds an interpolated one through
-// the `style` prop. The component never reads the frame.
-// ===========================================================================
-
 export interface ResizableStyle {
-  /** Fraction of the FIRST panel, 0–1 (clamped to [minRatio, maxRatio]). */
   ratio: number;
-  /** Handle grip zoom: 1 idle, grows on hover/press. */
   handleScale: number;
-  /** Handle grab-ring opacity 0 (idle) → 1 (hover/press). */
   handleRingOpacity: number;
 }
 
 export interface ResizableProps {
-  /** First panel content. Defaults to a muted placeholder card. */
   first?: ReactNode;
-  /** Second panel content. Defaults to a muted placeholder card. */
   second?: ReactNode;
-  /** Split direction — both implemented (horizontal splits width, vertical height). */
   direction?: ResizableDirection;
-  /** Fraction of the first panel, 0–1 (snap path). Ignored when `style` is set. */
   ratio?: number;
-  /** Handle visual state (snap path). Ignored when `style` is set. */
   handleState?: ResizableHandleState;
-  /**
-   * Resolved animated visual (smooth path). When provided, takes precedence over
-   * `ratio`/`handleState` — feed it an interpolated `ResizableStyle` from
-   * `useResizableTransition`.
-   */
   style?: ResizableStyle;
-  /** Minimum first-panel fraction. Default 0.15. */
   minRatio?: number;
-  /** Maximum first-panel fraction. Default 0.85. */
   maxRatio?: number;
-  /** Container size in px (width for horizontal, height for vertical primary axis). */
   width?: number;
   height?: number;
   theme?: Partial<RemocnTheme>;
@@ -54,24 +29,15 @@ export interface ResizableProps {
   className?: string;
 }
 
-/** Divider thickness (px). */
 const DIVIDER = 1;
-/** Grip pill dimensions (px) — shadcn `h-6 w-1`. */
 const GRIP_LONG = 24;
 const GRIP_SHORT = 4;
-/** Grab-ring spread (px) at full opacity. */
 const RING_WIDTH = 4;
 
-/** Clamp a ratio into [minRatio, maxRatio]. */
 function clampRatio(ratio: number, minRatio: number, maxRatio: number): number {
   return Math.min(maxRatio, Math.max(minRatio, ratio));
 }
 
-/**
- * The handle-channel preset for a state — pure `(handleState) => {handleScale,
- * handleRingOpacity}`. Hover and press both grow the grip and show the ring;
- * press grows it a touch more. The `ratio` channel is independent of this.
- */
 export function resizableHandleStyle(handleState: ResizableHandleState): {
   handleScale: number;
   handleRingOpacity: number;
@@ -86,23 +52,16 @@ export function resizableHandleStyle(handleState: ResizableHandleState): {
   }
 }
 
-/** Concrete colors for the active theme, resolved once per render. */
 export interface ResizableStyleContext {
   containerBg: string;
   border: string;
   panelBg: string;
   grip: string;
-  /** Grab ring — a visible halo derived from the ring token (US-006 contrast). */
   ring: string;
   placeholderFg: string;
   radius: number;
 }
 
-/**
- * Derive the concrete colors for a theme. Pure. The grab ring is a real mix of
- * the ring token toward the background (not a duplicate token), so it reads as a
- * distinct halo in both light and dark.
- */
 export function resizableStyleContext(theme: RemocnTheme): ResizableStyleContext {
   return {
     containerBg: theme.background,
@@ -115,11 +74,6 @@ export function resizableStyleContext(theme: RemocnTheme): ResizableStyleContext
   };
 }
 
-/**
- * The COMPLETE resting visual for the snap path — a pure `(ratio, handleState)
- * => ResizableStyle` map. The ratio is NOT clamped here (the renderer clamps
- * with the active min/max); the handle visuals come from the preset.
- */
 export function resizableStyle(
   ratio: number,
   handleState: ResizableHandleState,
@@ -132,7 +86,6 @@ export function resizableStyle(
   };
 }
 
-/** Default placeholder card for a panel slot. */
 function Placeholder({ label, color }: { label: string; color: string }) {
   return (
     <div
@@ -175,8 +128,6 @@ export function Resizable({
   const pct = clampRatio(v.ratio, minRatio, maxRatio) * 100;
   const isHorizontal = direction === "horizontal";
 
-  // The grip is a long pill along the divider; long axis is perpendicular to the
-  // split direction (vertical pill for a horizontal split, and vice versa).
   const gripW = isHorizontal ? GRIP_SHORT : GRIP_LONG;
   const gripH = isHorizontal ? GRIP_LONG : GRIP_SHORT;
 
@@ -208,7 +159,7 @@ export function Resizable({
           boxSizing: "border-box",
         }}
       >
-        {/* First panel — sized by ratio along the split axis. */}
+        {}
         <div
           style={{
             flex: "none",
@@ -219,7 +170,7 @@ export function Resizable({
         >
           {first ?? <Placeholder label="Panel one" color={ctx.placeholderFg} />}
         </div>
-        {/* Divider — a 1px border-color line; grip pill centered on it. */}
+        {}
         <div
           style={{
             position: "relative",
@@ -228,7 +179,7 @@ export function Resizable({
             background: ctx.border,
           }}
         >
-          {/* Grab ring behind the grip, fading in on hover/press. */}
+          {}
           <div
             style={{
               position: "absolute",
@@ -242,7 +193,7 @@ export function Resizable({
               opacity: v.handleRingOpacity,
             }}
           />
-          {/* Grip pill — scales on grab. */}
+          {}
           <div
             style={{
               position: "absolute",
@@ -256,7 +207,7 @@ export function Resizable({
             }}
           />
         </div>
-        {/* Second panel — fills the remainder. */}
+        {}
         <div
           style={{
             flex: "1 1 0",

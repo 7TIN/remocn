@@ -1,34 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `switch`.
- *
- * Scope:
- *   - registry/remocn-ui/switch/index.tsx  — SwitchState union membership,
- *     switchStyleContext, switchStyle presets
- *   - registry/remocn-ui/switch/use-switch-transition.ts — tweenSwitchStyle
- *   - registry/remocn-ui/switch/config.ts  — switchConfig.controls.state
- *     wiring + switchConfig.snippet output (the state → JSX codegen)
- *
- * The render path (index.tsx) is a PURE-STATE model: `(state) => visual`.
- * State changes snap (no tweening inside the component). The smooth-path hook
- * `useSwitchTransition` reads `useCurrentFrame()` via `useStateTransition`
- * internally; it cannot run outside a Remotion render tree. So Switch render
- * is NOT exercised here. The pure-testable surface is the customizer wiring,
- * snippet codegen, style presets, and tween interpolation (below).
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/switch/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * `config.ts` imports `SwitchState` from `@/registry/remocn-ui/switch`
- * and the pieces under test never CALL a Remotion runtime API at import time —
- * `switchConfig` is a plain object; `.snippet` is a pure string builder;
- * `switchStyle` and `tweenSwitchStyle` are pure value functions.
- * We import via RELATIVE paths (matching the existing test suite pattern),
- * annotating each import with the source it corresponds to.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -40,17 +9,8 @@ import { tweenSwitchStyle } from "../use-switch-transition";
 import { switchConfig } from "../config";
 import { defaultLightTheme } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/**
- * The SwitchState union, enumerated as a runtime list for membership checks.
- * Must stay in sync with `export type SwitchState` in index.tsx.
- */
 const VALID_STATES: readonly SwitchState[] = ["unchecked", "checked"];
 
-/** Minimal shape mirroring the customizer's value bag passed to snippet(). */
 type SnippetValues = {
   state?: string;
   label?: string;
@@ -62,22 +22,14 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   switchConfig.snippet(values as Record<string, unknown>);
 
-// ===========================================================================
-// 1. SwitchState union membership
-// ===========================================================================
-
 describe("SwitchState union", () => {
   it("contains exactly the two documented states", () => {
-    // We can't enumerate a TS type at runtime, but we can assert the REAL
-    // controls.state options match and that all known states are members.
     const control = switchConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(control.options).toEqual(["unchecked", "checked"]);
   });
 
   it("every VALID_STATES entry is assignable (no typos in the fixture)", () => {
-    // Belt-and-suspenders: the fixture array must have exactly 2 entries and
-    // match the options list from the real config.
     const control = switchConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(VALID_STATES).toHaveLength(2);
@@ -86,10 +38,6 @@ describe("SwitchState union", () => {
     }
   });
 });
-
-// ===========================================================================
-// 2. switchConfig.controls.state — customizer control wiring
-// ===========================================================================
 
 describe("switchConfig.controls.state", () => {
   it("is a select control", () => {
@@ -115,12 +63,6 @@ describe("switchConfig.controls.state", () => {
     }
   });
 });
-
-// ===========================================================================
-// 3. switchConfig.snippet — pure string builder
-//    State model: snippet emits `state="<state>"` as a bare JSX prop.
-//    It NEVER emits `steps` or `action`.
-// ===========================================================================
 
 describe("switchConfig.snippet: state prop emission", () => {
   it("emits state=\"unchecked\" for the unchecked option", () => {
@@ -164,7 +106,6 @@ describe("switchConfig.snippet: import line", () => {
 });
 
 describe("switchConfig.snippet: default props are omitted", () => {
-  // Defaults: label="", size=default, mode=light, primary=#171717
   const allDefaults = snippet({
     state: "checked",
     label: "",
@@ -224,15 +165,6 @@ describe("switchConfig.snippet: structural round-trip", () => {
   });
 });
 
-// ===========================================================================
-// 4. switchStyle presets — pure (state, ctx) => SwitchStyle
-//    switchStyleContext and switchStyle are now exported and frame-free.
-//    Build one ctx from the default light theme, then assert the
-//    numeric invariants for both states.
-//    trackBackground is derived from the theme — asserted non-empty only
-//    (exact value is an implementation detail of the theme).
-// ===========================================================================
-
 const ctx = switchStyleContext(defaultLightTheme);
 
 describe("switchStyle: unchecked state", () => {
@@ -273,14 +205,6 @@ describe("switchStyle: invariants — unchecked thumb at left, checked thumb at 
   });
 });
 
-// ===========================================================================
-// 5. tweenSwitchStyle — pure linear interpolation between two SwitchStyles.
-//    Numbers lerp linearly; colors via oklch mix → non-empty string at all t.
-//    Concrete expectations: unchecked→checked for midpoint math.
-//      unchecked: thumbOffset=0
-//      checked:   thumbOffset=1
-// ===========================================================================
-
 describe("tweenSwitchStyle: t=0 returns values equal to `a`", () => {
   const a = switchStyle("unchecked", ctx);
   const b = switchStyle("checked", ctx);
@@ -312,8 +236,6 @@ describe("tweenSwitchStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenSwitchStyle: t=0.5 midpoint numeric lerp (unchecked → checked)", () => {
-  // unchecked: thumbOffset=0
-  // checked:   thumbOffset=1
   const a = switchStyle("unchecked", ctx);
   const b = switchStyle("checked", ctx);
   const r = tweenSwitchStyle(a, b, 0.5);

@@ -1,34 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `drawer`.
- *
- * Scope:
- *   - registry/remocn-ui/drawer/index.tsx  — DrawerState union membership,
- *     drawerStyle presets, drawerStyleContext
- *   - registry/remocn-ui/drawer/config.ts  — drawerConfig.controls wiring
- *     + drawerConfig.snippet output (the state → JSX codegen)
- *   - registry/remocn-ui/drawer/use-drawer-transition.ts
- *     — tweenDrawerStyle interpolation, DEFAULT_DURATION
- *
- * The render path (index.tsx) is a PURE-STATE model: `(state) => visual`.
- * `<Drawer>` reads `useRemocnTheme()` internally — that hook is pure at
- * call-time in test context, but the JSX render tree is not exercised here.
- * The pure-testable surface is: the style presets + tween + customizer wiring
- * + snippet codegen.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/drawer/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * `config.ts` imports `DrawerState` from `@/registry/remocn-ui/drawer`
- * and the pieces under test never CALL a Remotion runtime API at import time —
- * `drawerConfig` is a plain object; `.snippet` is a pure string builder;
- * `drawerStyle` and `tweenDrawerStyle` are pure value functions.
- * We import via RELATIVE paths (matching the existing test suite pattern),
- * annotating each import with the source it corresponds to.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -40,17 +9,8 @@ import { tweenDrawerStyle, DEFAULT_DURATION } from "../use-drawer-transition";
 import { drawerConfig } from "../config";
 import { defaultLightTheme } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/**
- * The DrawerState union, enumerated as a runtime list for membership checks.
- * Must stay in sync with `export type DrawerState` in index.tsx.
- */
 const VALID_STATES: readonly DrawerState[] = ["opened", "closed"];
 
-/** Minimal shape mirroring the customizer's value bag passed to snippet(). */
 type SnippetValues = {
   state?: string;
   title?: string;
@@ -63,28 +23,16 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   drawerConfig.snippet(values as Record<string, unknown>);
 
-/**
- * A shared DrawerStyleContext built from the default light theme.
- * `drawerStyleContext` takes only `(theme)` — no variant arg, unlike accordion.
- */
 const ctx = drawerStyleContext(defaultLightTheme);
-
-// ===========================================================================
-// 1. DrawerState union membership
-// ===========================================================================
 
 describe("DrawerState union", () => {
   it("contains exactly the two documented states", () => {
-    // We can't enumerate a TS type at runtime, but we can assert the REAL
-    // controls.state options match and that all known states are members.
     const control = drawerConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(control.options).toEqual(["opened", "closed"]);
   });
 
   it("every VALID_STATES entry is assignable (no typos in the fixture)", () => {
-    // Belt-and-suspenders: the fixture array must have exactly 2 entries and
-    // match the options list from the real config.
     const control = drawerConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(VALID_STATES).toHaveLength(2);
@@ -93,10 +41,6 @@ describe("DrawerState union", () => {
     }
   });
 });
-
-// ===========================================================================
-// 2. drawerConfig.controls.state — customizer control wiring
-// ===========================================================================
 
 describe("drawerConfig.controls.state", () => {
   it("is a select control", () => {
@@ -123,15 +67,6 @@ describe("drawerConfig.controls.state", () => {
   });
 });
 
-// ===========================================================================
-// 3. drawerConfig.snippet — pure string builder
-//    State model: snippet ALWAYS emits `state="<state>"` as a bare JSX prop.
-//    It NEVER emits `steps`.
-//    Note on `action`: the snippet emits `actionLabel=` (a legitimate prop) but
-//    must never emit a bare `action=` attribute. We assert `steps` is absent and
-//    add a targeted check that `action=` only ever appears as `actionLabel=`.
-// ===========================================================================
-
 describe("drawerConfig.snippet: state prop emission", () => {
   it("emits state=\"opened\" for the opened option", () => {
     expect(snippet({ state: "opened" })).toContain('state="opened"');
@@ -152,9 +87,6 @@ describe("drawerConfig.snippet: state prop emission", () => {
 });
 
 describe("drawerConfig.snippet: NEVER emits steps", () => {
-  // `action=` is intentionally NOT checked here because `actionLabel=` is a
-  // legitimate emitted prop and would cause a false positive on a naive
-  // `.toContain("action")` check. Assert `steps` absence only.
   it("never emits `steps` in any state", () => {
     for (const state of VALID_STATES) {
       expect(snippet({ state })).not.toContain("steps");
@@ -171,9 +103,6 @@ describe("drawerConfig.snippet: import line", () => {
 });
 
 describe("drawerConfig.snippet: default props are omitted", () => {
-  // Defaults: title="Edit profile",
-  //           description="Make changes to your profile here. Click save when you're done.",
-  //           actionLabel="Save changes", cancelLabel="Cancel", mode="light"
   const allDefaults = snippet({
     state: "opened",
     title: "Edit profile",
@@ -247,13 +176,6 @@ describe("drawerConfig.snippet: structural round-trip", () => {
   });
 });
 
-// ===========================================================================
-// 4. drawerStyleContext — derives concrete colors from the theme.
-//    Signature is `(theme)` — NO variant argument (unlike accordion).
-//    Build ctx from the default light theme and assert each field is populated.
-//    `radius` is a number (px); all other fields are non-empty strings.
-// ===========================================================================
-
 describe("drawerStyleContext: field types from defaultLightTheme", () => {
   it("popoverBg is a non-empty string", () => {
     expect(typeof ctx.popoverBg).toBe("string");
@@ -294,13 +216,6 @@ describe("drawerStyleContext: field types from defaultLightTheme", () => {
     expect(ctx.cancelFg.length).toBeGreaterThan(0);
   });
 });
-
-// ===========================================================================
-// 5. drawerStyle presets — pure (state, ctx) => DrawerStyle
-//    drawerStyleContext and drawerStyle are exported and frame-free.
-//    Build one ctx from the default light theme, then assert the numeric
-//    invariants for every state.
-// ===========================================================================
 
 describe("drawerStyle: closed state", () => {
   const s = drawerStyle("closed", ctx);
@@ -350,12 +265,6 @@ describe("drawerStyle: closed/opened invariant", () => {
   });
 });
 
-// ===========================================================================
-// 6. tweenDrawerStyle — pure linear interpolation between two DrawerStyles.
-//    All three fields are pure numeric lerps (no color fields, unlike accordion).
-//    Concrete expectations: closed → opened for midpoint math.
-// ===========================================================================
-
 describe("tweenDrawerStyle: t=0 returns values equal to `a`", () => {
   const a = drawerStyle("closed", ctx);
   const b = drawerStyle("opened", ctx);
@@ -393,8 +302,6 @@ describe("tweenDrawerStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenDrawerStyle: t=0.5 midpoint numeric lerp (closed → opened)", () => {
-  // closed:  overlayOpacity=0, panelOpacity=0, panelTranslateY=320
-  // opened:  overlayOpacity=1, panelOpacity=1, panelTranslateY=0
   const a = drawerStyle("closed", ctx);
   const b = drawerStyle("opened", ctx);
   const r = tweenDrawerStyle(a, b, 0.5);
@@ -413,8 +320,6 @@ describe("tweenDrawerStyle: t=0.5 midpoint numeric lerp (closed → opened)", ()
 });
 
 describe("tweenDrawerStyle: t=0.5 midpoint numeric lerp (opened → closed)", () => {
-  // opened:  overlayOpacity=1, panelOpacity=1, panelTranslateY=0
-  // closed:  overlayOpacity=0, panelOpacity=0, panelTranslateY=320
   const a = drawerStyle("opened", ctx);
   const b = drawerStyle("closed", ctx);
   const r = tweenDrawerStyle(a, b, 0.5);
@@ -431,10 +336,6 @@ describe("tweenDrawerStyle: t=0.5 midpoint numeric lerp (opened → closed)", ()
     expect(r.panelTranslateY).toBeCloseTo(160, 10);
   });
 });
-
-// ===========================================================================
-// 7. DEFAULT_DURATION — sanity check the exported constant
-// ===========================================================================
 
 describe("DEFAULT_DURATION", () => {
   it("is a positive number", () => {

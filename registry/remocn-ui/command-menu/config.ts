@@ -9,7 +9,6 @@ export const commandMenuConfig: ComponentConfig = {
   controls: {
     state: {
       type: "select",
-      // Default to `opened` so the preview shows the revealed palette.
       default: "opened",
       options: ["opened", "closed"],
       label: "State",

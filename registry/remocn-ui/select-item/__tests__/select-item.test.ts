@@ -1,34 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `select-item`.
- *
- * Scope:
- *   - registry/remocn-ui/select-item/index.tsx  — SelectItemState union membership,
- *     selectItemStyle presets, selectItemStyleContext
- *   - registry/remocn-ui/select-item/config.ts  — selectItemConfig.controls wiring
- *     + selectItemConfig.snippet output (the state → JSX codegen)
- *   - registry/remocn-ui/select-item/use-select-item-transition.ts
- *     — tweenSelectItemStyle interpolation, DEFAULT_DURATION
- *
- * The render path (index.tsx) is a PURE-STATE model: `(state) => visual`.
- * `<SelectItem>` reads `useRemocnTheme()` internally — that hook is pure at
- * call-time in test context, but the JSX render tree is not exercised here.
- * The pure-testable surface is: the style presets + tween + customizer wiring
- * + snippet codegen.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/select-item/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * `config.ts` imports `SelectItemState` from `@/registry/remocn-ui/select-item`
- * and the pieces under test never CALL a Remotion runtime API at import time —
- * `selectItemConfig` is a plain object; `.snippet` is a pure string builder;
- * `selectItemStyle` and `tweenSelectItemStyle` are pure value functions.
- * We import via RELATIVE paths (matching the existing test suite pattern),
- * annotating each import with the source it corresponds to.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -40,17 +9,8 @@ import { tweenSelectItemStyle, DEFAULT_DURATION } from "../use-select-item-trans
 import { selectItemConfig } from "../config";
 import { defaultLightTheme } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/**
- * The SelectItemState union, enumerated as a runtime list for membership checks.
- * Must stay in sync with `export type SelectItemState` in index.tsx.
- */
 const VALID_STATES: readonly SelectItemState[] = ["idle", "hover", "press", "selected"];
 
-/** Minimal shape mirroring the customizer's value bag passed to snippet(). */
 type SnippetValues = {
   state?: string;
   label?: string;
@@ -60,15 +20,7 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   selectItemConfig.snippet(values as Record<string, unknown>);
 
-/**
- * A shared SelectItemStyleContext built from the default light theme.
- * `selectItemStyleContext` takes only `(theme)` — no variant arg.
- */
 const ctx = selectItemStyleContext(defaultLightTheme);
-
-// ===========================================================================
-// 1. SelectItemState union membership
-// ===========================================================================
 
 describe("SelectItemState union", () => {
   it("contains exactly the four documented states", () => {
@@ -86,10 +38,6 @@ describe("SelectItemState union", () => {
     }
   });
 });
-
-// ===========================================================================
-// 2. selectItemConfig.controls.state — customizer control wiring
-// ===========================================================================
 
 describe("selectItemConfig.controls.state", () => {
   it("is a select control", () => {
@@ -115,11 +63,6 @@ describe("selectItemConfig.controls.state", () => {
     }
   });
 });
-
-// ===========================================================================
-// 3. selectItemConfig.snippet — pure string builder
-//    State model: snippet ALWAYS emits `state="<state>"` as a bare JSX prop.
-// ===========================================================================
 
 describe("selectItemConfig.snippet: state prop emission", () => {
   it("emits state=\"idle\" for the idle option", () => {
@@ -157,7 +100,6 @@ describe("selectItemConfig.snippet: import line", () => {
 });
 
 describe("selectItemConfig.snippet: default props are omitted", () => {
-  // Defaults: label="Banana", mode="light"
   const allDefaults = snippet({
     state: "selected",
     label: "Banana",
@@ -200,12 +142,6 @@ describe("selectItemConfig.snippet: structural round-trip", () => {
     expect(out.trimEnd().endsWith("/>")).toBe(true);
   });
 });
-
-// ===========================================================================
-// 4. selectItemStyleContext — derives concrete colors from the theme.
-//    Signature is `(theme)` — NO variant argument.
-//    Build ctx from the default light theme and assert each field is populated.
-// ===========================================================================
 
 describe("selectItemStyleContext: field types from defaultLightTheme", () => {
   it("idleBg is a non-empty string", () => {
@@ -269,12 +205,6 @@ describe("selectItemStyleContext: maps theme tokens correctly", () => {
     expect(ctx.check).toBe(defaultLightTheme.primary);
   });
 });
-
-// ===========================================================================
-// 5. selectItemStyle presets — pure (state, ctx) => SelectItemStyle
-//    Build one ctx from the default light theme, then assert the numeric
-//    invariants for every state.
-// ===========================================================================
 
 describe("selectItemStyle: idle state", () => {
   const s = selectItemStyle("idle", ctx);
@@ -382,12 +312,6 @@ describe("selectItemStyle: state invariant summary", () => {
   });
 });
 
-// ===========================================================================
-// 6. tweenSelectItemStyle — pure linear interpolation between two SelectItemStyles.
-//    Numeric fields lerp; color fields go through mixOklch (tested as non-empty strings).
-//    Concrete expectations: idle → selected for numeric midpoint math.
-// ===========================================================================
-
 describe("tweenSelectItemStyle: t=0 returns values equal to `a`", () => {
   const a = selectItemStyle("idle", ctx);
   const b = selectItemStyle("selected", ctx);
@@ -437,8 +361,6 @@ describe("tweenSelectItemStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenSelectItemStyle: t=0.5 midpoint numeric lerp (idle → selected)", () => {
-  // idle:     checkOpacity=0, scale=1
-  // selected: checkOpacity=1, scale=1
   const a = selectItemStyle("idle", ctx);
   const b = selectItemStyle("selected", ctx);
   const r = tweenSelectItemStyle(a, b, 0.5);
@@ -453,8 +375,6 @@ describe("tweenSelectItemStyle: t=0.5 midpoint numeric lerp (idle → selected)"
 });
 
 describe("tweenSelectItemStyle: t=0.5 midpoint numeric lerp (idle → press)", () => {
-  // idle:  scale=1
-  // press: scale=0.98
   const a = selectItemStyle("idle", ctx);
   const b = selectItemStyle("press", ctx);
   const r = tweenSelectItemStyle(a, b, 0.5);
@@ -467,10 +387,6 @@ describe("tweenSelectItemStyle: t=0.5 midpoint numeric lerp (idle → press)", (
     expect(r.checkOpacity).toBeCloseTo(0, 10);
   });
 });
-
-// ===========================================================================
-// 7. DEFAULT_DURATION — sanity check the exported constant
-// ===========================================================================
 
 describe("DEFAULT_DURATION", () => {
   it("is a positive number", () => {

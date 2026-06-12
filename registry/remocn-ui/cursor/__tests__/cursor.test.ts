@@ -1,35 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `cursor`.
- *
- * Scope:
- *   - registry/remocn-ui/cursor/use-cursor-path.ts
- *       cursorPathAt()   — pure fold with injected frame (MIRROR of useCursorPath)
- *       ripplePhase()    — click ripple opacity + scale preset
- *       clickPress()     — momentary press-dip preset
- *       Constants: DEFAULT_DURATION, CLICK_FRAMES, PRESS_FRAMES
- *   - registry/remocn-ui/cursor/config.ts
- *       cursorConfig.controls wiring + cursorConfig.snippet codegen
- *
- * The render path (index.tsx) is a PURE renderer of CursorStyle — it never
- * reads the frame and is NOT exercised here (it imports `useRemocnTheme` from
- * a Remotion context). The pure-testable surface is:
- *   1. cursorPathAt — the frame-injected pure core of useCursorPath
- *   2. ripplePhase / clickPress — exported pure phase presets
- *   3. cursorConfig.snippet — the customizer JSX codegen
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/cursor/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * We import via RELATIVE paths so tsconfig aliases aren't required for the
- * pure functions under test. cursorPathAt, ripplePhase, and clickPress are
- * all exported from use-cursor-path.ts and never call useCurrentFrame() at
- * call time (only useCursorPath does — cursorPathAt is the pure extracted
- * core). cursorConfig is a plain object; .snippet is a pure string builder.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -43,16 +11,10 @@ import {
 } from "../use-cursor-path";
 import { cursorConfig } from "../config";
 
-// ===========================================================================
-// Shared helpers
-// ===========================================================================
-
-/** Convenience wrapper — injects a raw frame into cursorPathAt. */
 function pathAt(waypoints: CursorWaypoint[], raw: number, speed = 1) {
   return cursorPathAt(waypoints, raw, { speed });
 }
 
-/** Minimal shape mirroring the customizer's value bag passed to snippet(). */
 type SnippetValues = {
   variant?: string;
   size?: number;
@@ -62,10 +24,6 @@ type SnippetValues = {
 
 const snippet = (values: SnippetValues): string =>
   cursorConfig.snippet(values as Record<string, unknown>);
-
-// ===========================================================================
-// 1. Exported constants
-// ===========================================================================
 
 describe("cursor constants", () => {
   it("DEFAULT_DURATION is 24 frames", () => {
@@ -80,11 +38,6 @@ describe("cursor constants", () => {
     expect(PRESS_FRAMES).toBe(8);
   });
 });
-
-// ===========================================================================
-// 2. ripplePhase — PURE exported preset (use-cursor-path.ts lines 59-71)
-//    Opacity: 0.5*(1-p), Scale: 2.5*easings.out(p), where p = frame/CLICK_FRAMES
-// ===========================================================================
 
 describe("ripplePhase: out of range → zero ripple", () => {
   it("returns zero opacity and scale before a click (sinceClick < 0)", () => {
@@ -107,7 +60,6 @@ describe("ripplePhase: out of range → zero ripple", () => {
 });
 
 describe("ripplePhase: at frame 0 (click moment)", () => {
-  // p = 0/16 = 0 → opacity = 0.5*(1-0) = 0.5, scale = 2.5*out(0) = 0
   it("rippleOpacity is 0.5 at click moment", () => {
     expect(ripplePhase(0).rippleOpacity).toBeCloseTo(0.5, 10);
   });
@@ -118,9 +70,7 @@ describe("ripplePhase: at frame 0 (click moment)", () => {
 });
 
 describe("ripplePhase: mid-flight (frame = CLICK_FRAMES / 2)", () => {
-  // p = 0.5 → opacity = 0.5*(1-0.5) = 0.25, scale = 2.5*out(0.5)
-  // out(0.5) = 1-(1-0.5)^3 = 1-0.125 = 0.875 → scale = 2.5*0.875 = 2.1875
-  const half = CLICK_FRAMES / 2; // 8
+  const half = CLICK_FRAMES / 2;
 
   it("rippleOpacity is 0.25 at mid-flight", () => {
     expect(ripplePhase(half).rippleOpacity).toBeCloseTo(0.25, 10);
@@ -134,7 +84,6 @@ describe("ripplePhase: mid-flight (frame = CLICK_FRAMES / 2)", () => {
 });
 
 describe("ripplePhase: just before expiry (frame = CLICK_FRAMES - 1)", () => {
-  // p = 15/16 → opacity = 0.5*(1 - 15/16) = 0.5/16 ≈ 0.03125
   const lastFrame = CLICK_FRAMES - 1;
 
   it("rippleOpacity approaches 0 near expiry", () => {
@@ -164,12 +113,6 @@ describe("ripplePhase: monotonic invariants across the window", () => {
   });
 });
 
-// ===========================================================================
-// 3. clickPress — PURE exported preset (use-cursor-path.ts lines 78-86)
-//    Triangle down-up over PRESS_FRAMES, then holds at 1.
-//    half = 4; down: p = f/half; up: p = 1-(f-half)/half → pressScale = 1-p
-// ===========================================================================
-
 describe("clickPress: out of range → 1 (up)", () => {
   it("returns 1 before click (sinceClick < 0)", () => {
     expect(clickPress(-1)).toBe(1);
@@ -185,16 +128,13 @@ describe("clickPress: out of range → 1 (up)", () => {
 });
 
 describe("clickPress: at click moment (frame 0)", () => {
-  // down half: p = 0/4 = 0 → pressScale = 1-0 = 1
   it("pressScale is 1 at frame 0 (not yet dipped)", () => {
     expect(clickPress(0)).toBeCloseTo(1, 10);
   });
 });
 
 describe("clickPress: fully pressed at half-way (frame = PRESS_FRAMES/2)", () => {
-  // At the half-way boundary (frame = half = 4): entering the up phase
-  // up: p = 1-(4-4)/4 = 1 → pressScale = 1-1 = 0
-  const half = PRESS_FRAMES / 2; // 4
+  const half = PRESS_FRAMES / 2;
 
   it("pressScale is 0 at the bottom of the press dip", () => {
     expect(clickPress(half)).toBeCloseTo(0, 10);
@@ -202,7 +142,6 @@ describe("clickPress: fully pressed at half-way (frame = PRESS_FRAMES/2)", () =>
 });
 
 describe("clickPress: returning up at frame PRESS_FRAMES - 1", () => {
-  // last frame (7): up phase, p = 1-(7-4)/4 = 1-0.75 = 0.25 → pressScale = 1-0.25 = 0.75
   const lastFrame = PRESS_FRAMES - 1;
 
   it("pressScale is back above 0 near the end of the press window", () => {
@@ -213,27 +152,18 @@ describe("clickPress: returning up at frame PRESS_FRAMES - 1", () => {
 
 describe("clickPress: dip then rise (down-up triangle shape)", () => {
   it("pressScale decreases from frame 0 to the midpoint", () => {
-    // down phase: 0..3 (half=4, so frame 0,1,2,3 are in the down half)
     for (let f = 0; f < PRESS_FRAMES / 2 - 1; f++) {
       expect(clickPress(f)).toBeGreaterThan(clickPress(f + 1));
     }
   });
 
   it("pressScale increases from the midpoint back toward 1", () => {
-    // up phase: 4..7
     const half = PRESS_FRAMES / 2;
     for (let f = half; f < PRESS_FRAMES - 1; f++) {
       expect(clickPress(f)).toBeLessThan(clickPress(f + 1));
     }
   });
 });
-
-// ===========================================================================
-// 4. cursorPathAt — PURE core of useCursorPath
-//    MIRROR of use-cursor-path.ts lines 111-188.
-//    `raw` is the injected useCurrentFrame() * speed.
-//    Keep in lockstep with source.
-// ===========================================================================
 
 describe("cursorPathAt: empty waypoints", () => {
   it("returns origin with scale=1, no ripple, at any frame", () => {
@@ -253,7 +183,6 @@ describe("cursorPathAt: empty waypoints", () => {
 });
 
 describe("cursorPathAt: before first arrival — cursor waits at first waypoint", () => {
-  // MIRROR of use-cursor-path.ts lines 126-135 ("before the first arrival")
   const wps: CursorWaypoint[] = [{ at: 30, x: 100, y: 200 }];
 
   it("parks at first waypoint x/y at raw=0 (before at)", () => {
@@ -267,7 +196,6 @@ describe("cursorPathAt: before first arrival — cursor waits at first waypoint"
   });
 
   it("parks at first waypoint when raw equals first.at", () => {
-    // raw <= first.at: at first.at exactly it should hold (≤ guard in source)
     const r = pathAt(wps, 30);
     expect(r.x).toBe(100);
     expect(r.y).toBe(200);
@@ -285,11 +213,6 @@ describe("cursorPathAt: single waypoint — holds at arrival position past at", 
 });
 
 describe("cursorPathAt: two waypoints — interpolation window", () => {
-  // Move from (0,0) at=0 to (100,200) at=24 with DEFAULT_DURATION=24
-  // Window: [0, 24), start = 24-24 = 0
-  // At raw=12: t_raw = (12-0)/24 = 0.5, then eased by inOut
-  // inOut(0.5) = 4*0.5^3 = 0.5 (symmetric midpoint)
-  // x = lerp(0, 100, 0.5) = 50, y = lerp(0, 200, 0.5) = 100
   const wps: CursorWaypoint[] = [
     { at: 0, x: 0, y: 0 },
     { at: 24, x: 100, y: 200 },
@@ -297,7 +220,6 @@ describe("cursorPathAt: two waypoints — interpolation window", () => {
 
   it("position at midpoint uses inOut easing (default)", () => {
     const r = pathAt(wps, 12);
-    // inOut(0.5) = 0.5 (cubic in-out midpoint is exact 0.5)
     expect(r.x).toBeCloseTo(50, 10);
     expect(r.y).toBeCloseTo(100, 10);
   });
@@ -322,14 +244,10 @@ describe("cursorPathAt: two waypoints — interpolation window", () => {
 });
 
 describe("cursorPathAt: easing override", () => {
-  // Move from (0,0) at=0 to (100,0) at=24, easing=linear
-  // At raw=12: t = linear(0.5) = 0.5, x = 50
   const wpsLinear: CursorWaypoint[] = [
     { at: 0, x: 0, y: 0 },
     { at: 24, x: 100, y: 0, easing: "linear" },
   ];
-  // Move same path with easing=out
-  // out(0.5) = 1-(1-0.5)^3 = 1-0.125 = 0.875, x = 87.5
   const wpsOut: CursorWaypoint[] = [
     { at: 0, x: 0, y: 0 },
     { at: 24, x: 100, y: 0, easing: "out" },
@@ -349,34 +267,23 @@ describe("cursorPathAt: easing override", () => {
 });
 
 describe("cursorPathAt: custom duration override", () => {
-  // Waypoint with duration=12 instead of DEFAULT_DURATION=24
-  // Window: [at - dur, at) = [12, 24), start=12
-  // At raw=18: t=(18-12)/12=0.5
   const wps: CursorWaypoint[] = [
     { at: 0, x: 0, y: 0 },
     { at: 24, x: 100, y: 0, duration: 12 },
   ];
 
   it("duration=12 — cursor holds FROM position before the window start", () => {
-    // Before window [12,24): raw=10 is before the move starts but after from.at=0
-    // toIndex should be 1 (wps[1].at=24 > raw=10); from=wps[0], to=wps[1]
-    // t=(10-12)/12 = negative → clamp01 = 0 → x = lerp(0,100,eased(0)) = 0
     const r = pathAt(wps, 10);
     expect(r.x).toBeCloseTo(0, 10);
   });
 
   it("duration=12 — x=50 at midpoint of the 12-frame window (raw=18)", () => {
-    // inOut(0.5) = 0.5 → x = 50
     const r = pathAt(wps, 18);
     expect(r.x).toBeCloseTo(50, 10);
   });
 });
 
 describe("cursorPathAt: defaultDuration option", () => {
-  // Two waypoints, no duration on second — uses defaultDuration from opts
-  // With defaultDuration=12: window = [24-12, 24) = [12, 24)
-  // At raw=18: t=(18-12)/12=0.5 → inOut(0.5)=0.5 → x=50
-  // With defaultDuration=24 (default): t=(18-0)/24=0.75 → inOut(0.75)
   const wps: CursorWaypoint[] = [
     { at: 0, x: 0, y: 0 },
     { at: 24, x: 100, y: 0 },
@@ -395,7 +302,6 @@ describe("cursorPathAt: defaultDuration option", () => {
 });
 
 describe("cursorPathAt: scale is always 1", () => {
-  // scale=1 is an invariant in the source — the component applies pressedScale
   const wps: CursorWaypoint[] = [
     { at: 0, x: 0, y: 0 },
     { at: 24, x: 100, y: 200, click: true },
@@ -414,11 +320,6 @@ describe("cursorPathAt: scale is always 1", () => {
   });
 });
 
-// ===========================================================================
-// 5. Click visuals — ripple and press-dip fire at a `click: true` waypoint
-//    MIRROR of use-cursor-path.ts lines 162-178
-// ===========================================================================
-
 describe("cursorPathAt: no click — ripple stays zero", () => {
   const wps: CursorWaypoint[] = [
     { at: 0, x: 0, y: 0 },
@@ -433,7 +334,6 @@ describe("cursorPathAt: no click — ripple stays zero", () => {
 });
 
 describe("cursorPathAt: click:true — ripple and press-dip fire at arrival", () => {
-  // Click fires at at=24. sinceClick at raw=24 is 0.
   const wps: CursorWaypoint[] = [
     { at: 0, x: 0, y: 0 },
     { at: 24, x: 100, y: 0, click: true },
@@ -445,34 +345,27 @@ describe("cursorPathAt: click:true — ripple and press-dip fire at arrival", ()
   });
 
   it("rippleOpacity is 0.5 exactly at click arrival (sinceClick=0)", () => {
-    // ripplePhase(0).rippleOpacity = 0.5*(1-0) = 0.5
     expect(pathAt(wps, 24).rippleOpacity).toBeCloseTo(0.5, 10);
   });
 
   it("rippleOpacity decays to 0 after CLICK_FRAMES since click", () => {
-    // raw = 24 + CLICK_FRAMES → sinceClick = CLICK_FRAMES → out of range → 0
     expect(pathAt(wps, 24 + CLICK_FRAMES).rippleOpacity).toBe(0);
   });
 
   it("pressScale is 1 at frame 0 of click dip (not yet dipped)", () => {
-    // clickPress(0) = 1 (first frame hasn't dipped yet — down phase p=0)
     expect(pathAt(wps, 24).pressScale).toBeCloseTo(1, 10);
   });
 
   it("pressScale is 0 at the midpoint of the press dip", () => {
-    // sinceClick = PRESS_FRAMES/2 = 4 → clickPress(4) = 0
     expect(pathAt(wps, 24 + PRESS_FRAMES / 2).pressScale).toBeCloseTo(0, 10);
   });
 
   it("pressScale returns to 1 after the press window completes", () => {
-    // sinceClick = PRESS_FRAMES = 8 → clickPress(8) = 1
     expect(pathAt(wps, 24 + PRESS_FRAMES).pressScale).toBeCloseTo(1, 10);
   });
 });
 
 describe("cursorPathAt: multiple clicks — only the most recent active click fires", () => {
-  // Two click waypoints; at raw = first.at + 5, only the first should be active.
-  // At raw = second.at + 2, only the second should be active.
   const wps: CursorWaypoint[] = [
     { at: 0,  x: 0,   y: 0,   click: true },
     { at: 48, x: 100, y: 100, click: true },
@@ -499,22 +392,13 @@ describe("cursorPathAt: multiple clicks — only the most recent active click fi
   });
 });
 
-// ===========================================================================
-// 6. Press (drag) — held press visual channel
-//    MIRROR of use-cursor-path.ts lines 173-178
-// ===========================================================================
-
 describe("cursorPathAt: press:true — held press look", () => {
-  // press:true on a segment means the FROM waypoint has press=true while we are
-  // resting at or moving away from it. heldPress = holdWp.press ? 0 : 1.
   const wps: CursorWaypoint[] = [
     { at: 0,  x: 0,   y: 0,   press: true },
     { at: 48, x: 100, y: 100 },
   ];
 
   it("pressScale is 0 (fully pressed) while the press segment is active", () => {
-    // raw=10: toIndex=1 (wps[1].at=48>10), from=wps[0] (press:true), holdWp=from
-    // heldPress=0, no click dip → pressScale = min(1, 0) = 0
     expect(pathAt(wps, 10).pressScale).toBe(0);
   });
 
@@ -523,8 +407,6 @@ describe("cursorPathAt: press:true — held press look", () => {
   });
 
   it("pressScale is 1 after the second (non-press) waypoint arrives", () => {
-    // pastLast=true → holdWp = last waypoint (wps[1], press=undefined → falsy)
-    // heldPress = 1, no click → pressScale = min(1,1) = 1
     expect(pathAt(wps, 48).pressScale).toBe(1);
   });
 });
@@ -540,16 +422,7 @@ describe("cursorPathAt: no press flag — pressScale is always 1", () => {
   });
 });
 
-// ===========================================================================
-// 7. Speed contract — speed scales the playhead
-//    MIRROR of use-cursor-path.ts lines 97-104 (useCursorPath)
-//    effectiveFrame = raw * speed; cursorPathAt receives raw with speed in opts
-// ===========================================================================
-
 describe("cursorPathAt: speed contract", () => {
-  // Single move: at=0 → at=24, DEFAULT_DURATION=24, no easing override (inOut)
-  // At raw=6, speed=2: effectiveFrame=12. inOut(0.5)=0.5 → x=50.
-  // At raw=24, speed=2: effectiveFrame=48, pastLast → x=100.
   const wps: CursorWaypoint[] = [
     { at: 0, x: 0, y: 0 },
     { at: 24, x: 100, y: 0 },
@@ -566,7 +439,6 @@ describe("cursorPathAt: speed contract", () => {
   });
 
   it("speed=0.5: arrival not reached at raw=24 (effectiveFrame=12)", () => {
-    // effectiveFrame=12, t=(12-0)/24=0.5, inOut(0.5)=0.5 → x=50
     const r = pathAt(wps, 24, 0.5);
     expect(r.x).toBeCloseTo(50, 10);
   });
@@ -585,10 +457,6 @@ describe("cursorPathAt: speed contract", () => {
     }
   });
 });
-
-// ===========================================================================
-// 8. Three-waypoint path — correct segment selection
-// ===========================================================================
 
 describe("cursorPathAt: three waypoints — segment selection", () => {
   const wps: CursorWaypoint[] = [
@@ -621,10 +489,6 @@ describe("cursorPathAt: three waypoints — segment selection", () => {
     expect(pathAt(wps, 999).x).toBeCloseTo(200, 10);
   });
 });
-
-// ===========================================================================
-// 9. cursorConfig.controls — customizer control wiring
-// ===========================================================================
 
 describe("cursorConfig.controls: variant", () => {
   it("variant is a select control", () => {
@@ -690,10 +554,6 @@ describe("cursorConfig.controls: rippleColor", () => {
   });
 });
 
-// ===========================================================================
-// 10. cursorConfig.snippet — pure JSX string builder
-// ===========================================================================
-
 describe("cursorConfig.snippet: import lines", () => {
   it("includes 'import { Cursor }' from the correct path", () => {
     const out = snippet({});
@@ -724,7 +584,6 @@ describe("cursorConfig.snippet: structural invariants", () => {
 });
 
 describe("cursorConfig.snippet: default props are omitted", () => {
-  // Defaults: variant=arrow, size=28, mode=light
   const allDefaults = snippet({ variant: "arrow", size: 28, mode: "light" });
 
   it("omits variant when it equals 'arrow'", () => {

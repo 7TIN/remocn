@@ -14,12 +14,9 @@ import {
   type CommandMenuItemState,
   type CommandMenuItemStyle,
 } from "@/components/remocn/command-menu-item";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 8;
 
-/** Blend two command-menu-item visuals: numbers lerp, colors via oklch mix. */
 export function tweenCommandMenuItemStyle(
   a: CommandMenuItemStyle,
   b: CommandMenuItemStyle,
@@ -40,11 +37,6 @@ export interface CommandMenuItemTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) CommandMenuItemStyle. The CALLER invokes
- * this; it reads the frame, the `<CommandMenuItem>` component does not. Feed the
- * result to `<CommandMenuItem style={...} />` (or a `CommandMenuItemRow`).
- */
 export function useCommandMenuItemTransition(
   steps: Step<CommandMenuItemState>[],
   opts: CommandMenuItemTransitionOptions = {},

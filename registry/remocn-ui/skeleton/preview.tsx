@@ -14,7 +14,6 @@ export interface SkeletonPreviewProps {
   speed?: number;
 }
 
-/** Demo content matching each layout, so the loaded state has something real. */
 function DemoContent({
   layout,
   theme,
@@ -34,9 +33,7 @@ function DemoContent({
             background: theme.secondary,
           }}
         />
-        {/* width 180 matches the card placeholder's text column, so the loaded
-            content box ≈ the placeholder box (avatar 48 + gap 14 + 180): the
-            box width is stable between loading and loaded, no overflow/shift. */}
+        {}
         <div
           style={{
             display: "flex",
@@ -73,13 +70,6 @@ function DemoContent({
   );
 }
 
-/**
- * Preview-only wrapper for the customizer. The shipped `Skeleton` needs real
- * `children` (they define the box) and renders inline; the customizer Player
- * renders its `component` as the composition root, so this wrapper supplies demo
- * content for the chosen layout and centers it on a theme-background stage. NOT
- * shipped: not listed in registry.json files.
- */
 export function SkeletonPreview({
   layout = "card",
   state = "loading",

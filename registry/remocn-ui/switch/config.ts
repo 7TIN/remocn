@@ -14,7 +14,6 @@ export const switchConfig: ComponentConfig = {
     },
     state: {
       type: "select",
-      // Default to `checked` so the preview shows the filled track + slid thumb.
       default: "checked",
       options: ["unchecked", "checked"],
       label: "State",

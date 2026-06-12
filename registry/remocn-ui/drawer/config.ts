@@ -22,7 +22,6 @@ export const drawerConfig: ComponentConfig = {
     cancelLabel: { type: "text", default: "Cancel", label: "Cancel Label" },
     state: {
       type: "select",
-      // Default to `opened` so the preview shows the panel.
       default: "opened",
       options: ["opened", "closed"],
       label: "State",

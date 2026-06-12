@@ -7,26 +7,17 @@ export type CheckboxState = "unchecked" | "checked";
 type CheckboxSize = "sm" | "default" | "lg";
 
 export interface CheckboxProps {
-  /** Current visual state (snap path). State changes snap (no enter-tweens). */
   state?: CheckboxState;
-  /**
-   * Resolved animated visual (smooth path). When provided, takes precedence over
-   * `state` — feed it an interpolated `CheckboxStyle` from `useCheckboxTransition`.
-   */
   style?: CheckboxStyle;
-  /** Optional text label rendered next to the box. */
   label?: string;
   size?: CheckboxSize;
   theme?: Partial<RemocnTheme>;
-  /** Convenience override for the `primary` theme token — merged into `theme`. */
   primary?: string;
   mode?: "light" | "dark";
-  /** Horizontal placement of the box+label within its slot. */
   align?: "start" | "center" | "end";
   className?: string;
 }
 
-/** Map an `align` value to a flexbox `justifyContent`. */
 function justify(align: "start" | "center" | "end"): string {
   return align === "start"
     ? "flex-start"
@@ -35,7 +26,6 @@ function justify(align: "start" | "center" | "end"): string {
       : "center";
 }
 
-/** Checkmark stroke length (svg path units), drives the draw-on animation. */
 const CHECK_PATH_LENGTH = 14;
 
 const SIZE_STYLES: Record<
@@ -47,40 +37,22 @@ const SIZE_STYLES: Record<
   lg: { box: 24, fontSize: 17, gap: 12 },
 };
 
-// ===========================================================================
-// Checkbox visual — the COMPLETE animated look for a moment in time. A `state`
-// is a named preset of this visual (`checkboxStyle`); the smooth path feeds an
-// interpolated `CheckboxStyle` straight through. The component is a pure
-// renderer of whichever `CheckboxStyle` it receives.
-// ===========================================================================
-
 export interface CheckboxStyle {
-  /** Animated box fill color (a concrete color, never "transparent"). */
   boxBackground: string;
-  /** Animated box border color. */
   boxBorderColor: string;
-  /** Checkmark opacity 0→1. */
   checkOpacity: number;
-  /** Checkmark scale 0.6→1 (a slight pop on check). */
   checkScale: number;
-  /** Checkmark draw fraction 0→1; drives the strokeDashoffset of the path. */
   checkDraw: number;
 }
 
-/** Concrete colors for the active theme, resolved once per render. */
 export interface CheckboxStyleContext {
   uncheckedBg: string;
   checkedBg: string;
   uncheckedBorder: string;
   checkedBorder: string;
-  /** Static checkmark stroke color (never animated). */
   checkColor: string;
 }
 
-/**
- * Derive the concrete colors for a theme. Pure — call it once and reuse the
- * result for every `checkboxStyle(state, ctx)` preset.
- */
 export function checkboxStyleContext(theme: RemocnTheme): CheckboxStyleContext {
   return {
     uncheckedBg: theme.background,
@@ -91,10 +63,6 @@ export function checkboxStyleContext(theme: RemocnTheme): CheckboxStyleContext {
   };
 }
 
-/**
- * The COMPLETE resting visual for a state — a pure `(state, ctx) => CheckboxStyle`
- * map. To change how a state looks, edit one entry.
- */
 export function checkboxStyle(
   state: CheckboxState,
   ctx: CheckboxStyleContext,
@@ -161,7 +129,7 @@ export function Checkbox({
           gap: sizeStyle.gap,
         }}
       >
-        {/* The box — animated fill + border; the checkmark draws on inside it. */}
+        {}
         <span
           style={{
             display: "flex",

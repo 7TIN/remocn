@@ -1,34 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `select`.
- *
- * Scope:
- *   - registry/remocn-ui/select/index.tsx  — SelectState union membership,
- *     selectStyle presets, selectStyleContext
- *   - registry/remocn-ui/select/config.ts  — selectConfig.controls wiring
- *     + selectConfig.snippet output (the state → JSX codegen)
- *   - registry/remocn-ui/select/use-select-transition.ts
- *     — tweenSelectStyle interpolation, DEFAULT_DURATION
- *
- * The render path (index.tsx) is a PURE-STATE model: `(state) => visual`.
- * `<Select>` reads `useRemocnTheme()` internally — that hook is pure at
- * call-time in test context, but the JSX render tree is not exercised here.
- * The pure-testable surface is: the style presets + tween + customizer wiring
- * + snippet codegen.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/select/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * `config.ts` imports `SelectState` from `@/registry/remocn-ui/select` and the
- * pieces under test never CALL a Remotion runtime API at import time —
- * `selectConfig` is a plain object; `.snippet` is a pure string builder;
- * `selectStyle` and `tweenSelectStyle` are pure value functions.
- * We import via RELATIVE paths (matching the existing test suite pattern),
- * annotating each import with the source it corresponds to.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -40,17 +9,8 @@ import { tweenSelectStyle, DEFAULT_DURATION } from "../use-select-transition";
 import { selectConfig } from "../config";
 import { defaultLightTheme } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/**
- * The SelectState union, enumerated as a runtime list for membership checks.
- * Must stay in sync with `export type SelectState` in index.tsx.
- */
 const VALID_STATES: readonly SelectState[] = ["opened", "closed"];
 
-/** Minimal shape mirroring the customizer's value bag passed to snippet(). */
 type SnippetValues = {
   state?: string;
   label?: string;
@@ -62,15 +22,7 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   selectConfig.snippet(values as Record<string, unknown>);
 
-/**
- * A shared SelectStyleContext built from the default light theme.
- * `selectStyleContext` takes only `(theme)` — no variant arg.
- */
 const ctx = selectStyleContext(defaultLightTheme);
-
-// ===========================================================================
-// 1. SelectState union membership
-// ===========================================================================
 
 describe("SelectState union", () => {
   it("contains exactly the two documented states", () => {
@@ -88,10 +40,6 @@ describe("SelectState union", () => {
     }
   });
 });
-
-// ===========================================================================
-// 2. selectConfig.controls.state — customizer control wiring
-// ===========================================================================
 
 describe("selectConfig.controls.state", () => {
   it("is a select control", () => {
@@ -117,11 +65,6 @@ describe("selectConfig.controls.state", () => {
     }
   });
 });
-
-// ===========================================================================
-// 3. selectConfig.snippet — pure string builder
-//    State model: snippet ALWAYS emits `state="<state>"` as a bare JSX prop.
-// ===========================================================================
 
 describe("selectConfig.snippet: state prop emission", () => {
   it("emits state=\"opened\" for the opened option", () => {
@@ -151,7 +94,6 @@ describe("selectConfig.snippet: import line", () => {
 });
 
 describe("selectConfig.snippet: default props are omitted", () => {
-  // Defaults: label="Select a fruit", selectedIndex=-1, highlightedIndex=-1, mode="light"
   const allDefaults = snippet({
     state: "opened",
     label: "Select a fruit",
@@ -215,13 +157,6 @@ describe("selectConfig.snippet: structural round-trip", () => {
   });
 });
 
-// ===========================================================================
-// 4. selectStyleContext — derives concrete colors from the theme.
-//    Signature is `(theme)` — NO variant argument.
-//    Build ctx from the default light theme and assert each field is populated.
-//    `radius` is a number; all other non-nested fields are non-empty strings.
-// ===========================================================================
-
 describe("selectStyleContext: field types from defaultLightTheme", () => {
   it("panelBg is a non-empty string", () => {
     expect(typeof ctx.panelBg).toBe("string");
@@ -279,13 +214,6 @@ describe("selectStyleContext: maps theme tokens correctly", () => {
     expect(ctx.radius).toBe(defaultLightTheme.radius);
   });
 });
-
-// ===========================================================================
-// 5. selectStyle presets — pure (state, ctx) => SelectStyle
-//    All four fields are numeric. Assert per-state invariants:
-//    opened  → { panelOpacity:1, panelScale:1, panelTranslateY:0, chevronRotation:180 }
-//    closed  → { panelOpacity:0, panelScale:0.96, panelTranslateY:-4, chevronRotation:0 }
-// ===========================================================================
 
 describe("selectStyle: opened state", () => {
   const s = selectStyle("opened", ctx);
@@ -345,12 +273,6 @@ describe("selectStyle: closed/opened invariant", () => {
   });
 });
 
-// ===========================================================================
-// 6. tweenSelectStyle — pure linear interpolation between two SelectStyles.
-//    All four fields are pure numeric lerps (no color fields).
-//    Concrete expectations: closed → opened for midpoint math.
-// ===========================================================================
-
 describe("tweenSelectStyle: t=0 returns values equal to `a`", () => {
   const a = selectStyle("closed", ctx);
   const b = selectStyle("opened", ctx);
@@ -396,8 +318,6 @@ describe("tweenSelectStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenSelectStyle: t=0.5 midpoint numeric lerp (closed → opened)", () => {
-  // closed: panelOpacity=0, panelScale=0.96, panelTranslateY=-4, chevronRotation=0
-  // opened: panelOpacity=1, panelScale=1,    panelTranslateY=0,  chevronRotation=180
   const a = selectStyle("closed", ctx);
   const b = selectStyle("opened", ctx);
   const r = tweenSelectStyle(a, b, 0.5);
@@ -420,8 +340,6 @@ describe("tweenSelectStyle: t=0.5 midpoint numeric lerp (closed → opened)", ()
 });
 
 describe("tweenSelectStyle: t=0.5 midpoint numeric lerp (opened → closed)", () => {
-  // opened: panelOpacity=1, panelScale=1,    panelTranslateY=0,  chevronRotation=180
-  // closed: panelOpacity=0, panelScale=0.96, panelTranslateY=-4, chevronRotation=0
   const a = selectStyle("opened", ctx);
   const b = selectStyle("closed", ctx);
   const r = tweenSelectStyle(a, b, 0.5);
@@ -442,10 +360,6 @@ describe("tweenSelectStyle: t=0.5 midpoint numeric lerp (opened → closed)", ()
     expect(r.chevronRotation).toBeCloseTo(90, 10);
   });
 });
-
-// ===========================================================================
-// 7. DEFAULT_DURATION — sanity check the exported constant
-// ===========================================================================
 
 describe("DEFAULT_DURATION", () => {
   it("is a positive number", () => {

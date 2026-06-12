@@ -14,12 +14,9 @@ import {
   type AccordionState,
   type AccordionStyle,
 } from "@/components/remocn/accordion";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 14;
 
-/** Blend two accordion visuals: numbers lerp, background via oklch mix. */
 export function tweenAccordionStyle(
   a: AccordionStyle,
   b: AccordionStyle,
@@ -42,11 +39,6 @@ export interface AccordionTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) AccordionStyle. The CALLER invokes this;
- * it reads the frame, the `<Accordion>` component does not. Feed the result to
- * `<Accordion style={...} />` for smooth open/close transitions.
- */
 export function useAccordionTransition(
   steps: Step<AccordionState>[],
   opts: AccordionTransitionOptions = {},

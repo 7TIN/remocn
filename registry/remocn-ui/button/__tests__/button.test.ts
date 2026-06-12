@@ -1,31 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `button`.
- *
- * Scope:
- *   - registry/remocn-ui/button/index.tsx  — ButtonState union membership
- *   - registry/remocn-ui/button/config.ts  — buttonConfig.controls.state
- *     wiring + buttonConfig.snippet output (the state → JSX codegen)
- *
- * The render path (index.tsx) is a PURE-STATE model: `(state) => visual`.
- * Every visual is the complete resting look for that state — state changes
- * snap (no tweening). The loading spinner lives in the separate `<Spinner/>`
- * motion atom which reads `useCurrentFrame()` internally; it cannot run
- * outside a Remotion render tree. So Button render is NOT exercised here.
- * The pure-testable surface is the customizer wiring + snippet codegen (below).
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/button/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * `config.ts` imports `ButtonState` from `@/registry/remocn-ui/button` and
- * the pieces under test never CALL a Remotion runtime API at import time —
- * `buttonConfig` is a plain object; `.snippet` is a pure string builder.
- * We import via RELATIVE paths (matching the existing test suite pattern),
- * annotating each import with the source it corresponds to.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import { type ButtonState, buttonStyle, buttonStyleContext } from "../index";
@@ -33,14 +5,6 @@ import { tweenButtonStyle } from "../use-button-transition";
 import { buttonConfig } from "../config";
 import { defaultLightTheme } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
-/**
- * The ButtonState union, enumerated as a runtime list for membership checks.
- * Must stay in sync with `export type ButtonState` in index.tsx.
- */
 const VALID_STATES: readonly ButtonState[] = [
   "idle",
   "hover",
@@ -49,7 +13,6 @@ const VALID_STATES: readonly ButtonState[] = [
   "success",
 ];
 
-/** Minimal shape mirroring the customizer's value bag passed to snippet(). */
 type SnippetValues = {
   state?: string;
   label?: string;
@@ -62,14 +25,8 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   buttonConfig.snippet(values as Record<string, unknown>);
 
-// ===========================================================================
-// 1. ButtonState union membership
-// ===========================================================================
-
 describe("ButtonState union", () => {
   it("contains exactly the five documented states", () => {
-    // We can't enumerate a TS type at runtime, but we can assert the REAL
-    // controls.state options match and that all known states are members.
     const control = buttonConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(control.options).toEqual([
@@ -82,8 +39,6 @@ describe("ButtonState union", () => {
   });
 
   it("every VALID_STATES entry is assignable (no typos in the fixture)", () => {
-    // Belt-and-suspenders: the fixture array must have exactly 5 entries and
-    // match the options list from the real config.
     const control = buttonConfig.controls.state;
     if (control.type !== "select") throw new Error("state control must be a select");
     expect(VALID_STATES).toHaveLength(5);
@@ -92,10 +47,6 @@ describe("ButtonState union", () => {
     }
   });
 });
-
-// ===========================================================================
-// 2. buttonConfig.controls.state — customizer control wiring
-// ===========================================================================
 
 describe("buttonConfig.controls.state", () => {
   it("is a select control", () => {
@@ -127,12 +78,6 @@ describe("buttonConfig.controls.state", () => {
     }
   });
 });
-
-// ===========================================================================
-// 3. buttonConfig.snippet — pure string builder
-//    State model: snippet emits `state="<state>"` as a bare JSX prop.
-//    It NEVER emits `steps` or `action`.
-// ===========================================================================
 
 describe("buttonConfig.snippet: state prop emission", () => {
   it("emits state=\"idle\" for the idle option", () => {
@@ -188,7 +133,6 @@ describe("buttonConfig.snippet: import line", () => {
 });
 
 describe("buttonConfig.snippet: default props are omitted", () => {
-  // Defaults: label=Continue, variant=default, size=default, mode=light, primary=#171717
   const allDefaults = snippet({
     state: "loading",
     label: "Continue",
@@ -256,15 +200,6 @@ describe("buttonConfig.snippet: structural round-trip", () => {
     expect(out.trimEnd().endsWith("/>")).toBe(true);
   });
 });
-
-// ===========================================================================
-// 4. buttonStyle presets — pure (state, ctx) => ButtonStyle
-//    buttonStyleContext and buttonStyle are now exported and frame-free.
-//    Build one ctx from the default light theme + "default" variant, then
-//    assert the numeric/opacity invariants for every state.
-//    background is a derived oklch/rgb string — asserted non-empty only
-//    (its exact value is an implementation detail of mixOklch).
-// ===========================================================================
 
 const ctx = buttonStyleContext("default", defaultLightTheme);
 
@@ -398,7 +333,6 @@ describe("buttonStyle: success state", () => {
 });
 
 describe("buttonStyle: opacity invariant — exactly one of label/spinner/check is visible per non-idle state", () => {
-  // For non-animated states the three opacities are always discrete 0 or 1.
   const states: ButtonState[] = ["idle", "hover", "press", "loading", "success"];
 
   it("sum of label+spinner+check opacities equals 1 for every state (exactly one is shown)", () => {
@@ -409,13 +343,6 @@ describe("buttonStyle: opacity invariant — exactly one of label/spinner/check 
     }
   });
 });
-
-// ===========================================================================
-// 5. tweenButtonStyle — pure linear interpolation between two ButtonStyles.
-//    Numbers lerp linearly; background is an oklch color string at all t.
-//    Concrete expectations: idle(translateY=0,scale=1) → hover(translateY=-1,scale=1)
-//    and idle(spinnerOpacity=0) → loading(spinnerOpacity=1) for midpoint math.
-// ===========================================================================
 
 describe("tweenButtonStyle: t=0 returns values equal to `a`", () => {
   const a = buttonStyle("idle", ctx);
@@ -480,8 +407,6 @@ describe("tweenButtonStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenButtonStyle: t=0.5 midpoint numeric lerp (idle → hover)", () => {
-  // idle: translateY=0, scale=1, labelOpacity=1, spinnerOpacity=0, checkOpacity=0
-  // hover: translateY=-1, scale=1, labelOpacity=1, spinnerOpacity=0, checkOpacity=0
   const a = buttonStyle("idle", ctx);
   const b = buttonStyle("hover", ctx);
   const r = tweenButtonStyle(a, b, 0.5);
@@ -505,8 +430,6 @@ describe("tweenButtonStyle: t=0.5 midpoint numeric lerp (idle → hover)", () =>
 });
 
 describe("tweenButtonStyle: t=0.5 midpoint numeric lerp (idle → loading)", () => {
-  // idle: translateY=0, scale=1, labelOpacity=1, spinnerOpacity=0, checkOpacity=0
-  // loading: translateY=-1, scale=1, labelOpacity=0, spinnerOpacity=1, checkOpacity=0
   const a = buttonStyle("idle", ctx);
   const b = buttonStyle("loading", ctx);
   const r = tweenButtonStyle(a, b, 0.5);
@@ -538,8 +461,6 @@ describe("tweenButtonStyle: t=0.5 midpoint numeric lerp (idle → loading)", () 
 });
 
 describe("tweenButtonStyle: t=0.5 midpoint numeric lerp (hover → press)", () => {
-  // hover: translateY=-1, scale=1
-  // press: translateY=-1, scale=0.97
   const a = buttonStyle("hover", ctx);
   const b = buttonStyle("press", ctx);
   const r = tweenButtonStyle(a, b, 0.5);

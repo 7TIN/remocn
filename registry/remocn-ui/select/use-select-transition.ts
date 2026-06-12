@@ -13,12 +13,9 @@ import {
   type SelectState,
   type SelectStyle,
 } from "@/components/remocn/select";
-// ^ install path; resolves in-repo via the @/components/remocn/* tsconfig alias.
 
-/** Default transition length (frames) when a step omits `duration`. Tune to taste. */
 export const DEFAULT_DURATION = 12;
 
-/** Blend two select visuals: all fields are numbers, so a straight lerp. */
 export function tweenSelectStyle(
   a: SelectStyle,
   b: SelectStyle,
@@ -41,11 +38,6 @@ export interface SelectTransitionOptions {
   defaultDuration?: number;
 }
 
-/**
- * Timeline → resolved (eased, tweened) SelectStyle. The CALLER invokes this; it
- * reads the frame, the `<Select>` component does not. Feed the result to
- * `<Select style={...} />` for a smooth open/close.
- */
 export function useSelectTransition(
   steps: Step<SelectState>[],
   opts: SelectTransitionOptions = {},

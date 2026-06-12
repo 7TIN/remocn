@@ -7,16 +7,10 @@ export type ToastState = "hidden" | "visible";
 export type ToastVariant = "default" | "success" | "error";
 
 export interface ToastProps {
-  /** Current visual state (snap path). State changes snap (no enter-tweens). */
   state?: ToastState;
-  /**
-   * Resolved animated visual (smooth path). When provided, takes precedence over
-   * `state` — feed it an interpolated `ToastStyle` from `useToastTransition`.
-   */
   style?: ToastStyle;
   title: string;
   description?: string;
-  /** Changes the leading icon and its color. `default` shows a neutral info dot. */
   variant?: ToastVariant;
   theme?: Partial<RemocnTheme>;
   mode?: "light" | "dark";
@@ -26,24 +20,15 @@ export interface ToastProps {
 const TOAST_WIDTH = 356;
 
 export interface ToastStyle {
-  /** Whole-toast opacity 0→1. */
   opacity: number;
-  /** Enter offset in px (+16 below rest → 0 at rest). */
   translateY: number;
-  /** Enter scale (0.97 → 1). */
   scale: number;
 }
 
-/** Concrete per-variant visuals, resolved once per render. */
 export interface ToastStyleContext {
-  /** Leading icon color for the active variant (a concrete color). */
   iconColor: string;
 }
 
-/**
- * Derive the concrete per-variant colors for a theme. Pure — `success`/`error`
- * tint the icon; `default` uses the muted foreground.
- */
 export function toastStyleContext(
   variant: ToastVariant,
   theme: RemocnTheme,
@@ -53,11 +38,6 @@ export function toastStyleContext(
   return { iconColor: theme.mutedForeground };
 }
 
-/**
- * The COMPLETE resting visual for a state — a pure `(state) => ToastStyle` map.
- * Both presets are full keyframes; the toast enters from 16px below at 0.97
- * scale and rests at 0/1. To change how a state looks, edit one entry.
- */
 export function toastStyle(state: ToastState): ToastStyle {
   switch (state) {
     case "visible":
@@ -102,7 +82,6 @@ function ToastIcon({
       </svg>
     );
   }
-  // default — neutral info circle.
   return (
     <svg width={18} height={18} viewBox="0 0 24 24" fill="none">
       <circle cx="12" cy="12" r="9" stroke={color} strokeWidth="2" />
@@ -112,12 +91,6 @@ function ToastIcon({
   );
 }
 
-/**
- * A deterministic toast. Pure renderer of whatever `ToastStyle` it receives — it
- * reads no frame, holds no state, runs no effects. Snap (`state`) and smooth
- * (`style`) share one render path. Placement (e.g. bottom-right) is the caller's
- * job; the toast renders inside a transparent wrapper.
- */
 export function Toast({
   state = "hidden",
   style,
@@ -160,8 +133,6 @@ export function Toast({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          // flexShrink: 0,
-          // Nudge the icon onto the title's optical line when stacked.
           marginTop: description ? 1 : 0,
         }}
       >

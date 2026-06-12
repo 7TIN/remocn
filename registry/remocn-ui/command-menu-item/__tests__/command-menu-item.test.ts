@@ -1,34 +1,3 @@
-/**
- * Verification tests for the PURE / DETERMINISTIC parts of `command-menu-item`.
- *
- * Scope:
- *   - registry/remocn-ui/command-menu-item/index.tsx
- *       commandMenuItemStyleContext(theme)      — pure color derivation
- *       commandMenuItemStyle(state, ctx)         — complete state→visual preset map
- *   - registry/remocn-ui/command-menu-item/use-command-menu-item-transition.ts
- *       tweenCommandMenuItemStyle(a, b, t)       — pure lerp/mix across every field
- *       DEFAULT_DURATION constant
- *
- *   - registry/remocn-ui/command-menu-item/config.ts
- *       commandMenuItemConfig.controls wiring + commandMenuItemConfig.snippet codegen
- *
- * The render path (index.tsx) imports `useRemocnTheme` which requires React
- * context and cannot run headlessly — it is NOT exercised here.
- * `useCommandMenuItemTransition` calls `useStateTransition` → `useCurrentFrame`
- * and is NOT imported; its pure resolver logic is already tested in
- * core/__tests__/timeline.test.ts, and the additional easing + tween contract is
- * covered by the tweenCommandMenuItemStyle tests below.
- *
- * Runner: Bun's built-in test runner (TypeScript-native, no framework dep).
- *   bun test registry/remocn-ui/command-menu-item/__tests__
- *
- * --------------------------------------------------------------------------
- * IMPORT STRATEGY
- * --------------------------------------------------------------------------
- * Relative imports for component source; `@/lib/remocn-ui` alias for core.
- * None of the imported functions call `useCurrentFrame()` at import or call time.
- * --------------------------------------------------------------------------
- */
 
 import { describe, expect, it } from "bun:test";
 import {
@@ -43,10 +12,6 @@ import {
 import { commandMenuItemConfig } from "../config";
 import { defaultLightTheme, defaultDarkTheme } from "@/lib/remocn-ui";
 
-// ===========================================================================
-// Shared fixtures
-// ===========================================================================
-
 const VALID_STATES: readonly CommandMenuItemState[] = [
   "idle",
   "hover",
@@ -54,10 +19,8 @@ const VALID_STATES: readonly CommandMenuItemState[] = [
   "selected",
 ];
 
-/** A context built from the default light theme — reused across all preset tests. */
 const ctx = commandMenuItemStyleContext(defaultLightTheme);
 
-/** Convenience wrapper for snippet(). */
 type SnippetValues = {
   state?: string;
   label?: string;
@@ -68,20 +31,11 @@ type SnippetValues = {
 const snippet = (values: SnippetValues): string =>
   commandMenuItemConfig.snippet(values as Record<string, unknown>);
 
-// ===========================================================================
-// 1. DEFAULT_DURATION constant
-// ===========================================================================
-
 describe("DEFAULT_DURATION", () => {
   it("is 8 frames (item default — shorter than container's 12)", () => {
     expect(DEFAULT_DURATION).toBe(8);
   });
 });
-
-// ===========================================================================
-// 2. commandMenuItemStyleContext — pure theme → context derivation
-//    MIRROR of index.tsx lines 75-91
-// ===========================================================================
 
 describe("commandMenuItemStyleContext: maps theme tokens correctly", () => {
   it("idleBg equals theme.popover", () => {
@@ -156,12 +110,6 @@ describe("commandMenuItemStyleContext: theme independence — different themes p
     expect(ctx.idleIcon).not.toBe(ctxDark.idleIcon);
   });
 });
-
-// ===========================================================================
-// 3. commandMenuItemStyle — pure (state, ctx) => CommandMenuItemStyle presets
-//    MIRROR of index.tsx lines 97-131
-//    Every field is asserted for every state.
-// ===========================================================================
 
 describe("commandMenuItemStyle: idle state", () => {
   const s = commandMenuItemStyle("idle", ctx);
@@ -287,12 +235,6 @@ describe("commandMenuItemStyle: every state produces complete CommandMenuItemSty
   });
 });
 
-// ===========================================================================
-// 4. tweenCommandMenuItemStyle — pure lerp/mix across every field
-//    MIRROR of use-command-menu-item-transition.ts lines 23-34
-//    Numbers lerp; colors go through mixOklch (tested as non-empty strings).
-// ===========================================================================
-
 describe("tweenCommandMenuItemStyle: t=0 returns values equal to `a`", () => {
   const a = commandMenuItemStyle("idle", ctx);
   const b = commandMenuItemStyle("selected", ctx);
@@ -344,7 +286,6 @@ describe("tweenCommandMenuItemStyle: t=1 returns values equal to `b`", () => {
 });
 
 describe("tweenCommandMenuItemStyle: t=0.5 midpoint — numeric field (idle → press)", () => {
-  // idle: scale=1, press: scale=0.98 → midpoint: 0.99
   const a = commandMenuItemStyle("idle", ctx);
   const b = commandMenuItemStyle("press", ctx);
   const r = tweenCommandMenuItemStyle(a, b, 0.5);
@@ -360,7 +301,6 @@ describe("tweenCommandMenuItemStyle: t=0.5 midpoint — numeric field (idle → 
 });
 
 describe("tweenCommandMenuItemStyle: t=0.5 midpoint — numeric field (idle → hover)", () => {
-  // idle: scale=1, hover: scale=1 → midpoint: 1 (same, test that it holds)
   const a = commandMenuItemStyle("idle", ctx);
   const b = commandMenuItemStyle("hover", ctx);
   const r = tweenCommandMenuItemStyle(a, b, 0.5);
@@ -404,10 +344,6 @@ describe("tweenCommandMenuItemStyle: all four fields are present in the result",
     expect(r).toHaveProperty("scale");
   });
 });
-
-// ===========================================================================
-// 5. commandMenuItemConfig.controls — customizer control wiring
-// ===========================================================================
 
 describe("commandMenuItemConfig.controls: state", () => {
   it("state is a select control", () => {
@@ -478,10 +414,6 @@ describe("commandMenuItemConfig.controls: mode", () => {
     expect(commandMenuItemConfig.controls.mode.default).toBe("light");
   });
 });
-
-// ===========================================================================
-// 6. commandMenuItemConfig.snippet — pure JSX string builder
-// ===========================================================================
 
 describe("commandMenuItemConfig.snippet: import line", () => {
   it("includes 'import { CommandMenuItem }' from the correct path", () => {
