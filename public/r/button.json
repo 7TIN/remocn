@@ -7,8 +7,8 @@
     "remotion"
   ],
   "registryDependencies": [
-    "remocn-ui",
-    "spinner"
+    "@remocn/remocn-ui",
+    "@remocn/spinner"
   ],
   "files": [
     {

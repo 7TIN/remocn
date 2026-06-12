@@ -7,13 +7,13 @@
     "remotion"
   ],
   "registryDependencies": [
-    "remocn-ui",
-    "cursor",
-    "input",
-    "button",
-    "toast",
-    "field",
-    "blur-in"
+    "@remocn/remocn-ui",
+    "@remocn/cursor",
+    "@remocn/input",
+    "@remocn/button",
+    "@remocn/toast",
+    "@remocn/field",
+    "@remocn/blur-in"
   ],
   "files": [
     {

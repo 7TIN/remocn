@@ -7,8 +7,8 @@
     "remotion"
   ],
   "registryDependencies": [
-    "remocn-ui",
-    "command-menu-item"
+    "@remocn/remocn-ui",
+    "@remocn/command-menu-item"
   ],
   "files": [
     {

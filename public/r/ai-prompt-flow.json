@@ -7,12 +7,12 @@
     "remotion"
   ],
   "registryDependencies": [
-    "remocn-ui",
-    "input",
-    "button",
-    "skeleton",
-    "skeleton-block",
-    "toast"
+    "@remocn/remocn-ui",
+    "@remocn/input",
+    "@remocn/button",
+    "@remocn/skeleton",
+    "@remocn/skeleton-block",
+    "@remocn/toast"
   ],
   "files": [
     {

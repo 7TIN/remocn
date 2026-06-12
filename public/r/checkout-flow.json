@@ -7,15 +7,15 @@
     "remotion"
   ],
   "registryDependencies": [
-    "remocn-ui",
-    "toggle-group",
-    "input",
-    "checkbox",
-    "button",
-    "field",
-    "blur-in",
-    "cursor",
-    "toast"
+    "@remocn/remocn-ui",
+    "@remocn/toggle-group",
+    "@remocn/input",
+    "@remocn/checkbox",
+    "@remocn/button",
+    "@remocn/field",
+    "@remocn/blur-in",
+    "@remocn/cursor",
+    "@remocn/toast"
   ],
   "files": [
     {

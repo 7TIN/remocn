@@ -7,9 +7,9 @@
     "remotion"
   ],
   "registryDependencies": [
-    "remocn-ui",
-    "button",
-    "select-item"
+    "@remocn/remocn-ui",
+    "@remocn/button",
+    "@remocn/select-item"
   ],
   "files": [
     {

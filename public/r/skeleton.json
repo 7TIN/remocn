@@ -7,8 +7,8 @@
     "remotion"
   ],
   "registryDependencies": [
-    "remocn-ui",
-    "skeleton-block"
+    "@remocn/remocn-ui",
+    "@remocn/skeleton-block"
   ],
   "files": [
     {

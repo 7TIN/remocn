@@ -6,7 +6,9 @@
   "dependencies": [
     "remotion"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "@remocn/remocn-ui"
+  ],
   "files": [
     {
       "path": "registry/remocn-ui/skeleton-block/index.tsx",

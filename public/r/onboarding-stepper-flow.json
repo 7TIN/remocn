@@ -7,12 +7,12 @@
     "remotion"
   ],
   "registryDependencies": [
-    "remocn-ui",
-    "stepper",
-    "input",
-    "radio",
-    "switch",
-    "button"
+    "@remocn/remocn-ui",
+    "@remocn/stepper",
+    "@remocn/input",
+    "@remocn/radio",
+    "@remocn/switch",
+    "@remocn/button"
   ],
   "files": [
     {
