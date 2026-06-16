@@ -51,8 +51,6 @@ import { InfiniteMarquee } from "@/registry/remocn/infinite-marquee";
 import { infiniteMarqueeConfig } from "@/registry/remocn/infinite-marquee/config";
 import { InlineHighlight } from "@/registry/remocn/inline-highlight";
 import { inlineHighlightConfig } from "@/registry/remocn/inline-highlight/config";
-import { KineticTypeMask } from "@/registry/remocn/kinetic-type-mask";
-import { kineticTypeMaskConfig } from "@/registry/remocn/kinetic-type-mask/config";
 import { LandingCodeShowcase } from "@/registry/remocn/landing-code-showcase";
 import { landingCodeShowcaseConfig } from "@/registry/remocn/landing-code-showcase/config";
 import { LiveCodeCompilation } from "@/registry/remocn/live-code-compilation";
@@ -261,10 +259,6 @@ const registry: Record<string, RegistryEntry> = {
   "frosted-glass-wipe": {
     Component: FrostedGlassWipe,
     config: frostedGlassWipeConfig,
-  },
-  "kinetic-type-mask": {
-    Component: KineticTypeMask,
-    config: kineticTypeMaskConfig,
   },
   "spatial-push": { Component: SpatialPush, config: spatialPushConfig },
   "grid-pixelate-wipe": {

@@ -516,22 +516,6 @@
       "type": "registry:component"
     },
     {
-      "name": "kinetic-type-mask",
-      "title": "Kinetic Type Mask",
-      "description": "Use giant typography as a window into the next scene.",
-      "dependencies": [
-        "remotion"
-      ],
-      "files": [
-        {
-          "path": "registry/remocn/kinetic-type-mask/index.tsx",
-          "type": "registry:component",
-          "target": "components/remocn/kinetic-type-mask.tsx"
-        }
-      ],
-      "type": "registry:component"
-    },
-    {
       "name": "spatial-push",
       "title": "Spatial Push",
       "description": "A new scene physically presses the old one back into the frame.",
