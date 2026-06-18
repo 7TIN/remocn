@@ -54,7 +54,7 @@ export const TooltipExampleScene = (p: TooltipExampleProps = {}) => {
           transform: "translate(-50%, -50%)",
         }}
       >
-        <Button label="Hover me" style={buttonStyle} mode="light" />
+        <Button label="Hover me" style={buttonStyle} />
 
         {/* Tooltip is anchored relative to the button: centered above it. */}
         <div

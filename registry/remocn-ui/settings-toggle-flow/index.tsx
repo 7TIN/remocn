@@ -345,7 +345,6 @@ export function SettingsToggleFlow({
           itemStyles={selectItems.map((_, i) =>
             i === selectItems.length - 1 ? itemStyle : undefined,
           )}
-          mode={mode}
           theme={theme}
         />
       </div>
@@ -361,7 +360,7 @@ export function SettingsToggleFlow({
           ...reveal(enterSave),
         }}
       >
-        <Button label={saveLabel} style={saveStyle} mode={mode} theme={theme} />
+        <Button label={saveLabel} style={saveStyle} theme={theme} />
       </div>
 
       {}

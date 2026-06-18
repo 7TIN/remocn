@@ -204,7 +204,7 @@ export function SignupFlow({
         <FieldGroup gap={16}>
           <BlurIn display="block" style={enterName}>
             <Field>
-              <FieldLabel mode={mode} theme={theme}>
+              <FieldLabel theme={theme}>
                 Full Name
               </FieldLabel>
               <FieldControl>
@@ -212,7 +212,6 @@ export function SignupFlow({
                   placeholder={fullName}
                   value={fullName}
                   style={nameStyle}
-                  mode={mode}
                   theme={theme}
                 />
               </FieldControl>
@@ -221,7 +220,7 @@ export function SignupFlow({
 
           <BlurIn display="block" style={enterEmail}>
             <Field>
-              <FieldLabel mode={mode} theme={theme}>
+              <FieldLabel theme={theme}>
                 Email
               </FieldLabel>
               <FieldControl>
@@ -229,11 +228,10 @@ export function SignupFlow({
                   placeholder={email}
                   value={email}
                   style={emailStyle}
-                  mode={mode}
                   theme={theme}
                 />
               </FieldControl>
-              <FieldDescription mode={mode} theme={theme}>
+              <FieldDescription theme={theme}>
                 We'll use this to contact you.
               </FieldDescription>
             </Field>
@@ -241,7 +239,7 @@ export function SignupFlow({
 
           <BlurIn display="block" style={enterPass}>
             <Field>
-              <FieldLabel mode={mode} theme={theme}>
+              <FieldLabel theme={theme}>
                 Password
               </FieldLabel>
               <FieldControl>
@@ -249,11 +247,10 @@ export function SignupFlow({
                   placeholder={password}
                   value={password}
                   style={passStyle}
-                  mode={mode}
                   theme={theme}
                 />
               </FieldControl>
-              <FieldDescription mode={mode} theme={theme}>
+              <FieldDescription theme={theme}>
                 Must be at least 8 characters long.
               </FieldDescription>
             </Field>
@@ -261,7 +258,7 @@ export function SignupFlow({
 
           <BlurIn display="block" style={enterConfirm}>
             <Field>
-              <FieldLabel mode={mode} theme={theme}>
+              <FieldLabel theme={theme}>
                 Confirm Password
               </FieldLabel>
               <FieldControl>
@@ -269,7 +266,6 @@ export function SignupFlow({
                   placeholder={password}
                   value={password}
                   style={confirmStyle}
-                  mode={mode}
                   theme={theme}
                 />
               </FieldControl>
@@ -283,7 +279,6 @@ export function SignupFlow({
               <Button
                 label={createLabel}
                 style={buttonStyle}
-                mode={mode}
                 theme={theme}
               />
             </FieldControl>

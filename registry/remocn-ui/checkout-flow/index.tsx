@@ -204,7 +204,6 @@ export function CheckoutFlow({
               style={toggleStyle}
               items={plans}
               align="start"
-              mode={mode}
               theme={theme}
             />
           </FieldControl>
@@ -213,7 +212,7 @@ export function CheckoutFlow({
         <FieldGroup gap={24}>
           <BlurIn display="block" style={enterCard}>
             <Field>
-              <FieldLabel mode={mode} theme={theme}>
+              <FieldLabel theme={theme}>
                 {cardLabel}
               </FieldLabel>
               <FieldControl>
@@ -222,7 +221,6 @@ export function CheckoutFlow({
                   value={cardPlaceholder}
                   style={cardStyle}
                   fullWidth
-                  mode={mode}
                   theme={theme}
                 />
               </FieldControl>
@@ -248,7 +246,6 @@ export function CheckoutFlow({
                 label={payLabel}
                 style={payStyle}
                 align="end"
-                mode={mode}
                 theme={theme}
               />
             </FieldControl>

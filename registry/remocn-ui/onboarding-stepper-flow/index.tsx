@@ -106,7 +106,6 @@ export function OnboardingStepperFlow({
             style={nameStyle}
             placeholder={name}
             value={name}
-            mode={mode}
             theme={theme}
           />
         </div>
@@ -134,7 +133,7 @@ export function OnboardingStepperFlow({
       <div
         style={{ position: "absolute", left: 0, right: 0, top: NAV_TOP, height: 64 }}
       >
-        <Button label={navLabel} style={navStyle} mode={mode} theme={theme} />
+        <Button label={navLabel} style={navStyle} theme={theme} />
       </div>
     </div>
   );

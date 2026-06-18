@@ -110,7 +110,6 @@ export function AiPromptFlow({
           placeholder="Ask anything…"
           value={prompt}
           style={inputStyle}
-          mode={mode}
           theme={theme}
         />
       </div>
@@ -128,7 +127,6 @@ export function AiPromptFlow({
         <Button
           label={buttonLabel}
           style={buttonStyle}
-          mode={mode}
           theme={theme}
         />
       </div>

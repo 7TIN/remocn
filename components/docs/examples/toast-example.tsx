@@ -56,7 +56,7 @@ export const ToastExampleScene = (p: ToastExampleProps = {}) => {
           transform: "translate(-50%, -50%)",
         }}
       >
-        <Button label="Show toast" style={buttonStyle} mode="light" />
+        <Button label="Show toast" style={buttonStyle} />
       </div>
 
       {/* Toast anchored bottom-right, 24px from edges */}
