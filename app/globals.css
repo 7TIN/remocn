@@ -49,6 +49,15 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --animate-marquee: marquee var(--marquee-duration, 48s) linear infinite;
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 :root {
@@ -198,6 +207,25 @@
   background-color: color-mix(in oklab, var(--color-card) 92%, transparent);
   border: 1px solid var(--color-border);
   backdrop-filter: blur(12px);
+}
+
+/* Horizontal fade at both edges — used to dissolve marquee tracks into the
+   page instead of clipping them on a hard line. */
+.marquee-edge-fade {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 12%,
+    black 88%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 12%,
+    black 88%,
+    transparent
+  );
 }
 
 /* ── Code / Shiki surfaces (F3) ──────────────────────────────────────
