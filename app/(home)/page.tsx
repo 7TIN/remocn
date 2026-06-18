@@ -4,6 +4,7 @@ import { GetStarted } from "./components/sections/get-started";
 import { Hero } from "./components/sections/hero";
 import { InteractiveCode } from "./components/sections/interactive-code";
 import { LandingPartners } from "./components/sections/landing-partners";
+import { UiRegistry } from "./components/sections/ui-registry";
 
 export default function Page() {
   return (
@@ -11,6 +12,7 @@ export default function Page() {
       <Hero />
       <InteractiveCode />
       <BentoRegistry />
+      <UiRegistry />
       <GetStarted />
       <LandingPartners />
       <FinalCTA />
