@@ -30,8 +30,6 @@ const ClaudeChatScene = () => (
     modelName="Opus 4.8"
     modelTier="Max"
     accentColor="#D97757"
-    theme="light"
-    background="surface"
     speed={1}
   />
 );
@@ -52,7 +50,7 @@ Timeline: card + greeting ease in (0–16), default state with blinking caret ho
 
 ### With Backdrop
 
-Pair with `Backdrop` to add a full-frame fill and a polished content frame around the card — pass `background="transparent"` so `ClaudeChat` does not render its own background:
+The component renders transparent by default — supply the background via `Backdrop`. It ships single-theme; edit the copied file to re-theme colors.
 
 ```tsx
 import { Composition } from "remotion";
@@ -64,7 +62,6 @@ const ClaudeChatScene = () => (
     <ClaudeChat
       greeting="Back at it, Dima"
       prompt="Draft a launch tweet for our new release"
-      background="transparent"
     />
   </Backdrop>
 );
@@ -120,18 +117,6 @@ export const RemotionRoot = () => (
       type: "string",
       default: "\"#D97757\"",
       description: "Terracotta accent used for the sunburst and send button",
-    },
-    {
-      name: "theme",
-      type: "\"light\" | \"dark\"",
-      default: "\"light\"",
-      description: "Warm light or dark color theme",
-    },
-    {
-      name: "background",
-      type: "\"surface\" | \"transparent\"",
-      default: "\"surface\"",
-      description: "Page background fill or transparent",
     },
     {
       name: "speed",

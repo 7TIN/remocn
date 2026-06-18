@@ -18,18 +18,6 @@ export const claudeChatConfig: ComponentConfig = {
     modelName: { type: "text", default: "Opus 4.8", label: "Model" },
     modelTier: { type: "text", default: "Max", label: "Tier" },
     accentColor: { type: "color", default: "#D97757", label: "Accent" },
-    theme: {
-      type: "select",
-      default: "light",
-      options: ["light", "dark"],
-      label: "Theme",
-    },
-    background: {
-      type: "select",
-      default: "transparent",
-      options: ["surface", "transparent"],
-      label: "Background",
-    },
   },
   durationInFrames: 150,
   fps: FPS,

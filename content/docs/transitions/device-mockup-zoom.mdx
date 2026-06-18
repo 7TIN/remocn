@@ -36,7 +36,7 @@ export const RemotionRoot = () => (
 
 ### With Backdrop
 
-Pair with `Backdrop` to add a full-frame fill behind the device — pass `background` as `"transparent"` (or omit it) so `DeviceMockupZoom` does not render its own outer color:
+The component renders transparent by default — supply the background via `Backdrop`:
 
 ```tsx
 import { Composition } from "remotion";
@@ -45,7 +45,7 @@ import { Backdrop } from "@/components/remocn/backdrop";
 
 const DeviceMockupZoomScene = () => (
   <Backdrop fill={{ type: "color", value: "#f5f5f5" }}>
-    <DeviceMockupZoom background="transparent">
+    <DeviceMockupZoom>
       <YourAppScreen />
     </DeviceMockupZoom>
   </Backdrop>
@@ -89,12 +89,6 @@ export const RemotionRoot = () => (
       type: "string",
       default: '"#0a0a0a"',
       description: "Background color shown behind the screen content",
-    },
-    {
-      name: "background",
-      type: "string",
-      default: '"transparent"',
-      description: "Outer background color; transparent by default so a Backdrop can supply the fill",
     },
     {
       name: "className",
