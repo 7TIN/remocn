@@ -49,6 +49,8 @@ export const NEW_BADGE_PATHS = new Set<string>([
   "/docs/ai/v0",
   "/docs/ai/claude-code",
   "/docs/ai/opencode",
+  "/docs/layout/backdrop",
+  "/docs/typography/number-wheel",
 ]);
 
 export const FOOTER_NAV: NavLink[] = [
