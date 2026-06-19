@@ -31,6 +31,10 @@ async function main() {
         ...config.resolve,
         alias: {
           ...(config.resolve?.alias ?? {}),
+          "@/components/remocn/number-wheel$": path.join(
+            root,
+            "registry/remocn/number-wheel/index.tsx",
+          ),
           "@": root,
         },
       },
