@@ -6,14 +6,14 @@ import {
   W,
 } from "@/lib/customizer-config";
 
-export const blurRevealConfig: ComponentConfig = {
-  componentName: "BlurReveal",
-  importPath: "@/components/remocn/blur-reveal",
+export const softBlurInConfig: ComponentConfig = {
+  componentName: "SoftBlurIn",
+  importPath: "@/components/remocn/soft-blur-in",
   controls: {
-    text: { type: "text", default: "BlurReveal", label: "Text" },
+    text: { type: "text", default: "Think different.", label: "Text" },
     blur: {
       type: "number",
-      default: 10,
+      default: 12,
       min: 1,
       max: 30,
       step: 1,
@@ -35,7 +35,7 @@ export const blurRevealConfig: ComponentConfig = {
       label: "Font weight",
     },
   },
-  durationInFrames: 90,
+  durationInFrames: 60,
   fps: FPS,
   compositionWidth: W,
   compositionHeight: H,

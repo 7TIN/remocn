@@ -7,8 +7,8 @@ import { AnimatedBarChart } from "@/registry/remocn/animated-bar-chart";
 import { animatedBarChartConfig } from "@/registry/remocn/animated-bar-chart/config";
 import { AnimatedLineChart } from "@/registry/remocn/animated-line-chart";
 import { animatedLineChartConfig } from "@/registry/remocn/animated-line-chart/config";
-import { BlurReveal } from "@/registry/remocn/blur-reveal";
-import { blurRevealConfig } from "@/registry/remocn/blur-reveal/config";
+import { SoftBlurIn } from "@/registry/remocn/soft-blur-in";
+import { softBlurInConfig } from "@/registry/remocn/soft-blur-in/config";
 import { BrowserFlow } from "@/registry/remocn/browser-flow";
 import { browserFlowConfig } from "@/registry/remocn/browser-flow/config";
 import { ChatToPreviewLayout } from "@/registry/remocn/chat-to-preview-layout";
@@ -192,7 +192,7 @@ export interface RegistryEntry {
 }
 
 const registry: Record<string, RegistryEntry> = {
-  "blur-reveal": { Component: BlurReveal, config: blurRevealConfig },
+  "soft-blur-in": { Component: SoftBlurIn, config: softBlurInConfig },
   typewriter: { Component: Typewriter, config: typewriterConfig },
   "inline-highlight": {
     Component: InlineHighlight,

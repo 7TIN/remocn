@@ -7,7 +7,7 @@ export const MINT = "#A1EEBD";
 export const GITHUB_URL = "https://github.com/kapishdima/remocn";
 
 /** Canonical example install command shown on the landing page. */
-export const INSTALL_COMMAND = "npx shadcn@latest add remocn/blur-reveal";
+export const INSTALL_COMMAND = "npx shadcn@latest add remocn/soft-blur-in";
 
 export const SPRING_BOUNCE = {
   type: "spring" as const,
