@@ -70,6 +70,14 @@ import {
   resizableExampleCode,
 } from "./resizable-example";
 import { BlurInExampleScene, blurInExampleCode } from "./blur-in-example";
+import {
+  FadeThroughExampleScene,
+  fadeThroughExampleCode,
+} from "./fade-through-example";
+import {
+  PerWordCrossfadeExampleScene,
+  perWordCrossfadeExampleCode,
+} from "./per-word-crossfade-example";
 
 export interface ExampleEntry {
   Component: ComponentType;
@@ -354,5 +362,25 @@ export const examples: Record<string, ExampleEntry> = {
     fps: FPS,
     width: W,
     height: H,
+  },
+  "fade-through-example": {
+    Component: FadeThroughExampleScene,
+    code: fadeThroughExampleCode,
+    // Two chained A→B transitions, 90 frames each.
+    durationInFrames: 180,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#ffffff" },
+  },
+  "per-word-crossfade-example": {
+    Component: PerWordCrossfadeExampleScene,
+    code: perWordCrossfadeExampleCode,
+    // Two chained A→B transitions, 90 frames each.
+    durationInFrames: 180,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#ffffff" },
   },
 };

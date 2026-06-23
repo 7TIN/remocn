@@ -29,6 +29,8 @@ import { LineByLineSlide } from "@/registry/remocn/line-by-line-slide";
 import { lineByLineSlideConfig } from "@/registry/remocn/line-by-line-slide/config";
 import { PerWordCrossfade } from "@/registry/remocn/per-word-crossfade";
 import { perWordCrossfadeConfig } from "@/registry/remocn/per-word-crossfade/config";
+import { FadeThrough } from "@/registry/remocn/fade-through";
+import { fadeThroughConfig } from "@/registry/remocn/fade-through/config";
 import { BrowserFlow } from "@/registry/remocn/browser-flow";
 import { browserFlowConfig } from "@/registry/remocn/browser-flow/config";
 import { ChatToPreviewLayout } from "@/registry/remocn/chat-to-preview-layout";
@@ -223,6 +225,7 @@ const registry: Record<string, RegistryEntry> = {
   "focus-blur-resolve": { Component: FocusBlurResolve, config: focusBlurResolveConfig },
   "line-by-line-slide": { Component: LineByLineSlide, config: lineByLineSlideConfig },
   "per-word-crossfade": { Component: PerWordCrossfade, config: perWordCrossfadeConfig },
+  "fade-through": { Component: FadeThrough, config: fadeThroughConfig },
   typewriter: { Component: Typewriter, config: typewriterConfig },
   "inline-highlight": {
     Component: InlineHighlight,

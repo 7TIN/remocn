@@ -14,6 +14,7 @@
     "focus-blur-resolve",
     "line-by-line-slide",
     "per-word-crossfade",
+    "fade-through",
     "staggered-fade-up",
     "mask-reveal-up",
     "tracking-in",

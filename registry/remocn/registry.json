@@ -180,6 +180,22 @@
       ]
     },
     {
+      "name": "fade-through",
+      "type": "registry:component",
+      "title": "Fade Through",
+      "description": "A Material-style content transition: old fades out, new fades in with a soft delay.",
+      "dependencies": [
+        "remotion"
+      ],
+      "files": [
+        {
+          "path": "fade-through/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/fade-through.tsx"
+        }
+      ]
+    },
+    {
       "name": "typewriter",
       "type": "registry:component",
       "title": "Typewriter",
