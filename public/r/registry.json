@@ -4,17 +4,17 @@
   "homepage": "https://remocn.dev",
   "items": [
     {
-      "name": "blur-reveal",
-      "title": "Blur Reveal",
-      "description": "Text fades in from a heavy blur into sharp focus.",
+      "name": "soft-blur-in",
+      "title": "Soft Blur In",
+      "description": "Per-character fade-in with a gentle blur and upward motion. Apple's signature hero-title reveal.",
       "dependencies": [
         "remotion"
       ],
       "files": [
         {
-          "path": "registry/remocn/blur-reveal/index.tsx",
+          "path": "registry/remocn/soft-blur-in/index.tsx",
           "type": "registry:component",
-          "target": "components/remocn/blur-reveal.tsx"
+          "target": "components/remocn/soft-blur-in.tsx"
         }
       ],
       "type": "registry:component"
