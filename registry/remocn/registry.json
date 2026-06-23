@@ -36,6 +36,22 @@
       ]
     },
     {
+      "name": "bottom-up-letters",
+      "type": "registry:component",
+      "title": "Bottom-Up Letters",
+      "description": "Letters rise from below in a pronounced staircase, one symbol at a time, with zero blur.",
+      "dependencies": [
+        "remotion"
+      ],
+      "files": [
+        {
+          "path": "bottom-up-letters/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/bottom-up-letters.tsx"
+        }
+      ]
+    },
+    {
       "name": "typewriter",
       "type": "registry:component",
       "title": "Typewriter",

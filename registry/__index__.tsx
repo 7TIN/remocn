@@ -11,6 +11,8 @@ import { SoftBlurIn } from "@/registry/remocn/soft-blur-in";
 import { softBlurInConfig } from "@/registry/remocn/soft-blur-in/config";
 import { PerCharacterRise } from "@/registry/remocn/per-character-rise";
 import { perCharacterRiseConfig } from "@/registry/remocn/per-character-rise/config";
+import { BottomUpLetters } from "@/registry/remocn/bottom-up-letters";
+import { bottomUpLettersConfig } from "@/registry/remocn/bottom-up-letters/config";
 import { BrowserFlow } from "@/registry/remocn/browser-flow";
 import { browserFlowConfig } from "@/registry/remocn/browser-flow/config";
 import { ChatToPreviewLayout } from "@/registry/remocn/chat-to-preview-layout";
@@ -196,6 +198,7 @@ export interface RegistryEntry {
 const registry: Record<string, RegistryEntry> = {
   "soft-blur-in": { Component: SoftBlurIn, config: softBlurInConfig },
   "per-character-rise": { Component: PerCharacterRise, config: perCharacterRiseConfig },
+  "bottom-up-letters": { Component: BottomUpLetters, config: bottomUpLettersConfig },
   typewriter: { Component: Typewriter, config: typewriterConfig },
   "inline-highlight": {
     Component: InlineHighlight,
