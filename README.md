@@ -17,15 +17,32 @@ remocn is a copy-paste component library for building videos in Remotion. Instea
 
 ## What's inside
 
-64+ components across five categories:
+110+ components, split between scene-ready animations and timeline-driven UI primitives:
 
-- **Text animations** — Blur Reveal, Typewriter, Shimmer Sweep, Tracking In, Slot Machine Roll, Matrix Decode, RGB Glitch Text, Kinetic Type Mask, Marker Highlight, Infinite Marquee, and more
-- **Backgrounds & visual primitives** — Mesh Gradient Background, Dynamic Grid, Spring Pop In, Pulsing Indicator
-- **Transitions & wipes** — Chromatic Aberration Wipe, Frosted Glass Wipe, Directional Wipe, Grid Pixelate, Spatial Push, Zoom Through Transition
-- **UI blocks** — Glass Code Block, Terminal Simulator, Browser Flow, Toast Notification, Animated Charts, Code Diff Wipe, Device Mockup Zoom, Simulated Cursor, Morphing Modal, Progress Steps
-- **Full compositions** — Product Launch Trailer, Hero Device Assemble, Changelog Bite, Pricing Tier Focus, Landing Code Showcase, Terminal to Browser Deploy, Live Code Compilation
+- **Typography** — Soft Blur In, Per Character Rise, Tracking In, Typewriter, Shimmer Sweep, Marker Highlight, Slot Machine Roll, Matrix Decode, RGB Glitch Text, Number Wheel, Rolling Number, Infinite & Perspective Marquee, and 30+ more text effects
+- **Transitions & wipes** — Zoom Through, Device Mockup Zoom, Image Expand to Fullscreen, Directional Wipe, Spatial Push, Frosted Glass Wipe, Grid Pixelate Wipe, Chromatic Aberration Wipe
+- **Environment & effects** — Mesh Gradient Background, Dynamic Grid, Spotlight Card, Confetti, Backdrop
+- **UI blocks** — Glass Code Block, Terminal Simulator, Code Accordion, Code Diff Wipe, Tool Menu Slide In, Animated Line & Bar Charts, Drag and Drop Flow
+- **AI scenes** — Claude Chat, ChatGPT, v0, Claude Code, OpenCode
+- **Social** — GitHub Stars, X Follow Card, X Followers Overview
+- **Compositions** — Hero Device Assemble, Ecosystem Constellation, Infinite Bento Pan, Browser Flow, AI Generation Canvas, Live Code Compilation, Terminal to Browser Deploy, Dashboard Populate, Pricing Tier Focus
+- **UI primitives** (`remocn-ui`) — timeline-driven, shadcn-style atoms: Button, Accordion, Dialog, Drawer, Sheet, Select, Dropdown Menu, Command Menu, Tabs, Tooltip, Toast, Popover, Slider, Stepper, Resizable, and full flows (Signup, Checkout, Settings Toggle)
 
 Browse the full catalog with interactive previews at [remocn.dev](https://remocn.dev).
+
+## remocn/ui
+
+`remocn/ui` is a separate registry of **timeline-driven UI primitives** — the components you'd reach for in shadcn (Button, Dialog, Dropdown Menu, Tabs, Command Menu, Toast…), but rebuilt for video. Every state change is keyframe-driven instead of event-driven: a primitive plays through its open/close, focus, hover, and selection states on the Remotion timeline, so you can animate a real UI walkthrough — a signup form filling in, a dropdown opening, a checkout completing — frame by frame.
+
+All atoms share one core lib (`remocn-ui`) and follow the same steps API, so they compose into full flows: **Signup**, **Checkout**, and **Settings Toggle** ship ready to drop into a scene.
+
+<!-- TODO: загрузить mp4 через GitHub UI (перетащить файл в редактор README) и вставить голую ссылку на github.com/user-attachments/assets/... сюда -->
+
+```bash
+npx shadcn@latest add @remocn/ui-dropdown-menu
+```
+
+The atom lands in `components/remocn/ui-dropdown-menu.tsx`, pulls in the `remocn-ui` core lib, and is yours to edit.
 
 ## Installation
 
