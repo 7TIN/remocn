@@ -1,5 +1,11 @@
 {
   "title": "Social",
   "collapsible": false,
-  "pages": ["index", "github-stars", "x-follow-card", "x-followers-overview"]
+  "pages": [
+    "index",
+    "github-stars",
+    "x-follow-card",
+    "x-followers-overview",
+    "logo-enter"
+  ]
 }

@@ -69,6 +69,8 @@ import { FrostedGlassWipe } from "@/registry/remocn/frosted-glass-wipe";
 import { frostedGlassWipeConfig } from "@/registry/remocn/frosted-glass-wipe/config";
 import { GitHubStars } from "@/registry/remocn/github-stars";
 import { githubStarsConfig } from "@/registry/remocn/github-stars/config";
+import { LogoEnter } from "@/registry/remocn/logo-enter";
+import { logoEnterConfig } from "@/registry/remocn/logo-enter/config";
 import { GlassCodeBlock } from "@/registry/remocn/glass-code-block";
 import { glassCodeBlockConfig } from "@/registry/remocn/glass-code-block/config";
 import { GridPixelateWipe } from "@/registry/remocn/grid-pixelate-wipe";
@@ -387,6 +389,7 @@ const registry: Record<string, RegistryEntry> = {
     config: imageExpandToFullscreenConfig,
   },
   "github-stars": { Component: GitHubStars, config: githubStarsConfig },
+  "logo-enter": { Component: LogoEnter, config: logoEnterConfig },
   "number-wheel": { Component: NumberWheel, config: numberWheelConfig },
   "rolling-number": { Component: RollingNumber, config: rollingNumberConfig },
   "x-follow-card": { Component: XFollowCard, config: xFollowCardConfig },
