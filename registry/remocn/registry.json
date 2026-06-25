@@ -747,6 +747,25 @@
       ]
     },
     {
+      "name": "glass-code-walk",
+      "type": "registry:component",
+      "title": "Glass Code Walk",
+      "description": "A camera that scans a glass code block top to bottom as it types, then pulls back to a centered hold.",
+      "dependencies": [
+        "remotion"
+      ],
+      "registryDependencies": [
+        "@remocn/glass-code-block"
+      ],
+      "files": [
+        {
+          "path": "glass-code-walk/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/glass-code-walk.tsx"
+        }
+      ]
+    },
+    {
       "name": "spotlight-card",
       "type": "registry:component",
       "title": "Spotlight Card",
