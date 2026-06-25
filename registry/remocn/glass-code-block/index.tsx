@@ -11,6 +11,7 @@ export interface GlassCodeBlockProps {
   glassColor?: string;
   staggerFrames?: number;
   showTrafficLights?: boolean;
+  aura?: boolean;
   speed?: number;
   className?: string;
 }
@@ -101,6 +102,7 @@ export function GlassCodeBlock({
   glassColor = "rgba(10, 10, 10, 0.6)",
   staggerFrames = 4,
   showTrafficLights = true,
+  aura = false,
   speed = 1,
   className,
 }: GlassCodeBlockProps) {
@@ -117,9 +119,7 @@ export function GlassCodeBlock({
         justifyContent: "center",
       }}
     >
-      {/* Animated background hint behind the glass so the blur has something
-          to chew on. Pure CSS — no extra deps. */}
-      <BackdropAura />
+      {aura && <BackdropAura />}
 
       {/* 1px gradient ring acting as a microborder */}
       <div

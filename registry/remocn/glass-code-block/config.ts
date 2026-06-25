@@ -52,5 +52,5 @@ export const glassCodeBlockConfig: ComponentConfig = {
   fps: FPS,
   compositionWidth: W,
   compositionHeight: H,
-  previewBackdrop: { type: "color", value: "#0a0a0a" },
+  previewBackdrop: { type: "image", src: "/bg.jpg" },
 };

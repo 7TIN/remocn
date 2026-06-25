@@ -73,6 +73,8 @@ import { LogoEnter } from "@/registry/remocn/logo-enter";
 import { logoEnterConfig } from "@/registry/remocn/logo-enter/config";
 import { GlassCodeBlock } from "@/registry/remocn/glass-code-block";
 import { glassCodeBlockConfig } from "@/registry/remocn/glass-code-block/config";
+import { GlassCodeWalk } from "@/registry/remocn/glass-code-walk";
+import { glassCodeWalkConfig } from "@/registry/remocn/glass-code-walk/config";
 import { GridPixelateWipe } from "@/registry/remocn/grid-pixelate-wipe";
 import { gridPixelateWipeConfig } from "@/registry/remocn/grid-pixelate-wipe/config";
 import { HeroDeviceAssemble } from "@/registry/remocn/hero-device-assemble";
@@ -286,6 +288,10 @@ const registry: Record<string, RegistryEntry> = {
   "glass-code-block": {
     Component: GlassCodeBlock,
     config: glassCodeBlockConfig,
+  },
+  "glass-code-walk": {
+    Component: GlassCodeWalk,
+    config: glassCodeWalkConfig,
   },
   "code-accordion": { Component: CodeAccordion, config: codeAccordionConfig },
   "data-flow-pipes": { Component: DataFlowPipes, config: dataFlowPipesConfig },

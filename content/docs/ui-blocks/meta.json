@@ -4,6 +4,7 @@
   "pages": [
     "index",
     "glass-code-block",
+    "glass-code-walk",
     "terminal-simulator",
     "terminal-cursor-zoom",
     "code-accordion",
