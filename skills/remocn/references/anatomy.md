@@ -1,7 +1,7 @@
 # Video Anatomy & Composition Strategy
 
 How to turn "make a product demo with remocn" into a coherent video. Read this before composing.
-The component catalog is `components/index.md`; the per-archetype recipe is `archetypes.md`.
+The component catalog is `components/index.md`; the per-archetype recipes are in `archetypes/` (start at `archetypes/index.md`).
 
 This file has three layers, kept separate:
 1. **Strategy** — template vs compose vs build-new.
@@ -26,7 +26,7 @@ Don't use a template when the user's content or brand can't fit its fixed slots,
 - The needed structure is a sequence of existing components (hook → product UI → proof → CTA) with no exotic choreography.
 - Speed and fit matter more than a pixel-locked recreation.
 
-This is the primary path. Output is a raw `<TransitionSeries>` orchestrator stitching installed components — see `archetypes.md`.
+This is the primary path. Output is a raw `<TransitionSeries>` orchestrator stitching installed components — see `archetypes/index.md`.
 
 ### Build a new lightweight component when
 - A beat needs a visual the catalog lacks (a specific product-UI frame, a chart type) **and** it will be reused across videos (e.g. a generic `ui-frame`, a `metric-card`, a `task-card`).
@@ -55,7 +55,7 @@ The hook usually carries the single hardest idea; features are where most of the
 
 ## 3. Good vs slop — the quality bar
 
-Derived from real reference demos. The good ones (CrowdReply, Flowith, HeyGen, monid, shadcn-sidebar) share a language; the bad ones (a component-catalog dump, two shadcn promos, an over-long slide tool) share failure modes.
+Derived from real reference demos. The good ones (CrowdReply, Flowith, HeyGen, monid, shadcn-sidebar, Claude Code Security, Notion Agents/Sites, React Bits) share a language; the bad ones (a component-catalog dump, shadcn promos, an over-long slide tool, fractal/openpaper/ChatJS/SlidesAI/itshover/dito) share failure modes. The line is often *restraint and legibility*, not the presence of any one effect.
 
 ### Good — do these
 - **One accent color per video.** Everything else neutral (mono / cream / dark). Good demos pick exactly one (orange, yellow, teal, blue) and use it only on the emphasized word, the active number, and the CTA.
@@ -67,9 +67,11 @@ Derived from real reference demos. The good ones (CrowdReply, Flowith, HeyGen, m
 - **A number/score payoff** with the accent, when there's a metric to land.
 - **A calm logo lockup outro.** Optionally on a dark hold; keep it restrained.
 - **Tight runtime with overlapping beats.** ~18s (short) to ~45s (standard). Length comes from story, not from listing.
+- **Show the product large and legible.** The UI sim fills the frame and reads clearly (Claude Code Security's scan→findings→fix→PR, Notion's populated dashboard) — the product is the hero, not a distant window.
+- **Long videos ride a narrative thread.** If it must run 60s+, carry it with a character / story (good Notion demo: the "Bug Wrangler" agent doing real tasks), never a feature list.
 
 ### Slop — never do these (each seen in a bad reference)
-- **No decorative glow / radial halos behind type.** Soft purple/lavender glow clouds behind headings (both shadcn promos do this) are the #1 tell. The hook gets life from motion and the accent, not a halo. See `design.md`, [no decorative glows].
+- **Keep gradients / glow restrained — small and subtle, never large or dominant.** This is about *dosage*, not presence. A small, sparing gradient accent is fine (good_04 React Bits — restrained, not big, not much of it). Slop is a *large, saturated, full-frame* gradient wash (bad_04's hot-pink background) or a soft radial **halo behind headings** (both shadcn promos — the #1 tell). The hook gets life from motion and the accent, not a glow blob. See `design.md`, [no decorative glows].
 - **No feature-list / catalog enumeration.** Naming feature after feature ("Row Selection", "Pagination", "Sorting"…) over the same screenshot, or dumping every component in a gallery, is not a video — it has no narrative. Tell one problem → solution → proof story instead.
 - **No placeholder / lorem content.** "Scene A", "Scene B", "First", "Your UI", "Selected element", `TASK-####` filler. If real content is missing, use honest English placeholders the user will obviously replace — never ship lorem as the final.
 - **No ALL-CAPS heavy blocks, no decorative letter-spacing, no gradient text.** (A red ALL-CAPS "VISUAL EDITOR" block is slop.) See `design.md`.
@@ -77,6 +79,10 @@ Derived from real reference demos. The good ones (CrowdReply, Flowith, HeyGen, m
 - **No monotony.** Don't repeat the same slide/screenshot under different labels. Each beat must advance the story.
 - **Don't run long by enumerating.** 100s+ of feature-listing drags. If the content is genuinely long, give it a strong repeating rhythmic device (e.g. a question→answer cadence) or split into multiple videos.
 - **No `mesh-gradient-bg`** as a hero background. Use `dynamic-grid`, `spotlight-card`, or a solid theme color via `backdrop`.
+- **Show the product big and legible.** Don't render the UI near-black / low-contrast (bad_01 fractal, bad_03 ChatJS), shrink it to a distant floating window, or float it over a photographic background (bad_02 openpaper). The viewer must be able to read the product — it's the hero.
+- **No raw screen-recording with browser / OS chrome.** Use a clean product sim cropped to the content, not an un-styled screencast of a real browser tab (bad_04 SlidesAI).
+- **No casual / throwaway copy.** "?????", ";)", "link in bio :)", lazy filler (bad_05 itshover) reads unfinished. Keep copy crisp and professional. All English.
+- **One accent, not per-brand colors.** Don't tint each word a different platform's brand color (bad_06: Instagram-pink + Twitter-blue + LinkedIn-blue in one line). One accent across the whole video.
 
 ### The one-line test
 A good product demo could be described as *"X has problem Y; here's the product solving it, here's proof, here's how to get it."* If your composition is instead *"here are my components / here are my features,"* it's slop — restructure around a story.

@@ -164,7 +164,7 @@ Don't dump components — compose one story. When asked to build a full video ("
    `references/anatomy.md` §1.
 2. **Follow the beats** — a product demo is Hook → Positioning → Product reveal → Features → Proof →
    CTA (last two optional). See `references/anatomy.md` §2.
-3. **Use the recipe** — `references/archetypes.md` has the per-archetype build: content contract
+3. **Use the recipe** — `references/archetypes/index.md` routes to per-archetype builds: content contract
    (infer → ask → placeholder), duration variants, beat→component slots, and a worked
    `<TransitionSeries>` skeleton.
 4. **Pick each beat's component** from `references/components/index.md`; match the `vibe` tag to the
@@ -175,7 +175,7 @@ Don't dump components — compose one story. When asked to build a full video ("
 ## Reference
 
 - `references/anatomy.md` — composing a full video: strategy (template/compose/new), the product-demo beats, and the good-vs-slop quality bar.
-- `references/archetypes.md` — per-archetype build recipes (currently product-demo): content contract, duration variants, beat→slot map, worked `<TransitionSeries>` skeleton.
+- `references/archetypes/index.md` — router to per-archetype build recipes (product-demo flagship + changelog, feature-announcement, oss-showcase, cli-tool-demo, testimonial-reel, year-in-review, pricing-reveal, logo-bumper): content contract, duration variants, beat→slot map.
 - `references/components/index.md` — router table (all components, grouped by category, with `Use for` / `Avoid for`). Open `references/components/<name>.md` for one component's full props, example, and use / don't-use notes.
 - `references/design.md` — anti-slop design defaults (do/avoid) + design tokens (palette, fonts, canvas).
 - `references/motion-principles.md` — motion-design principles adapted to remocn + Remotion.

@@ -1,18 +1,13 @@
-# Archetype recipes
+# product-demo
 
-Concrete build recipes per video archetype. Read `anatomy.md` first (strategy + beats + the good/slop
-bar), pick components from `components/index.md`. Currently covers **product-demo**; more archetypes
-are added here over time.
+**Family:** A. Product & Launch · **Default duration:** ~45s standard (1356f @30fps) · **Format:** 16:9
 
----
+The flagship archetype, fully worked. A product demo tells one story: *"X has problem Y; here's the
+product solving it; here's proof; here's how to get it."* Built as a raw `<TransitionSeries>` stitching
+catalog components, one beat per sequence. Grounded in real demos (CrowdReply, Flowith, HeyGen, monid).
+Read `../anatomy.md` first.
 
-## product-demo
-
-A product demo tells one story: *"X has problem Y; here's the product solving it; here's proof; here's
-how to get it."* Built as a raw `<TransitionSeries>` stitching catalog components, one beat per
-sequence. Grounded in real demos (CrowdReply, Flowith, HeyGen, monid).
-
-### Step 1 — gather content (infer → ask → placeholder)
+## Step 1 — gather content (infer → ask → placeholder)
 
 Fill this contract. **Infer** from the repo first (`README`, landing copy, `package.json`), then **ask**
 the user only for what's missing, then fall back to honest English placeholders. Never block on missing data.
@@ -28,34 +23,34 @@ the user only for what's missing, then fall back to honest English placeholders.
 | `cta` | no | `{ line, domain }` or `{ line, command }` |
 | `brand` | no | `{ accentColor, vibe }` → default neutral + one accent; pick `vibe` to match (`tech`/`premium`/`clean`/`data`/`social`) |
 
-### Step 2 — pick the duration variant
+## Step 2 — pick the duration variant
 
 | Variant | Length | Frames @30fps | Beats | Reference |
 |---|---|---|---|---|
 | **Short** | ~18s | ~540 | Hook → Product reveal → Positioning/CTA | monid (good, 18s) |
 | **Standard** | ~45s | ~1356 | all 6 | CrowdReply / Flowith / HeyGen (good, 42–45s) |
 | **Long** | 90s+ | — | many features | only with a strong repeating rhythm (Q&A cadence); else split into several videos. A flat 100s feature-list drags — that is the slop trap. |
-| **Bumper** | ~4–5s | ~135 | Positioning → lockup only | a logo sting; use `logo-enter`. Not a full demo — a brand insert. |
+| **Bumper** | ~4–5s | ~135 | Positioning → lockup only | a logo sting; see `logo-bumper.md`. Not a full demo — a brand insert. |
 
-### Step 3 — map beats to component slots
+## Step 3 — map beats to component slots
 
-Pick one slot per beat from these candidates (full props in each `components/<name>.md`):
+Pick one slot per beat from these candidates (full props in each `../components/<name>.md`):
 
 | Beat | Slot candidates | Notes |
 |---|---|---|
 | **Hook** | `kinetic-center-build`, `blur-out-up`, `per-word-crossfade`, `tracking-in`, `staggered-fade-up` over `dynamic-grid` or solid | emphasize ONE word with the accent, sentence case |
 | **Positioning** | `per-character-rise` / `focus-blur-resolve` / `kinetic-center-build` for the line and wordmark; `logo-enter` for a brand/partner logo cluster (not a single lockup) | resolve text into the brand mark; a single styled lockup may be a small new component |
-| **Product reveal** | `terminal-simulator`, `glass-code-block`, `code-accordion`, `device-mockup-zoom`; AI surfaces `chat-gpt`/`claude-chat`/`claude-code`/`v0`/`opencode`; add `cursor` / `simulated-cursor` | if the catalog lacks the exact surface, build a new lightweight `ui-frame` (see `anatomy.md` §1) |
+| **Product reveal** | `terminal-simulator`, `glass-code-block`, `code-accordion`, `device-mockup-zoom`; AI surfaces `chat-gpt`/`claude-chat`/`claude-code`/`v0`/`opencode`; add `cursor` / `simulated-cursor` | if the catalog lacks the exact surface, build a new lightweight `ui-frame` (see `../anatomy.md` §1) |
 | **Features** | `progress-steps` (checklist), `animated-bar-chart` / `animated-line-chart`, `per-word-crossfade` for a "designed to ___" swap, `marker-highlight` / `inline-highlight` for emphasis, `tool-menu-slide-in`, `data-flow-pipes` | one concrete moment per feature, 2–4 total |
 | **Proof** | `rolling-number` / `number-wheel` / `slot-machine-roll` for a score; `animated-bar-chart`; `github-stars` / `x-followers-overview` for social counts; a testimonial card (compose or build new) | land one number with the accent |
 | **CTA** | `per-word-crossfade` / `kinetic-center-build` closer, `terminal-simulator` for a run-this command, `spring-scale-in` for a pill, `logo-enter`, `confetti` (one accent pop) | one ask + where to go |
 | **Transitions** | `spatial-push` (going deeper), `fade-through` (neutral cut), `frosted-glass-wipe`, `directional-wipe`, `shared-axis-y`/`shared-axis-z` | wrap two scenes via `from`/`to` |
 
 Budget each `<TransitionSeries.Sequence durationInFrames>` around the component's natural length
-(`Length` in `components/index.md`). Standard ~45s split: Hook 165 · Positioning 120 · Product reveal
+(`Length` in `../components/index.md`). Standard ~45s split: Hook 165 · Positioning 120 · Product reveal
 150 · Features 450 (across 2–4) · Proof 300 · CTA 171.
 
-### Step 4 — assemble (raw `<TransitionSeries>`)
+## Step 4 — assemble (raw `<TransitionSeries>`)
 
 Standard variant skeleton. Swap the slot components and content for the gathered contract. Install each
 picked component first (`shadcn add @remocn/<name>`); deps auto-install.
@@ -114,13 +109,13 @@ transparent. Replace `DynamicGrid` import usage if you want a grid hook backgrou
 fill. The product-reveal beat above is folded into the features checklist for brevity — for a richer
 surface, add a `TerminalSimulator` / chat sim / new `ui-frame` sequence before the features beat.
 
-### Step 5 — check against the bar
+## Step 5 — check against the bar
 
-Before delivering, run the good/slop checklist in `anatomy.md` §3: one accent, sentence-case kinetic
+Before delivering, run the good/slop checklist in `../anatomy.md` §3: one accent, sentence-case kinetic
 type, real content (no `Scene A` lorem), no glow halos, no feature-list enumeration, no `mesh-gradient-bg`,
 legible text, story not catalog. Budget frames so nothing clips and there's no dead air.
 
-### Installable worked example
+## Installable worked example
 
 `a1-product-demo` in this registry is a full standard-length (~45s, 1356f) product demo built on this
 skeleton — install and read it as the long worked reference: `shadcn add @remocn/a1-product-demo`.
