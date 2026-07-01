@@ -81,6 +81,8 @@ import { MatrixDecode } from "@/registry/remocn/matrix-decode";
 import { matrixDecodeConfig } from "@/registry/remocn/matrix-decode/config";
 import { MeshGradientBg } from "@/registry/remocn/mesh-gradient-bg";
 import { meshGradientBgConfig } from "@/registry/remocn/mesh-gradient-bg/config";
+import { ShaderMeshGradient } from "@/registry/remocn/shader-mesh-gradient";
+import { shaderMeshGradientConfig } from "@/registry/remocn/shader-mesh-gradient/config";
 import { NumberWheel } from "@/registry/remocn/number-wheel";
 import { numberWheelConfig } from "@/registry/remocn/number-wheel/config";
 import { PerspectiveMarquee } from "@/registry/remocn/perspective-marquee";
@@ -307,6 +309,10 @@ const registry: Record<string, RegistryEntry> = {
   "mesh-gradient-bg": {
     Component: MeshGradientBg,
     config: meshGradientBgConfig,
+  },
+  "shader-mesh-gradient": {
+    Component: ShaderMeshGradient,
+    config: shaderMeshGradientConfig,
   },
   "dynamic-grid": { Component: DynamicGrid, config: dynamicGridConfig },
   "simulated-cursor": {
