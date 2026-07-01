@@ -1,14 +1,13 @@
 "use client";
 
-import { Player, type PlayerRef, Thumbnail } from "@remotion/player";
+import { Player, type PlayerRef } from "@remotion/player";
 import Link from "next/link";
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { getDefaults } from "@/lib/customizer-config";
-import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 import registry from "@/registry/__index__";
 import type { CardItem } from "./component-card-grid";
-import { useTheme } from "next-themes";
+import { useAutoplay } from "@/app/(home)/components/use-autoplay";
 
 function slugFromHref(href?: string) {
   if (!href) return undefined;
@@ -20,65 +19,25 @@ function PreviewPlaceholder() {
 }
 
 function CardPreview({ item }: { item: CardItem }) {
-  const reducedMotion = usePrefersReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const playerRef = useRef<PlayerRef>(null);
-  const [inView, setInView] = useState(false);
-
-  const { resolvedTheme } = useTheme();
-  const backgroundColor = resolvedTheme === "dark" ? "#f5f5f5" : "#f5f5f5";
-
-  useEffect(() => {
-    if (inView) return;
-    const el = ref.current;
-    if (!el || typeof IntersectionObserver === "undefined") return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          setInView(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "200px 0px" },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [inView]);
-
   const slug = slugFromHref(item.href);
   const entry = slug ? registry[slug] : undefined;
-  const showPlayer =
-    item.status === "stable" && !!entry && inView && !reducedMotion;
+  const playerRef = useRef<PlayerRef>(null);
 
-  // Same reliable-autoplay shim as PreviewStage: `<Player autoPlay>` mounts a
-  // tick before its imperative handle is ready and silently fails to start, so
-  // we drive play() via the ref once the player is shown, retrying once.
-  useEffect(() => {
-    if (!showPlayer) return;
-    let raf1 = 0;
-    let raf2 = 0;
-    raf1 = requestAnimationFrame(() => {
-      playerRef.current?.play();
-      raf2 = requestAnimationFrame(() => {
-        if (playerRef.current && !playerRef.current.isPlaying()) {
-          playerRef.current.play();
-        }
-      });
-    });
-    return () => {
-      if (raf1) cancelAnimationFrame(raf1);
-      if (raf2) cancelAnimationFrame(raf2);
-    };
-  }, [showPlayer]);
+  useAutoplay(playerRef);
 
-  let content: ReactNode;
-  if (item.status !== "stable" || !entry || !inView) {
-    content = <PreviewPlaceholder />;
-  } else {
-    const { Component, config } = entry;
-    const inputProps = getDefaults(config.controls);
-    const playing = !reducedMotion;
-    content = playing ? (
+  if (!entry) {
+    return (
+      <div className="size-full">
+        <PreviewPlaceholder />
+      </div>
+    );
+  }
+
+  const { Component, config } = entry;
+  const inputProps = getDefaults(config.controls);
+
+  return (
+    <div className="size-full">
       <Player
         ref={playerRef}
         component={Component}
@@ -87,29 +46,11 @@ function CardPreview({ item }: { item: CardItem }) {
         fps={config.fps}
         compositionWidth={config.compositionWidth}
         compositionHeight={config.compositionHeight}
-        style={{ width: "100%", height: "100%", backgroundColor }}
+        style={{ width: "100%", height: "100%", backgroundColor: "#f5f5f5" }}
         controls={false}
         loop
         acknowledgeRemotionLicense
       />
-    ) : (
-      <Thumbnail
-        component={Component}
-        inputProps={inputProps}
-        durationInFrames={config.durationInFrames}
-        fps={config.fps}
-        compositionWidth={config.compositionWidth}
-        compositionHeight={config.compositionHeight}
-        frameToDisplay={0}
-        style={{ width: "100%", height: "100%" }}
-        acknowledgeRemotionLicense
-      />
-    );
-  }
-
-  return (
-    <div ref={ref} className="size-full">
-      {content}
     </div>
   );
 }
