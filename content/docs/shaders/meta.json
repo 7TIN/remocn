@@ -1,5 +1,5 @@
 {
   "title": "Shaders",
   "collapsible": false,
-  "pages": ["index", "shader-mesh-gradient"]
+  "pages": ["index", "shader-mesh-gradient", "shader-grain-gradient"]
 }
