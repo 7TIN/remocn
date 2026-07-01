@@ -15,6 +15,7 @@
     "shader-perlin-noise",
     "shader-simplex-noise",
     "shader-voronoi",
-    "shader-dot-orbit"
+    "shader-dot-orbit",
+    "shader-dithering"
   ]
 }

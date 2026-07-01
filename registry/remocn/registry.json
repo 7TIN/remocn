@@ -696,6 +696,22 @@
       ]
     },
     {
+      "name": "shader-dithering",
+      "type": "registry:component",
+      "title": "Shader Dithering",
+      "description": "Ordered-dither shading over an animated gradient field.",
+      "dependencies": [
+        "@paper-design/shaders-react"
+      ],
+      "files": [
+        {
+          "path": "shader-dithering/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/shader-dithering.tsx"
+        }
+      ]
+    },
+    {
       "name": "dynamic-grid",
       "type": "registry:component",
       "title": "Dynamic Grid",
