@@ -7,7 +7,7 @@ import type { Node, Root } from "fumadocs-core/page-tree";
  * unchanged from the flat docs structure. No files move and no URLs change —
  * the split is purely a view over the existing Fumadocs page tree.
  */
-export type DocsTabId = "components" | "primitives";
+export type DocsTabId = "components" | "primitives" | "shaders";
 
 export type DocsTab = {
   id: DocsTabId;
@@ -23,6 +23,11 @@ export const DOCS_TABS: DocsTab[] = [
     href: "/docs/getting-started/introduction",
   },
   { id: "primitives", label: "Primitives", href: "/docs/ui" },
+  {
+    id: "shaders",
+    label: "Shaders",
+    href: "/docs/shaders/getting-started/introduction",
+  },
 ];
 
 /** URL prefix that backs the Primitives tab (the remocn-ui section). */
@@ -36,8 +41,18 @@ function isPrimitivesPath(pathname: string): boolean {
   );
 }
 
+const SHADERS_PREFIX = "/docs/shaders";
+
+function isShadersPath(pathname: string): boolean {
+  return (
+    pathname === SHADERS_PREFIX || pathname.startsWith(`${SHADERS_PREFIX}/`)
+  );
+}
+
 export function getActiveDocsTab(pathname: string): DocsTabId {
-  return isPrimitivesPath(pathname) ? "primitives" : "components";
+  if (isShadersPath(pathname)) return "shaders";
+  if (isPrimitivesPath(pathname)) return "primitives";
+  return "components";
 }
 
 /** True for the root-level folder node that holds the remocn-ui (ui) section. */
@@ -49,6 +64,22 @@ function isPrimitivesNode(node: Node): boolean {
       child.type === "page" &&
       child.url.startsWith(`${PRIMITIVES_PREFIX}/`),
   );
+}
+
+/** True if the node (or any descendant) is a shaders page — folders now nest. */
+function hasShadersDescendant(node: Node): boolean {
+  if (node.type === "page") return node.url.startsWith(`${SHADERS_PREFIX}/`);
+  if (node.type === "folder") {
+    if (node.index?.url === SHADERS_PREFIX) return true;
+    return node.children.some(hasShadersDescendant);
+  }
+  return false;
+}
+
+function isShadersNode(node: Node): boolean {
+  if (node.type !== "folder") return false;
+  if (node.index?.url === SHADERS_PREFIX) return true;
+  return node.children.some(hasShadersDescendant);
 }
 
 /**
@@ -85,17 +116,25 @@ function hoistPrimitives(nodes: Node[]): Node[] {
 export function splitDocsTree(tree: Root): {
   components: Root;
   primitives: Root;
+  shaders: Root;
 } {
   return {
     components: {
       ...tree,
       $id: "docs-tab-components",
-      children: tree.children.filter((node) => !isPrimitivesNode(node)),
+      children: tree.children.filter(
+        (node) => !isPrimitivesNode(node) && !isShadersNode(node),
+      ),
     },
     primitives: {
       ...tree,
       $id: "docs-tab-primitives",
       children: hoistPrimitives(tree.children.filter(isPrimitivesNode)),
+    },
+    shaders: {
+      ...tree,
+      $id: "docs-tab-shaders",
+      children: hoistPrimitives(tree.children.filter(isShadersNode)),
     },
   };
 }

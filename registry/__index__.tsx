@@ -81,6 +81,42 @@ import { MatrixDecode } from "@/registry/remocn/matrix-decode";
 import { matrixDecodeConfig } from "@/registry/remocn/matrix-decode/config";
 import { MeshGradientBg } from "@/registry/remocn/mesh-gradient-bg";
 import { meshGradientBgConfig } from "@/registry/remocn/mesh-gradient-bg/config";
+import { ShaderGrainGradient } from "@/registry/remocn/shader-grain-gradient";
+import { shaderGrainGradientConfig } from "@/registry/remocn/shader-grain-gradient/config";
+import { ShaderColorPanels } from "@/registry/remocn/shader-color-panels";
+import { shaderColorPanelsConfig } from "@/registry/remocn/shader-color-panels/config";
+import { ShaderDithering } from "@/registry/remocn/shader-dithering";
+import { shaderDitheringConfig } from "@/registry/remocn/shader-dithering/config";
+import { ShaderDotOrbit } from "@/registry/remocn/shader-dot-orbit";
+import { shaderDotOrbitConfig } from "@/registry/remocn/shader-dot-orbit/config";
+import { ShaderGodRays } from "@/registry/remocn/shader-god-rays";
+import { shaderGodRaysConfig } from "@/registry/remocn/shader-god-rays/config";
+import { ShaderSmokeRing } from "@/registry/remocn/shader-smoke-ring";
+import { shaderSmokeRingConfig } from "@/registry/remocn/shader-smoke-ring/config";
+import { ShaderLiquidMetal } from "@/registry/remocn/shader-liquid-metal";
+import { shaderLiquidMetalConfig } from "@/registry/remocn/shader-liquid-metal/config";
+import { ShaderMetaballs } from "@/registry/remocn/shader-metaballs";
+import { shaderMetaballsConfig } from "@/registry/remocn/shader-metaballs/config";
+import { ShaderMeshGradient } from "@/registry/remocn/shader-mesh-gradient";
+import { shaderMeshGradientConfig } from "@/registry/remocn/shader-mesh-gradient/config";
+import { ShaderNeuroNoise } from "@/registry/remocn/shader-neuro-noise";
+import { shaderNeuroNoiseConfig } from "@/registry/remocn/shader-neuro-noise/config";
+import { ShaderPerlinNoise } from "@/registry/remocn/shader-perlin-noise";
+import { shaderPerlinNoiseConfig } from "@/registry/remocn/shader-perlin-noise/config";
+import { ShaderPulsingBorder } from "@/registry/remocn/shader-pulsing-border";
+import { shaderPulsingBorderConfig } from "@/registry/remocn/shader-pulsing-border/config";
+import { ShaderSimplexNoise } from "@/registry/remocn/shader-simplex-noise";
+import { shaderSimplexNoiseConfig } from "@/registry/remocn/shader-simplex-noise/config";
+import { ShaderVoronoi } from "@/registry/remocn/shader-voronoi";
+import { shaderVoronoiConfig } from "@/registry/remocn/shader-voronoi/config";
+import { ShaderSpiral } from "@/registry/remocn/shader-spiral";
+import { shaderSpiralConfig } from "@/registry/remocn/shader-spiral/config";
+import { ShaderSwirl } from "@/registry/remocn/shader-swirl";
+import { shaderSwirlConfig } from "@/registry/remocn/shader-swirl/config";
+import { ShaderWater } from "@/registry/remocn/shader-water";
+import { shaderWaterConfig } from "@/registry/remocn/shader-water/config";
+import { ShaderWarp } from "@/registry/remocn/shader-warp";
+import { shaderWarpConfig } from "@/registry/remocn/shader-warp/config";
 import { NumberWheel } from "@/registry/remocn/number-wheel";
 import { numberWheelConfig } from "@/registry/remocn/number-wheel/config";
 import { PerspectiveMarquee } from "@/registry/remocn/perspective-marquee";
@@ -307,6 +343,78 @@ const registry: Record<string, RegistryEntry> = {
   "mesh-gradient-bg": {
     Component: MeshGradientBg,
     config: meshGradientBgConfig,
+  },
+  "shader-mesh-gradient": {
+    Component: ShaderMeshGradient,
+    config: shaderMeshGradientConfig,
+  },
+  "shader-grain-gradient": {
+    Component: ShaderGrainGradient,
+    config: shaderGrainGradientConfig,
+  },
+  "shader-warp": {
+    Component: ShaderWarp,
+    config: shaderWarpConfig,
+  },
+  "shader-swirl": {
+    Component: ShaderSwirl,
+    config: shaderSwirlConfig,
+  },
+  "shader-water": {
+    Component: ShaderWater,
+    config: shaderWaterConfig,
+  },
+  "shader-spiral": {
+    Component: ShaderSpiral,
+    config: shaderSpiralConfig,
+  },
+  "shader-liquid-metal": {
+    Component: ShaderLiquidMetal,
+    config: shaderLiquidMetalConfig,
+  },
+  "shader-color-panels": {
+    Component: ShaderColorPanels,
+    config: shaderColorPanelsConfig,
+  },
+  "shader-neuro-noise": {
+    Component: ShaderNeuroNoise,
+    config: shaderNeuroNoiseConfig,
+  },
+  "shader-perlin-noise": {
+    Component: ShaderPerlinNoise,
+    config: shaderPerlinNoiseConfig,
+  },
+  "shader-simplex-noise": {
+    Component: ShaderSimplexNoise,
+    config: shaderSimplexNoiseConfig,
+  },
+  "shader-voronoi": {
+    Component: ShaderVoronoi,
+    config: shaderVoronoiConfig,
+  },
+  "shader-dot-orbit": {
+    Component: ShaderDotOrbit,
+    config: shaderDotOrbitConfig,
+  },
+  "shader-dithering": {
+    Component: ShaderDithering,
+    config: shaderDitheringConfig,
+  },
+  "shader-god-rays": {
+    Component: ShaderGodRays,
+    config: shaderGodRaysConfig,
+  },
+  "shader-smoke-ring": {
+    Component: ShaderSmokeRing,
+    config: shaderSmokeRingConfig,
+  },
+  "shader-metaballs": {
+    Component: ShaderMetaballs,
+    config: shaderMetaballsConfig,
+  },
+  "shader-pulsing-border": {
+    Component: ShaderPulsingBorder,
+    config: shaderPulsingBorderConfig,
   },
   "dynamic-grid": { Component: DynamicGrid, config: dynamicGridConfig },
   "simulated-cursor": {
