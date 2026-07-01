@@ -103,6 +103,8 @@ import { ShaderNeuroNoise } from "@/registry/remocn/shader-neuro-noise";
 import { shaderNeuroNoiseConfig } from "@/registry/remocn/shader-neuro-noise/config";
 import { ShaderPerlinNoise } from "@/registry/remocn/shader-perlin-noise";
 import { shaderPerlinNoiseConfig } from "@/registry/remocn/shader-perlin-noise/config";
+import { ShaderPulsingBorder } from "@/registry/remocn/shader-pulsing-border";
+import { shaderPulsingBorderConfig } from "@/registry/remocn/shader-pulsing-border/config";
 import { ShaderSimplexNoise } from "@/registry/remocn/shader-simplex-noise";
 import { shaderSimplexNoiseConfig } from "@/registry/remocn/shader-simplex-noise/config";
 import { ShaderVoronoi } from "@/registry/remocn/shader-voronoi";
@@ -409,6 +411,10 @@ const registry: Record<string, RegistryEntry> = {
   "shader-metaballs": {
     Component: ShaderMetaballs,
     config: shaderMetaballsConfig,
+  },
+  "shader-pulsing-border": {
+    Component: ShaderPulsingBorder,
+    config: shaderPulsingBorderConfig,
   },
   "dynamic-grid": { Component: DynamicGrid, config: dynamicGridConfig },
   "simulated-cursor": {

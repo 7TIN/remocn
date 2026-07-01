@@ -760,6 +760,22 @@
       ]
     },
     {
+      "name": "shader-pulsing-border",
+      "type": "registry:component",
+      "title": "Shader Pulsing Border",
+      "description": "Glowing border frame that pulses around the edges.",
+      "dependencies": [
+        "@paper-design/shaders-react"
+      ],
+      "files": [
+        {
+          "path": "shader-pulsing-border/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/shader-pulsing-border.tsx"
+        }
+      ]
+    },
+    {
       "name": "dynamic-grid",
       "type": "registry:component",
       "title": "Dynamic Grid",

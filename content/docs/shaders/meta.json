@@ -19,6 +19,7 @@
     "shader-dithering",
     "shader-god-rays",
     "shader-smoke-ring",
-    "shader-metaballs"
+    "shader-metaballs",
+    "shader-pulsing-border"
   ]
 }
