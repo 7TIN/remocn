@@ -1,6 +1,5 @@
 "use client";
 
-import { Player, type PlayerRef } from "@remotion/player";
 import { ArrowRight, Pause, Play } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
@@ -9,60 +8,36 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SPRING_BOUNCE } from "@/config/site";
 import { useTrackEvent } from "@/lib/analytics";
-import { HERO_CODE } from "@/lib/config/snippets";
-import registry from "@/registry/__index__";
-import { Backdrop } from "@/registry/remocn/backdrop";
 import { FadeUp } from "../fade-up";
 import { InstallAll } from "../install-all";
-import { useAutoplay } from "../use-autoplay";
-
-const GlassCodeBlock = registry["glass-code-block"]?.Component;
-
-function HeroComposition(props: Record<string, unknown>) {
-  return (
-    <Backdrop
-      fill={{ type: "image", src: "/hero.png" }}
-      padding={0}
-      radius={0}
-      shadow=""
-    >
-      {GlassCodeBlock ? <GlassCodeBlock {...props} /> : null}
-    </Backdrop>
-  );
-}
 
 export function Hero() {
-  const heroEntry = registry["glass-code-block"];
-  const playerRef = useRef<PlayerRef>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(true);
   const trackEvent = useTrackEvent();
 
   const togglePlay = useCallback(() => {
-    const p = playerRef.current;
-    if (!p) return;
-    if (p.isPlaying()) {
-      p.pause();
-      setPlaying(false);
-      trackEvent("preview_paused", {
-        component: "glass-code-block",
-        surface: "hero",
-      });
-    } else {
-      p.play();
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.paused) {
+      void v.play();
       setPlaying(true);
       trackEvent("preview_played", {
         component: "glass-code-block",
         surface: "hero",
         trigger: "click",
       });
+    } else {
+      v.pause();
+      setPlaying(false);
+      trackEvent("preview_paused", {
+        component: "glass-code-block",
+        surface: "hero",
+      });
     }
   }, [trackEvent]);
 
-  useAutoplay(playerRef);
-
-  const aspectRatio = heroEntry
-    ? `${heroEntry.config.compositionWidth} / ${heroEntry.config.compositionHeight}`
-    : "16 / 9";
+  const aspectRatio = "16 / 9";
 
   return (
     <section className="relative overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24">
@@ -151,26 +126,17 @@ export function Hero() {
               className="group surface-card relative w-full overflow-hidden rounded-2xl shadow-2xl shadow-black/5 sm:rounded-3xl dark:shadow-black/40"
               style={{ aspectRatio }}
             >
-              {heroEntry ? (
-                <Player
-                  ref={playerRef}
-                  component={HeroComposition}
-                  inputProps={{
-                    code: HERO_CODE,
-                    title: "LaunchScene.tsx",
-                    width: 860,
-                    height: 480,
-                  }}
-                  durationInFrames={heroEntry.config.durationInFrames}
-                  fps={heroEntry.config.fps}
-                  compositionWidth={heroEntry.config.compositionWidth}
-                  compositionHeight={heroEntry.config.compositionHeight}
-                  style={{ width: "100%", height: "100%", display: "block" }}
-                  loop
-                  initiallyMuted
-                  acknowledgeRemotionLicense
-                />
-              ) : null}
+              {/* biome-ignore lint/a11y/useMediaCaption: decorative hero loop, muted with no dialogue */}
+              <video
+                ref={videoRef}
+                src="/introducing-remocn.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                className="block h-full w-full object-cover"
+              />
               <button
                 type="button"
                 onClick={togglePlay}
