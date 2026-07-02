@@ -55,6 +55,8 @@ export const NAV_LINKS: NavLink[] = [
 export const NEW_BADGE_PATHS = new Set<string>([
   "/docs/transitions/swirl-dissolve",
   "/docs/transitions/dither-dissolve",
+  "/docs/transitions/perlin-dissolve",
+  "/docs/transitions/smoke-dissolve",
 ]);
 
 export const FOOTER_NAV: NavLink[] = [
