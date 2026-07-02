@@ -69,6 +69,16 @@ export const sponsors: Sponsor[] = [
     customStyles: "rounded-full opacity-100 grayscale-0 dark:[filter:none]",
     isPaste: false,
   },
+  {
+    id: "shieldcn",
+    name: "Justin",
+    displayName: "Justin",
+    logoUrl: "https://unavatar.io/x/jalcowastaken",
+    website: "https://shieldcn.dev/?utm_source=remocn&utm_medium=sponsor&utm_campaign=remocn_sponsors_page",
+    tier: "builder",
+    customStyles: "rounded-full opacity-100 grayscale-0 dark:[filter:none]",
+    isPaste: false,
+  },
 ].filter(sponsor => !sponsor.isPaste);
 
 export function getGoldSponsors(): Sponsor[] {
