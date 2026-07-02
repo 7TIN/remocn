@@ -824,6 +824,86 @@
       ]
     },
     {
+      "name": "swirl-dissolve",
+      "type": "registry:component",
+      "title": "Swirl Dissolve",
+      "description": "A swirl shader transition that unwinds open and winds shut to reveal the next scene.",
+      "dependencies": [
+        "remotion",
+        "@remotion/transitions"
+      ],
+      "registryDependencies": [
+        "@remocn/shader-swirl"
+      ],
+      "files": [
+        {
+          "path": "swirl-dissolve/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/swirl-dissolve.tsx"
+        }
+      ]
+    },
+    {
+      "name": "dither-dissolve",
+      "type": "registry:component",
+      "title": "Dither Dissolve",
+      "description": "A dithering shader transition that dissolves one scene into the next.",
+      "dependencies": [
+        "remotion",
+        "@remotion/transitions"
+      ],
+      "registryDependencies": [
+        "@remocn/shader-dithering"
+      ],
+      "files": [
+        {
+          "path": "dither-dissolve/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/dither-dissolve.tsx"
+        }
+      ]
+    },
+    {
+      "name": "perlin-dissolve",
+      "type": "registry:component",
+      "title": "Perlin Dissolve",
+      "description": "A perlin-noise shader transition that sweeps its noise threshold to dissolve one scene into the next.",
+      "dependencies": [
+        "remotion",
+        "@remotion/transitions"
+      ],
+      "registryDependencies": [
+        "@remocn/shader-perlin-noise"
+      ],
+      "files": [
+        {
+          "path": "perlin-dissolve/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/perlin-dissolve.tsx"
+        }
+      ]
+    },
+    {
+      "name": "smoke-dissolve",
+      "type": "registry:component",
+      "title": "Smoke Dissolve",
+      "description": "A smoke-ring shader transition that expands the ring outward to reveal the next scene.",
+      "dependencies": [
+        "remotion",
+        "@remotion/transitions"
+      ],
+      "registryDependencies": [
+        "@remocn/shader-smoke-ring"
+      ],
+      "files": [
+        {
+          "path": "smoke-dissolve/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/smoke-dissolve.tsx"
+        }
+      ]
+    },
+    {
       "name": "zoom-through-transition",
       "type": "registry:component",
       "title": "Zoom Through Transition",

@@ -47,6 +47,14 @@ import { DataFlowPipes } from "@/registry/remocn/data-flow-pipes";
 import { dataFlowPipesConfig } from "@/registry/remocn/data-flow-pipes/config";
 import { DirectionalWipe } from "@/registry/remocn/directional-wipe";
 import { directionalWipeConfig } from "@/registry/remocn/directional-wipe/config";
+import { SwirlDissolveExampleScene } from "@/components/docs/examples/swirl-dissolve-example";
+import { swirlDissolveConfig } from "@/registry/remocn/swirl-dissolve/config";
+import { DitherDissolveExampleScene } from "@/components/docs/examples/dither-dissolve-example";
+import { ditherDissolveConfig } from "@/registry/remocn/dither-dissolve/config";
+import { PerlinDissolveExampleScene } from "@/components/docs/examples/perlin-dissolve-example";
+import { perlinDissolveConfig } from "@/registry/remocn/perlin-dissolve/config";
+import { SmokeDissolveExampleScene } from "@/components/docs/examples/smoke-dissolve-example";
+import { smokeDissolveConfig } from "@/registry/remocn/smoke-dissolve/config";
 import { DynamicGrid } from "@/registry/remocn/dynamic-grid";
 import { dynamicGridConfig } from "@/registry/remocn/dynamic-grid/config";
 import { EcosystemConstellation } from "@/registry/remocn/ecosystem-constellation";
@@ -424,6 +432,22 @@ const registry: Record<string, RegistryEntry> = {
   "directional-wipe": {
     Component: DirectionalWipe,
     config: directionalWipeConfig,
+  },
+  "swirl-dissolve": {
+    Component: SwirlDissolveExampleScene,
+    config: swirlDissolveConfig,
+  },
+  "dither-dissolve": {
+    Component: DitherDissolveExampleScene,
+    config: ditherDissolveConfig,
+  },
+  "perlin-dissolve": {
+    Component: PerlinDissolveExampleScene,
+    config: perlinDissolveConfig,
+  },
+  "smoke-dissolve": {
+    Component: SmokeDissolveExampleScene,
+    config: smokeDissolveConfig,
   },
   "zoom-through-transition": {
     Component: ZoomThroughTransition,

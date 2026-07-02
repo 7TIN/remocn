@@ -112,6 +112,18 @@
       "@/components/remocn/dynamic-grid": [
         "./registry/remocn/dynamic-grid/index.tsx",
       ],
+      "@/components/remocn/shader-swirl": [
+        "./registry/remocn/shader-swirl/index.tsx",
+      ],
+      "@/components/remocn/shader-dithering": [
+        "./registry/remocn/shader-dithering/index.tsx",
+      ],
+      "@/components/remocn/shader-perlin-noise": [
+        "./registry/remocn/shader-perlin-noise/index.tsx",
+      ],
+      "@/components/remocn/shader-smoke-ring": [
+        "./registry/remocn/shader-smoke-ring/index.tsx",
+      ],
       "@/components/remocn/*": ["./registry/remocn-ui/*/index.tsx"],
       "@/*": ["./*"],
     },
