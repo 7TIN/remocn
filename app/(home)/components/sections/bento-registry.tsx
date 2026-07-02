@@ -229,10 +229,11 @@ export function BentoRegistry() {
         <FadeUp delay={0.18}>
           <SpotlightSurface className="mt-4 grid gap-4 sm:mt-6 sm:gap-6 md:grid-cols-3">
             <BentoCard
-              name="shimmer-sweep"
-              title="Shimmer Sweep"
-              description="Light pass across text for AI accents"
-              inputProps={{ text: "Generating" }}
+              name="kinetic-center-build"
+              title="Kinetic Center Build"
+              description="Words push left as each new one builds from the center"
+              inputProps={{ text: "Words push left." }}
+              backdrop={{ type: "color", value: "#ffffff" }}
             />
             <BentoCard
               name="x-followers-overview"
@@ -241,9 +242,9 @@ export function BentoRegistry() {
               backdrop={{ type: "color", value: "#ffffff" }}
             />
             <BentoCard
-              name="grid-pixelate-wipe"
-              title="Grid Pixelate Wipe"
-              description="The screen breaks into squares and reassembles into a new scene"
+              name="shader-swirl"
+              title="Shader Swirl"
+              description="Twisting bands of color churn behind your scene"
             />
           </SpotlightSurface>
         </FadeUp>

@@ -42,6 +42,7 @@ export type NavLink = {
 // Единый источник топ-навигации для landing / sponsors / docs.
 export const NAV_LINKS: NavLink[] = [
   { href: "/docs/typography", label: "Components" },
+  { href: "/docs/shaders/getting-started/introduction", label: "Shaders" },
   { href: "/sponsors", label: "Sponsors" },
   { href: "/docs/getting-started/introduction", label: "Docs" },
 ];
