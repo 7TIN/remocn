@@ -11,11 +11,8 @@
     "dither-dissolve",
     "perlin-dissolve",
     "smoke-dissolve",
-    "zoom-through-transition",
-    "directional-wipe",
-    "spatial-push",
-    "frosted-glass-wipe",
-    "grid-pixelate-wipe",
-    "chromatic-aberration-wipe"
+    "whip-pan",
+    "push-through",
+    "focus-pull"
   ]
 }
