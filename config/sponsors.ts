@@ -112,6 +112,17 @@ export const sponsors: Sponsor[] = [
     hideFromFeatured: true,
     layout: "row",
   },
+  {
+    id: "shadcnuikit",
+    name: "Shadcn UI Kit",
+    displayName: "Shadcn UI Kit",
+    logoUrl: "https://shadcnuikit.com/logo.png",
+    website: "https://shadcnuikit.com/?utm_source=remocn&utm_medium=sponsor&utm_campaign=remocn_sponsors_page",
+    tier: "partner",
+    customStyles: "opacity-90 max-h-10",
+    isPaste: false,
+    layout: "row",
+  },
 ].filter(sponsor => !sponsor.isPaste);
 
 export function getGoldSponsors(): Sponsor[] {
