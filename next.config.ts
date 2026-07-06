@@ -18,6 +18,10 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  async rewrites() {
+    // Serve raw Markdown for AI agents: `/docs/<slug>.md` -> app/llms.md route.
+    return [{ source: "/docs/:path*.md", destination: "/llms.md/:path*" }];
+  },
   typescript: {
     // Type-check ломается из-за коллизии @types/mdx × @react-three/fiber
     // (см. mdx-components.tsx). Рантайм не затронут.
