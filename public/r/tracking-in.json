@@ -3,9 +3,7 @@
   "name": "tracking-in",
   "title": "Tracking In",
   "description": "Letter-spacing collapses and blur clears with a springy motion.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "files": [
     {
       "path": "registry/remocn/tracking-in/index.tsx",

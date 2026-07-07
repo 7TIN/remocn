@@ -3,12 +3,8 @@
   "name": "terminal-cursor-zoom",
   "title": "Terminal Cursor Zoom",
   "description": "Camera locked to the typing cursor, dollying across a terminal as a command types at high zoom.",
-  "dependencies": [
-    "remotion"
-  ],
-  "registryDependencies": [
-    "@remocn/terminal-simulator"
-  ],
+  "dependencies": ["remotion"],
+  "registryDependencies": ["@remocn/terminal-simulator"],
   "files": [
     {
       "path": "registry/remocn/terminal-cursor-zoom/index.tsx",

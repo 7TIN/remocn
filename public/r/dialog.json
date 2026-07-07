@@ -3,12 +3,8 @@
   "name": "dialog",
   "title": "UI Dialog",
   "description": "A modal dialog whose opened/closed state is a pure function of the timeline; the backdrop dim and popup zoom are keyframed presets, with a close button and a primary action. Self-contained — pair it with the Button as a trigger (see the example).",
-  "dependencies": [
-    "remotion"
-  ],
-  "registryDependencies": [
-    "@remocn/remocn-ui"
-  ],
+  "dependencies": ["remotion"],
+  "registryDependencies": ["@remocn/remocn-ui"],
   "files": [
     {
       "path": "registry/remocn-ui/dialog/index.tsx",

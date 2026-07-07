@@ -3,13 +3,8 @@
   "name": "grain-dissolve",
   "title": "Grain Dissolve",
   "description": "A grain-gradient shader transition that disintegrates the outgoing scene into soft grainy shapes and condenses the next scene out of the noise.",
-  "dependencies": [
-    "remotion",
-    "@remotion/transitions"
-  ],
-  "registryDependencies": [
-    "@remocn/shader-grain-gradient"
-  ],
+  "dependencies": ["remotion", "@remotion/transitions"],
+  "registryDependencies": ["@remocn/shader-grain-gradient"],
   "files": [
     {
       "path": "registry/remocn/grain-dissolve/index.tsx",

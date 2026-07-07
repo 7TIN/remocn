@@ -15,7 +15,9 @@ import { deleteJob, listJobs } from "./render-queue";
 /** How long a finished file may sit before the sweep reclaims it. */
 function ttlMs(): number {
   const parsed = Number(process.env.RENDER_FILE_TTL_MS);
-  return Number.isFinite(parsed) && parsed >= 1000 ? Math.floor(parsed) : 600_000;
+  return Number.isFinite(parsed) && parsed >= 1000
+    ? Math.floor(parsed)
+    : 600_000;
 }
 
 /** How often the sweep runs — derived from the TTL (at least once a minute). */

@@ -3,10 +3,7 @@
   "name": "number-wheel",
   "title": "Number Wheel",
   "description": "Mechanical odometer that rolls an integer up or down to its target, direction inferred from the values.",
-  "dependencies": [
-    "remotion",
-    "@remotion/google-fonts"
-  ],
+  "dependencies": ["remotion", "@remotion/google-fonts"],
   "files": [
     {
       "path": "registry/remocn/number-wheel/index.tsx",

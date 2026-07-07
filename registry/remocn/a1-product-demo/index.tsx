@@ -4,17 +4,17 @@ import { TransitionSeries } from "@remotion/transitions";
 import type { ReactNode } from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import { DynamicGrid } from "@/components/remocn/dynamic-grid";
-import { FlowithDemo } from "./flowith-demo";
 import { planTransitionTiming } from "./duration";
 import { FeatureFrame } from "./feature-frame";
+import { FlowithDemo } from "./flowith-demo";
 import {
   CtaScene,
   cameraCraneUp,
   type ProductDemoConfig,
   type ProductDemoScene,
-  type TemplateTheme,
   resolveTiming,
   spatialPush,
+  type TemplateTheme,
 } from "./foundation";
 import { ProductHero } from "./product-hero";
 

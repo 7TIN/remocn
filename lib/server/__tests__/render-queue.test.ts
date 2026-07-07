@@ -83,7 +83,9 @@ const tick = () => new Promise<void>((r) => setTimeout(r, 0));
 // Import queue + mock render fn after all vi.mock() calls are hoisted.
 // ---------------------------------------------------------------------------
 
-const { enqueueRender, getJob, QueueFullError } = await import("@/lib/server/render-queue");
+const { enqueueRender, getJob, QueueFullError } = await import(
+  "@/lib/server/render-queue"
+);
 
 // ---------------------------------------------------------------------------
 // Reset mock state between tests (the module singleton is shared across the
@@ -112,8 +114,8 @@ describe("render-queue — status transitions", () => {
 
     // Synchronously the job is registered.
     expect(job).toBeDefined();
-    expect(job!.status).toBe("queued");
-    expect(job!.progress).toBe(0);
+    expect(job?.status).toBe("queued");
+    expect(job?.progress).toBe(0);
 
     // Clean up: let it resolve so the limiter slot is freed.
     d.resolve("/tmp/out.mp4");
@@ -129,7 +131,7 @@ describe("render-queue — status transitions", () => {
     await tick();
 
     const job = getJob(jobId);
-    expect(job!.status).toBe("rendering");
+    expect(job?.status).toBe("rendering");
 
     d.resolve("/tmp/out.mp4");
     await tick();
@@ -146,15 +148,15 @@ describe("render-queue — status transitions", () => {
     await tick();
 
     const job = getJob(jobId);
-    expect(job!.status).toBe("done");
-    expect(job!.progress).toBe(1);
-    expect(job!.outputPath).toBeDefined();
+    expect(job?.status).toBe("done");
+    expect(job?.progress).toBe(1);
+    expect(job?.outputPath).toBeDefined();
   });
 
   it("stores the correct repo on the job", () => {
     mockRender.mockResolvedValueOnce("/tmp/x.mp4");
     const jobId = enqueueRender(makeInput("my-org/my-repo"));
-    expect(getJob(jobId)!.repo).toBe("my-org/my-repo");
+    expect(getJob(jobId)?.repo).toBe("my-org/my-repo");
   });
 
   it("returns a string jobId that differs between two calls", () => {
@@ -179,8 +181,8 @@ describe("render-queue — error path", () => {
     await tick(); // extra tick for rejection propagation
 
     const job = getJob(jobId);
-    expect(job!.status).toBe("error");
-    expect(job!.error).toContain("Chromium crashed");
+    expect(job?.status).toBe("error");
+    expect(job?.error).toContain("Chromium crashed");
   });
 
   it("captures a generic (non-Error) rejection as a fallback string", async () => {
@@ -191,8 +193,8 @@ describe("render-queue — error path", () => {
     await tick();
 
     const job = getJob(jobId);
-    expect(job!.status).toBe("error");
-    expect(typeof job!.error).toBe("string");
+    expect(job?.status).toBe("error");
+    expect(typeof job?.error).toBe("string");
   });
 });
 
@@ -219,7 +221,7 @@ describe("render-queue — concurrency semaphore", () => {
     await tick();
 
     // Only 2 should be rendering (default RENDER_MAX_CONCURRENT = 2).
-    const statuses = ids.map((id) => getJob(id)!.status);
+    const statuses = ids.map((id) => getJob(id)?.status);
     const renderingCount = statuses.filter((s) => s === "rendering").length;
     const queuedCount = statuses.filter((s) => s === "queued").length;
 
@@ -232,7 +234,7 @@ describe("render-queue — concurrency semaphore", () => {
     await tick();
     await tick();
 
-    const newStatuses = ids.map((id) => getJob(id)!.status);
+    const newStatuses = ids.map((id) => getJob(id)?.status);
     // ids[0] and ids[1] should now be done.
     expect(newStatuses[0]).toBe("done");
     expect(newStatuses[1]).toBe("done");
@@ -265,8 +267,7 @@ describe("render-queue — render timeout", () => {
       return new Promise<string>((_, reject) => {
         if (signal) {
           signal.addEventListener("abort", () => {
-            abortCallback = () =>
-              reject(new Error("Render aborted"));
+            abortCallback = () => reject(new Error("Render aborted"));
             abortCallback();
           });
         }
@@ -282,9 +283,9 @@ describe("render-queue — render timeout", () => {
     await tick();
 
     const job = getJob(jobId);
-    expect(job!.status).toBe("error");
+    expect(job?.status).toBe("error");
     // The queue sets job.error to "Render timed out" when signal.aborted is true.
-    expect(job!.error).toMatch(/timed out/i);
+    expect(job?.error).toMatch(/timed out/i);
 
     delete process.env.RENDER_TIMEOUT_MS;
   });

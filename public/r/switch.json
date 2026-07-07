@@ -3,12 +3,8 @@
   "name": "switch",
   "title": "UI Switch",
   "description": "A switch whose checked/unchecked state is a pure function of the timeline; the track fill and sliding thumb are keyframed presets.",
-  "dependencies": [
-    "remotion"
-  ],
-  "registryDependencies": [
-    "@remocn/remocn-ui"
-  ],
+  "dependencies": ["remotion"],
+  "registryDependencies": ["@remocn/remocn-ui"],
   "files": [
     {
       "path": "registry/remocn-ui/switch/index.tsx",

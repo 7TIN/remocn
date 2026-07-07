@@ -3,13 +3,8 @@
   "name": "telegram-chat-flow",
   "title": "UI Telegram Chat Flow",
   "description": "A Telegram-styled messaging composition: tailed bubbles (white incoming, blue outgoing) with in-bubble timestamps and delivery checks, a header that flips to 'typing…' while the other side replies, reaction chips, and a Telegram composer that types the outgoing message before sending. Self-contained — it owns its timeline and only composes the caret primitive.",
-  "dependencies": [
-    "remotion"
-  ],
-  "registryDependencies": [
-    "@remocn/remocn-ui",
-    "@remocn/caret"
-  ],
+  "dependencies": ["remotion"],
+  "registryDependencies": ["@remocn/remocn-ui", "@remocn/caret"],
   "files": [
     {
       "path": "registry/remocn-ui/telegram-chat-flow/index.tsx",

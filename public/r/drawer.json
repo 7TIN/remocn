@@ -3,12 +3,8 @@
   "name": "drawer",
   "title": "UI Drawer",
   "description": "A bottom panel whose opened/closed state is a pure function of the timeline; the backdrop dim and bottom-edge slide-up are keyframed presets, with a drag handle and a primary action. Self-contained — pair it with the Button as a trigger (see the example).",
-  "dependencies": [
-    "remotion"
-  ],
-  "registryDependencies": [
-    "@remocn/remocn-ui"
-  ],
+  "dependencies": ["remotion"],
+  "registryDependencies": ["@remocn/remocn-ui"],
   "files": [
     {
       "path": "registry/remocn-ui/drawer/index.tsx",

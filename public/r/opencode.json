@@ -3,14 +3,8 @@
   "name": "opencode",
   "title": "OpenCode",
   "description": "Animated OpenCode TUI welcome screen — two-tone wordmark, an input box with a blue accent bar that types a query, a model status line, and command hints. Dark/light themes.",
-  "dependencies": [
-    "remotion",
-    "@remotion/google-fonts"
-  ],
-  "registryDependencies": [
-    "@remocn/caret",
-    "@remocn/remocn-ui"
-  ],
+  "dependencies": ["remotion", "@remotion/google-fonts"],
+  "registryDependencies": ["@remocn/caret", "@remocn/remocn-ui"],
   "files": [
     {
       "path": "registry/remocn/opencode/index.tsx",

@@ -3,9 +3,7 @@
   "name": "logo-enter",
   "title": "Logo Enter",
   "description": "A stacked group of round brand chips that spring in one-by-one, then hold. Swap the logos to feature any set of marks. Horizontal or vertical stacking.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "files": [
     {
       "path": "registry/remocn/logo-enter/index.tsx",

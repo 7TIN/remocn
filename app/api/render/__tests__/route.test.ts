@@ -80,7 +80,9 @@ function makePostRequest(
 }
 
 /** A valid render payload that passes parseRenderInput. */
-function validPayload(overrides?: Record<string, unknown>): Record<string, unknown> {
+function validPayload(
+  overrides?: Record<string, unknown>,
+): Record<string, unknown> {
   return {
     repo: "vercel/next.js",
     totalStars: 50_000,
@@ -141,7 +143,10 @@ describe("POST /api/render — 400 invalid JSON", () => {
     const res = await POST(
       new Request("http://localhost/api/render", {
         method: "POST",
-        headers: { "content-type": "application/json", "x-forwarded-for": "1.2.3.4" },
+        headers: {
+          "content-type": "application/json",
+          "x-forwarded-for": "1.2.3.4",
+        },
         body: "{ not valid json !!!",
       }) as never,
     );
@@ -189,7 +194,9 @@ describe("POST /api/render — 400 invalid input", () => {
       starredAt: "2021-01-01",
     }));
 
-    const res = await POST(makePostRequest(validPayload({ stargazers: many })) as never);
+    const res = await POST(
+      makePostRequest(validPayload({ stargazers: many })) as never,
+    );
 
     expect(res.status).toBe(400);
     const body = await res.json();
@@ -350,7 +357,10 @@ describe("GET /api/render/[jobId] — status JSON", () => {
     };
     mockGetJob.mockReturnValue(job);
 
-    const res = await GET(makeGetRequest("job1") as never, makeGetParams("job1"));
+    const res = await GET(
+      makeGetRequest("job1") as never,
+      makeGetParams("job1"),
+    );
 
     expect(res.status).toBe(200);
     const body = await res.json();
@@ -369,7 +379,10 @@ describe("GET /api/render/[jobId] — status JSON", () => {
     };
     mockGetJob.mockReturnValue(job);
 
-    const res = await GET(makeGetRequest("job2") as never, makeGetParams("job2"));
+    const res = await GET(
+      makeGetRequest("job2") as never,
+      makeGetParams("job2"),
+    );
 
     const body = await res.json();
     expect(body.status).toBe("rendering");
@@ -387,7 +400,10 @@ describe("GET /api/render/[jobId] — status JSON", () => {
     };
     mockGetJob.mockReturnValue(job);
 
-    const res = await GET(makeGetRequest("job3") as never, makeGetParams("job3"));
+    const res = await GET(
+      makeGetRequest("job3") as never,
+      makeGetParams("job3"),
+    );
 
     const body = await res.json();
     expect(body.status).toBe("done");
@@ -406,7 +422,10 @@ describe("GET /api/render/[jobId] — status JSON", () => {
     };
     mockGetJob.mockReturnValue(job);
 
-    const res = await GET(makeGetRequest("job3b") as never, makeGetParams("job3b"));
+    const res = await GET(
+      makeGetRequest("job3b") as never,
+      makeGetParams("job3b"),
+    );
     const text = await res.text();
     expect(text).not.toContain("/tmp/remocn-renders/secret.mp4");
   });
@@ -421,7 +440,10 @@ describe("GET /api/render/[jobId] — status JSON", () => {
     };
     mockGetJob.mockReturnValue(job);
 
-    const res = await GET(makeGetRequest("job4") as never, makeGetParams("job4"));
+    const res = await GET(
+      makeGetRequest("job4") as never,
+      makeGetParams("job4"),
+    );
 
     const body = await res.json();
     expect(body.status).toBe("error");
@@ -438,7 +460,10 @@ describe("GET /api/render/[jobId] — status JSON", () => {
     };
     mockGetJob.mockReturnValue(job);
 
-    const res = await GET(makeGetRequest("job5") as never, makeGetParams("job5"));
+    const res = await GET(
+      makeGetRequest("job5") as never,
+      makeGetParams("job5"),
+    );
     const body = await res.json();
     expect("error" in body).toBe(false);
   });
@@ -472,7 +497,10 @@ describe("POST + GET — no secrets or paths leak", () => {
     };
     mockGetJob.mockReturnValue(job);
 
-    const res = await GET(makeGetRequest("jobS") as never, makeGetParams("jobS"));
+    const res = await GET(
+      makeGetRequest("jobS") as never,
+      makeGetParams("jobS"),
+    );
     const text = await res.text();
     expect(text).not.toContain("/secret/render/dir");
 

@@ -3,13 +3,8 @@
   "name": "perlin-dissolve",
   "title": "Perlin Dissolve",
   "description": "A perlin-noise shader transition that sweeps its noise threshold to dissolve one scene into the next.",
-  "dependencies": [
-    "remotion",
-    "@remotion/transitions"
-  ],
-  "registryDependencies": [
-    "@remocn/shader-perlin-noise"
-  ],
+  "dependencies": ["remotion", "@remotion/transitions"],
+  "registryDependencies": ["@remocn/shader-perlin-noise"],
   "files": [
     {
       "path": "registry/remocn/perlin-dissolve/index.tsx",

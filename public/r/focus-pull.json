@@ -3,10 +3,7 @@
   "name": "focus-pull",
   "title": "Focus Pull",
   "description": "A rack-focus transition that defocuses the outgoing scene into a bright blur and resolves the next one into focus.",
-  "dependencies": [
-    "remotion",
-    "@remotion/transitions"
-  ],
+  "dependencies": ["remotion", "@remotion/transitions"],
   "files": [
     {
       "path": "registry/remocn/focus-pull/index.tsx",

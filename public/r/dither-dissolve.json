@@ -3,13 +3,8 @@
   "name": "dither-dissolve",
   "title": "Dither Dissolve",
   "description": "A dithering shader transition that dissolves one scene into the next.",
-  "dependencies": [
-    "remotion",
-    "@remotion/transitions"
-  ],
-  "registryDependencies": [
-    "@remocn/shader-dithering"
-  ],
+  "dependencies": ["remotion", "@remotion/transitions"],
+  "registryDependencies": ["@remocn/shader-dithering"],
   "files": [
     {
       "path": "registry/remocn/dither-dissolve/index.tsx",

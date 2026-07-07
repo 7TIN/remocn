@@ -3,13 +3,8 @@
   "name": "ripple-zoom",
   "title": "Ripple Zoom",
   "description": "A grain-gradient ripple transition that flies the camera through the center of the rings while the next scene approaches from the depth.",
-  "dependencies": [
-    "remotion",
-    "@remotion/transitions"
-  ],
-  "registryDependencies": [
-    "@remocn/shader-grain-gradient"
-  ],
+  "dependencies": ["remotion", "@remotion/transitions"],
+  "registryDependencies": ["@remocn/shader-grain-gradient"],
   "files": [
     {
       "path": "registry/remocn/ripple-zoom/index.tsx",

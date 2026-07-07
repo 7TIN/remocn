@@ -3,9 +3,7 @@
   "name": "data-flow-pipes",
   "title": "Data Flow Pipes",
   "description": "Glowing data packets travel along SVG bezier pipes between system nodes, leaving fading trails.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "files": [
     {
       "path": "registry/remocn/data-flow-pipes/index.tsx",

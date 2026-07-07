@@ -3,12 +3,8 @@
   "name": "field",
   "title": "UI Field",
   "description": "A static layout family for composing labeled form controls, modeled on shadcn's Field: FieldGroup ▸ Field ▸ FieldLabel / FieldControl / FieldDescription. Reads no frame and holds no state — colors come from the resolved theme. FieldControl is a relative fixed-height slot for the absolute remocn-ui controls (Input, Button).",
-  "dependencies": [
-    "remotion"
-  ],
-  "registryDependencies": [
-    "@remocn/remocn-ui"
-  ],
+  "dependencies": ["remotion"],
+  "registryDependencies": ["@remocn/remocn-ui"],
   "files": [
     {
       "path": "registry/remocn-ui/field/index.tsx",

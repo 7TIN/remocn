@@ -3,9 +3,7 @@
   "name": "spring-scale-in",
   "title": "Spring Scale In",
   "description": "Words pop in with a soft overshoot scale, like a physical spring settling into place.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "files": [
     {
       "path": "registry/remocn/spring-scale-in/index.tsx",

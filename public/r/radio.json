@@ -3,12 +3,8 @@
   "name": "radio",
   "title": "UI Radio",
   "description": "A radio whose checked/unchecked state is a pure function of the timeline; the ring border and inner dot pop are keyframed presets.",
-  "dependencies": [
-    "remotion"
-  ],
-  "registryDependencies": [
-    "@remocn/remocn-ui"
-  ],
+  "dependencies": ["remotion"],
+  "registryDependencies": ["@remocn/remocn-ui"],
   "files": [
     {
       "path": "registry/remocn-ui/radio/index.tsx",

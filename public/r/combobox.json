@@ -3,9 +3,7 @@
   "name": "combobox",
   "title": "UI Combobox",
   "description": "A combobox whose opened/closed state is a pure function of the timeline; the panel fade/scale/lift are keyframed presets like select. The trigger reuses the Input presets (typed query + caret reveal via an injected inputStyle), the list is filtered by a pure case-insensitive substring on the visible query prefix, and rows reuse the SelectItem row.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "registryDependencies": [
     "@remocn/remocn-ui",
     "@remocn/input",

@@ -3,12 +3,8 @@
   "name": "command-menu-item",
   "title": "UI Command Menu Item",
   "description": "A command-palette row whose idle/hover/press/selected state is a pure function of the timeline. Leading icon + label + trailing shortcut kbd. Exports an inline CommandMenuItemRow (reused by CommandMenu) and a standalone CommandMenuItem atom; the row background, label color, and icon color are keyframed presets.",
-  "dependencies": [
-    "remotion"
-  ],
-  "registryDependencies": [
-    "@remocn/remocn-ui"
-  ],
+  "dependencies": ["remotion"],
+  "registryDependencies": ["@remocn/remocn-ui"],
   "files": [
     {
       "path": "registry/remocn-ui/command-menu-item/index.tsx",

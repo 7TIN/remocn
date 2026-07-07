@@ -3,14 +3,8 @@
   "name": "claude-chat",
   "title": "Claude Chat",
   "description": "Animated Claude chat input — types a prompt character-by-character and the waveform button morphs into a terracotta send button the moment text appears. Warm light/dark themes.",
-  "dependencies": [
-    "remotion",
-    "@remotion/google-fonts"
-  ],
-  "registryDependencies": [
-    "@remocn/caret",
-    "@remocn/remocn-ui"
-  ],
+  "dependencies": ["remotion", "@remotion/google-fonts"],
+  "registryDependencies": ["@remocn/caret", "@remocn/remocn-ui"],
   "files": [
     {
       "path": "registry/remocn/claude-chat/index.tsx",

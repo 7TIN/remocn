@@ -49,7 +49,8 @@ async function makeErrorJob(): Promise<string> {
 describe("cleanup — sweepOnce registry eviction", () => {
   it("removes an error-status job older than the TTL", async () => {
     const jobId = await makeErrorJob();
-    const job = listJobs().get(jobId)!;
+    const job = listJobs().get(jobId);
+    if (!job) throw new Error("job not found");
     expect(job.status).toBe("error");
 
     job.createdAt = Date.now() - 700_000;
@@ -61,7 +62,7 @@ describe("cleanup — sweepOnce registry eviction", () => {
 
   it("keeps an error-status job younger than the TTL", async () => {
     const jobId = await makeErrorJob();
-    expect(listJobs().get(jobId)!.status).toBe("error");
+    expect(listJobs().get(jobId)?.status).toBe("error");
 
     await sweepOnce();
 
@@ -71,13 +72,17 @@ describe("cleanup — sweepOnce registry eviction", () => {
   it("never evicts a rendering-status entry regardless of age", async () => {
     let releaseRender!: (v: string) => void;
     mockRender.mockImplementationOnce(
-      () => new Promise<string>((resolve) => (releaseRender = resolve)),
+      () =>
+        new Promise<string>((resolve) => {
+          releaseRender = resolve;
+        }),
     );
 
     const jobId = enqueueRender(makeInput());
     await tick();
 
-    const job = listJobs().get(jobId)!;
+    const job = listJobs().get(jobId);
+    if (!job) throw new Error("job not found");
     expect(job.status).toBe("rendering");
     job.createdAt = Date.now() - 10_000_000;
 

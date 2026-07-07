@@ -3,9 +3,9 @@ import { randomUUID } from "node:crypto";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import pLimit from "p-limit";
+import { RENDER_WORK_DIR } from "./paths";
 import { renderStarsVideo } from "./render";
 import type { RenderInput } from "./validate-input";
-import { RENDER_WORK_DIR } from "./paths";
 
 /**
  * In-process render orchestration: a global concurrency semaphore plus a job
@@ -42,7 +42,9 @@ function maxConcurrent(): number {
 /** Hard ceiling on a single render before it's aborted as stuck. */
 function renderTimeoutMs(): number {
   const parsed = Number(process.env.RENDER_TIMEOUT_MS);
-  return Number.isFinite(parsed) && parsed >= 1000 ? Math.floor(parsed) : 120_000;
+  return Number.isFinite(parsed) && parsed >= 1000
+    ? Math.floor(parsed)
+    : 120_000;
 }
 
 /** Max jobs allowed in flight or waiting before new ones are rejected. */

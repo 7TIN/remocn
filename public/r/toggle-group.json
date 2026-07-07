@@ -3,12 +3,8 @@
   "name": "toggle-group",
   "title": "UI Toggle Group",
   "description": "A segmented control whose active value is a pure function of the timeline; a raised thumb SLIDES between segments (position + width derived from a float indicator offset, no jumps) and the labels crossfade color via mixOklch. The tabs precedent without content panels.",
-  "dependencies": [
-    "remotion"
-  ],
-  "registryDependencies": [
-    "@remocn/remocn-ui"
-  ],
+  "dependencies": ["remotion"],
+  "registryDependencies": ["@remocn/remocn-ui"],
   "files": [
     {
       "path": "registry/remocn-ui/toggle-group/index.tsx",

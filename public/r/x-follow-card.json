@@ -3,13 +3,8 @@
   "name": "x-follow-card",
   "title": "X Follow Card",
   "description": "Animated X profile follow card — spring bounce-in, staggered blur-in, a synthetic cursor that clicks Follow and flips it to Following. Light/dark, horizontal or vertical.",
-  "dependencies": [
-    "remotion",
-    "@remotion/google-fonts"
-  ],
-  "registryDependencies": [
-    "@remocn/cursor"
-  ],
+  "dependencies": ["remotion", "@remotion/google-fonts"],
+  "registryDependencies": ["@remocn/cursor"],
   "files": [
     {
       "path": "registry/remocn/x-follow-card/index.tsx",

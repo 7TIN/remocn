@@ -3,12 +3,8 @@
   "name": "checkbox",
   "title": "UI Checkbox",
   "description": "A checkbox whose checked/unchecked state is a pure function of the timeline; the box fill, border, and checkmark draw are keyframed presets.",
-  "dependencies": [
-    "remotion"
-  ],
-  "registryDependencies": [
-    "@remocn/remocn-ui"
-  ],
+  "dependencies": ["remotion"],
+  "registryDependencies": ["@remocn/remocn-ui"],
   "files": [
     {
       "path": "registry/remocn-ui/checkbox/index.tsx",

@@ -2,10 +2,9 @@ import { createReadStream } from "node:fs";
 import { stat } from "node:fs/promises";
 import path from "node:path";
 import { Readable } from "node:stream";
-
-import { getJob } from "@/lib/server/render-queue";
 import { deleteJobFile } from "@/lib/server/cleanup";
 import { RENDER_WORK_DIR } from "@/lib/server/paths";
+import { getJob } from "@/lib/server/render-queue";
 
 // Node runtime: streams a file off disk via node:fs.
 export const runtime = "nodejs";

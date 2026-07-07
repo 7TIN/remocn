@@ -1,9 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server";
-
-import { parseRenderInput, RenderInputError } from "@/lib/server/validate-input";
-import { enqueueRender, QueueFullError } from "@/lib/server/render-queue";
-import { checkRateLimit } from "@/lib/server/rate-limit";
 import { ensureCleanupSweep } from "@/lib/server/cleanup";
+import { checkRateLimit } from "@/lib/server/rate-limit";
+import { enqueueRender, QueueFullError } from "@/lib/server/render-queue";
+import {
+  parseRenderInput,
+  type RenderInput,
+  RenderInputError,
+} from "@/lib/server/validate-input";
 
 // Node runtime: native Remotion render (Chromium) needs full Node, not edge.
 export const runtime = "nodejs";
@@ -25,7 +28,10 @@ export async function POST(request: NextRequest) {
   const ip = clientIp(request);
   if (!checkRateLimit(ip)) {
     return NextResponse.json(
-      { error: "Too many render requests. Please wait and retry.", code: "rate_limited" },
+      {
+        error: "Too many render requests. Please wait and retry.",
+        code: "rate_limited",
+      },
       { status: 429 },
     );
   }
@@ -40,7 +46,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  let input;
+  let input: RenderInput;
   try {
     input = parseRenderInput(body);
   } catch (err) {
@@ -59,7 +65,10 @@ export async function POST(request: NextRequest) {
   } catch (err) {
     if (err instanceof QueueFullError) {
       return NextResponse.json(
-        { error: "Render queue is full. Please retry shortly.", code: "queue_full" },
+        {
+          error: "Render queue is full. Please retry shortly.",
+          code: "queue_full",
+        },
         { status: 503 },
       );
     }

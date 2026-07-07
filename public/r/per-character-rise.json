@@ -3,9 +3,7 @@
   "name": "per-character-rise",
   "title": "Per Character Rise",
   "description": "Letters slide up from below with no blur — crisp, deliberate, kinetic.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "files": [
     {
       "path": "registry/remocn/per-character-rise/index.tsx",

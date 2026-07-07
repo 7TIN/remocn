@@ -3,12 +3,8 @@
   "name": "popover",
   "title": "UI Popover",
   "description": "A popover/hover-card whose opened/closed state is a pure function of the timeline. The Popover renderer is a pure function of a PopoverStyle (opacity, scale, translate); usePopoverTransition eases both the open and the close. The static `side` prop sets the enter translate axis; renders title + description and/or arbitrary children in a popover card.",
-  "dependencies": [
-    "remotion"
-  ],
-  "registryDependencies": [
-    "@remocn/remocn-ui"
-  ],
+  "dependencies": ["remotion"],
+  "registryDependencies": ["@remocn/remocn-ui"],
   "files": [
     {
       "path": "registry/remocn-ui/popover/index.tsx",

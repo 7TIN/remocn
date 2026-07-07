@@ -3,9 +3,7 @@
   "name": "blur-out-up",
   "title": "Blur Out Up",
   "description": "Words arrive clean and depart upward with increasing blur for airy exits.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "files": [
     {
       "path": "registry/remocn/blur-out-up/index.tsx",

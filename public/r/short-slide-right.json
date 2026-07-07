@@ -3,9 +3,7 @@
   "name": "short-slide-right",
   "title": "Short Slide Right",
   "description": "The whole phrase glides in from the left as one compact move while words reveal in sequence through opacity.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "files": [
     {
       "path": "registry/remocn/short-slide-right/index.tsx",

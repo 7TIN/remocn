@@ -3,9 +3,7 @@
   "name": "select",
   "title": "UI Select",
   "description": "A select whose opened/closed state is a pure function of the timeline; the trigger reuses the Button primitive and the reveal panel composes SelectItem rows. The panel fade, scale, lift, and chevron are keyframed presets.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "registryDependencies": [
     "@remocn/remocn-ui",
     "@remocn/button",

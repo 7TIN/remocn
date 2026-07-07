@@ -3,13 +3,8 @@
   "name": "swirl-dissolve",
   "title": "Swirl Dissolve",
   "description": "A swirl shader transition that unwinds open and winds shut to reveal the next scene.",
-  "dependencies": [
-    "remotion",
-    "@remotion/transitions"
-  ],
-  "registryDependencies": [
-    "@remocn/shader-swirl"
-  ],
+  "dependencies": ["remotion", "@remotion/transitions"],
+  "registryDependencies": ["@remocn/shader-swirl"],
   "files": [
     {
       "path": "registry/remocn/swirl-dissolve/index.tsx",

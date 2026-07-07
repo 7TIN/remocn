@@ -24,9 +24,7 @@ export function useAutoplay(
   useEffect(() => {
     if (!enabled) return;
 
-    const visible = attached.current
-      ? Boolean(entry?.isIntersecting)
-      : true;
+    const visible = attached.current ? Boolean(entry?.isIntersecting) : true;
 
     if (!visible) {
       playerRef.current?.pause();

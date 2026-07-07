@@ -3,12 +3,8 @@
   "name": "dropdown-menu-item",
   "title": "UI Dropdown Menu Item",
   "description": "A dropdown menu action row whose idle/hover/press state is a pure function of the timeline; the row background and label color are keyframed presets. Composed inside the DropdownMenu panel.",
-  "dependencies": [
-    "remotion"
-  ],
-  "registryDependencies": [
-    "@remocn/remocn-ui"
-  ],
+  "dependencies": ["remotion"],
+  "registryDependencies": ["@remocn/remocn-ui"],
   "files": [
     {
       "path": "registry/remocn-ui/dropdown-menu-item/index.tsx",
