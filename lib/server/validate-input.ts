@@ -4,9 +4,10 @@ import "server-only";
  * Strict server-side validation of the render payload. Renders cost real CPU on
  * the box, so this is the gate that stops a crafted/oversized request from
  * blowing up Chromium: caps the stargazer count + string sizes, enums the
- * orientation/theme, clamps the numbers, and only lets http(s) avatar URLs
- * through (avatars are fetched by the headless browser → http(s)-only narrows
- * the SSRF surface). Throws a typed 400 error on anything outside the rules.
+ * orientation/theme, clamps the numbers, and only lets avatar URLs through
+ * whose host is on the GitHub avatar allowlist (avatars are fetched by the
+ * headless browser → pinning the host closes the SSRF window instead of just
+ * narrowing it). Throws a typed 400 error on anything outside the rules.
  */
 
 export type Orientation = "horizontal" | "vertical";
@@ -49,7 +50,7 @@ const MIN_SPEED = 1;
 const MAX_SPEED = 4;
 
 const HEX_COLOR = /^#[0-9a-fA-F]{3,8}$/;
-const HTTP_URL = /^https?:\/\//i;
+const ALLOWED_AVATAR_HOSTS = new Set(["avatars.githubusercontent.com"]);
 
 const DEFAULT_ACCENT = "#ffbb00";
 const DEFAULT_SPEED = 1;
@@ -96,9 +97,20 @@ function parseStargazer(value: unknown, index: number): RenderStargazer {
     `stargazers[${index}].avatarUrl`,
     MAX_AVATAR_URL_LEN,
   );
-  if (!HTTP_URL.test(avatarUrl)) {
+  let parsedAvatarUrl: URL;
+  try {
+    parsedAvatarUrl = new URL(avatarUrl);
+  } catch {
     throw new RenderInputError(
-      `stargazers[${index}].avatarUrl must be an http(s) URL`,
+      `stargazers[${index}].avatarUrl must be a valid URL`,
+    );
+  }
+  if (
+    parsedAvatarUrl.protocol !== "https:" ||
+    !ALLOWED_AVATAR_HOSTS.has(parsedAvatarUrl.hostname)
+  ) {
+    throw new RenderInputError(
+      `stargazers[${index}].avatarUrl must be a GitHub avatar URL`,
     );
   }
   const starredAt = requireString(
