@@ -3,10 +3,7 @@
   "name": "push-through",
   "title": "Push Through",
   "description": "A dolly transition that blows the outgoing scene past the camera while the next one approaches from the depth.",
-  "dependencies": [
-    "remotion",
-    "@remotion/transitions"
-  ],
+  "dependencies": ["remotion", "@remotion/transitions"],
   "files": [
     {
       "path": "registry/remocn/push-through/index.tsx",

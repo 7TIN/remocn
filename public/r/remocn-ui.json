@@ -3,10 +3,7 @@
   "name": "remocn-ui",
   "title": "remocn UI Core",
   "description": "Shared timeline-fold hook, theme context, and color math for remocn UI primitives.",
-  "dependencies": [
-    "remotion",
-    "culori"
-  ],
+  "dependencies": ["remotion", "culori"],
   "files": [
     {
       "path": "registry/remocn-ui/core/timeline.ts",

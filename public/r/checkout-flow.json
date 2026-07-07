@@ -3,9 +3,7 @@
   "name": "checkout-flow",
   "title": "UI Checkout Flow",
   "description": "A cursor-driven checkout card: the card and its fields blur-in, then the pointer flips a billing-cycle toggle, types a card number, ticks the terms checkbox, and presses Pay through to success, ending in a toast. A pure orchestrator — every channel comes from a composed primitive's transition hook.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "registryDependencies": [
     "@remocn/remocn-ui",
     "@remocn/toggle-group",

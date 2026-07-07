@@ -3,10 +3,7 @@
   "name": "whip-pan",
   "title": "Whip Pan",
   "description": "A whip-pan transition that flies both scenes through the frame in one move with velocity-based motion blur.",
-  "dependencies": [
-    "remotion",
-    "@remotion/transitions"
-  ],
+  "dependencies": ["remotion", "@remotion/transitions"],
   "files": [
     {
       "path": "registry/remocn/whip-pan/index.tsx",

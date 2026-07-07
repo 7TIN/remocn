@@ -3,9 +3,7 @@
   "name": "onboarding-stepper-flow",
   "title": "UI Onboarding Stepper Flow",
   "description": "A multi-step onboarding composition: a horizontal stepper advances through panels of input, radio, and switch fields, finishing on a Finish button that runs to success. Panel crossfade derives linearly from the stepper's exposed position channel; every other channel comes from a composed primitive's hook.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "registryDependencies": [
     "@remocn/remocn-ui",
     "@remocn/stepper",

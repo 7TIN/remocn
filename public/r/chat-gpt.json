@@ -3,14 +3,8 @@
   "name": "chat-gpt",
   "title": "ChatGPT",
   "description": "Animated ChatGPT composer — types a prompt into the pill input, the blue voice button morphs into a send button, and the suggestion chips fade out. Light/dark themes.",
-  "dependencies": [
-    "remotion",
-    "@remotion/google-fonts"
-  ],
-  "registryDependencies": [
-    "@remocn/caret",
-    "@remocn/remocn-ui"
-  ],
+  "dependencies": ["remotion", "@remotion/google-fonts"],
+  "registryDependencies": ["@remocn/caret", "@remocn/remocn-ui"],
   "files": [
     {
       "path": "registry/remocn/chat-gpt/index.tsx",

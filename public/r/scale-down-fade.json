@@ -3,9 +3,7 @@
   "name": "scale-down-fade",
   "title": "Scale Down Fade",
   "description": "Subtle premium settle-in with a restrained scale-down fade on exit.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "files": [
     {
       "path": "registry/remocn/scale-down-fade/index.tsx",

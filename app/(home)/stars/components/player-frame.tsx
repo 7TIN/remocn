@@ -9,7 +9,7 @@ export function PlayerFrame({
   entry,
   inputProps,
   orientation,
-  reduced,
+  reduced: _reduced,
 }: {
   entry: RegistryEntry;
   inputProps: GitHubStarsInputProps;

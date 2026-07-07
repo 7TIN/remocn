@@ -3,9 +3,7 @@
   "name": "glass-code-block",
   "title": "Glass Code Block",
   "description": "A premium frosted-glass code editor window with a regex tokenizer and line-by-line stagger reveal.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "files": [
     {
       "path": "registry/remocn/glass-code-block/index.tsx",

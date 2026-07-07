@@ -3,9 +3,7 @@
   "name": "soft-blur-in",
   "title": "Soft Blur In",
   "description": "Per-character fade-in with a gentle blur and upward motion. Apple's signature hero-title reveal.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "files": [
     {
       "path": "registry/remocn/soft-blur-in/index.tsx",

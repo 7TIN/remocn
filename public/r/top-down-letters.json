@@ -3,9 +3,7 @@
   "name": "top-down-letters",
   "title": "Top-Down Letters",
   "description": "Letters descend from above in a pronounced staircase, one symbol at a time, with zero blur.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "files": [
     {
       "path": "registry/remocn/top-down-letters/index.tsx",

@@ -126,7 +126,6 @@ export function Hero() {
               className="group surface-card relative w-full overflow-hidden rounded-2xl shadow-2xl shadow-black/5 sm:rounded-3xl dark:shadow-black/40"
               style={{ aspectRatio }}
             >
-              {/* biome-ignore lint/a11y/useMediaCaption: decorative hero loop, muted with no dialogue */}
               <video
                 ref={videoRef}
                 src="/introducing-remocn.mp4"

@@ -91,7 +91,11 @@ function parseStargazer(value: unknown, index: number): RenderStargazer {
   if (!isPlainObject(value)) {
     throw new RenderInputError(`stargazers[${index}] must be an object`);
   }
-  const login = requireString(value.login, `stargazers[${index}].login`, MAX_LOGIN_LEN);
+  const login = requireString(
+    value.login,
+    `stargazers[${index}].login`,
+    MAX_LOGIN_LEN,
+  );
   const avatarUrl = requireString(
     value.avatarUrl,
     `stargazers[${index}].avatarUrl`,
@@ -136,7 +140,11 @@ export function parseRenderInput(body: unknown): RenderInput {
   const repo = requireString(body.repo, "repo", MAX_REPO_LEN);
 
   const totalStars = Math.floor(
-    clamp(requireFiniteNumber(body.totalStars, "totalStars"), 0, MAX_TOTAL_STARS),
+    clamp(
+      requireFiniteNumber(body.totalStars, "totalStars"),
+      0,
+      MAX_TOTAL_STARS,
+    ),
   );
 
   if (!Array.isArray(body.stargazers)) {
@@ -150,7 +158,9 @@ export function parseRenderInput(body: unknown): RenderInput {
   const stargazers = body.stargazers.map(parseStargazer);
 
   if (body.orientation !== "horizontal" && body.orientation !== "vertical") {
-    throw new RenderInputError(`"orientation" must be "horizontal" or "vertical"`);
+    throw new RenderInputError(
+      `"orientation" must be "horizontal" or "vertical"`,
+    );
   }
   const orientation: Orientation = body.orientation;
 
@@ -158,13 +168,19 @@ export function parseRenderInput(body: unknown): RenderInput {
   if (body.accentColor !== undefined) {
     accentColor = requireString(body.accentColor, "accentColor", 32);
     if (!HEX_COLOR.test(accentColor)) {
-      throw new RenderInputError(`"accentColor" must be a hex color (e.g. #ffbb00)`);
+      throw new RenderInputError(
+        `"accentColor" must be a hex color (e.g. #ffbb00)`,
+      );
     }
   }
 
   let speed = DEFAULT_SPEED;
   if (body.speed !== undefined) {
-    speed = clamp(requireFiniteNumber(body.speed, "speed"), MIN_SPEED, MAX_SPEED);
+    speed = clamp(
+      requireFiniteNumber(body.speed, "speed"),
+      MIN_SPEED,
+      MAX_SPEED,
+    );
   }
 
   let theme: Theme = DEFAULT_THEME;
@@ -175,5 +191,13 @@ export function parseRenderInput(body: unknown): RenderInput {
     theme = body.theme;
   }
 
-  return { repo, totalStars, stargazers, orientation, accentColor, speed, theme };
+  return {
+    repo,
+    totalStars,
+    stargazers,
+    orientation,
+    accentColor,
+    speed,
+    theme,
+  };
 }

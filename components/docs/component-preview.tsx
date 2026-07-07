@@ -2,9 +2,9 @@
 
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { CheckIcon, LinkIcon, RotateCcwIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useQueryStates } from "nuqs";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTrackEvent } from "@/lib/analytics";
 import { type ComponentConfig, getDefaults } from "@/lib/customizer-config";
@@ -41,6 +41,7 @@ function Preview({
 }: {
   name: string;
   config: ComponentConfig;
+  // biome-ignore lint/suspicious/noExplicitAny: dynamically-loaded Remotion composition, props shape varies per component
   load: () => Promise<{ default: React.ComponentType<any> }>;
 }) {
   const trackEvent = useTrackEvent();

@@ -3,12 +3,8 @@
   "name": "cursor",
   "title": "UI Cursor",
   "description": "An animated cursor that moves between waypoints, clicks (ripple), and drags. The Cursor renderer is a pure function of a numeric CursorStyle channel; useCursorPath reads the frame and eases the path, ripple, and press phases.",
-  "dependencies": [
-    "remotion"
-  ],
-  "registryDependencies": [
-    "@remocn/remocn-ui"
-  ],
+  "dependencies": ["remotion"],
+  "registryDependencies": ["@remocn/remocn-ui"],
   "files": [
     {
       "path": "registry/remocn-ui/cursor/index.tsx",

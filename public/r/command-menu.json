@@ -3,13 +3,8 @@
   "name": "command-menu",
   "title": "UI Command Menu",
   "description": "A ⌘K command palette whose opened/closed state is a pure function of the timeline; the panel zoom + backdrop dim are dialog-like keyframed presets. The search row reveals the typed query, the list is filtered by a pure case-insensitive substring on the visible query prefix, and rows reuse the CommandMenuItem row.",
-  "dependencies": [
-    "remotion"
-  ],
-  "registryDependencies": [
-    "@remocn/remocn-ui",
-    "@remocn/command-menu-item"
-  ],
+  "dependencies": ["remotion"],
+  "registryDependencies": ["@remocn/remocn-ui", "@remocn/command-menu-item"],
   "files": [
     {
       "path": "registry/remocn-ui/command-menu/index.tsx",

@@ -3,9 +3,7 @@
   "name": "chat-flow",
   "title": "UI Chat Flow",
   "description": "A messaging composition: an outgoing message types into the composer, the send button presses, and the bubble rises in; the other side shows a typing indicator that swaps into the reply, and reactions pop in. A pure orchestrator — every channel comes from a composed primitive's hook (Input, MessageBubble, TypingIndicator).",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "registryDependencies": [
     "@remocn/remocn-ui",
     "@remocn/caret",

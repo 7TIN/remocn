@@ -3,9 +3,7 @@
   "name": "line-by-line-slide",
   "title": "Line-by-Line Slide",
   "description": "Each line enters from the left with a staggered slide and exits to the right for a flowing paragraph reveal.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "files": [
     {
       "path": "registry/remocn/line-by-line-slide/index.tsx",

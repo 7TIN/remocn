@@ -3,11 +3,11 @@
 import { Player, type PlayerRef } from "@remotion/player";
 import Link from "next/link";
 import { useRef } from "react";
+import { useAutoplay } from "@/app/(home)/components/use-autoplay";
 import { getDefaults } from "@/lib/customizer-config";
 import { cn } from "@/lib/utils";
 import registry from "@/registry/__index__";
 import type { CardItem } from "./component-card-grid";
-import { useAutoplay } from "@/app/(home)/components/use-autoplay";
 
 function slugFromHref(href?: string) {
   if (!href) return undefined;

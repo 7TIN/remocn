@@ -3,9 +3,7 @@
   "name": "mask-reveal-up",
   "title": "Mask Reveal Up",
   "description": "Lines reveal upward with a soft masked feel and compact stagger.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "files": [
     {
       "path": "registry/remocn/mask-reveal-up/index.tsx",

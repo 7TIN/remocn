@@ -3,10 +3,7 @@
   "name": "rolling-number",
   "title": "Rolling Number",
   "description": "Odometer where every place rolls at its own speed, new places rising into view, settling exactly on the target value.",
-  "dependencies": [
-    "remotion",
-    "@remotion/google-fonts"
-  ],
+  "dependencies": ["remotion", "@remotion/google-fonts"],
   "files": [
     {
       "path": "registry/remocn/rolling-number/index.tsx",

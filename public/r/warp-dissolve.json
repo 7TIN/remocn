@@ -3,13 +3,8 @@
   "name": "warp-dissolve",
   "title": "Warp Dissolve",
   "description": "A domain-warp shader transition that melts the outgoing scene into a folding color field and straightens back out into the next.",
-  "dependencies": [
-    "remotion",
-    "@remotion/transitions"
-  ],
-  "registryDependencies": [
-    "@remocn/shader-warp"
-  ],
+  "dependencies": ["remotion", "@remotion/transitions"],
+  "registryDependencies": ["@remocn/shader-warp"],
   "files": [
     {
       "path": "registry/remocn/warp-dissolve/index.tsx",

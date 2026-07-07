@@ -3,9 +3,7 @@
   "name": "terminal-simulator",
   "title": "Terminal Simulator",
   "description": "Terminal window that types out commands and rolls old lines off the top.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "files": [
     {
       "path": "registry/remocn/terminal-simulator/index.tsx",

@@ -3,9 +3,7 @@
   "name": "bottom-up-letters",
   "title": "Bottom-Up Letters",
   "description": "Letters rise from below in a pronounced staircase, one symbol at a time, with zero blur.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "files": [
     {
       "path": "registry/remocn/bottom-up-letters/index.tsx",

@@ -3,9 +3,7 @@
   "name": "dropdown-menu",
   "title": "UI Dropdown Menu",
   "description": "A dropdown menu whose opened/closed state is a pure function of the timeline; the trigger reuses the Button primitive and the reveal panel composes DropdownMenuItem rows. The panel fade, scale, lift, and chevron are keyframed presets.",
-  "dependencies": [
-    "remotion"
-  ],
+  "dependencies": ["remotion"],
   "registryDependencies": [
     "@remocn/remocn-ui",
     "@remocn/button",

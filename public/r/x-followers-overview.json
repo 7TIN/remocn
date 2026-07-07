@@ -3,13 +3,8 @@
   "name": "x-followers-overview",
   "title": "X Followers Overview",
   "description": "X follow notifications cycle through as 3D flipping text — '<name> followed you · 7h' — then the total follower count pops in with a confetti burst. Hardcoded sample list (X API ready). Light/dark, horizontal or vertical.",
-  "dependencies": [
-    "remotion",
-    "@remotion/google-fonts"
-  ],
-  "registryDependencies": [
-    "@remocn/confetti"
-  ],
+  "dependencies": ["remotion", "@remotion/google-fonts"],
+  "registryDependencies": ["@remocn/confetti"],
   "files": [
     {
       "path": "registry/remocn/x-followers-overview/index.tsx",

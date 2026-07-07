@@ -3,12 +3,8 @@
   "name": "message-bubble",
   "title": "UI Message Bubble",
   "description": "A chat message bubble whose hidden/visible state is a pure function of the timeline. The renderer is a pure function of a MessageBubbleStyle (opacity, translateY, scale); useMessageBubbleTransition eases the rise-in enter. The incoming/outgoing variant resolves bubble color and alignment from the theme, and an optional reaction badge pops in on its own channel.",
-  "dependencies": [
-    "remotion"
-  ],
-  "registryDependencies": [
-    "@remocn/remocn-ui"
-  ],
+  "dependencies": ["remotion"],
+  "registryDependencies": ["@remocn/remocn-ui"],
   "files": [
     {
       "path": "registry/remocn-ui/message-bubble/index.tsx",

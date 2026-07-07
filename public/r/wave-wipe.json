@@ -3,13 +3,8 @@
   "name": "wave-wipe",
   "title": "Wave Wipe",
   "description": "A grain-gradient wave that sweeps up across the frame, covering the outgoing scene and revealing the next one from below.",
-  "dependencies": [
-    "remotion",
-    "@remotion/transitions"
-  ],
-  "registryDependencies": [
-    "@remocn/shader-grain-gradient"
-  ],
+  "dependencies": ["remotion", "@remotion/transitions"],
+  "registryDependencies": ["@remocn/shader-grain-gradient"],
   "files": [
     {
       "path": "registry/remocn/wave-wipe/index.tsx",
