@@ -13,6 +13,7 @@ import { claudeCodeConfig } from "@/registry/remocn/claude-code/config";
 import { confettiConfig } from "@/registry/remocn/confetti/config";
 import { dataFlowPipesConfig } from "@/registry/remocn/data-flow-pipes/config";
 import { ditherDissolveConfig } from "@/registry/remocn/dither-dissolve/config";
+import { driftConfig } from "@/registry/remocn/drift/config";
 import { dynamicGridConfig } from "@/registry/remocn/dynamic-grid/config";
 import { ecosystemConstellationConfig } from "@/registry/remocn/ecosystem-constellation/config";
 import { fadeThroughConfig } from "@/registry/remocn/fade-through/config";
@@ -728,6 +729,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.BackdropDemo,
       })),
     config: backdropConfig,
+  },
+  drift: {
+    load: () =>
+      import("@/components/docs/examples/drift-example").then((m) => ({
+        default: m.DriftExampleScene,
+      })),
+    config: driftConfig,
   },
   "claude-chat": {
     load: () =>

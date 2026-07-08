@@ -1270,6 +1270,20 @@
       ]
     },
     {
+      "name": "drift",
+      "type": "registry:component",
+      "title": "Drift",
+      "description": "A slow linear camera push-in wrapper that scales its scene from 1 to 1+grow across the sequence so no frame is ever static.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "drift/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/drift.tsx"
+        }
+      ]
+    },
+    {
       "name": "logo-enter",
       "type": "registry:component",
       "title": "Logo Enter",
