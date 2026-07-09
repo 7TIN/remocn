@@ -1638,6 +1638,21 @@
           "target": "components/remocn/icon-zap.tsx"
         }
       ]
+    },
+    {
+      "name": "icon-flame",
+      "type": "registry:component",
+      "title": "Flame",
+      "description": "Animated Lucide flame icon — the outline draws on, then flickers with a looping scale-and-skew wobble for hot features, trending items, or streaks. Loops by default.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-flame/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-flame.tsx"
+        }
+      ]
     }
   ]
 }
