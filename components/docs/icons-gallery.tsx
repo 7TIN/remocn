@@ -31,6 +31,7 @@ import { InfoIconStatic } from "@/registry/remocn/icon-info";
 import { LoaderIconStatic } from "@/registry/remocn/icon-loader";
 import { MenuIconStatic } from "@/registry/remocn/icon-menu";
 import { MicIconStatic } from "@/registry/remocn/icon-mic";
+import { MoreHorizontalIconStatic } from "@/registry/remocn/icon-more-horizontal";
 import { PartyPopperIconStatic } from "@/registry/remocn/icon-party-popper";
 import { PauseIconStatic } from "@/registry/remocn/icon-pause";
 import { PlayIconStatic } from "@/registry/remocn/icon-play";
@@ -177,6 +178,12 @@ export const ICONS: IconEntry[] = [
     label: "Menu",
     category: "Actions & UI",
     Static: MenuIconStatic,
+  },
+  {
+    name: "icon-more-horizontal",
+    label: "More Horizontal",
+    category: "Actions & UI",
+    Static: MoreHorizontalIconStatic,
   },
   {
     name: "icon-play",

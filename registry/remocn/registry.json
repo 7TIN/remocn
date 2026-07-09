@@ -1925,6 +1925,21 @@
       ]
     },
     {
+      "name": "icon-more-horizontal",
+      "type": "registry:component",
+      "title": "More Horizontal",
+      "description": "Animated Lucide more-horizontal icon — three dots pop in, then do a left-to-right thinking wave.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-more-horizontal/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-more-horizontal.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",
