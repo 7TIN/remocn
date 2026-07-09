@@ -1518,6 +1518,21 @@
           "target": "components/remocn/icon-copy.tsx"
         }
       ]
+    },
+    {
+      "name": "icon-settings",
+      "type": "registry:component",
+      "title": "Settings",
+      "description": "Animated Lucide settings icon — the gear and center draw on, then the gear turns exactly one tooth for a settings, configuration, or customization beat.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-settings/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-settings.tsx"
+        }
+      ]
     }
   ]
 }

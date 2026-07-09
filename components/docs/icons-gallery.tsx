@@ -17,6 +17,7 @@ import { InfoIconStatic } from "@/registry/remocn/icon-info";
 import { LoaderIconStatic } from "@/registry/remocn/icon-loader";
 import { RefreshCwIconStatic } from "@/registry/remocn/icon-refresh-cw";
 import { SearchIconStatic } from "@/registry/remocn/icon-search";
+import { SettingsIconStatic } from "@/registry/remocn/icon-settings";
 import { UploadIconStatic } from "@/registry/remocn/icon-upload";
 import { XIconStatic } from "@/registry/remocn/icon-x";
 
@@ -109,6 +110,12 @@ export const ICONS: IconEntry[] = [
     label: "Copy",
     category: "Actions & UI",
     Static: CopyIconStatic,
+  },
+  {
+    name: "icon-settings",
+    label: "Settings",
+    category: "Actions & UI",
+    Static: SettingsIconStatic,
   },
 ];
 
