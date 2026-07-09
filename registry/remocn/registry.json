@@ -2105,6 +2105,21 @@
       ]
     },
     {
+      "name": "icon-key",
+      "type": "registry:component",
+      "title": "Key",
+      "description": "Animated Lucide key icon — draws on, then turns in an invisible lock and springs back.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-key/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-key.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",

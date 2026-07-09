@@ -32,6 +32,7 @@ import { FlameIconStatic } from "@/registry/remocn/icon-flame";
 import { HeartIconStatic } from "@/registry/remocn/icon-heart";
 import { ImageIconStatic } from "@/registry/remocn/icon-image";
 import { InfoIconStatic } from "@/registry/remocn/icon-info";
+import { KeyIconStatic } from "@/registry/remocn/icon-key";
 import { LayoutGridIconStatic } from "@/registry/remocn/icon-layout-grid";
 import { LinkIconStatic } from "@/registry/remocn/icon-link";
 import { LoaderIconStatic } from "@/registry/remocn/icon-loader";
@@ -261,6 +262,12 @@ export const ICONS: IconEntry[] = [
     label: "Lock",
     category: "Actions & UI",
     Static: LockIconStatic,
+  },
+  {
+    name: "icon-key",
+    label: "Key",
+    category: "Actions & UI",
+    Static: KeyIconStatic,
   },
   {
     name: "icon-play",
