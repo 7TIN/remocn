@@ -28,6 +28,7 @@ import { FlameIconStatic } from "@/registry/remocn/icon-flame";
 import { HeartIconStatic } from "@/registry/remocn/icon-heart";
 import { ImageIconStatic } from "@/registry/remocn/icon-image";
 import { InfoIconStatic } from "@/registry/remocn/icon-info";
+import { LayoutGridIconStatic } from "@/registry/remocn/icon-layout-grid";
 import { LoaderIconStatic } from "@/registry/remocn/icon-loader";
 import { MaximizeIconStatic } from "@/registry/remocn/icon-maximize";
 import { MenuIconStatic } from "@/registry/remocn/icon-menu";
@@ -191,6 +192,12 @@ export const ICONS: IconEntry[] = [
     label: "Maximize",
     category: "Actions & UI",
     Static: MaximizeIconStatic,
+  },
+  {
+    name: "icon-layout-grid",
+    label: "Layout Grid",
+    category: "Actions & UI",
+    Static: LayoutGridIconStatic,
   },
   {
     name: "icon-play",

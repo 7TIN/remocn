@@ -1955,6 +1955,21 @@
       ]
     },
     {
+      "name": "icon-layout-grid",
+      "type": "registry:component",
+      "title": "Layout Grid",
+      "description": "Animated Lucide layout-grid icon — four tiles draw on, then re-pop into place clockwise like a dashboard assembling.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-layout-grid/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-layout-grid.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",
