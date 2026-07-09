@@ -2015,6 +2015,21 @@
       ]
     },
     {
+      "name": "icon-eye",
+      "type": "registry:component",
+      "title": "Eye",
+      "description": "Animated Lucide eye icon — draws on, then blinks once and refocuses its pupil.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-eye/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-eye.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",
