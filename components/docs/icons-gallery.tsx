@@ -30,6 +30,7 @@ import { DownloadIconStatic } from "@/registry/remocn/icon-download";
 import { ExternalLinkIconStatic } from "@/registry/remocn/icon-external-link";
 import { EyeOffIconStatic } from "@/registry/remocn/icon-eye-off";
 import { EyeIconStatic } from "@/registry/remocn/icon-eye";
+import { FileTextIconStatic } from "@/registry/remocn/icon-file-text";
 import { FilterIconStatic } from "@/registry/remocn/icon-filter";
 import { FlameIconStatic } from "@/registry/remocn/icon-flame";
 import { FolderIconStatic } from "@/registry/remocn/icon-folder";
@@ -202,6 +203,12 @@ export const ICONS: IconEntry[] = [
     label: "Folder",
     category: "Files & dev",
     Static: FolderIconStatic,
+  },
+  {
+    name: "icon-file-text",
+    label: "File Text",
+    category: "Files & dev",
+    Static: FileTextIconStatic,
   },
   {
     name: "icon-search",

@@ -2345,6 +2345,21 @@
       ]
     },
     {
+      "name": "icon-file-text",
+      "type": "registry:component",
+      "title": "File Text",
+      "description": "Animated Lucide file-text icon — the page draws on, then the text lines type themselves in, top to bottom.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-file-text/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-file-text.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-user",
       "type": "registry:component",
       "title": "User",

@@ -46,6 +46,7 @@ import { iconDownloadConfig } from "@/registry/remocn/icon-download/config";
 import { iconExternalLinkConfig } from "@/registry/remocn/icon-external-link/config";
 import { iconEyeOffConfig } from "@/registry/remocn/icon-eye-off/config";
 import { iconEyeConfig } from "@/registry/remocn/icon-eye/config";
+import { iconFileTextConfig } from "@/registry/remocn/icon-file-text/config";
 import { iconFilterConfig } from "@/registry/remocn/icon-filter/config";
 import { iconFlameConfig } from "@/registry/remocn/icon-flame/config";
 import { iconFolderConfig } from "@/registry/remocn/icon-folder/config";
@@ -776,6 +777,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.EyeIcon,
       })),
     config: iconEyeConfig,
+  },
+  "icon-file-text": {
+    load: () =>
+      import("@/registry/remocn/icon-file-text").then((m) => ({
+        default: m.FileTextIcon,
+      })),
+    config: iconFileTextConfig,
   },
   "icon-filter": {
     load: () =>
