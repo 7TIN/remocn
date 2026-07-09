@@ -1820,6 +1820,21 @@
       ]
     },
     {
+      "name": "icon-camera",
+      "type": "registry:component",
+      "title": "Camera",
+      "description": "Animated Lucide camera icon — draws on, then the lens blinks shut and open like a shutter firing.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-camera/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-camera.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",
