@@ -31,6 +31,7 @@ import { RefreshCwIconStatic } from "@/registry/remocn/icon-refresh-cw";
 import { SearchIconStatic } from "@/registry/remocn/icon-search";
 import { SendIconStatic } from "@/registry/remocn/icon-send";
 import { SettingsIconStatic } from "@/registry/remocn/icon-settings";
+import { SkipForwardIconStatic } from "@/registry/remocn/icon-skip-forward";
 import { SparklesIconStatic } from "@/registry/remocn/icon-sparkles";
 import { StarIconStatic } from "@/registry/remocn/icon-star";
 import { ThumbsUpIconStatic } from "@/registry/remocn/icon-thumbs-up";
@@ -171,6 +172,12 @@ export const ICONS: IconEntry[] = [
     label: "Pause",
     category: "Media & playback",
     Static: PauseIconStatic,
+  },
+  {
+    name: "icon-skip-forward",
+    label: "Skip Forward",
+    category: "Media & playback",
+    Static: SkipForwardIconStatic,
   },
   {
     name: "icon-heart",

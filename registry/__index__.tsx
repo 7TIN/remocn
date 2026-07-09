@@ -47,6 +47,7 @@ import { iconRefreshCwConfig } from "@/registry/remocn/icon-refresh-cw/config";
 import { iconSearchConfig } from "@/registry/remocn/icon-search/config";
 import { iconSendConfig } from "@/registry/remocn/icon-send/config";
 import { iconSettingsConfig } from "@/registry/remocn/icon-settings/config";
+import { iconSkipForwardConfig } from "@/registry/remocn/icon-skip-forward/config";
 import { iconSparklesConfig } from "@/registry/remocn/icon-sparkles/config";
 import { iconStarConfig } from "@/registry/remocn/icon-star/config";
 import { iconThumbsUpConfig } from "@/registry/remocn/icon-thumbs-up/config";
@@ -740,6 +741,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.SettingsIcon,
       })),
     config: iconSettingsConfig,
+  },
+  "icon-skip-forward": {
+    load: () =>
+      import("@/registry/remocn/icon-skip-forward").then((m) => ({
+        default: m.SkipForwardIcon,
+      })),
+    config: iconSkipForwardConfig,
   },
   "icon-sparkles": {
     load: () =>

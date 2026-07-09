@@ -1745,6 +1745,21 @@
       ]
     },
     {
+      "name": "icon-skip-forward",
+      "type": "registry:component",
+      "title": "Skip Forward",
+      "description": "Animated Lucide skip-forward icon — draws on, then dashes forward past center and snaps against its end bar.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-skip-forward/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-skip-forward.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",
