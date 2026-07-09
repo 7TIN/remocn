@@ -2000,6 +2000,21 @@
       ]
     },
     {
+      "name": "icon-filter",
+      "type": "registry:component",
+      "title": "Filter",
+      "description": "Animated Lucide filter icon — the funnel draws on, then gives two quick shakes as results fall through.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-filter/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-filter.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",

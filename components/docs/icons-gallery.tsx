@@ -24,6 +24,7 @@ import { ChevronUpIconStatic } from "@/registry/remocn/icon-chevron-up";
 import { CopyIconStatic } from "@/registry/remocn/icon-copy";
 import { DownloadIconStatic } from "@/registry/remocn/icon-download";
 import { ExternalLinkIconStatic } from "@/registry/remocn/icon-external-link";
+import { FilterIconStatic } from "@/registry/remocn/icon-filter";
 import { FlameIconStatic } from "@/registry/remocn/icon-flame";
 import { HeartIconStatic } from "@/registry/remocn/icon-heart";
 import { ImageIconStatic } from "@/registry/remocn/icon-image";
@@ -212,6 +213,12 @@ export const ICONS: IconEntry[] = [
     label: "Share 2",
     category: "Actions & UI",
     Static: Share2IconStatic,
+  },
+  {
+    name: "icon-filter",
+    label: "Filter",
+    category: "Actions & UI",
+    Static: FilterIconStatic,
   },
   {
     name: "icon-play",

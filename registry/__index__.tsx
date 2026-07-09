@@ -40,6 +40,7 @@ import { iconChevronUpConfig } from "@/registry/remocn/icon-chevron-up/config";
 import { iconCopyConfig } from "@/registry/remocn/icon-copy/config";
 import { iconDownloadConfig } from "@/registry/remocn/icon-download/config";
 import { iconExternalLinkConfig } from "@/registry/remocn/icon-external-link/config";
+import { iconFilterConfig } from "@/registry/remocn/icon-filter/config";
 import { iconFlameConfig } from "@/registry/remocn/icon-flame/config";
 import { iconHeartConfig } from "@/registry/remocn/icon-heart/config";
 import { iconImageConfig } from "@/registry/remocn/icon-image/config";
@@ -708,6 +709,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.ExternalLinkIcon,
       })),
     config: iconExternalLinkConfig,
+  },
+  "icon-filter": {
+    load: () =>
+      import("@/registry/remocn/icon-filter").then((m) => ({
+        default: m.FilterIcon,
+      })),
+    config: iconFilterConfig,
   },
   "icon-flame": {
     load: () =>
