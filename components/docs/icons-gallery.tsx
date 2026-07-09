@@ -32,6 +32,7 @@ import { CloudIconStatic } from "@/registry/remocn/icon-cloud";
 import { CodeIconStatic } from "@/registry/remocn/icon-code";
 import { CopyIconStatic } from "@/registry/remocn/icon-copy";
 import { CreditCardIconStatic } from "@/registry/remocn/icon-credit-card";
+import { CrownIconStatic } from "@/registry/remocn/icon-crown";
 import { DatabaseIconStatic } from "@/registry/remocn/icon-database";
 import { DollarSignIconStatic } from "@/registry/remocn/icon-dollar-sign";
 import { DownloadIconStatic } from "@/registry/remocn/icon-download";
@@ -629,6 +630,12 @@ export const ICONS: IconEntry[] = [
     label: "Award",
     category: "Emotion & accents",
     Static: AwardIconStatic,
+  },
+  {
+    name: "icon-crown",
+    label: "Crown",
+    category: "Emotion & accents",
+    Static: CrownIconStatic,
   },
   {
     name: "icon-star",

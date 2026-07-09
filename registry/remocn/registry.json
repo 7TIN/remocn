@@ -2570,6 +2570,21 @@
       ]
     },
     {
+      "name": "icon-crown",
+      "type": "registry:component",
+      "title": "Crown",
+      "description": "Animated Lucide crown icon — descends into place from above, lands with a pop, then rocks regally to rest.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-crown/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-crown.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-dollar-sign",
       "type": "registry:component",
       "title": "Dollar Sign",
