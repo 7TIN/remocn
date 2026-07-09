@@ -1685,6 +1685,21 @@
       ]
     },
     {
+      "name": "icon-arrow-down",
+      "type": "registry:component",
+      "title": "Arrow Down",
+      "description": "Animated Lucide arrow-down icon — the shaft and head draw on, then the arrow nudges down for cost/latency reduction beats or scroll cues.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-arrow-down/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-arrow-down.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",
