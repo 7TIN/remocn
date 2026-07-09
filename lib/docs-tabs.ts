@@ -31,7 +31,7 @@ export const DOCS_TABS: DocsTab[] = [
   {
     id: "icons",
     label: "Icons",
-    href: "/docs/icons/getting-started/introduction",
+    href: "/docs/icons/gallery",
   },
 ];
 

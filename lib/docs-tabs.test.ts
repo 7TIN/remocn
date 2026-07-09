@@ -35,17 +35,6 @@ const tree: Root = {
       type: "folder",
       name: "Icons",
       children: [
-        {
-          type: "folder",
-          name: "Getting Started",
-          children: [
-            {
-              type: "page",
-              name: "Introduction",
-              url: "/docs/icons/getting-started/introduction",
-            },
-          ],
-        },
         { type: "page", name: "Gallery", url: "/docs/icons/gallery" },
       ],
     },
@@ -68,7 +57,6 @@ describe("splitDocsTree", () => {
   it("routes icons pages only into the icons branch", () => {
     const { icons } = splitDocsTree(tree);
     const urls = collectUrls(icons.children);
-    expect(urls).toContain("/docs/icons/getting-started/introduction");
     expect(urls).toContain("/docs/icons/gallery");
     expect(urls.every((url) => url.startsWith("/docs/icons"))).toBe(true);
   });
@@ -124,9 +112,6 @@ describe("getActiveDocsTab", () => {
   it("selects the icons tab for icons paths", () => {
     expect(getActiveDocsTab("/docs/icons")).toBe("icons");
     expect(getActiveDocsTab("/docs/icons/gallery")).toBe("icons");
-    expect(
-      getActiveDocsTab("/docs/icons/getting-started/introduction"),
-    ).toBe("icons");
   });
 
   it("does not misroute other tabs", () => {

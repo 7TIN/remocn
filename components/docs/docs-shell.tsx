@@ -46,12 +46,13 @@ export function DocsShell({
 }) {
   const pathname = usePathname();
   const activeTab = getActiveDocsTab(pathname);
+  const isIcons = activeTab === "icons";
   const tree =
     activeTab === "primitives"
       ? primitivesTree
       : activeTab === "shaders"
         ? shadersTree
-        : activeTab === "icons"
+        : isIcons
           ? iconsTree
           : componentsTree;
 
@@ -62,7 +63,7 @@ export function DocsShell({
       nav={{ enabled: false }}
       searchToggle={{ enabled: true }}
       themeSwitch={{ enabled: false }}
-      sidebar={{ collapsible: false }}
+      sidebar={{ collapsible: false, enabled: !isIcons }}
       containerProps={{ className: "[--fd-banner-height:2.75rem]" }}
     >
       <div

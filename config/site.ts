@@ -43,7 +43,7 @@ export type NavLink = {
 export const NAV_LINKS: NavLink[] = [
   { href: "/docs/typography", label: "Components" },
   { href: "/docs/shaders/getting-started/introduction", label: "Shaders" },
-  { href: "/docs/icons/getting-started/introduction", label: "Icons" },
+  { href: "/docs/icons/gallery", label: "Icons" },
   { href: "/sponsors", label: "Sponsors" },
   { href: "/docs/getting-started/introduction", label: "Docs" },
 ];
