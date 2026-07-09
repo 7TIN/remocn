@@ -2225,6 +2225,21 @@
       ]
     },
     {
+      "name": "icon-help-circle",
+      "type": "registry:component",
+      "title": "Help Circle",
+      "description": "Animated Lucide help-circle icon — the ring draws on, then the question mark re-draws and tilts like a curious head.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-help-circle/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-help-circle.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-user",
       "type": "registry:component",
       "title": "User",

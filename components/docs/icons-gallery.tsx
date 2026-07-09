@@ -31,6 +31,7 @@ import { EyeIconStatic } from "@/registry/remocn/icon-eye";
 import { FilterIconStatic } from "@/registry/remocn/icon-filter";
 import { FlameIconStatic } from "@/registry/remocn/icon-flame";
 import { HeartIconStatic } from "@/registry/remocn/icon-heart";
+import { HelpCircleIconStatic } from "@/registry/remocn/icon-help-circle";
 import { ImageIconStatic } from "@/registry/remocn/icon-image";
 import { InboxIconStatic } from "@/registry/remocn/icon-inbox";
 import { InfoIconStatic } from "@/registry/remocn/icon-info";
@@ -146,6 +147,12 @@ export const ICONS: IconEntry[] = [
     label: "Shield",
     category: "Status & feedback",
     Static: ShieldIconStatic,
+  },
+  {
+    name: "icon-help-circle",
+    label: "Help Circle",
+    category: "Status & feedback",
+    Static: HelpCircleIconStatic,
   },
   {
     name: "icon-search",
