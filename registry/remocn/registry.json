@@ -4,6 +4,20 @@
   "homepage": "https://remocn.dev",
   "items": [
     {
+      "name": "icons-core",
+      "type": "registry:lib",
+      "title": "Icons Core",
+      "description": "Shared animation contract, pure frame-to-phase timeline, and SVG path-draw helpers for remocn icons.",
+      "dependencies": ["remotion", "@remotion/paths"],
+      "files": [
+        {
+          "path": "icons-core/index.ts",
+          "type": "registry:lib",
+          "target": "lib/remocn-icons/index.ts"
+        }
+      ]
+    },
+    {
       "name": "soft-blur-in",
       "type": "registry:component",
       "title": "Soft Blur In",

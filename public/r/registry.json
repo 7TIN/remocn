@@ -4,6 +4,20 @@
   "homepage": "https://remocn.dev",
   "items": [
     {
+      "name": "icons-core",
+      "title": "Icons Core",
+      "description": "Shared animation contract, pure frame-to-phase timeline, and SVG path-draw helpers for remocn icons.",
+      "dependencies": ["remotion", "@remotion/paths"],
+      "files": [
+        {
+          "path": "registry/remocn/icons-core/index.ts",
+          "type": "registry:lib",
+          "target": "lib/remocn-icons/index.ts"
+        }
+      ],
+      "type": "registry:lib"
+    },
+    {
       "name": "soft-blur-in",
       "title": "Soft Blur In",
       "description": "Per-character fade-in with a gentle blur and upward motion. Apple's signature hero-title reveal.",
@@ -867,6 +881,48 @@
       "type": "registry:component"
     },
     {
+      "name": "zoom-blur",
+      "title": "Zoom Blur",
+      "description": "A depth punch-in transition that pushes the outgoing scene through the viewer while the incoming one resolves out of blur.",
+      "dependencies": ["remotion", "@remotion/transitions"],
+      "files": [
+        {
+          "path": "registry/remocn/zoom-blur/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/zoom-blur.tsx"
+        }
+      ],
+      "type": "registry:component"
+    },
+    {
+      "name": "rolodex-flip",
+      "title": "Rolodex Flip",
+      "description": "Cycles a word through a list of values with a 3D rolodex card flip while an invisible sizer keeps the line width and baseline stable.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "registry/remocn/rolodex-flip/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/rolodex-flip.tsx"
+        }
+      ],
+      "type": "registry:component"
+    },
+    {
+      "name": "value-swap",
+      "title": "Value Swap",
+      "description": "Swaps a value in place with a vertical slide — the old value exits up as the new one enters from below while an invisible sizer keeps the width stable.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "registry/remocn/value-swap/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/value-swap.tsx"
+        }
+      ],
+      "type": "registry:component"
+    },
+    {
       "name": "chat-to-preview-layout",
       "title": "Chat to Preview Layout",
       "description": "Two-column layout where chat shrinks and preview expands.",
@@ -1251,6 +1307,20 @@
           "path": "registry/remocn/backdrop/index.tsx",
           "type": "registry:component",
           "target": "components/remocn/backdrop.tsx"
+        }
+      ],
+      "type": "registry:component"
+    },
+    {
+      "name": "drift",
+      "title": "Drift",
+      "description": "A slow linear camera push-in wrapper that scales its scene from 1 to 1+grow across the sequence so no frame is ever static.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "registry/remocn/drift/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/drift.tsx"
         }
       ],
       "type": "registry:component"
