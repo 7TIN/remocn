@@ -55,6 +55,7 @@ import { iconFileTextConfig } from "@/registry/remocn/icon-file-text/config";
 import { iconFilterConfig } from "@/registry/remocn/icon-filter/config";
 import { iconFlameConfig } from "@/registry/remocn/icon-flame/config";
 import { iconFolderConfig } from "@/registry/remocn/icon-folder/config";
+import { iconGiftConfig } from "@/registry/remocn/icon-gift/config";
 import { iconGlobeConfig } from "@/registry/remocn/icon-globe/config";
 import { iconHeartConfig } from "@/registry/remocn/icon-heart/config";
 import { iconHelpCircleConfig } from "@/registry/remocn/icon-help-circle/config";
@@ -854,6 +855,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.FolderIcon,
       })),
     config: iconFolderConfig,
+  },
+  "icon-gift": {
+    load: () =>
+      import("@/registry/remocn/icon-gift").then((m) => ({
+        default: m.GiftIcon,
+      })),
+    config: iconGiftConfig,
   },
   "icon-globe": {
     load: () =>
