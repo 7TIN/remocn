@@ -1503,6 +1503,21 @@
           "target": "components/remocn/icon-upload.tsx"
         }
       ]
+    },
+    {
+      "name": "icon-copy",
+      "type": "registry:component",
+      "title": "Copy",
+      "description": "Animated Lucide copy icon — the two sheets draw back-to-front, then the front sheet lifts and settles to read as a duplicate for a copy-to-clipboard beat.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-copy/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-copy.tsx"
+        }
+      ]
     }
   ]
 }
