@@ -21,6 +21,7 @@ import { RefreshCwIconStatic } from "@/registry/remocn/icon-refresh-cw";
 import { SearchIconStatic } from "@/registry/remocn/icon-search";
 import { SendIconStatic } from "@/registry/remocn/icon-send";
 import { SettingsIconStatic } from "@/registry/remocn/icon-settings";
+import { SparklesIconStatic } from "@/registry/remocn/icon-sparkles";
 import { StarIconStatic } from "@/registry/remocn/icon-star";
 import { TrashIconStatic } from "@/registry/remocn/icon-trash";
 import { UploadIconStatic } from "@/registry/remocn/icon-upload";
@@ -151,6 +152,12 @@ export const ICONS: IconEntry[] = [
     label: "Star",
     category: "Emotion & accents",
     Static: StarIconStatic,
+  },
+  {
+    name: "icon-sparkles",
+    label: "Sparkles",
+    category: "Emotion & accents",
+    Static: SparklesIconStatic,
   },
 ];
 

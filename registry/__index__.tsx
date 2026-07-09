@@ -38,6 +38,7 @@ import { iconRefreshCwConfig } from "@/registry/remocn/icon-refresh-cw/config";
 import { iconSearchConfig } from "@/registry/remocn/icon-search/config";
 import { iconSendConfig } from "@/registry/remocn/icon-send/config";
 import { iconSettingsConfig } from "@/registry/remocn/icon-settings/config";
+import { iconSparklesConfig } from "@/registry/remocn/icon-sparkles/config";
 import { iconStarConfig } from "@/registry/remocn/icon-star/config";
 import { iconTrashConfig } from "@/registry/remocn/icon-trash/config";
 import { iconUploadConfig } from "@/registry/remocn/icon-upload/config";
@@ -665,6 +666,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.SettingsIcon,
       })),
     config: iconSettingsConfig,
+  },
+  "icon-sparkles": {
+    load: () =>
+      import("@/registry/remocn/icon-sparkles").then((m) => ({
+        default: m.SparklesIcon,
+      })),
+    config: iconSparklesConfig,
   },
   "icon-star": {
     load: () =>

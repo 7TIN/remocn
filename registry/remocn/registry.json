@@ -1608,6 +1608,21 @@
           "target": "components/remocn/icon-star.tsx"
         }
       ]
+    },
+    {
+      "name": "icon-sparkles",
+      "type": "registry:component",
+      "title": "Sparkles",
+      "description": "Animated Lucide sparkles icon — the main sparkle draws on, the accents pop, then a looping twinkle for AI, magic, or premium highlights. Loops by default.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-sparkles/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-sparkles.tsx"
+        }
+      ]
     }
   ]
 }
