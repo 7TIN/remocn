@@ -24,6 +24,7 @@ import { HeartIconStatic } from "@/registry/remocn/icon-heart";
 import { InfoIconStatic } from "@/registry/remocn/icon-info";
 import { LoaderIconStatic } from "@/registry/remocn/icon-loader";
 import { PartyPopperIconStatic } from "@/registry/remocn/icon-party-popper";
+import { PlayIconStatic } from "@/registry/remocn/icon-play";
 import { PlusIconStatic } from "@/registry/remocn/icon-plus";
 import { RefreshCwIconStatic } from "@/registry/remocn/icon-refresh-cw";
 import { SearchIconStatic } from "@/registry/remocn/icon-search";
@@ -157,6 +158,12 @@ export const ICONS: IconEntry[] = [
     label: "Send",
     category: "Actions & UI",
     Static: SendIconStatic,
+  },
+  {
+    name: "icon-play",
+    label: "Play",
+    category: "Media & playback",
+    Static: PlayIconStatic,
   },
   {
     name: "icon-heart",

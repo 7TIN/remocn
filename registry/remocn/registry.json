@@ -1715,6 +1715,21 @@
       ]
     },
     {
+      "name": "icon-play",
+      "type": "registry:component",
+      "title": "Play",
+      "description": "Animated Lucide play icon — the triangle draws on, then presses in and springs forward like a play button being hit.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-play/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-play.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",
