@@ -16,6 +16,7 @@ import { InfoIconStatic } from "@/registry/remocn/icon-info";
 import { LoaderIconStatic } from "@/registry/remocn/icon-loader";
 import { RefreshCwIconStatic } from "@/registry/remocn/icon-refresh-cw";
 import { SearchIconStatic } from "@/registry/remocn/icon-search";
+import { UploadIconStatic } from "@/registry/remocn/icon-upload";
 import { XIconStatic } from "@/registry/remocn/icon-x";
 
 export type IconCategory =
@@ -95,6 +96,12 @@ export const ICONS: IconEntry[] = [
     label: "Download",
     category: "Actions & UI",
     Static: DownloadIconStatic,
+  },
+  {
+    name: "icon-upload",
+    label: "Upload",
+    category: "Actions & UI",
+    Static: UploadIconStatic,
   },
 ];
 

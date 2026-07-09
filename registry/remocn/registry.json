@@ -1488,6 +1488,21 @@
           "target": "components/remocn/icon-download.tsx"
         }
       ]
+    },
+    {
+      "name": "icon-upload",
+      "type": "registry:component",
+      "title": "Upload",
+      "description": "Animated Lucide upload icon — the tray draws on, the arrow fades in, then launches upward with a spring for an upload, publish, or submission beat.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-upload/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-upload.tsx"
+        }
+      ]
     }
   ]
 }
