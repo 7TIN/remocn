@@ -2030,6 +2030,21 @@
       ]
     },
     {
+      "name": "icon-eye-off",
+      "type": "registry:component",
+      "title": "Eye Off",
+      "description": "Animated Lucide eye-off icon — the eye fragments draw on, then the slash cuts through and visibility dims.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-eye-off/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-eye-off.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",
