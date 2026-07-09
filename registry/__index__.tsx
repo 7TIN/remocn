@@ -30,6 +30,7 @@ import { iconCheckConfig } from "@/registry/remocn/icon-check/config";
 import { iconInfoConfig } from "@/registry/remocn/icon-info/config";
 import { iconLoaderConfig } from "@/registry/remocn/icon-loader/config";
 import { iconRefreshCwConfig } from "@/registry/remocn/icon-refresh-cw/config";
+import { iconSearchConfig } from "@/registry/remocn/icon-search/config";
 import { iconXConfig } from "@/registry/remocn/icon-x/config";
 import { infiniteBentoPanConfig } from "@/registry/remocn/infinite-bento-pan/config";
 import { infiniteMarqueeConfig } from "@/registry/remocn/infinite-marquee/config";
@@ -598,6 +599,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.RefreshCwIcon,
       })),
     config: iconRefreshCwConfig,
+  },
+  "icon-search": {
+    load: () =>
+      import("@/registry/remocn/icon-search").then((m) => ({
+        default: m.SearchIcon,
+      })),
+    config: iconSearchConfig,
   },
   "icon-check-circle": {
     load: () =>

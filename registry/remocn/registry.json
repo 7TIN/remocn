@@ -1443,6 +1443,21 @@
           "target": "components/remocn/icon-refresh-cw.tsx"
         }
       ]
+    },
+    {
+      "name": "icon-search",
+      "type": "registry:component",
+      "title": "Search",
+      "description": "Animated Lucide search icon — the lens draws on, the handle extends, then the magnifier sweeps a small scanning path for a search or discovery beat.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-search/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-search.tsx"
+        }
+      ]
     }
   ]
 }

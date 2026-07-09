@@ -13,6 +13,7 @@ import { CheckIconStatic } from "@/registry/remocn/icon-check";
 import { InfoIconStatic } from "@/registry/remocn/icon-info";
 import { LoaderIconStatic } from "@/registry/remocn/icon-loader";
 import { RefreshCwIconStatic } from "@/registry/remocn/icon-refresh-cw";
+import { SearchIconStatic } from "@/registry/remocn/icon-search";
 import { XIconStatic } from "@/registry/remocn/icon-x";
 
 export type IconCategory =
@@ -74,6 +75,12 @@ export const ICONS: IconEntry[] = [
     label: "Refresh Cw",
     category: "Status & feedback",
     Static: RefreshCwIconStatic,
+  },
+  {
+    name: "icon-search",
+    label: "Search",
+    category: "Actions & UI",
+    Static: SearchIconStatic,
   },
 ];
 
@@ -222,19 +229,22 @@ function IconPlayer({ entry }: { entry: RegistryEntry }) {
   const { config, load } = entry;
 
   useEffect(() => {
-    let raf1 = 0;
-    let raf2 = 0;
-    raf1 = requestAnimationFrame(() => {
-      playerRef.current?.play();
-      raf2 = requestAnimationFrame(() => {
-        if (playerRef.current && !playerRef.current.isPlaying()) {
-          playerRef.current.play();
-        }
-      });
-    });
+    let raf = 0;
+    let tries = 0;
+    let cancelled = false;
+    const pump = () => {
+      if (cancelled) return;
+      const player = playerRef.current;
+      if (player && !player.isPlaying()) player.play();
+      tries += 1;
+      if (tries < 120 && (!player || !player.isPlaying())) {
+        raf = requestAnimationFrame(pump);
+      }
+    };
+    raf = requestAnimationFrame(pump);
     return () => {
-      if (raf1) cancelAnimationFrame(raf1);
-      if (raf2) cancelAnimationFrame(raf2);
+      cancelled = true;
+      cancelAnimationFrame(raf);
     };
   }, []);
 
