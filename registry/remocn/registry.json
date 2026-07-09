@@ -1910,6 +1910,21 @@
       ]
     },
     {
+      "name": "icon-menu",
+      "type": "registry:component",
+      "title": "Menu",
+      "description": "Animated Lucide menu icon — the three bars slide in from the left, top to bottom, each overshooting into place.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-menu/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-menu.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",

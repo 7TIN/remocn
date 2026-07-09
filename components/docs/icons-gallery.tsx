@@ -29,6 +29,7 @@ import { HeartIconStatic } from "@/registry/remocn/icon-heart";
 import { ImageIconStatic } from "@/registry/remocn/icon-image";
 import { InfoIconStatic } from "@/registry/remocn/icon-info";
 import { LoaderIconStatic } from "@/registry/remocn/icon-loader";
+import { MenuIconStatic } from "@/registry/remocn/icon-menu";
 import { MicIconStatic } from "@/registry/remocn/icon-mic";
 import { PartyPopperIconStatic } from "@/registry/remocn/icon-party-popper";
 import { PauseIconStatic } from "@/registry/remocn/icon-pause";
@@ -170,6 +171,12 @@ export const ICONS: IconEntry[] = [
     label: "Send",
     category: "Actions & UI",
     Static: SendIconStatic,
+  },
+  {
+    name: "icon-menu",
+    label: "Menu",
+    category: "Actions & UI",
+    Static: MenuIconStatic,
   },
   {
     name: "icon-play",
