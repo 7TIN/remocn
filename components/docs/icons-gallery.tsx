@@ -55,6 +55,7 @@ import { MaximizeIconStatic } from "@/registry/remocn/icon-maximize";
 import { MenuIconStatic } from "@/registry/remocn/icon-menu";
 import { MessageCircleIconStatic } from "@/registry/remocn/icon-message-circle";
 import { MicIconStatic } from "@/registry/remocn/icon-mic";
+import { MonitorIconStatic } from "@/registry/remocn/icon-monitor";
 import { MoreHorizontalIconStatic } from "@/registry/remocn/icon-more-horizontal";
 import { PartyPopperIconStatic } from "@/registry/remocn/icon-party-popper";
 import { PauseIconStatic } from "@/registry/remocn/icon-pause";
@@ -244,6 +245,12 @@ export const ICONS: IconEntry[] = [
     label: "Globe",
     category: "Files & dev",
     Static: GlobeIconStatic,
+  },
+  {
+    name: "icon-monitor",
+    label: "Monitor",
+    category: "Devices & theme",
+    Static: MonitorIconStatic,
   },
   {
     name: "icon-search",

@@ -71,6 +71,7 @@ import { iconMaximizeConfig } from "@/registry/remocn/icon-maximize/config";
 import { iconMenuConfig } from "@/registry/remocn/icon-menu/config";
 import { iconMessageCircleConfig } from "@/registry/remocn/icon-message-circle/config";
 import { iconMicConfig } from "@/registry/remocn/icon-mic/config";
+import { iconMonitorConfig } from "@/registry/remocn/icon-monitor/config";
 import { iconMoreHorizontalConfig } from "@/registry/remocn/icon-more-horizontal/config";
 import { iconPartyPopperConfig } from "@/registry/remocn/icon-party-popper/config";
 import { iconPauseConfig } from "@/registry/remocn/icon-pause/config";
@@ -957,6 +958,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.MicIcon,
       })),
     config: iconMicConfig,
+  },
+  "icon-monitor": {
+    load: () =>
+      import("@/registry/remocn/icon-monitor").then((m) => ({
+        default: m.MonitorIcon,
+      })),
+    config: iconMonitorConfig,
   },
   "icon-more-horizontal": {
     load: () =>
