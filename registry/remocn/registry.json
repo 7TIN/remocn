@@ -1985,6 +1985,21 @@
       ]
     },
     {
+      "name": "icon-share-2",
+      "type": "registry:component",
+      "title": "Share 2",
+      "description": "Animated Lucide share-2 icon — three nodes draw on, then the connections re-trace and the receiving nodes pop as the share lands.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-share-2/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-share-2.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",

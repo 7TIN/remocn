@@ -42,6 +42,7 @@ import { PlusIconStatic } from "@/registry/remocn/icon-plus";
 import { RefreshCwIconStatic } from "@/registry/remocn/icon-refresh-cw";
 import { SearchIconStatic } from "@/registry/remocn/icon-search";
 import { SendIconStatic } from "@/registry/remocn/icon-send";
+import { Share2IconStatic } from "@/registry/remocn/icon-share-2";
 import { SettingsIconStatic } from "@/registry/remocn/icon-settings";
 import { SkipForwardIconStatic } from "@/registry/remocn/icon-skip-forward";
 import { SparklesIconStatic } from "@/registry/remocn/icon-sparkles";
@@ -205,6 +206,12 @@ export const ICONS: IconEntry[] = [
     label: "Pencil",
     category: "Actions & UI",
     Static: PencilIconStatic,
+  },
+  {
+    name: "icon-share-2",
+    label: "Share 2",
+    category: "Actions & UI",
+    Static: Share2IconStatic,
   },
   {
     name: "icon-play",
