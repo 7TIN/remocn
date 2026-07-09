@@ -33,6 +33,7 @@ import { iconBellConfig } from "@/registry/remocn/icon-bell/config";
 import { iconCameraConfig } from "@/registry/remocn/icon-camera/config";
 import { iconCheckCircleConfig } from "@/registry/remocn/icon-check-circle/config";
 import { iconCheckConfig } from "@/registry/remocn/icon-check/config";
+import { iconChevronDownConfig } from "@/registry/remocn/icon-chevron-down/config";
 import { iconChevronUpConfig } from "@/registry/remocn/icon-chevron-up/config";
 import { iconCopyConfig } from "@/registry/remocn/icon-copy/config";
 import { iconDownloadConfig } from "@/registry/remocn/icon-download/config";
@@ -650,6 +651,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.CheckIcon,
       })),
     config: iconCheckConfig,
+  },
+  "icon-chevron-down": {
+    load: () =>
+      import("@/registry/remocn/icon-chevron-down").then((m) => ({
+        default: m.ChevronDownIcon,
+      })),
+    config: iconChevronDownConfig,
   },
   "icon-chevron-up": {
     load: () =>

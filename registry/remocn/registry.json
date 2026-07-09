@@ -1865,6 +1865,21 @@
       ]
     },
     {
+      "name": "icon-chevron-down",
+      "type": "registry:component",
+      "title": "Chevron Down",
+      "description": "Animated Lucide chevron-down icon — draws on, then nudges downward with a fading echo.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-chevron-down/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-chevron-down.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",
