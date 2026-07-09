@@ -2450,6 +2450,21 @@
       ]
     },
     {
+      "name": "icon-smartphone",
+      "type": "registry:component",
+      "title": "Smartphone",
+      "description": "Animated Lucide smartphone icon — draws on, then buzzes: three fast vibration oscillations.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-smartphone/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-smartphone.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-user",
       "type": "registry:component",
       "title": "User",

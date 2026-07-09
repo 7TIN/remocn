@@ -72,6 +72,7 @@ import { Share2IconStatic } from "@/registry/remocn/icon-share-2";
 import { SettingsIconStatic } from "@/registry/remocn/icon-settings";
 import { ShieldIconStatic } from "@/registry/remocn/icon-shield";
 import { SkipForwardIconStatic } from "@/registry/remocn/icon-skip-forward";
+import { SmartphoneIconStatic } from "@/registry/remocn/icon-smartphone";
 import { SparklesIconStatic } from "@/registry/remocn/icon-sparkles";
 import { StarIconStatic } from "@/registry/remocn/icon-star";
 import { TerminalIconStatic } from "@/registry/remocn/icon-terminal";
@@ -251,6 +252,12 @@ export const ICONS: IconEntry[] = [
     label: "Monitor",
     category: "Devices & theme",
     Static: MonitorIconStatic,
+  },
+  {
+    name: "icon-smartphone",
+    label: "Smartphone",
+    category: "Devices & theme",
+    Static: SmartphoneIconStatic,
   },
   {
     name: "icon-search",

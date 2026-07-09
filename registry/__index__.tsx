@@ -88,6 +88,7 @@ import { iconSettingsConfig } from "@/registry/remocn/icon-settings/config";
 import { iconShare2Config } from "@/registry/remocn/icon-share-2/config";
 import { iconShieldConfig } from "@/registry/remocn/icon-shield/config";
 import { iconSkipForwardConfig } from "@/registry/remocn/icon-skip-forward/config";
+import { iconSmartphoneConfig } from "@/registry/remocn/icon-smartphone/config";
 import { iconSparklesConfig } from "@/registry/remocn/icon-sparkles/config";
 import { iconStarConfig } from "@/registry/remocn/icon-star/config";
 import { iconTerminalConfig } from "@/registry/remocn/icon-terminal/config";
@@ -1077,6 +1078,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.SkipForwardIcon,
       })),
     config: iconSkipForwardConfig,
+  },
+  "icon-smartphone": {
+    load: () =>
+      import("@/registry/remocn/icon-smartphone").then((m) => ({
+        default: m.SmartphoneIcon,
+      })),
+    config: iconSmartphoneConfig,
   },
   "icon-sparkles": {
     load: () =>
