@@ -10,6 +10,7 @@ import registry, { type RegistryEntry } from "@/registry/__index__";
 import { AlertTriangleIconStatic } from "@/registry/remocn/icon-alert-triangle";
 import { ArrowLeftIconStatic } from "@/registry/remocn/icon-arrow-left";
 import { ArrowRightIconStatic } from "@/registry/remocn/icon-arrow-right";
+import { ArrowUpIconStatic } from "@/registry/remocn/icon-arrow-up";
 import { BellIconStatic } from "@/registry/remocn/icon-bell";
 import { CheckCircleIconStatic } from "@/registry/remocn/icon-check-circle";
 import { CheckIconStatic } from "@/registry/remocn/icon-check";
@@ -200,6 +201,12 @@ export const ICONS: IconEntry[] = [
     label: "Arrow Left",
     category: "Arrows & navigation",
     Static: ArrowLeftIconStatic,
+  },
+  {
+    name: "icon-arrow-up",
+    label: "Arrow Up",
+    category: "Arrows & navigation",
+    Static: ArrowUpIconStatic,
   },
 ];
 

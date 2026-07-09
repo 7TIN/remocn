@@ -27,6 +27,7 @@ import { grainDissolveConfig } from "@/registry/remocn/grain-dissolve/config";
 import { iconAlertTriangleConfig } from "@/registry/remocn/icon-alert-triangle/config";
 import { iconArrowLeftConfig } from "@/registry/remocn/icon-arrow-left/config";
 import { iconArrowRightConfig } from "@/registry/remocn/icon-arrow-right/config";
+import { iconArrowUpConfig } from "@/registry/remocn/icon-arrow-up/config";
 import { iconBellConfig } from "@/registry/remocn/icon-bell/config";
 import { iconCheckCircleConfig } from "@/registry/remocn/icon-check-circle/config";
 import { iconCheckConfig } from "@/registry/remocn/icon-check/config";
@@ -602,6 +603,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.ArrowRightIcon,
       })),
     config: iconArrowRightConfig,
+  },
+  "icon-arrow-up": {
+    load: () =>
+      import("@/registry/remocn/icon-arrow-up").then((m) => ({
+        default: m.ArrowUpIcon,
+      })),
+    config: iconArrowUpConfig,
   },
   "icon-bell": {
     load: () =>

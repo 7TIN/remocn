@@ -1670,6 +1670,21 @@
       ]
     },
     {
+      "name": "icon-arrow-up",
+      "type": "registry:component",
+      "title": "Arrow Up",
+      "description": "Animated Lucide arrow-up icon — the shaft and head draw on, then the arrow nudges up for growth, improvement, or upward-trend beats.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-arrow-up/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-arrow-up.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",
