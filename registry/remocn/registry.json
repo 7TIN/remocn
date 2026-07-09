@@ -1473,6 +1473,21 @@
           "target": "components/remocn/icon-bell.tsx"
         }
       ]
+    },
+    {
+      "name": "icon-download",
+      "type": "registry:component",
+      "title": "Download",
+      "description": "Animated Lucide download icon — the tray draws on, the arrow fades in, then drops into the tray with a squash on impact for a download or export beat.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-download/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-download.tsx"
+        }
+      ]
     }
   ]
 }

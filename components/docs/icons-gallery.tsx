@@ -11,6 +11,7 @@ import { AlertTriangleIconStatic } from "@/registry/remocn/icon-alert-triangle";
 import { BellIconStatic } from "@/registry/remocn/icon-bell";
 import { CheckCircleIconStatic } from "@/registry/remocn/icon-check-circle";
 import { CheckIconStatic } from "@/registry/remocn/icon-check";
+import { DownloadIconStatic } from "@/registry/remocn/icon-download";
 import { InfoIconStatic } from "@/registry/remocn/icon-info";
 import { LoaderIconStatic } from "@/registry/remocn/icon-loader";
 import { RefreshCwIconStatic } from "@/registry/remocn/icon-refresh-cw";
@@ -88,6 +89,12 @@ export const ICONS: IconEntry[] = [
     label: "Bell",
     category: "Actions & UI",
     Static: BellIconStatic,
+  },
+  {
+    name: "icon-download",
+    label: "Download",
+    category: "Actions & UI",
+    Static: DownloadIconStatic,
   },
 ];
 

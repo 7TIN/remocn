@@ -28,6 +28,7 @@ import { iconAlertTriangleConfig } from "@/registry/remocn/icon-alert-triangle/c
 import { iconBellConfig } from "@/registry/remocn/icon-bell/config";
 import { iconCheckCircleConfig } from "@/registry/remocn/icon-check-circle/config";
 import { iconCheckConfig } from "@/registry/remocn/icon-check/config";
+import { iconDownloadConfig } from "@/registry/remocn/icon-download/config";
 import { iconInfoConfig } from "@/registry/remocn/icon-info/config";
 import { iconLoaderConfig } from "@/registry/remocn/icon-loader/config";
 import { iconRefreshCwConfig } from "@/registry/remocn/icon-refresh-cw/config";
@@ -586,6 +587,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.CheckIcon,
       })),
     config: iconCheckConfig,
+  },
+  "icon-download": {
+    load: () =>
+      import("@/registry/remocn/icon-download").then((m) => ({
+        default: m.DownloadIcon,
+      })),
+    config: iconDownloadConfig,
   },
   "icon-info": {
     load: () =>
