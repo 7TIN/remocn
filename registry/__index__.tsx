@@ -24,6 +24,7 @@ import { githubStarsConfig } from "@/registry/remocn/github-stars/config";
 import { glassCodeBlockConfig } from "@/registry/remocn/glass-code-block/config";
 import { glassCodeWalkConfig } from "@/registry/remocn/glass-code-walk/config";
 import { grainDissolveConfig } from "@/registry/remocn/grain-dissolve/config";
+import { iconActivityConfig } from "@/registry/remocn/icon-activity/config";
 import { iconAlertTriangleConfig } from "@/registry/remocn/icon-alert-triangle/config";
 import { iconArrowDownConfig } from "@/registry/remocn/icon-arrow-down/config";
 import { iconArrowLeftConfig } from "@/registry/remocn/icon-arrow-left/config";
@@ -649,6 +650,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.GrainDissolveExampleScene,
       })),
     config: grainDissolveConfig,
+  },
+  "icon-activity": {
+    load: () =>
+      import("@/registry/remocn/icon-activity").then((m) => ({
+        default: m.ActivityIcon,
+      })),
+    config: iconActivityConfig,
   },
   "icon-alert-triangle": {
     load: () =>

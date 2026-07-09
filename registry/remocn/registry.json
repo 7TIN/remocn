@@ -1385,6 +1385,21 @@
       ]
     },
     {
+      "name": "icon-activity",
+      "type": "registry:component",
+      "title": "Activity",
+      "description": "Animated Lucide activity icon — the pulse line sweeps through like an EKG, popping at the peak. Loops by default.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-activity/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-activity.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-alert-triangle",
       "type": "registry:component",
       "title": "Alert Triangle",

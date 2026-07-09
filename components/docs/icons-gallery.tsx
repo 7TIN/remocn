@@ -8,6 +8,7 @@ import { AbsoluteFill } from "remotion";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 import registry, { type RegistryEntry } from "@/registry/__index__";
+import { ActivityIconStatic } from "@/registry/remocn/icon-activity";
 import { AlertTriangleIconStatic } from "@/registry/remocn/icon-alert-triangle";
 import { ArrowDownIconStatic } from "@/registry/remocn/icon-arrow-down";
 import { ArrowLeftIconStatic } from "@/registry/remocn/icon-arrow-left";
@@ -144,6 +145,12 @@ export const ICONS: IconEntry[] = [
     label: "X",
     category: "Status & feedback",
     Static: XIconStatic,
+  },
+  {
+    name: "icon-activity",
+    label: "Activity",
+    category: "Charts & data",
+    Static: ActivityIconStatic,
   },
   {
     name: "icon-alert-triangle",
