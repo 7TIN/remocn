@@ -16,6 +16,7 @@ import { ArrowUpIconStatic } from "@/registry/remocn/icon-arrow-up";
 import { AtSignIconStatic } from "@/registry/remocn/icon-at-sign";
 import { BellIconStatic } from "@/registry/remocn/icon-bell";
 import { BookmarkIconStatic } from "@/registry/remocn/icon-bookmark";
+import { CalendarIconStatic } from "@/registry/remocn/icon-calendar";
 import { CameraIconStatic } from "@/registry/remocn/icon-camera";
 import { CheckCircleIconStatic } from "@/registry/remocn/icon-check-circle";
 import { CheckIconStatic } from "@/registry/remocn/icon-check";
@@ -167,6 +168,12 @@ export const ICONS: IconEntry[] = [
     label: "X Circle",
     category: "Status & feedback",
     Static: XCircleIconStatic,
+  },
+  {
+    name: "icon-calendar",
+    label: "Calendar",
+    category: "Time & planning",
+    Static: CalendarIconStatic,
   },
   {
     name: "icon-search",

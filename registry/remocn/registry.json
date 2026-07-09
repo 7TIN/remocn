@@ -2270,6 +2270,21 @@
       ]
     },
     {
+      "name": "icon-calendar",
+      "type": "registry:component",
+      "title": "Calendar",
+      "description": "Animated Lucide calendar icon — the pad draws on, then the binder rings dip and the page snaps into place.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-calendar/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-calendar.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-user",
       "type": "registry:component",
       "title": "User",
