@@ -32,6 +32,7 @@ import { FilterIconStatic } from "@/registry/remocn/icon-filter";
 import { FlameIconStatic } from "@/registry/remocn/icon-flame";
 import { HeartIconStatic } from "@/registry/remocn/icon-heart";
 import { ImageIconStatic } from "@/registry/remocn/icon-image";
+import { InboxIconStatic } from "@/registry/remocn/icon-inbox";
 import { InfoIconStatic } from "@/registry/remocn/icon-info";
 import { KeyIconStatic } from "@/registry/remocn/icon-key";
 import { LayoutGridIconStatic } from "@/registry/remocn/icon-layout-grid";
@@ -378,6 +379,12 @@ export const ICONS: IconEntry[] = [
     label: "At Sign",
     category: "People & communication",
     Static: AtSignIconStatic,
+  },
+  {
+    name: "icon-inbox",
+    label: "Inbox",
+    category: "People & communication",
+    Static: InboxIconStatic,
   },
   {
     name: "icon-heart",

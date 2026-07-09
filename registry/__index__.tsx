@@ -48,6 +48,7 @@ import { iconFilterConfig } from "@/registry/remocn/icon-filter/config";
 import { iconFlameConfig } from "@/registry/remocn/icon-flame/config";
 import { iconHeartConfig } from "@/registry/remocn/icon-heart/config";
 import { iconImageConfig } from "@/registry/remocn/icon-image/config";
+import { iconInboxConfig } from "@/registry/remocn/icon-inbox/config";
 import { iconInfoConfig } from "@/registry/remocn/icon-info/config";
 import { iconKeyConfig } from "@/registry/remocn/icon-key/config";
 import { iconLayoutGridConfig } from "@/registry/remocn/icon-layout-grid/config";
@@ -780,6 +781,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.ImageIcon,
       })),
     config: iconImageConfig,
+  },
+  "icon-inbox": {
+    load: () =>
+      import("@/registry/remocn/icon-inbox").then((m) => ({
+        default: m.InboxIcon,
+      })),
+    config: iconInboxConfig,
   },
   "icon-info": {
     load: () =>

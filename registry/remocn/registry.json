@@ -2195,6 +2195,21 @@
       ]
     },
     {
+      "name": "icon-inbox",
+      "type": "registry:component",
+      "title": "Inbox",
+      "description": "Animated Lucide inbox icon — the tray draws on, then dips under the weight of an arriving item and springs back.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-inbox/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-inbox.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-user",
       "type": "registry:component",
       "title": "User",
