@@ -80,6 +80,7 @@ import { SmartphoneIconStatic } from "@/registry/remocn/icon-smartphone";
 import { SparklesIconStatic } from "@/registry/remocn/icon-sparkles";
 import { StarIconStatic } from "@/registry/remocn/icon-star";
 import { SunIconStatic } from "@/registry/remocn/icon-sun";
+import { TagIconStatic } from "@/registry/remocn/icon-tag";
 import { TerminalIconStatic } from "@/registry/remocn/icon-terminal";
 import { ThumbsUpIconStatic } from "@/registry/remocn/icon-thumbs-up";
 import { TimerIconStatic } from "@/registry/remocn/icon-timer";
@@ -293,6 +294,12 @@ export const ICONS: IconEntry[] = [
     label: "Dollar Sign",
     category: "Commerce",
     Static: DollarSignIconStatic,
+  },
+  {
+    name: "icon-tag",
+    label: "Tag",
+    category: "Commerce",
+    Static: TagIconStatic,
   },
   {
     name: "icon-search",

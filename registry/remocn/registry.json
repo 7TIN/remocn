@@ -2540,6 +2540,21 @@
       ]
     },
     {
+      "name": "icon-tag",
+      "type": "registry:component",
+      "title": "Tag",
+      "description": "Animated Lucide tag icon — draws on, then swings from its hole like a price tag flicked by a shopper.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-tag/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-tag.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-user",
       "type": "registry:component",
       "title": "User",
