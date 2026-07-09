@@ -7,6 +7,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 import registry, { type RegistryEntry } from "@/registry/__index__";
+import { AlertTriangleIconStatic } from "@/registry/remocn/icon-alert-triangle";
 import { CheckCircleIconStatic } from "@/registry/remocn/icon-check-circle";
 import { CheckIconStatic } from "@/registry/remocn/icon-check";
 import { XIconStatic } from "@/registry/remocn/icon-x";
@@ -46,6 +47,12 @@ export const ICONS: IconEntry[] = [
     label: "X",
     category: "Status & feedback",
     Static: XIconStatic,
+  },
+  {
+    name: "icon-alert-triangle",
+    label: "Alert Triangle",
+    category: "Status & feedback",
+    Static: AlertTriangleIconStatic,
   },
 ];
 

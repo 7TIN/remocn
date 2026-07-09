@@ -1383,6 +1383,21 @@
           "target": "components/remocn/icon-x.tsx"
         }
       ]
+    },
+    {
+      "name": "icon-alert-triangle",
+      "type": "registry:component",
+      "title": "Alert Triangle",
+      "description": "Animated Lucide triangle-alert icon — the outline draws on, the mark pops in, then the exclamation blinks to flag a risk or warning.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-alert-triangle/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-alert-triangle.tsx"
+        }
+      ]
     }
   ]
 }
