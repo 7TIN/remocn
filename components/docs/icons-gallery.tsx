@@ -17,6 +17,7 @@ import { CheckCircleIconStatic } from "@/registry/remocn/icon-check-circle";
 import { CheckIconStatic } from "@/registry/remocn/icon-check";
 import { CopyIconStatic } from "@/registry/remocn/icon-copy";
 import { DownloadIconStatic } from "@/registry/remocn/icon-download";
+import { ExternalLinkIconStatic } from "@/registry/remocn/icon-external-link";
 import { FlameIconStatic } from "@/registry/remocn/icon-flame";
 import { HeartIconStatic } from "@/registry/remocn/icon-heart";
 import { InfoIconStatic } from "@/registry/remocn/icon-info";
@@ -214,6 +215,12 @@ export const ICONS: IconEntry[] = [
     label: "Arrow Down",
     category: "Arrows & navigation",
     Static: ArrowDownIconStatic,
+  },
+  {
+    name: "icon-external-link",
+    label: "External Link",
+    category: "Arrows & navigation",
+    Static: ExternalLinkIconStatic,
   },
 ];
 

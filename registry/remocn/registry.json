@@ -1700,6 +1700,21 @@
       ]
     },
     {
+      "name": "icon-external-link",
+      "type": "registry:component",
+      "title": "External Link",
+      "description": "Animated Lucide external-link icon — the box and arrow draw on, then the arrow darts out toward the top-right for 'view on GitHub', external docs, or open-in-new-tab beats.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-external-link/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-external-link.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",
