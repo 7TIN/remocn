@@ -56,6 +56,7 @@ import { MenuIconStatic } from "@/registry/remocn/icon-menu";
 import { MessageCircleIconStatic } from "@/registry/remocn/icon-message-circle";
 import { MicIconStatic } from "@/registry/remocn/icon-mic";
 import { MonitorIconStatic } from "@/registry/remocn/icon-monitor";
+import { MoonIconStatic } from "@/registry/remocn/icon-moon";
 import { MoreHorizontalIconStatic } from "@/registry/remocn/icon-more-horizontal";
 import { PartyPopperIconStatic } from "@/registry/remocn/icon-party-popper";
 import { PauseIconStatic } from "@/registry/remocn/icon-pause";
@@ -265,6 +266,12 @@ export const ICONS: IconEntry[] = [
     label: "Sun",
     category: "Devices & theme",
     Static: SunIconStatic,
+  },
+  {
+    name: "icon-moon",
+    label: "Moon",
+    category: "Devices & theme",
+    Static: MoonIconStatic,
   },
   {
     name: "icon-search",

@@ -2480,6 +2480,21 @@
       ]
     },
     {
+      "name": "icon-moon",
+      "type": "registry:component",
+      "title": "Moon",
+      "description": "Animated Lucide moon icon — draws on, then rocks gently into place: settling in for the night.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-moon/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-moon.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-user",
       "type": "registry:component",
       "title": "User",
