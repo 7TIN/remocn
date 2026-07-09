@@ -74,6 +74,7 @@ import { iconSearchConfig } from "@/registry/remocn/icon-search/config";
 import { iconSendConfig } from "@/registry/remocn/icon-send/config";
 import { iconSettingsConfig } from "@/registry/remocn/icon-settings/config";
 import { iconShare2Config } from "@/registry/remocn/icon-share-2/config";
+import { iconShieldConfig } from "@/registry/remocn/icon-shield/config";
 import { iconSkipForwardConfig } from "@/registry/remocn/icon-skip-forward/config";
 import { iconSparklesConfig } from "@/registry/remocn/icon-sparkles/config";
 import { iconStarConfig } from "@/registry/remocn/icon-star/config";
@@ -963,6 +964,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.Share2Icon,
       })),
     config: iconShare2Config,
+  },
+  "icon-shield": {
+    load: () =>
+      import("@/registry/remocn/icon-shield").then((m) => ({
+        default: m.ShieldIcon,
+      })),
+    config: iconShieldConfig,
   },
   "icon-skip-forward": {
     load: () =>

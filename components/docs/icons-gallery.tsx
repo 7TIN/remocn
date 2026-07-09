@@ -58,6 +58,7 @@ import { SearchIconStatic } from "@/registry/remocn/icon-search";
 import { SendIconStatic } from "@/registry/remocn/icon-send";
 import { Share2IconStatic } from "@/registry/remocn/icon-share-2";
 import { SettingsIconStatic } from "@/registry/remocn/icon-settings";
+import { ShieldIconStatic } from "@/registry/remocn/icon-shield";
 import { SkipForwardIconStatic } from "@/registry/remocn/icon-skip-forward";
 import { SparklesIconStatic } from "@/registry/remocn/icon-sparkles";
 import { StarIconStatic } from "@/registry/remocn/icon-star";
@@ -139,6 +140,12 @@ export const ICONS: IconEntry[] = [
     label: "Refresh Cw",
     category: "Status & feedback",
     Static: RefreshCwIconStatic,
+  },
+  {
+    name: "icon-shield",
+    label: "Shield",
+    category: "Status & feedback",
+    Static: ShieldIconStatic,
   },
   {
     name: "icon-search",

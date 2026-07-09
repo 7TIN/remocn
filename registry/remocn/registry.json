@@ -2210,6 +2210,21 @@
       ]
     },
     {
+      "name": "icon-shield",
+      "type": "registry:component",
+      "title": "Shield",
+      "description": "Animated Lucide shield icon — draws on, then braces: a firm guard pulse that asserts protection.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-shield/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-shield.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-user",
       "type": "registry:component",
       "title": "User",
