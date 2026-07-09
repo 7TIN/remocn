@@ -39,6 +39,7 @@ import { ZapIconStatic } from "@/registry/remocn/icon-zap";
 import { TrashIconStatic } from "@/registry/remocn/icon-trash";
 import { UploadIconStatic } from "@/registry/remocn/icon-upload";
 import { Volume2IconStatic } from "@/registry/remocn/icon-volume-2";
+import { VolumeXIconStatic } from "@/registry/remocn/icon-volume-x";
 import { XIconStatic } from "@/registry/remocn/icon-x";
 
 export type IconCategory =
@@ -185,6 +186,12 @@ export const ICONS: IconEntry[] = [
     label: "Volume 2",
     category: "Media & playback",
     Static: Volume2IconStatic,
+  },
+  {
+    name: "icon-volume-x",
+    label: "Volume X",
+    category: "Media & playback",
+    Static: VolumeXIconStatic,
   },
   {
     name: "icon-heart",

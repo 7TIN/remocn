@@ -1775,6 +1775,21 @@
       ]
     },
     {
+      "name": "icon-volume-x",
+      "type": "registry:component",
+      "title": "Volume X",
+      "description": "Animated Lucide volume-x icon — the speaker draws on, then the X slashes in and the glyph shakes off the sound.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-volume-x/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-volume-x.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",
