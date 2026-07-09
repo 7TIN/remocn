@@ -75,6 +75,7 @@ import { VideoIconStatic } from "@/registry/remocn/icon-video";
 import { Volume2IconStatic } from "@/registry/remocn/icon-volume-2";
 import { VolumeXIconStatic } from "@/registry/remocn/icon-volume-x";
 import { XIconStatic } from "@/registry/remocn/icon-x";
+import { XCircleIconStatic } from "@/registry/remocn/icon-x-circle";
 
 export type IconCategory =
   | "Status & feedback"
@@ -160,6 +161,12 @@ export const ICONS: IconEntry[] = [
     label: "Plus Circle",
     category: "Status & feedback",
     Static: PlusCircleIconStatic,
+  },
+  {
+    name: "icon-x-circle",
+    label: "X Circle",
+    category: "Status & feedback",
+    Static: XCircleIconStatic,
   },
   {
     name: "icon-search",

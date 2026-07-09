@@ -2255,6 +2255,21 @@
       ]
     },
     {
+      "name": "icon-x-circle",
+      "type": "registry:component",
+      "title": "X Circle",
+      "description": "Animated Lucide x-circle icon — the ring draws on, the X slashes in, and the badge shakes once: firmly rejected.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-x-circle/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-x-circle.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-user",
       "type": "registry:component",
       "title": "User",
