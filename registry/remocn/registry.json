@@ -2300,6 +2300,21 @@
       ]
     },
     {
+      "name": "icon-timer",
+      "type": "registry:component",
+      "title": "Timer",
+      "description": "Animated Lucide timer icon — draws on, then the start button clicks and the hand sweeps: the stopwatch is running.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-timer/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-timer.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-user",
       "type": "registry:component",
       "title": "User",

@@ -67,6 +67,7 @@ import { SkipForwardIconStatic } from "@/registry/remocn/icon-skip-forward";
 import { SparklesIconStatic } from "@/registry/remocn/icon-sparkles";
 import { StarIconStatic } from "@/registry/remocn/icon-star";
 import { ThumbsUpIconStatic } from "@/registry/remocn/icon-thumbs-up";
+import { TimerIconStatic } from "@/registry/remocn/icon-timer";
 import { ZapIconStatic } from "@/registry/remocn/icon-zap";
 import { TrashIconStatic } from "@/registry/remocn/icon-trash";
 import { UploadIconStatic } from "@/registry/remocn/icon-upload";
@@ -181,6 +182,12 @@ export const ICONS: IconEntry[] = [
     label: "Clock",
     category: "Time & planning",
     Static: ClockIconStatic,
+  },
+  {
+    name: "icon-timer",
+    label: "Timer",
+    category: "Time & planning",
+    Static: TimerIconStatic,
   },
   {
     name: "icon-search",
