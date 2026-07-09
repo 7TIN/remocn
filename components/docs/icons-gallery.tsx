@@ -23,6 +23,7 @@ import { SendIconStatic } from "@/registry/remocn/icon-send";
 import { SettingsIconStatic } from "@/registry/remocn/icon-settings";
 import { SparklesIconStatic } from "@/registry/remocn/icon-sparkles";
 import { StarIconStatic } from "@/registry/remocn/icon-star";
+import { ZapIconStatic } from "@/registry/remocn/icon-zap";
 import { TrashIconStatic } from "@/registry/remocn/icon-trash";
 import { UploadIconStatic } from "@/registry/remocn/icon-upload";
 import { XIconStatic } from "@/registry/remocn/icon-x";
@@ -158,6 +159,12 @@ export const ICONS: IconEntry[] = [
     label: "Sparkles",
     category: "Emotion & accents",
     Static: SparklesIconStatic,
+  },
+  {
+    name: "icon-zap",
+    label: "Zap",
+    category: "Emotion & accents",
+    Static: ZapIconStatic,
   },
 ];
 

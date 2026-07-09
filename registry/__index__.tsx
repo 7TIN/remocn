@@ -43,6 +43,7 @@ import { iconStarConfig } from "@/registry/remocn/icon-star/config";
 import { iconTrashConfig } from "@/registry/remocn/icon-trash/config";
 import { iconUploadConfig } from "@/registry/remocn/icon-upload/config";
 import { iconXConfig } from "@/registry/remocn/icon-x/config";
+import { iconZapConfig } from "@/registry/remocn/icon-zap/config";
 import { infiniteBentoPanConfig } from "@/registry/remocn/infinite-bento-pan/config";
 import { infiniteMarqueeConfig } from "@/registry/remocn/infinite-marquee/config";
 import { inlineHighlightConfig } from "@/registry/remocn/inline-highlight/config";
@@ -708,6 +709,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.XIcon,
       })),
     config: iconXConfig,
+  },
+  "icon-zap": {
+    load: () =>
+      import("@/registry/remocn/icon-zap").then((m) => ({
+        default: m.ZapIcon,
+      })),
+    config: iconZapConfig,
   },
   "wave-wipe": {
     load: () =>

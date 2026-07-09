@@ -1623,6 +1623,21 @@
           "target": "components/remocn/icon-sparkles.tsx"
         }
       ]
+    },
+    {
+      "name": "icon-zap",
+      "type": "registry:component",
+      "title": "Zap",
+      "description": "Animated Lucide zap icon — the bolt draws in fast, then flashes with a double blink for speed, performance, or instant-result claims.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-zap/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-zap.tsx"
+        }
+      ]
     }
   ]
 }
