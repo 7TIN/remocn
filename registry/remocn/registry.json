@@ -1760,6 +1760,21 @@
       ]
     },
     {
+      "name": "icon-volume-2",
+      "type": "registry:component",
+      "title": "Volume 2",
+      "description": "Animated Lucide volume-2 icon — the speaker draws on, then the two sound waves ripple outward one after the other.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-volume-2/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-volume-2.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",

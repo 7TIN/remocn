@@ -53,6 +53,7 @@ import { iconStarConfig } from "@/registry/remocn/icon-star/config";
 import { iconThumbsUpConfig } from "@/registry/remocn/icon-thumbs-up/config";
 import { iconTrashConfig } from "@/registry/remocn/icon-trash/config";
 import { iconUploadConfig } from "@/registry/remocn/icon-upload/config";
+import { iconVolume2Config } from "@/registry/remocn/icon-volume-2/config";
 import { iconXConfig } from "@/registry/remocn/icon-x/config";
 import { iconZapConfig } from "@/registry/remocn/icon-zap/config";
 import { infiniteBentoPanConfig } from "@/registry/remocn/infinite-bento-pan/config";
@@ -783,6 +784,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.UploadIcon,
       })),
     config: iconUploadConfig,
+  },
+  "icon-volume-2": {
+    load: () =>
+      import("@/registry/remocn/icon-volume-2").then((m) => ({
+        default: m.Volume2Icon,
+      })),
+    config: iconVolume2Config,
   },
   "icon-check-circle": {
     load: () =>

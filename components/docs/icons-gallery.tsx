@@ -38,6 +38,7 @@ import { ThumbsUpIconStatic } from "@/registry/remocn/icon-thumbs-up";
 import { ZapIconStatic } from "@/registry/remocn/icon-zap";
 import { TrashIconStatic } from "@/registry/remocn/icon-trash";
 import { UploadIconStatic } from "@/registry/remocn/icon-upload";
+import { Volume2IconStatic } from "@/registry/remocn/icon-volume-2";
 import { XIconStatic } from "@/registry/remocn/icon-x";
 
 export type IconCategory =
@@ -178,6 +179,12 @@ export const ICONS: IconEntry[] = [
     label: "Skip Forward",
     category: "Media & playback",
     Static: SkipForwardIconStatic,
+  },
+  {
+    name: "icon-volume-2",
+    label: "Volume 2",
+    category: "Media & playback",
+    Static: Volume2IconStatic,
   },
   {
     name: "icon-heart",
