@@ -2690,6 +2690,21 @@
       ]
     },
     {
+      "name": "icon-trophy",
+      "type": "registry:component",
+      "title": "Trophy",
+      "description": "Animated Lucide trophy icon — draws on, then hoists: the cup hops with a pop at the apex while its handles flash in.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-trophy/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-trophy.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-user",
       "type": "registry:component",
       "title": "User",

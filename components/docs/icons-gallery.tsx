@@ -94,6 +94,7 @@ import { ZapIconStatic } from "@/registry/remocn/icon-zap";
 import { TrashIconStatic } from "@/registry/remocn/icon-trash";
 import { TrendingDownIconStatic } from "@/registry/remocn/icon-trending-down";
 import { TrendingUpIconStatic } from "@/registry/remocn/icon-trending-up";
+import { TrophyIconStatic } from "@/registry/remocn/icon-trophy";
 import { UploadIconStatic } from "@/registry/remocn/icon-upload";
 import { UserPlusIconStatic } from "@/registry/remocn/icon-user-plus";
 import { UserIconStatic } from "@/registry/remocn/icon-user";
@@ -615,6 +616,12 @@ export const ICONS: IconEntry[] = [
     label: "Rocket",
     category: "Emotion & accents",
     Static: RocketIconStatic,
+  },
+  {
+    name: "icon-trophy",
+    label: "Trophy",
+    category: "Emotion & accents",
+    Static: TrophyIconStatic,
   },
   {
     name: "icon-star",

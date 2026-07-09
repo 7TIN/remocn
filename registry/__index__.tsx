@@ -109,6 +109,7 @@ import { iconTimerConfig } from "@/registry/remocn/icon-timer/config";
 import { iconTrashConfig } from "@/registry/remocn/icon-trash/config";
 import { iconTrendingDownConfig } from "@/registry/remocn/icon-trending-down/config";
 import { iconTrendingUpConfig } from "@/registry/remocn/icon-trending-up/config";
+import { iconTrophyConfig } from "@/registry/remocn/icon-trophy/config";
 import { iconUploadConfig } from "@/registry/remocn/icon-upload/config";
 import { iconUserPlusConfig } from "@/registry/remocn/icon-user-plus/config";
 import { iconUserConfig } from "@/registry/remocn/icon-user/config";
@@ -1240,6 +1241,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.TrendingUpIcon,
       })),
     config: iconTrendingUpConfig,
+  },
+  "icon-trophy": {
+    load: () =>
+      import("@/registry/remocn/icon-trophy").then((m) => ({
+        default: m.TrophyIcon,
+      })),
+    config: iconTrophyConfig,
   },
   "icon-upload": {
     load: () =>
