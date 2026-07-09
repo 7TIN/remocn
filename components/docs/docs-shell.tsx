@@ -35,11 +35,13 @@ export function DocsShell({
   componentsTree,
   primitivesTree,
   shadersTree,
+  iconsTree,
   children,
 }: {
   componentsTree: Root;
   primitivesTree: Root;
   shadersTree: Root;
+  iconsTree: Root;
   children: ReactNode;
 }) {
   const pathname = usePathname();
@@ -49,7 +51,9 @@ export function DocsShell({
       ? primitivesTree
       : activeTab === "shaders"
         ? shadersTree
-        : componentsTree;
+        : activeTab === "icons"
+          ? iconsTree
+          : componentsTree;
 
   return (
     <DocsLayout
