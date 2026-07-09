@@ -2615,6 +2615,21 @@
       ]
     },
     {
+      "name": "icon-trending-up",
+      "type": "registry:component",
+      "title": "Trending Up",
+      "description": "Animated Lucide trending-up icon — the line climbs across, then the arrowhead pops at the peak.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-trending-up/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-trending-up.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-user",
       "type": "registry:component",
       "title": "User",
