@@ -22,6 +22,7 @@ import { DownloadIconStatic } from "@/registry/remocn/icon-download";
 import { ExternalLinkIconStatic } from "@/registry/remocn/icon-external-link";
 import { FlameIconStatic } from "@/registry/remocn/icon-flame";
 import { HeartIconStatic } from "@/registry/remocn/icon-heart";
+import { ImageIconStatic } from "@/registry/remocn/icon-image";
 import { InfoIconStatic } from "@/registry/remocn/icon-info";
 import { LoaderIconStatic } from "@/registry/remocn/icon-loader";
 import { MicIconStatic } from "@/registry/remocn/icon-mic";
@@ -213,6 +214,12 @@ export const ICONS: IconEntry[] = [
     label: "Camera",
     category: "Media & playback",
     Static: CameraIconStatic,
+  },
+  {
+    name: "icon-image",
+    label: "Image",
+    category: "Media & playback",
+    Static: ImageIconStatic,
   },
   {
     name: "icon-heart",
