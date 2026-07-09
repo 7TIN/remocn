@@ -24,6 +24,7 @@ import { ChevronDownIconStatic } from "@/registry/remocn/icon-chevron-down";
 import { ChevronLeftIconStatic } from "@/registry/remocn/icon-chevron-left";
 import { ChevronRightIconStatic } from "@/registry/remocn/icon-chevron-right";
 import { ChevronUpIconStatic } from "@/registry/remocn/icon-chevron-up";
+import { ClockIconStatic } from "@/registry/remocn/icon-clock";
 import { CopyIconStatic } from "@/registry/remocn/icon-copy";
 import { DownloadIconStatic } from "@/registry/remocn/icon-download";
 import { ExternalLinkIconStatic } from "@/registry/remocn/icon-external-link";
@@ -174,6 +175,12 @@ export const ICONS: IconEntry[] = [
     label: "Calendar",
     category: "Time & planning",
     Static: CalendarIconStatic,
+  },
+  {
+    name: "icon-clock",
+    label: "Clock",
+    category: "Time & planning",
+    Static: ClockIconStatic,
   },
   {
     name: "icon-search",

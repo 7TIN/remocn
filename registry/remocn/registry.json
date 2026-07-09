@@ -2285,6 +2285,21 @@
       ]
     },
     {
+      "name": "icon-clock",
+      "type": "registry:component",
+      "title": "Clock",
+      "description": "Animated Lucide clock icon — the face draws on, then the hands sweep through discrete ticks. Loops by default.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-clock/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-clock.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-user",
       "type": "registry:component",
       "title": "User",
