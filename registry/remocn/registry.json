@@ -1593,6 +1593,21 @@
           "target": "components/remocn/icon-heart.tsx"
         }
       ]
+    },
+    {
+      "name": "icon-star",
+      "type": "registry:component",
+      "title": "Star",
+      "description": "Animated Lucide star icon — the outline draws on, then twinkles into place with a small rotate and scale pop for ratings, favorites, or star callouts.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-star/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-star.tsx"
+        }
+      ]
     }
   ]
 }
