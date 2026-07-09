@@ -23,6 +23,7 @@ import { FlameIconStatic } from "@/registry/remocn/icon-flame";
 import { HeartIconStatic } from "@/registry/remocn/icon-heart";
 import { InfoIconStatic } from "@/registry/remocn/icon-info";
 import { LoaderIconStatic } from "@/registry/remocn/icon-loader";
+import { MicIconStatic } from "@/registry/remocn/icon-mic";
 import { PartyPopperIconStatic } from "@/registry/remocn/icon-party-popper";
 import { PauseIconStatic } from "@/registry/remocn/icon-pause";
 import { PlayIconStatic } from "@/registry/remocn/icon-play";
@@ -192,6 +193,12 @@ export const ICONS: IconEntry[] = [
     label: "Volume X",
     category: "Media & playback",
     Static: VolumeXIconStatic,
+  },
+  {
+    name: "icon-mic",
+    label: "Mic",
+    category: "Media & playback",
+    Static: MicIconStatic,
   },
   {
     name: "icon-heart",

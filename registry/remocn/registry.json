@@ -1790,6 +1790,21 @@
       ]
     },
     {
+      "name": "icon-mic",
+      "type": "registry:component",
+      "title": "Mic",
+      "description": "Animated Lucide mic icon — draws on, then the capsule bounces twice like a level meter picking up voice.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-mic/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-mic.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",

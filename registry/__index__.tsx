@@ -39,6 +39,7 @@ import { iconFlameConfig } from "@/registry/remocn/icon-flame/config";
 import { iconHeartConfig } from "@/registry/remocn/icon-heart/config";
 import { iconInfoConfig } from "@/registry/remocn/icon-info/config";
 import { iconLoaderConfig } from "@/registry/remocn/icon-loader/config";
+import { iconMicConfig } from "@/registry/remocn/icon-mic/config";
 import { iconPartyPopperConfig } from "@/registry/remocn/icon-party-popper/config";
 import { iconPauseConfig } from "@/registry/remocn/icon-pause/config";
 import { iconPlayConfig } from "@/registry/remocn/icon-play/config";
@@ -687,6 +688,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.LoaderIcon,
       })),
     config: iconLoaderConfig,
+  },
+  "icon-mic": {
+    load: () =>
+      import("@/registry/remocn/icon-mic").then((m) => ({
+        default: m.MicIcon,
+      })),
+    config: iconMicConfig,
   },
   "icon-party-popper": {
     load: () =>
