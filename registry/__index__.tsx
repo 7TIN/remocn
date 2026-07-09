@@ -25,6 +25,7 @@ import { glassCodeBlockConfig } from "@/registry/remocn/glass-code-block/config"
 import { glassCodeWalkConfig } from "@/registry/remocn/glass-code-walk/config";
 import { grainDissolveConfig } from "@/registry/remocn/grain-dissolve/config";
 import { iconAlertTriangleConfig } from "@/registry/remocn/icon-alert-triangle/config";
+import { iconArrowRightConfig } from "@/registry/remocn/icon-arrow-right/config";
 import { iconBellConfig } from "@/registry/remocn/icon-bell/config";
 import { iconCheckCircleConfig } from "@/registry/remocn/icon-check-circle/config";
 import { iconCheckConfig } from "@/registry/remocn/icon-check/config";
@@ -586,6 +587,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.AlertTriangleIcon,
       })),
     config: iconAlertTriangleConfig,
+  },
+  "icon-arrow-right": {
+    load: () =>
+      import("@/registry/remocn/icon-arrow-right").then((m) => ({
+        default: m.ArrowRightIcon,
+      })),
+    config: iconArrowRightConfig,
   },
   "icon-bell": {
     load: () =>

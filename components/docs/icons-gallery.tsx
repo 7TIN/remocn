@@ -8,6 +8,7 @@ import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 import registry, { type RegistryEntry } from "@/registry/__index__";
 import { AlertTriangleIconStatic } from "@/registry/remocn/icon-alert-triangle";
+import { ArrowRightIconStatic } from "@/registry/remocn/icon-arrow-right";
 import { BellIconStatic } from "@/registry/remocn/icon-bell";
 import { CheckCircleIconStatic } from "@/registry/remocn/icon-check-circle";
 import { CheckIconStatic } from "@/registry/remocn/icon-check";
@@ -186,6 +187,12 @@ export const ICONS: IconEntry[] = [
     label: "Party Popper",
     category: "Emotion & accents",
     Static: PartyPopperIconStatic,
+  },
+  {
+    name: "icon-arrow-right",
+    label: "Arrow Right",
+    category: "Arrows & navigation",
+    Static: ArrowRightIconStatic,
   },
 ];
 

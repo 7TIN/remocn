@@ -1640,6 +1640,21 @@
       ]
     },
     {
+      "name": "icon-arrow-right",
+      "type": "registry:component",
+      "title": "Arrow Right",
+      "description": "Animated Lucide arrow-right icon — the shaft and head draw on, then the arrow nudges forward for CTAs, next-step pointers, or flow direction.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-arrow-right/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-arrow-right.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",
