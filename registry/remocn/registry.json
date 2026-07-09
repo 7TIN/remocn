@@ -1940,6 +1940,21 @@
       ]
     },
     {
+      "name": "icon-maximize",
+      "type": "registry:component",
+      "title": "Maximize",
+      "description": "Animated Lucide maximize icon — four corner brackets draw on, then fly outward and spring back like a window going fullscreen.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-maximize/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-maximize.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-sparkles",
       "type": "registry:component",
       "title": "Sparkles",

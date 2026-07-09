@@ -29,6 +29,7 @@ import { HeartIconStatic } from "@/registry/remocn/icon-heart";
 import { ImageIconStatic } from "@/registry/remocn/icon-image";
 import { InfoIconStatic } from "@/registry/remocn/icon-info";
 import { LoaderIconStatic } from "@/registry/remocn/icon-loader";
+import { MaximizeIconStatic } from "@/registry/remocn/icon-maximize";
 import { MenuIconStatic } from "@/registry/remocn/icon-menu";
 import { MicIconStatic } from "@/registry/remocn/icon-mic";
 import { MoreHorizontalIconStatic } from "@/registry/remocn/icon-more-horizontal";
@@ -184,6 +185,12 @@ export const ICONS: IconEntry[] = [
     label: "More Horizontal",
     category: "Actions & UI",
     Static: MoreHorizontalIconStatic,
+  },
+  {
+    name: "icon-maximize",
+    label: "Maximize",
+    category: "Actions & UI",
+    Static: MaximizeIconStatic,
   },
   {
     name: "icon-play",
