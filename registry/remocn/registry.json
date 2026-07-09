@@ -2165,6 +2165,21 @@
       ]
     },
     {
+      "name": "icon-phone",
+      "type": "registry:component",
+      "title": "Phone",
+      "description": "Animated Lucide phone icon — draws on, then rings: three decaying rotation oscillations around center.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-phone/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-phone.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-user",
       "type": "registry:component",
       "title": "User",

@@ -47,6 +47,7 @@ import { MoreHorizontalIconStatic } from "@/registry/remocn/icon-more-horizontal
 import { PartyPopperIconStatic } from "@/registry/remocn/icon-party-popper";
 import { PauseIconStatic } from "@/registry/remocn/icon-pause";
 import { PencilIconStatic } from "@/registry/remocn/icon-pencil";
+import { PhoneIconStatic } from "@/registry/remocn/icon-phone";
 import { PlayIconStatic } from "@/registry/remocn/icon-play";
 import { PlusIconStatic } from "@/registry/remocn/icon-plus";
 import { RefreshCwIconStatic } from "@/registry/remocn/icon-refresh-cw";
@@ -364,6 +365,12 @@ export const ICONS: IconEntry[] = [
     label: "Message Circle",
     category: "People & communication",
     Static: MessageCircleIconStatic,
+  },
+  {
+    name: "icon-phone",
+    label: "Phone",
+    category: "People & communication",
+    Static: PhoneIconStatic,
   },
   {
     name: "icon-heart",
