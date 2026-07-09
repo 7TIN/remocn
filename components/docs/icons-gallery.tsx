@@ -17,6 +17,7 @@ import { BellIconStatic } from "@/registry/remocn/icon-bell";
 import { CameraIconStatic } from "@/registry/remocn/icon-camera";
 import { CheckCircleIconStatic } from "@/registry/remocn/icon-check-circle";
 import { CheckIconStatic } from "@/registry/remocn/icon-check";
+import { ChevronUpIconStatic } from "@/registry/remocn/icon-chevron-up";
 import { CopyIconStatic } from "@/registry/remocn/icon-copy";
 import { DownloadIconStatic } from "@/registry/remocn/icon-download";
 import { ExternalLinkIconStatic } from "@/registry/remocn/icon-external-link";
@@ -292,6 +293,12 @@ export const ICONS: IconEntry[] = [
     label: "External Link",
     category: "Arrows & navigation",
     Static: ExternalLinkIconStatic,
+  },
+  {
+    name: "icon-chevron-up",
+    label: "Chevron Up",
+    category: "Arrows & navigation",
+    Static: ChevronUpIconStatic,
   },
 ];
 
