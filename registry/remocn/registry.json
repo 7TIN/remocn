@@ -2135,6 +2135,21 @@
       ]
     },
     {
+      "name": "icon-mail",
+      "type": "registry:component",
+      "title": "Mail",
+      "description": "Animated Lucide mail icon — the envelope draws on, then the flap re-traces open and the whole envelope pops: you've got mail.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-mail/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-mail.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-user",
       "type": "registry:component",
       "title": "User",

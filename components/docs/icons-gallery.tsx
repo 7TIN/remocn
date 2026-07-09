@@ -38,6 +38,7 @@ import { LinkIconStatic } from "@/registry/remocn/icon-link";
 import { LoaderIconStatic } from "@/registry/remocn/icon-loader";
 import { LockIconStatic } from "@/registry/remocn/icon-lock";
 import { LogOutIconStatic } from "@/registry/remocn/icon-log-out";
+import { MailIconStatic } from "@/registry/remocn/icon-mail";
 import { MaximizeIconStatic } from "@/registry/remocn/icon-maximize";
 import { MenuIconStatic } from "@/registry/remocn/icon-menu";
 import { MicIconStatic } from "@/registry/remocn/icon-mic";
@@ -350,6 +351,12 @@ export const ICONS: IconEntry[] = [
     label: "User Plus",
     category: "People & communication",
     Static: UserPlusIconStatic,
+  },
+  {
+    name: "icon-mail",
+    label: "Mail",
+    category: "People & communication",
+    Static: MailIconStatic,
   },
   {
     name: "icon-heart",
