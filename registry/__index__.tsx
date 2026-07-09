@@ -101,6 +101,7 @@ import { iconSparklesConfig } from "@/registry/remocn/icon-sparkles/config";
 import { iconStarConfig } from "@/registry/remocn/icon-star/config";
 import { iconSunConfig } from "@/registry/remocn/icon-sun/config";
 import { iconTagConfig } from "@/registry/remocn/icon-tag/config";
+import { iconTargetConfig } from "@/registry/remocn/icon-target/config";
 import { iconTerminalConfig } from "@/registry/remocn/icon-terminal/config";
 import { iconThumbsUpConfig } from "@/registry/remocn/icon-thumbs-up/config";
 import { iconTimerConfig } from "@/registry/remocn/icon-timer/config";
@@ -1182,6 +1183,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.TagIcon,
       })),
     config: iconTagConfig,
+  },
+  "icon-target": {
+    load: () =>
+      import("@/registry/remocn/icon-target").then((m) => ({
+        default: m.TargetIcon,
+      })),
+    config: iconTargetConfig,
   },
   "icon-terminal": {
     load: () =>

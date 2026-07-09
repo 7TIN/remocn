@@ -2390,6 +2390,21 @@
       ]
     },
     {
+      "name": "icon-target",
+      "type": "registry:component",
+      "title": "Target",
+      "description": "Animated Lucide target icon — three rings draw in from outside, then the bullseye hits: inner dot pops and the board shudders.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-target/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-target.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-terminal",
       "type": "registry:component",
       "title": "Terminal",

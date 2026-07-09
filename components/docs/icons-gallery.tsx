@@ -85,6 +85,7 @@ import { SparklesIconStatic } from "@/registry/remocn/icon-sparkles";
 import { StarIconStatic } from "@/registry/remocn/icon-star";
 import { SunIconStatic } from "@/registry/remocn/icon-sun";
 import { TagIconStatic } from "@/registry/remocn/icon-tag";
+import { TargetIconStatic } from "@/registry/remocn/icon-target";
 import { TerminalIconStatic } from "@/registry/remocn/icon-terminal";
 import { ThumbsUpIconStatic } from "@/registry/remocn/icon-thumbs-up";
 import { TimerIconStatic } from "@/registry/remocn/icon-timer";
@@ -337,6 +338,12 @@ export const ICONS: IconEntry[] = [
     label: "Bar Chart 3",
     category: "Charts & data",
     Static: BarChart3IconStatic,
+  },
+  {
+    name: "icon-target",
+    label: "Target",
+    category: "Charts & data",
+    Static: TargetIconStatic,
   },
   {
     name: "icon-trending-down",
