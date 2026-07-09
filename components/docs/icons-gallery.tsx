@@ -43,6 +43,7 @@ import { FileTextIconStatic } from "@/registry/remocn/icon-file-text";
 import { FilterIconStatic } from "@/registry/remocn/icon-filter";
 import { FlameIconStatic } from "@/registry/remocn/icon-flame";
 import { FolderIconStatic } from "@/registry/remocn/icon-folder";
+import { GemIconStatic } from "@/registry/remocn/icon-gem";
 import { GiftIconStatic } from "@/registry/remocn/icon-gift";
 import { GlobeIconStatic } from "@/registry/remocn/icon-globe";
 import { HeartIconStatic } from "@/registry/remocn/icon-heart";
@@ -636,6 +637,12 @@ export const ICONS: IconEntry[] = [
     label: "Crown",
     category: "Emotion & accents",
     Static: CrownIconStatic,
+  },
+  {
+    name: "icon-gem",
+    label: "Gem",
+    category: "Emotion & accents",
+    Static: GemIconStatic,
   },
   {
     name: "icon-star",

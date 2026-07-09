@@ -2630,6 +2630,21 @@
       ]
     },
     {
+      "name": "icon-gem",
+      "type": "registry:component",
+      "title": "Gem",
+      "description": "Animated Lucide gem icon — the stone draws on, then light catches it: facets re-trace in sequence with a flicker and a pop.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-gem/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-gem.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon-gift",
       "type": "registry:component",
       "title": "Gift",
