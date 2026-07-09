@@ -10,6 +10,7 @@ import registry, { type RegistryEntry } from "@/registry/__index__";
 import { AlertTriangleIconStatic } from "@/registry/remocn/icon-alert-triangle";
 import { CheckCircleIconStatic } from "@/registry/remocn/icon-check-circle";
 import { CheckIconStatic } from "@/registry/remocn/icon-check";
+import { InfoIconStatic } from "@/registry/remocn/icon-info";
 import { XIconStatic } from "@/registry/remocn/icon-x";
 
 export type IconCategory =
@@ -53,6 +54,12 @@ export const ICONS: IconEntry[] = [
     label: "Alert Triangle",
     category: "Status & feedback",
     Static: AlertTriangleIconStatic,
+  },
+  {
+    name: "icon-info",
+    label: "Info",
+    category: "Status & feedback",
+    Static: InfoIconStatic,
   },
 ];
 

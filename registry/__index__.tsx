@@ -27,6 +27,7 @@ import { grainDissolveConfig } from "@/registry/remocn/grain-dissolve/config";
 import { iconAlertTriangleConfig } from "@/registry/remocn/icon-alert-triangle/config";
 import { iconCheckCircleConfig } from "@/registry/remocn/icon-check-circle/config";
 import { iconCheckConfig } from "@/registry/remocn/icon-check/config";
+import { iconInfoConfig } from "@/registry/remocn/icon-info/config";
 import { iconXConfig } from "@/registry/remocn/icon-x/config";
 import { infiniteBentoPanConfig } from "@/registry/remocn/infinite-bento-pan/config";
 import { infiniteMarqueeConfig } from "@/registry/remocn/infinite-marquee/config";
@@ -574,6 +575,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.CheckIcon,
       })),
     config: iconCheckConfig,
+  },
+  "icon-info": {
+    load: () =>
+      import("@/registry/remocn/icon-info").then((m) => ({
+        default: m.InfoIcon,
+      })),
+    config: iconInfoConfig,
   },
   "icon-check-circle": {
     load: () =>

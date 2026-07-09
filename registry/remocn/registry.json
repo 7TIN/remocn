@@ -1398,6 +1398,21 @@
           "target": "components/remocn/icon-alert-triangle.tsx"
         }
       ]
+    },
+    {
+      "name": "icon-info",
+      "type": "registry:component",
+      "title": "Info",
+      "description": "Animated Lucide info icon — the ring draws clockwise, the dot pops and stem draws in, then the dot bobs to draw a gentle, neutral note.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/icons-core"],
+      "files": [
+        {
+          "path": "icon-info/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/icon-info.tsx"
+        }
+      ]
     }
   ]
 }
