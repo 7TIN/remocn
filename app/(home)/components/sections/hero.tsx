@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { SPRING_BOUNCE } from "@/config/site";
 import { useTrackEvent } from "@/lib/analytics";
 import { FadeUp } from "../fade-up";
+import { HeroNeuroBg } from "../hero-shader-bg";
 import { InstallAll } from "../install-all";
 
 export function Hero() {
@@ -40,11 +41,10 @@ export function Hero() {
   const aspectRatio = "16 / 9";
 
   return (
-    <section className="relative overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24">
-      {/* Theme-aware backdrop: dotted grid that fades out + a soft top glow. */}
+    <section className="relative isolate pt-10 pb-16 sm:pt-16 sm:pb-24">
       <div aria-hidden className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-grid-fade" />
-        <div className="absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(60%_100%_at_50%_0%,var(--color-muted),transparent_70%)] opacity-70" />
+        <HeroNeuroBg />
       </div>
 
       <div className="section">
