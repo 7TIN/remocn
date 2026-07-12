@@ -63,26 +63,61 @@ function TransitionsViz({ play }: VizProps) {
   const reduced = useReducedMotion();
   const active = play && !reduced;
 
+  if (!active) {
+    return (
+      <div className="absolute inset-0 flex items-center justify-center bg-foreground">
+        <span className="font-mono text-3xl font-medium text-background">02</span>
+      </div>
+    );
+  }
+
+  const times = [0, 0.28, 0.42, 0.58, 0.72, 1];
+  const loop = {
+    duration: 3.4,
+    times,
+    repeat: Number.POSITIVE_INFINITY,
+    ease: "easeInOut" as const,
+  };
+
   return (
     <div className="absolute inset-0 overflow-hidden">
       <motion.div
-        className="flex h-full w-[200%] will-change-transform"
-        animate={active ? { x: ["0%", "0%", "-50%", "-50%"] } : { x: "-50%" }}
-        transition={{
-          duration: 3,
-          times: [0, 0.35, 0.65, 1],
-          repeat: Number.POSITIVE_INFINITY,
-          ease: [0.65, 0, 0.35, 1],
+        className="absolute inset-0 flex items-center justify-center bg-muted/50 will-change-[transform,opacity,filter]"
+        animate={{
+          opacity: [1, 1, 0, 0, 1, 1],
+          scale: [1, 1, 1.06, 0.97, 1, 1],
+          filter: [
+            "blur(0px) brightness(1)",
+            "blur(0px) brightness(1)",
+            "blur(14px) brightness(1.3)",
+            "blur(14px) brightness(1.25)",
+            "blur(0px) brightness(1)",
+            "blur(0px) brightness(1)",
+          ],
         }}
+        transition={loop}
       >
-        <div className="flex h-full w-1/2 shrink-0 items-center justify-center bg-muted/50">
-          <span className="font-mono text-3xl font-medium text-muted-foreground">
-            01
-          </span>
-        </div>
-        <div className="flex h-full w-1/2 shrink-0 items-center justify-center bg-foreground">
-          <span className="font-mono text-3xl font-medium text-background">02</span>
-        </div>
+        <span className="font-mono text-3xl font-medium text-muted-foreground">
+          01
+        </span>
+      </motion.div>
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center bg-foreground will-change-[transform,opacity,filter]"
+        animate={{
+          opacity: [0, 0, 1, 1, 0, 0],
+          scale: [0.97, 0.97, 1, 1, 1.06, 0.97],
+          filter: [
+            "blur(14px) brightness(1.25)",
+            "blur(14px) brightness(1.25)",
+            "blur(0px) brightness(1)",
+            "blur(0px) brightness(1)",
+            "blur(14px) brightness(1.3)",
+            "blur(14px) brightness(1.25)",
+          ],
+        }}
+        transition={loop}
+      >
+        <span className="font-mono text-3xl font-medium text-background">02</span>
       </motion.div>
     </div>
   );
