@@ -1,7 +1,14 @@
 "use client";
 
 import { Player, type PlayerRef } from "@remotion/player";
-import { ArrowUpRight, Component, Shuffle, Sparkles, Type, Waves } from "lucide-react";
+import {
+  ArrowUpRight,
+  Component,
+  Shuffle,
+  Sparkles,
+  Type,
+  Waves,
+} from "lucide-react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { type ComponentType, useRef } from "react";
@@ -66,7 +73,9 @@ function TransitionsViz({ play }: VizProps) {
   if (!active) {
     return (
       <div className="absolute inset-0 flex items-center justify-center bg-foreground">
-        <span className="font-mono text-3xl font-medium text-background">02</span>
+        <span className="font-mono text-3xl font-medium text-background">
+          02
+        </span>
       </div>
     );
   }
@@ -117,7 +126,9 @@ function TransitionsViz({ play }: VizProps) {
         }}
         transition={loop}
       >
-        <span className="font-mono text-3xl font-medium text-background">02</span>
+        <span className="font-mono text-3xl font-medium text-background">
+          02
+        </span>
       </motion.div>
     </div>
   );
@@ -177,7 +188,11 @@ function AnimatedIconsViz({ play }: VizProps) {
       strokeLinecap="round"
       strokeLinejoin="round"
       className="size-14 text-foreground"
-      animate={active ? { scale: [0.9, 1, 1.08, 0.9], rotate: [-8, 0, 0, -8] } : undefined}
+      animate={
+        active
+          ? { scale: [0.9, 1, 1.08, 0.9], rotate: [-8, 0, 0, -8] }
+          : undefined
+      }
       transition={{
         duration: 3,
         times,
@@ -188,7 +203,9 @@ function AnimatedIconsViz({ play }: VizProps) {
       <motion.path
         d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5-4.7-4.6 6.5-.9z"
         animate={
-          active ? { pathLength: [0, 1, 1, 0], opacity: [0, 1, 1, 0] } : { pathLength: 1, opacity: 1 }
+          active
+            ? { pathLength: [0, 1, 1, 0], opacity: [0, 1, 1, 0] }
+            : { pathLength: 1, opacity: 1 }
         }
         transition={{
           duration: 3,
@@ -245,7 +262,8 @@ interface Category {
 const CATEGORIES: Category[] = [
   {
     title: "Typography",
-    description: "Text that animates itself in — blur-ins, line reveals, kinetic builds.",
+    description:
+      "Text that animates itself in — blur-ins, line reveals, kinetic builds.",
     href: "/docs/typography",
     icon: Type,
     Viz: TypographyViz,
@@ -277,7 +295,8 @@ const CATEGORIES: Category[] = [
   },
   {
     title: "UI Primitives",
-    description: "shadcn components scripted on the frame — buttons, switches, dialogs.",
+    description:
+      "shadcn components scripted on the frame — buttons, switches, dialogs.",
     href: "/docs/ui",
     icon: Component,
     Viz: UiPrimitivesViz,
@@ -285,7 +304,13 @@ const CATEGORIES: Category[] = [
   },
 ];
 
-function CategoryCard({ category, index }: { category: Category; index: number }) {
+function CategoryCard({
+  category,
+  index,
+}: {
+  category: Category;
+  index: number;
+}) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { amount: 0.4 });
   const { Viz, icon: Icon } = category;
@@ -308,7 +333,10 @@ function CategoryCard({ category, index }: { category: Category; index: number }
           </div>
           <div className="flex flex-1 flex-col p-5 sm:p-6">
             <div className="flex items-center gap-2">
-              <Icon aria-hidden className="size-4 shrink-0 text-muted-foreground" />
+              <Icon
+                aria-hidden
+                className="size-4 shrink-0 text-muted-foreground"
+              />
               <h3 className="text-base font-semibold tracking-tight text-foreground">
                 {category.title}
               </h3>

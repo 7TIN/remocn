@@ -7,7 +7,13 @@ import {
   useScroll,
   useTransform,
 } from "motion/react";
-import { type RefObject, useCallback, useEffect, useRef, useState } from "react";
+import {
+  type RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 const REST_MAX_WIDTH = 1120;
 const REST_WIDTH_RATIO = 0.92;
