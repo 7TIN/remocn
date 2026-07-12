@@ -7,7 +7,7 @@ import Link from "next/link";
 import { type ComponentType, useRef } from "react";
 import { SPRING_SOFT } from "@/config/site";
 import { cn } from "@/lib/utils";
-import registry from "@/registry/__index__";
+import { shaderGrainGradientConfig } from "@/registry/remocn/shader-grain-gradient/config";
 import { FadeUp } from "../fade-up";
 import { SectionHeading } from "../section-heading";
 import { useAutoplay } from "../use-autoplay";
@@ -92,19 +92,19 @@ const SHADER_PREVIEW_WIDTH = 480;
 const SHADER_PREVIEW_HEIGHT = 270;
 const SHADER_PREVIEW_FPS = 20;
 
+const loadShaderGrainGradient = () =>
+  import("@/registry/remocn/shader-grain-gradient").then((m) => ({
+    default: m.ShaderGrainGradient,
+  }));
+
 function ShadersViz({ play }: VizProps) {
   const reduced = useReducedMotion();
-  const entry = registry["shader-grain-gradient"];
   const playerRef = useRef<PlayerRef>(null);
-  const { containerRef } = useAutoplay(
-    playerRef,
-    Boolean(entry) && play && !reduced,
-  );
-
-  if (!entry) return null;
+  const { containerRef } = useAutoplay(playerRef, play && !reduced);
 
   const durationInFrames = Math.round(
-    (entry.config.durationInFrames * SHADER_PREVIEW_FPS) / entry.config.fps,
+    (shaderGrainGradientConfig.durationInFrames * SHADER_PREVIEW_FPS) /
+      shaderGrainGradientConfig.fps,
   );
 
   return (
@@ -112,7 +112,7 @@ function ShadersViz({ play }: VizProps) {
       <div className="absolute top-1/2 left-1/2 aspect-video min-h-full min-w-full -translate-x-1/2 -translate-y-1/2 will-change-transform">
         <Player
           ref={playerRef}
-          lazyComponent={entry.load}
+          lazyComponent={loadShaderGrainGradient}
           inputProps={{}}
           durationInFrames={durationInFrames}
           fps={SHADER_PREVIEW_FPS}

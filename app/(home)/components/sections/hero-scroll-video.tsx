@@ -93,19 +93,21 @@ function ScrollStage({
 
   const restWidth = Math.min(viewport.w * REST_WIDTH_RATIO, REST_MAX_WIDTH);
   const restHeight = restWidth * CARD_ASPECT;
+  const restScaleX = restWidth / viewport.w;
+  const restScaleY = restHeight / viewport.h;
   const keyframes = [0, GROW_END, HOLD_END, 1];
 
-  const width = useTransform(scrollYProgress, keyframes, [
-    restWidth,
-    viewport.w,
-    viewport.w,
-    restWidth,
+  const scaleX = useTransform(scrollYProgress, keyframes, [
+    restScaleX,
+    1,
+    1,
+    restScaleX,
   ]);
-  const height = useTransform(scrollYProgress, keyframes, [
-    restHeight,
-    viewport.h,
-    viewport.h,
-    restHeight,
+  const scaleY = useTransform(scrollYProgress, keyframes, [
+    restScaleY,
+    1,
+    1,
+    restScaleY,
   ]);
   const borderRadius = useTransform(scrollYProgress, keyframes, [
     REST_RADIUS,
@@ -118,8 +120,14 @@ function ScrollStage({
     <section ref={sectionRef} data-hero-zoom className="relative h-[380vh]">
       <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden">
         <motion.div
-          style={{ width, height, borderRadius }}
-          className="group surface-card relative overflow-hidden shadow-black/5 will-change-[width,height] dark:shadow-black/40"
+          style={{
+            width: viewport.w,
+            height: viewport.h,
+            scaleX,
+            scaleY,
+            borderRadius,
+          }}
+          className="group surface-card relative overflow-hidden shadow-black/5 will-change-transform dark:shadow-black/40"
         >
           <VideoCard
             videoRef={videoRef}
