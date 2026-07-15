@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import type { ComponentProps } from "react";
 import { changelog } from "@/.source/server";
+import { ChangelogHero } from "@/components/changelog/changelog-hero";
 import { ChangelogPreview } from "@/components/changelog/changelog-preview";
+import {
+  changelogDateFormatter,
+  changelogSlug,
+  sortByDateDesc,
+} from "@/lib/changelog";
 import { getMDXComponents } from "@/mdx-components";
 
 export const metadata: Metadata = {
@@ -15,13 +22,6 @@ export const metadata: Metadata = {
   },
 };
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  timeZone: "UTC",
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
-
 const entryComponents = {
   ...getMDXComponents(),
   ChangelogPreview,
@@ -30,27 +30,16 @@ const entryComponents = {
 };
 
 export default function ChangelogPage() {
-  const entries = [...changelog].sort(
-    (a, b) => b.date.getTime() - a.date.getTime(),
-  );
+  const entries = sortByDateDesc(changelog);
 
   return (
     <>
-      <section className="pt-24 pb-10 sm:pt-28">
-        <div className="section">
-          <h1 className="text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl">
-            Changelog
-          </h1>
-          <p className="mt-4 max-w-2xl text-balance text-base leading-relaxed text-muted-foreground sm:text-lg">
-            New components, transitions, shaders, and icons as they ship.
-          </p>
-        </div>
-      </section>
+      <ChangelogHero active="text" />
 
       <section className="pb-24">
         <div className="section flex flex-col gap-16">
           {entries.map((entry) => {
-            const slug = entry.info.path.replace(/\.mdx$/, "");
+            const slug = changelogSlug(entry);
             const iso = entry.date.toISOString().slice(0, 10);
             const MDX = entry.body;
 
@@ -65,16 +54,26 @@ export default function ChangelogPage() {
                     dateTime={iso}
                     className="font-mono text-xs font-medium text-muted-foreground"
                   >
-                    {dateFormatter.format(entry.date)}
+                    {changelogDateFormatter.format(entry.date)}
                   </time>
                 </div>
 
                 <div className="mt-4 min-w-0 md:mt-0">
-                  <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-                    <a href={`#${slug}`} className="hover:underline">
-                      {entry.title}
-                    </a>
-                  </h2>
+                  <div className="flex items-baseline justify-between gap-4">
+                    <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                      <a href={`#${slug}`} className="hover:underline">
+                        {entry.title}
+                      </a>
+                    </h2>
+                    {entry.video ? (
+                      <Link
+                        href={`/changelog/video#${slug}`}
+                        className="shrink-0 text-sm font-medium text-muted-foreground hover:text-foreground"
+                      >
+                        Watch
+                      </Link>
+                    ) : null}
+                  </div>
                   <div className="typeset typeset-docs mt-6">
                     <MDX components={entryComponents} />
                   </div>
