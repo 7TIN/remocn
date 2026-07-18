@@ -27,6 +27,8 @@ export const changelog = defineCollections({
   schema: z.object({
     title: z.string(),
     date: z.date(),
+    video: z.url().optional(),
+    videoPoster: z.url().optional(),
   }),
 });
 
