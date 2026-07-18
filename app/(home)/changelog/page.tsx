@@ -11,14 +11,28 @@ import {
 } from "@/lib/changelog";
 import { getMDXComponents } from "@/mdx-components";
 
+const DESCRIPTION =
+  "Every release of remocn — new components, transitions, shaders, icons, and improvements, newest first.";
+
 export const metadata: Metadata = {
   title: "Changelog",
-  description:
-    "Every release of remocn — new components, transitions, shaders, icons, and improvements, newest first.",
+  description: DESCRIPTION,
   openGraph: {
+    type: "website",
+    url: "/changelog",
+    siteName: "Remocn",
     title: "Changelog · remocn",
-    description:
-      "Every release of remocn — new components, transitions, shaders, icons, and improvements, newest first.",
+    description: DESCRIPTION,
+    locale: "en_US",
+    images: [
+      { url: "/hero.png", width: 1200, height: 675, alt: "Changelog · remocn" },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Changelog · remocn",
+    description: DESCRIPTION,
+    images: ["/hero.png"],
   },
 };
 
