@@ -1,6 +1,6 @@
 {
   "title": "Compositions",
-  "collapsible": false,
+  "defaultOpen": false,
   "pages": [
     "index",
     "ecosystem-constellation",

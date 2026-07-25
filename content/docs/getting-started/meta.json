@@ -1,5 +1,5 @@
 {
   "title": "Getting Started",
-  "collapsible": false,
+  "defaultOpen": true,
   "pages": ["introduction", "installation", "agent-skill"]
 }

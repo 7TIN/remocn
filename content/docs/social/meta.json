@@ -1,6 +1,6 @@
 {
   "title": "Social",
-  "collapsible": false,
+  "defaultOpen": false,
   "pages": [
     "index",
     "github-stars",

@@ -23,10 +23,11 @@ export function InstallAll() {
 
   return (
     <Button
-      variant="outline"
+      variant="secondary"
       onClick={copy}
       aria-label="Copy command to install all components"
-      className="group h-11 gap-3 rounded-full border-border bg-card/60 px-4 font-mono text-sm font-normal text-muted-foreground backdrop-blur-sm hover:border-foreground/20 hover:text-foreground"
+      size="lg"
+      className="rounded-full font-medium"
     >
       <span className="text-foreground">Install all</span>
       <span aria-hidden className="text-muted-foreground/70">
