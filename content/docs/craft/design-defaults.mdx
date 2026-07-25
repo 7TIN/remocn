@@ -1,14 +1,17 @@
-# remocn Design Defaults
+---
+title: Design defaults
+description: Restraint rules for the text, chrome and cards you add yourself, plus the palette and fonts the library already uses
+---
 
 These are defaults for content **you author** — your own text, scene chrome, cards, and overlays.
 They keep output from reading as generic AI-slop. They are **not** retroactive rules for the
 prebuilt remocn components.
 
-> **Scope & exception.** Never strip these traits from a component whose essence *is* the effect:
-> `tracking-in` is letter-spacing; the shader backdrops and the social cards are
-> gradients; some primitives use subtle elevation. The rules govern your additions, not the library.
-
----
+<Note title="Scope and exception">
+  Never strip these traits from a component whose essence *is* the effect. `tracking-in` is
+  letter-spacing; the shader backdrops and the social cards are gradients; some primitives use
+  subtle elevation. The rules govern your additions, not the library.
+</Note>
 
 ## No decorative letter-spacing
 
@@ -22,9 +25,10 @@ Don't widen tracking on text you add. It reads as "designed by AI".
 <div style={{ letterSpacing: "0.3em", textTransform: "uppercase" }}>SHIP FASTER</div>
 ```
 
-**Exception:** `tracking-in` animates letter-spacing as its whole effect — that's intentional.
+**Exception:** [`tracking-in`](/docs/typography/tracking-in) animates letter-spacing as its whole
+effect — that's intentional.
 
-## No uppercase / ALL-CAPS defaults
+## No uppercase or ALL-CAPS defaults
 
 Prefer sentence case. Don't `text-transform: uppercase` and don't write ALL-CAPS string literals
 as defaults.
@@ -58,10 +62,10 @@ decorative overlays sprinkled on cards.
 }}>Slop headline</h1>
 ```
 
-**Exception:** `shimmer-sweep` uses `background-clip: text` deliberately; social-card cover/avatar
-fallbacks render gradients by design.
+**Exception:** [`shimmer-sweep`](/docs/typography/shimmer-sweep) uses `background-clip: text`
+deliberately; social-card cover and avatar fallbacks render gradients by design.
 
-## No glow / heavy shadows
+## No glow or heavy shadows
 
 No colored glows, no large blur radii, no multi-layer drop-shadows. Use a 1px border or a small,
 neutral elevation if you need separation.
@@ -76,13 +80,11 @@ boxShadow: "0 0 80px 20px rgba(14,165,233,0.6)"
 filter: "blur(60px)"   // decorative glow blob
 ```
 
-Threshold to avoid: shadow/`filter` blur `> ~24px`, any `spread`, any colored/glow shadow,
-stacked shadow layers. See also: decorative radial-gradient/blur "glow blobs" are never acceptable.
+Threshold to avoid: shadow or `filter` blur `> ~24px`, any `spread`, any colored/glow shadow,
+stacked shadow layers. Decorative radial-gradient or blur "glow blobs" are never acceptable.
 
 **Exception:** components that intentionally model real UI elevation (cards, modals) keep their
 designed shadow — don't flatten them.
-
----
 
 ## Design tokens
 
@@ -106,10 +108,12 @@ uses so your additions don't clash with the components.
 | Accent — violet | `#a855f7` / `#7c3aed` |
 | Brand — warm (Claude) | `#D97757` |
 
-Stay within this set for your own elements. Brand cards (`claude-*`, `v0`, `chat-gpt`) carry their
-own brand hex — don't override it.
+Stay within this set for your own elements. Brand cards (`claude-chat`, `claude-code`, `v0`,
+`chat-gpt`) carry their own brand hex — don't override it.
 
-### Fonts (`@remotion/google-fonts`)
+### Fonts
+
+Loaded through `@remotion/google-fonts`.
 
 | Use | Font |
 |---|---|
