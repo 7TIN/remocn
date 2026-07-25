@@ -1,6 +1,6 @@
 {
   "title": "Transitions",
-  "collapsible": false,
+  "defaultOpen": true,
   "pages": [
     "index",
     "grain-dissolve",

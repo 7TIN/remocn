@@ -1,6 +1,6 @@
 {
   "title": "Effects",
-  "collapsible": false,
+  "defaultOpen": true,
   "pages": [
     "index",
     "confetti",

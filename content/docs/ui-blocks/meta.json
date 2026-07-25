@@ -1,6 +1,6 @@
 {
   "title": "UI Blocks",
-  "collapsible": false,
+  "defaultOpen": true,
   "pages": [
     "index",
     "glass-code-block",

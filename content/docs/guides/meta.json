@@ -1,6 +1,6 @@
 {
   "title": "Guides",
-  "collapsible": false,
+  "defaultOpen": false,
   "pages": [
     "index",
     "setup",
