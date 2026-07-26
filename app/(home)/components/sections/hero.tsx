@@ -7,7 +7,6 @@ import { useTrackEvent } from "@/lib/analytics";
 import { FadeUp } from "../fade-up";
 import { HeroBadge } from "../hero-badge";
 import { HeroNeuroBg } from "../hero-shader-bg";
-import { InstallAll } from "../install-all";
 import { HeroScrollVideo } from "./hero-scroll-video";
 
 export function Hero() {
@@ -25,15 +24,15 @@ export function Hero() {
           <FadeUp delay={0.06} className="flex flex-col items-center">
             <HeroBadge />
             <h1 className="max-w-3xl text-balance text-3xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-4xl md:text-5xl">
-              Cinematic video components,
-              <br className="hidden sm:block" /> now copy-pasteable
+              You want the video,
+              <br className="hidden sm:block" /> not the ordeal.
             </h1>
           </FadeUp>
 
           <FadeUp delay={0.12}>
             <p className="mt-4 max-w-2xl text-balance text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Production-ready Remotion animations, transitions and backgrounds.
-              Install with the shadcn CLI and own every line of code.
+              Describe your product to your AI agent. It builds the demo video
+              from ready-made pieces while you watch in the browser.
             </p>
           </FadeUp>
 
@@ -44,20 +43,37 @@ export function Hero() {
                 className="rounded-full"
                 render={
                   <Link
-                    href="/docs/getting-started/introduction"
+                    href="/docs/guides/setup"
                     onClick={() =>
                       trackEvent("cta_clicked", {
-                        cta: "hero_browse",
-                        destination: "/docs/getting-started/introduction",
+                        cta: "hero_start",
+                        destination: "/docs/guides/setup",
                       })
                     }
                   />
                 }
               >
-                Browse components
+                Make your first video
                 <ArrowRight className="size-4" aria-hidden="true" />
               </Button>
-              <InstallAll />
+              <Button
+                variant="secondary"
+                size="lg"
+                className="rounded-full font-medium"
+                render={
+                  <Link
+                    href="/showcases"
+                    onClick={() =>
+                      trackEvent("cta_clicked", {
+                        cta: "hero_showcases",
+                        destination: "/showcases",
+                      })
+                    }
+                  />
+                }
+              >
+                See what ships
+              </Button>
             </div>
           </FadeUp>
         </div>

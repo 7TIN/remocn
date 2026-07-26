@@ -47,13 +47,13 @@ export function FinalCTA() {
             }
             transition={{ ...SPRING_BOUNCE, duration: 0.8 }}
           >
-            Stop fighting keyframes. Start writing code.
+            Your product deserves better than a screen recording.
           </motion.h2>
 
           <FadeUp delay={0.2}>
             <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Install your first component and render a video today. It's open
-              source, all the way down.
+              An agent, an empty folder, ten minutes. It's open source, all the
+              way down.
             </p>
           </FadeUp>
 
@@ -64,17 +64,17 @@ export function FinalCTA() {
                 className="h-11 gap-2 rounded-full px-6 text-sm"
                 render={
                   <Link
-                    href="/docs/getting-started/introduction"
+                    href="/docs/guides/setup"
                     onClick={() =>
                       trackEvent("cta_clicked", {
                         cta: "final_cta",
-                        destination: "/docs/getting-started/introduction",
+                        destination: "/docs/guides/setup",
                       })
                     }
                   />
                 }
               >
-                Read the documentation
+                Make your first video
                 <ArrowRight className="size-4" aria-hidden="true" />
               </Button>
               <Button

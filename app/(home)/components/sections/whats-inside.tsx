@@ -31,7 +31,7 @@ const ShadersViz = dynamic(
 const EYEBROW = "What's inside";
 const TITLE = "Five kinds of building blocks";
 const LEAD =
-  "Every remocn component belongs to one of these families. Compose them on the Remotion timeline to build a full video, one scene at a time.";
+  "Every remocn component belongs to one of these families. Your agent composes them on the timeline, one scene at a time.";
 
 interface VizProps {
   play: boolean;
@@ -232,7 +232,7 @@ const CATEGORIES: Category[] = [
   {
     title: "Typography",
     description:
-      "Text that animates itself in — blur-ins, line reveals, kinetic builds.",
+      "Words that arrive with weight instead of just appearing on screen.",
     href: "/docs/typography",
     icon: Type,
     Viz: TypographyViz,
@@ -240,7 +240,8 @@ const CATEGORIES: Category[] = [
   },
   {
     title: "Shaders",
-    description: "GPU backgrounds — animated noise, gradients, and meshes.",
+    description:
+      "Backgrounds that move — the kind sitting behind every good hero shot.",
     href: "/docs/shaders/getting-started/introduction",
     icon: Waves,
     Viz: ShadersViz,
@@ -248,7 +249,7 @@ const CATEGORIES: Category[] = [
   },
   {
     title: "Transitions",
-    description: "Scene-to-scene cuts — pushes, dissolves, and shader wipes.",
+    description: "Cuts between scenes that don't look like a slideshow.",
     href: "/docs/transitions",
     icon: Shuffle,
     Viz: TransitionsViz,
@@ -256,7 +257,7 @@ const CATEGORIES: Category[] = [
   },
   {
     title: "Animated Icons",
-    description: "Lucide icons redrawn for video, each with its own action.",
+    description: "Icons that actually do the thing they stand for.",
     href: "/docs/icons/gallery",
     icon: Sparkles,
     Viz: AnimatedIconsViz,
@@ -265,7 +266,7 @@ const CATEGORIES: Category[] = [
   {
     title: "UI Primitives",
     description:
-      "shadcn components scripted on the frame — buttons, switches, dialogs.",
+      "Fake app screens — buttons, dialogs and menus that behave like the real thing.",
     href: "/docs/ui",
     icon: Component,
     Viz: UiPrimitivesViz,

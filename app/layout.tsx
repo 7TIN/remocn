@@ -25,9 +25,9 @@ const outfit = Outfit({
 });
 
 const SITE_URL = "https://remocn.dev";
-const SITE_TITLE = "Remocn - Cinematic video components for React";
+const SITE_TITLE = "Remocn - Make a product demo video with your AI agent";
 const SITE_DESCRIPTION =
-  "Production-ready Remotion animations, transitions and backgrounds. Install with the shadcn CLI and own the code";
+  "Describe your product, get a demo video. Ready-made animations, transitions and app-screen sims your coding agent can use. No video editor, no motion designer.";
 
 export const metadata: Metadata = {
   // Resolves the relative `/hero.png` below into an absolute URL for crawlers.
