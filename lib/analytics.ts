@@ -10,9 +10,12 @@ export type PreviewSurface =
   | "docs";
 
 export type CtaId =
-  | "hero_browse"
+  | "hero_start"
+  | "hero_showcases"
   | "hero_ui_badge"
-  | "bento_browse"
+  | "how_it_works_setup"
+  | "director_guide"
+  | "developer_docs"
   | "final_cta"
   | "github_header";
 
