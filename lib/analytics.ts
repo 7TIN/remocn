@@ -14,8 +14,6 @@ export type CtaId =
   | "hero_showcases"
   | "hero_ui_badge"
   | "how_it_works_setup"
-  | "director_guide"
-  | "developer_docs"
   | "final_cta"
   | "github_header";
 

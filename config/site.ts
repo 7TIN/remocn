@@ -1,4 +1,5 @@
 import remocnRegistry from "@/registry/remocn/registry.json";
+import remocnIconsRegistry from "@/registry/remocn-icons/registry.json";
 import remocnUiRegistry from "@/registry/remocn-ui/registry.json";
 
 // Pastel accent palette — peach / lavender / mint.
@@ -11,12 +12,6 @@ export const GITHUB_URL = "https://github.com/Remocn/remocn";
 
 export const SUPPORT_EMAIL = "kapish@remocn.dev";
 
-/** Canonical example install command shown on the landing page. */
-export const INSTALL_COMMAND = "npx shadcn@latest add remocn/soft-blur-in";
-
-export const QUICKSTART_PROMPT =
-  "Set up a new Remotion video project in this folder, then install the remocn agent skill: npx skills add Remocn/remocn --yes. When you're done, start the preview studio so I can watch while we work. I want to make a demo video for my product.";
-
 export const INSTALL_ALL_NAMES: string[] = [
   ...remocnRegistry.items,
   ...remocnUiRegistry.items,
@@ -25,6 +20,11 @@ export const INSTALL_ALL_NAMES: string[] = [
 export const INSTALL_ALL_COMMAND = `npx shadcn@latest add ${INSTALL_ALL_NAMES.map(
   (name) => `@remocn/${name}`,
 ).join(" ")}`;
+
+export const COMPONENT_COUNT =
+  remocnRegistry.items.length +
+  remocnUiRegistry.items.length +
+  remocnIconsRegistry.items.length;
 
 export const SPRING_BOUNCE = {
   type: "spring" as const,

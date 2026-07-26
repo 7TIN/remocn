@@ -1,6 +1,13 @@
+import { COMPONENT_COUNT } from "@/config/site";
 import { type Testimonial, testimonials } from "@/config/testimonials";
 import { FadeUp } from "../fade-up";
 import { SectionHeading } from "../section-heading";
+
+const FACTS = [
+  { value: String(COMPONENT_COUNT), label: "components" },
+  { value: "MIT", label: "licensed" },
+  { value: "Any", label: "coding agent" },
+];
 
 function TestimonialCard({
   authorAvatar,
@@ -71,6 +78,17 @@ export function Testimonials() {
           title="Builders are shipping with remocn"
           lead="Builders who needed a demo video for their product and shipped one the same day."
         />
+
+        <FadeUp delay={0.06}>
+          <dl className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm sm:gap-x-12 sm:text-base">
+            {FACTS.map((fact) => (
+              <div key={fact.label} className="flex items-baseline gap-2">
+                <dt className="font-semibold text-foreground">{fact.value}</dt>
+                <dd className="text-muted-foreground">{fact.label}</dd>
+              </div>
+            ))}
+          </dl>
+        </FadeUp>
       </div>
 
       <FadeUp delay={0.1}>

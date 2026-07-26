@@ -1,3 +1,41 @@
+export type Reason = {
+  title: string;
+  detail: string;
+};
+
+export const REASONS: Reason[] = [
+  {
+    title: "No motion designer",
+    detail:
+      "A demo video normally runs $600 and two weeks of back-and-forth. This one costs a prompt and an afternoon.",
+  },
+  {
+    title: "No After Effects",
+    detail:
+      "Nothing to install, nothing to learn. If you can describe the video you want, you can make it.",
+  },
+  {
+    title: "No keyframes",
+    detail:
+      "The animation is already built and already timed. Your agent picks the pieces, you react to the result.",
+  },
+  {
+    title: "Not a screen recording",
+    detail:
+      "A cursor wandering across your app isn't a demo. This looks like something you shipped on purpose.",
+  },
+  {
+    title: "Yours to keep",
+    detail:
+      "The code copies into your repo and stays there. MIT, no runtime, no account, nothing to cancel.",
+  },
+  {
+    title: "Changes in seconds",
+    detail:
+      "Say what feels wrong and watch it change. No revision round, no waiting on someone else's queue.",
+  },
+];
+
 export type HowItWorksStep = {
   title: string;
   detail: string;
@@ -18,14 +56,6 @@ export const HOW_IT_WORKS_STEPS: HowItWorksStep[] = [
     title: "A player opens in your browser",
     detail: "That's your video. Say what to change and it changes.",
   },
-];
-
-export const DIRECTOR_QUOTES: string[] = [
-  "Make the logo land harder.",
-  "The middle drags — cut two seconds.",
-  "Use my brand colors.",
-  "Show the pricing table after the features, not before.",
-  "Slow the whole thing down.",
 ];
 
 export type FaqItem = {
