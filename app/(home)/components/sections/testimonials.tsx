@@ -69,7 +69,7 @@ export function Testimonials() {
           align="center"
           eyebrow="Wall of love"
           title="Builders are shipping with remocn"
-          lead="Developers turning their products into demo videos — one registry component at a time."
+          lead="Builders who needed a demo video for their product and shipped one the same day."
         />
       </div>
 

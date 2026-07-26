@@ -14,6 +14,9 @@ export const SUPPORT_EMAIL = "kapish@remocn.dev";
 /** Canonical example install command shown on the landing page. */
 export const INSTALL_COMMAND = "npx shadcn@latest add remocn/soft-blur-in";
 
+export const QUICKSTART_PROMPT =
+  "Set up a new Remotion video project in this folder, then install the remocn agent skill: npx skills add Remocn/remocn --yes. When you're done, start the preview studio so I can watch while we work. I want to make a demo video for my product.";
+
 export const INSTALL_ALL_NAMES: string[] = [
   ...remocnRegistry.items,
   ...remocnUiRegistry.items,

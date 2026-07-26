@@ -5,7 +5,7 @@ import {
   Bot,
   Check,
   Clapperboard,
-  Clock,
+  MonitorPlay,
   Wallet,
 } from "lucide-react";
 import { motion, useInView, useReducedMotion } from "motion/react";
@@ -18,9 +18,9 @@ import { SectionHeading } from "../section-heading";
 const MINT = "#3aad78";
 
 const EYEBROW = "Why remocn";
-const TITLE = "You want the video, not the ordeal.";
+const TITLE = "Every other way costs you something.";
 const LEAD =
-  "Motion usually costs tokens, an afternoon, a designer's invoice, and a weekend lost in After Effects. remocn hands you the animation — copy, paste, render.";
+  "A designer's invoice, a weekend in After Effects, or a screen recording you're not proud of. remocn hands the animation to your agent already built.";
 
 interface Problem {
   icon: ComponentType<{ className?: string }>;
@@ -30,18 +30,6 @@ interface Problem {
 }
 
 const PROBLEMS: Problem[] = [
-  {
-    icon: Bot,
-    task: "Teaching an AI to keyframe",
-    cost: "~40k tokens",
-    gain: "Included",
-  },
-  {
-    icon: Clock,
-    task: "Inventing the animation",
-    cost: "An afternoon",
-    gain: "Already built",
-  },
   {
     icon: Wallet,
     task: "Hiring a motion designer",
@@ -53,6 +41,18 @@ const PROBLEMS: Problem[] = [
     task: "Learning After Effects",
     cost: "A weekend",
     gain: "Skip it",
+  },
+  {
+    icon: Bot,
+    task: "Teaching an AI to keyframe",
+    cost: "~40k tokens",
+    gain: "Included",
+  },
+  {
+    icon: MonitorPlay,
+    task: "Settling for a screen recording",
+    cost: "Looks unfinished",
+    gain: "Looks shipped",
   },
 ];
 
