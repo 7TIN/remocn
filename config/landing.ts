@@ -44,8 +44,7 @@ export type HowItWorksStep = {
 export const HOW_IT_WORKS_STEPS: HowItWorksStep[] = [
   {
     title: "Open an AI agent in an empty folder",
-    detail:
-      "Claude Code, Cursor, ChatGPT — whichever one you already use.",
+    detail: "Claude Code, Cursor, ChatGPT — whichever one you already use.",
   },
   {
     title: "Paste one prompt",
