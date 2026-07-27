@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { type Sponsor, sponsors } from "@/config/sponsors";
+import { getFeaturedSponsors, type Sponsor } from "@/config/sponsors";
 import { cn } from "@/lib/utils";
 import { FadeUp } from "../fade-up";
 import { SectionHeading } from "../section-heading";
@@ -33,9 +33,7 @@ function SponsorLogoCard({ sponsor }: { sponsor: Sponsor }) {
 }
 
 export function LandingPartners() {
-  const partners = sponsors.filter(
-    (s) => s.tier === "partner" && !s.hideFromFeatured,
-  );
+  const featured = getFeaturedSponsors();
 
   return (
     <section id="partners" className="relative py-14 sm:py-20">
@@ -47,17 +45,17 @@ export function LandingPartners() {
           lead="remocn is free and MIT-licensed. Sponsors keep the registry growing and the renders fast."
         />
 
-        {partners.length > 0 && (
+        {featured.length > 0 && (
           <FadeUp delay={0.1}>
             <div
               className={cn(
                 "mx-auto mt-12 grid max-w-3xl gap-4 sm:gap-6",
-                partners.length === 1
+                featured.length === 1
                   ? "max-w-sm grid-cols-1"
                   : "grid-cols-2 lg:grid-cols-3",
               )}
             >
-              {partners.map((s) => (
+              {featured.map((s) => (
                 <SponsorLogoCard key={s.id} sponsor={s} />
               ))}
             </div>
