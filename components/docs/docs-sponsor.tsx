@@ -2,11 +2,11 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getGoldSponsors } from "@/config/sponsors";
+import { getFeaturedSponsors } from "@/config/sponsors";
 import { cn } from "@/lib/utils";
 
 export const DocsSponsor: React.FC = () => {
-  const goldSponsors = getGoldSponsors();
+  const featuredSponsors = getFeaturedSponsors();
 
   return (
     <Card size="sm" className="w-full gap-4 shadow-2xs">
@@ -24,9 +24,9 @@ export const DocsSponsor: React.FC = () => {
       <CardContent className="flex flex-col gap-1">
         {/* <span className="text-xs font-medium text-muted-foreground">Gold</span> */}
 
-        {goldSponsors.length > 0 ? (
+        {featuredSponsors.length > 0 ? (
           <div className="flex flex-col gap-2">
-            {goldSponsors.map((sponsor) => (
+            {featuredSponsors.map((sponsor) => (
               <a
                 key={sponsor.id}
                 href={sponsor.website}

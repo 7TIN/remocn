@@ -1,6 +1,13 @@
 import { LAVENDER, MINT, PEACH } from "@/config/site";
 
-export type SponsorTier = "partner" | "builder" | "supporter";
+export type SponsorTier = "legendary" | "partner" | "builder" | "supporter";
+
+const TIER_RANK: Record<SponsorTier, number> = {
+  legendary: 0,
+  partner: 1,
+  builder: 2,
+  supporter: 3,
+};
 
 export type Sponsor = {
   id: string;
@@ -21,6 +28,16 @@ export type Sponsor = {
 
 export const sponsors: Sponsor[] = (
   [
+    {
+      id: "neon",
+      name: "Neon",
+      logoUrl: "/sponsors/neon.svg",
+      website:
+        "https://neon.com/?utm_source=remocn&utm_medium=sponsor&utm_campaign=remocn_sponsors_page",
+      tier: "legendary",
+      customStyles: "opacity-90 max-w-full",
+      isPaste: false,
+    },
     {
       id: "21st",
       name: "21st.dev",
@@ -159,10 +176,14 @@ export const sponsors: Sponsor[] = (
   ] satisfies Sponsor[]
 ).filter((sponsor) => !sponsor.isPaste);
 
-export function getGoldSponsors(): Sponsor[] {
-  return sponsors.filter(
-    (sponsor) => sponsor.tier === "partner" && !sponsor.hideFromFeatured,
-  );
+export function getFeaturedSponsors(): Sponsor[] {
+  return sponsors
+    .filter(
+      (sponsor) =>
+        (sponsor.tier === "legendary" || sponsor.tier === "partner") &&
+        !sponsor.hideFromFeatured,
+    )
+    .sort((a, b) => TIER_RANK[a.tier] - TIER_RANK[b.tier]);
 }
 
 export type BillingMode = "monthly" | "one-time";

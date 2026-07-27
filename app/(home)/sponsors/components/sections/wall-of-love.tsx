@@ -45,12 +45,14 @@ function SponsorLogoCard({
 
 function SponsorGroup({
   label,
+  note,
   items,
   gridClassName,
   aspectClassName,
   maxH,
 }: {
   label: string;
+  note?: string;
   items: Sponsor[];
   gridClassName: string;
   aspectClassName: string;
@@ -59,8 +61,9 @@ function SponsorGroup({
   if (items.length === 0) return null;
   return (
     <div className="mb-12">
-      <div className="mb-4 font-mono text-xs font-medium text-muted-foreground">
-        {label}
+      <div className="mb-4 flex flex-wrap items-baseline gap-x-2 font-mono text-xs font-medium text-muted-foreground">
+        <span>{label}</span>
+        {note && <span className="text-muted-foreground/60">{note}</span>}
       </div>
       <div className={gridClassName}>
         {items.map((s) => (
@@ -74,6 +77,7 @@ function SponsorGroup({
 }
 
 export function WallOfLove() {
+  const legendary = sponsors.filter((s) => s.tier === "legendary");
   const partners = sponsors.filter((s) => s.tier === "partner");
   const builders = sponsors.filter((s) => s.tier === "builder");
   const supporters = sponsors.filter((s) => s.tier === "supporter");
@@ -107,6 +111,14 @@ export function WallOfLove() {
           </FadeUp>
         ) : (
           <FadeUp delay={0.1}>
+            <SponsorGroup
+              label="Legendary"
+              note="By invitation only"
+              items={legendary}
+              gridClassName="grid gap-6 md:grid-cols-2"
+              aspectClassName="aspect-[3/2]"
+              maxH="max-h-24"
+            />
             <SponsorGroup
               label="Partners"
               items={partners}
