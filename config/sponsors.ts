@@ -9,6 +9,15 @@ const TIER_RANK: Record<SponsorTier, number> = {
   builder: 3,
 };
 
+export type SponsorPlacement = "landing" | "docs";
+
+const TIER_PLACEMENTS: Record<SponsorTier, SponsorPlacement[]> = {
+  legendary: ["landing", "docs"],
+  featured: ["landing", "docs"],
+  partner: [],
+  builder: [],
+};
+
 export type Sponsor = {
   id: string;
   name: string;
@@ -22,7 +31,7 @@ export type Sponsor = {
   /** Optional Tailwind classes for fine-tuning a specific logo. */
   customStyles?: string;
   isPaste?: boolean; // Whether this sponsor is from our Paste integration. Used to add a "via Paste" badge on the frontend.
-  onLanding?: boolean;
+  placements?: SponsorPlacement[];
   layout?: "row" | "col";
 };
 
@@ -59,7 +68,7 @@ export const sponsors: Sponsor[] = (
       tier: "partner",
       customStyles: "opacity-90 max-w-full",
       isPaste: false,
-      onLanding: true,
+      placements: ["landing", "docs"],
     },
     {
       id: "reactbits",
@@ -70,7 +79,7 @@ export const sponsors: Sponsor[] = (
       tier: "partner",
       customStyles: "opacity-90 max-w-full",
       isPaste: false,
-      onLanding: true,
+      placements: ["landing", "docs"],
     },
     {
       id: "reui",
@@ -81,7 +90,7 @@ export const sponsors: Sponsor[] = (
       tier: "partner",
       customStyles: "opacity-90 max-w-full",
       isPaste: false,
-      onLanding: true,
+      placements: ["landing", "docs"],
     },
     {
       id: "shadcnblocks",
@@ -93,7 +102,20 @@ export const sponsors: Sponsor[] = (
       logoScale: 1.2,
       customStyles: "opacity-90",
       isPaste: false,
-      onLanding: true,
+      placements: ["landing", "docs"],
+    },
+    {
+      id: "shieldcn",
+      name: "shieldcn",
+      displayName: "shieldcn",
+      logoUrl: "/sponsors/shieldcn.svg",
+      website:
+        "https://shieldcn.dev/?utm_source=remocn&utm_medium=sponsor&utm_campaign=remocn_sponsors_page",
+      tier: "partner",
+      customStyles: "opacity-90",
+      isPaste: false,
+      placements: ["landing"],
+      layout: "row",
     },
     // Paste:
     {
@@ -142,7 +164,7 @@ export const sponsors: Sponsor[] = (
       isPaste: false,
     },
     {
-      id: "shieldcn",
+      id: "justin",
       name: "Justin",
       displayName: "Justin",
       logoUrl: "https://unavatar.io/x/jalcowastaken",
@@ -186,21 +208,26 @@ export const sponsors: Sponsor[] = (
       logoScale: 1,
       customStyles: "rounded-sm opacity-100 grayscale-0 dark:[filter:none]",
       isPaste: false,
-      onLanding: true,
+      placements: ["landing", "docs"],
       layout: "row",
     },
   ] satisfies Sponsor[]
 ).filter((sponsor) => !sponsor.isPaste);
 
-export function getPromotedSponsors(): Sponsor[] {
+function getSponsorsFor(placement: SponsorPlacement): Sponsor[] {
   return sponsors
-    .filter(
-      (sponsor) =>
-        sponsor.tier === "legendary" ||
-        sponsor.tier === "featured" ||
-        sponsor.onLanding === true,
+    .filter((sponsor) =>
+      (sponsor.placements ?? TIER_PLACEMENTS[sponsor.tier]).includes(placement),
     )
     .sort((a, b) => TIER_RANK[a.tier] - TIER_RANK[b.tier]);
+}
+
+export function getLandingSponsors(): Sponsor[] {
+  return getSponsorsFor("landing");
+}
+
+export function getDocsSponsors(): Sponsor[] {
+  return getSponsorsFor("docs");
 }
 
 export type BillingMode = "monthly" | "one-time";

@@ -2,11 +2,11 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getPromotedSponsors } from "@/config/sponsors";
+import { getDocsSponsors } from "@/config/sponsors";
 import { cn } from "@/lib/utils";
 
 export const DocsSponsor: React.FC = () => {
-  const featuredSponsors = getPromotedSponsors();
+  const featuredSponsors = getDocsSponsors();
 
   return (
     <Card size="sm" className="w-full gap-4 shadow-2xs">

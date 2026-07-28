@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { getPromotedSponsors, type Sponsor } from "@/config/sponsors";
+import { getLandingSponsors, type Sponsor } from "@/config/sponsors";
 import { cn } from "@/lib/utils";
 import { FadeUp } from "../fade-up";
 import { SectionHeading } from "../section-heading";
@@ -33,7 +33,7 @@ function SponsorLogoCard({ sponsor }: { sponsor: Sponsor }) {
 }
 
 export function LandingPartners() {
-  const promoted = getPromotedSponsors();
+  const promoted = getLandingSponsors();
   const ordered = [
     ...promoted.filter((s) => s.tier !== "featured"),
     ...promoted.filter((s) => s.tier === "featured"),
