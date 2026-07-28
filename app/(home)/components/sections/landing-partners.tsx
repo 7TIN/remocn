@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { getFeaturedSponsors, type Sponsor } from "@/config/sponsors";
+import { getPromotedSponsors, type Sponsor } from "@/config/sponsors";
 import { cn } from "@/lib/utils";
 import { FadeUp } from "../fade-up";
 import { SectionHeading } from "../section-heading";
@@ -33,7 +33,7 @@ function SponsorLogoCard({ sponsor }: { sponsor: Sponsor }) {
 }
 
 export function LandingPartners() {
-  const featured = getFeaturedSponsors();
+  const featured = getPromotedSponsors();
 
   return (
     <section id="partners" className="relative py-14 sm:py-20">

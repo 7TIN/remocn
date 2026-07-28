@@ -95,7 +95,7 @@ function TierCard({
             {tier.name}
           </h3>
         </div>
-        {tier.highlighted && <Badge variant="secondary">Most popular</Badge>}
+        {tier.badge && <Badge variant="secondary">{tier.badge}</Badge>}
       </div>
 
       <div className="relative mt-6 flex items-baseline gap-2 overflow-hidden">
@@ -131,7 +131,7 @@ function TierCard({
         ))}
       </ul>
 
-      <div className="relative mt-8 pt-2">
+      <div className="relative mt-auto pt-10">
         <Button
           variant={tier.highlighted ? "default" : "outline"}
           size="lg"

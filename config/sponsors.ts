@@ -1,12 +1,12 @@
 import { LAVENDER, MINT, PEACH } from "@/config/site";
 
-export type SponsorTier = "legendary" | "partner" | "builder" | "supporter";
+export type SponsorTier = "legendary" | "featured" | "partner" | "builder";
 
 const TIER_RANK: Record<SponsorTier, number> = {
   legendary: 0,
-  partner: 1,
-  builder: 2,
-  supporter: 3,
+  featured: 1,
+  partner: 2,
+  builder: 3,
 };
 
 export type Sponsor = {
@@ -22,7 +22,7 @@ export type Sponsor = {
   /** Optional Tailwind classes for fine-tuning a specific logo. */
   customStyles?: string;
   isPaste?: boolean; // Whether this sponsor is from our Paste integration. Used to add a "via Paste" badge on the frontend.
-  hideFromFeatured?: boolean;
+  onLanding?: boolean;
   layout?: "row" | "col";
 };
 
@@ -47,6 +47,7 @@ export const sponsors: Sponsor[] = (
       tier: "partner",
       customStyles: "opacity-90 max-w-full",
       isPaste: false,
+      onLanding: true,
     },
     {
       id: "reactbits",
@@ -57,6 +58,7 @@ export const sponsors: Sponsor[] = (
       tier: "partner",
       customStyles: "opacity-90 max-w-full",
       isPaste: false,
+      onLanding: true,
     },
     {
       id: "reui",
@@ -67,6 +69,7 @@ export const sponsors: Sponsor[] = (
       tier: "partner",
       customStyles: "opacity-90 max-w-full",
       isPaste: false,
+      onLanding: true,
     },
     {
       id: "shadcnblocks",
@@ -78,6 +81,7 @@ export const sponsors: Sponsor[] = (
       logoScale: 1.2,
       customStyles: "opacity-90",
       isPaste: false,
+      onLanding: true,
     },
     // Paste:
     {
@@ -157,7 +161,6 @@ export const sponsors: Sponsor[] = (
       tier: "partner",
       customStyles: "opacity-90 max-h-12",
       isPaste: false,
-      hideFromFeatured: true,
       layout: "row",
     },
     {
@@ -171,17 +174,19 @@ export const sponsors: Sponsor[] = (
       logoScale: 1,
       customStyles: "rounded-sm opacity-100 grayscale-0 dark:[filter:none]",
       isPaste: false,
+      onLanding: true,
       layout: "row",
     },
   ] satisfies Sponsor[]
 ).filter((sponsor) => !sponsor.isPaste);
 
-export function getFeaturedSponsors(): Sponsor[] {
+export function getPromotedSponsors(): Sponsor[] {
   return sponsors
     .filter(
       (sponsor) =>
-        (sponsor.tier === "legendary" || sponsor.tier === "partner") &&
-        !sponsor.hideFromFeatured,
+        sponsor.tier === "legendary" ||
+        sponsor.tier === "featured" ||
+        sponsor.onLanding === true,
     )
     .sort((a, b) => TIER_RANK[a.tier] - TIER_RANK[b.tier]);
 }
@@ -189,44 +194,30 @@ export function getFeaturedSponsors(): Sponsor[] {
 export type BillingMode = "monthly" | "one-time";
 
 export type Tier = {
-  id: "supporter" | "builder" | "partner";
+  id: "builder" | "partner" | "featured";
   price: number;
   name: string;
   tagline: string;
   perks: string[];
   glow: string;
   highlighted: boolean;
+  badge?: string;
   monthlyUrl: string;
   oneTimeUrl: string;
 };
 
 export const tiers: Tier[] = [
   {
-    id: "supporter",
-    price: 5,
-    name: "Supporter",
-    tagline: "Show some love",
-    perks: [
-      "Sponsor badge in our Discord",
-      "Our endless gratitude",
-      "Early access to release notes",
-    ],
-    glow: MINT,
-    highlighted: false,
-    monthlyUrl: "https://www.creem.io/payment/prod_1PtwNGZVHfXZgChBSCwmJA",
-    oneTimeUrl: "https://www.creem.io/payment/prod_66n8fHDfCVmwSNswCHL5OH",
-  },
-  {
     id: "builder",
     price: 10,
     name: "Builder",
-    tagline: "Help us build",
+    tagline: "Start here",
     perks: [
-      "Everything in Supporter",
+      "Sponsor badge in our Discord",
       "Your name in the repository README",
-      "Priority on feature requests",
+      "Early access to release notes",
     ],
-    glow: PEACH,
+    glow: MINT,
     highlighted: false,
     monthlyUrl: "https://www.creem.io/payment/prod_6fpKhXCzk9KkbA4FSUzGIU",
     oneTimeUrl: "https://www.creem.io/payment/prod_1C3cCbVoYsDPJrdlDhrhSG",
@@ -238,12 +229,29 @@ export const tiers: Tier[] = [
     tagline: "Power the project",
     perks: [
       "Everything in Builder",
-      "Your logo featured on the main remocn landing page",
+      "Your logo on the Sponsors page",
+      "Priority on feature requests",
       "Direct line to the maintainers",
+    ],
+    glow: PEACH,
+    highlighted: false,
+    monthlyUrl: "https://www.creem.io/payment/prod_6tdCLqKgSA14P0IEVZ2GaG",
+    oneTimeUrl: "https://www.creem.io/payment/prod_2sb9zG2oJn232utqh5TN1S",
+  },
+  {
+    id: "featured",
+    price: 100,
+    name: "Featured",
+    tagline: "Own the top spot",
+    perks: [
+      "Everything in Partner",
+      "Your logo on the remocn landing page",
+      "Your logo in the docs sidebar",
     ],
     glow: LAVENDER,
     highlighted: true,
-    monthlyUrl: "https://www.creem.io/payment/prod_6tdCLqKgSA14P0IEVZ2GaG",
-    oneTimeUrl: "https://www.creem.io/payment/prod_2sb9zG2oJn232utqh5TN1S",
+    badge: "Front page",
+    monthlyUrl: "https://www.creem.io/payment/prod_1PtwNGZVHfXZgChBSCwmJA",
+    oneTimeUrl: "https://www.creem.io/payment/prod_66n8fHDfCVmwSNswCHL5OH",
   },
 ];

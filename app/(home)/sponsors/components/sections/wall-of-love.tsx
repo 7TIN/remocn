@@ -78,9 +78,9 @@ function SponsorGroup({
 
 export function WallOfLove() {
   const legendary = sponsors.filter((s) => s.tier === "legendary");
+  const featured = sponsors.filter((s) => s.tier === "featured");
   const partners = sponsors.filter((s) => s.tier === "partner");
   const builders = sponsors.filter((s) => s.tier === "builder");
-  const supporters = sponsors.filter((s) => s.tier === "supporter");
   const isEmpty = sponsors.length === 0;
 
   return (
@@ -120,6 +120,14 @@ export function WallOfLove() {
               maxH="max-h-24"
             />
             <SponsorGroup
+              label="Featured"
+              note="On the landing page"
+              items={featured}
+              gridClassName="grid gap-6 md:grid-cols-2"
+              aspectClassName="aspect-[3/2]"
+              maxH="max-h-20"
+            />
+            <SponsorGroup
               label="Partners"
               items={partners}
               gridClassName="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
@@ -132,13 +140,6 @@ export function WallOfLove() {
               gridClassName="grid gap-4 md:grid-cols-3 lg:grid-cols-4"
               aspectClassName="aspect-[3/2]"
               maxH="max-h-14"
-            />
-            <SponsorGroup
-              label="Supporters"
-              items={supporters}
-              gridClassName="grid gap-3 md:grid-cols-4 lg:grid-cols-6"
-              aspectClassName="aspect-square"
-              maxH="max-h-10"
             />
           </FadeUp>
         )}
