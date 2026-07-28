@@ -45,14 +45,12 @@ function SponsorLogoCard({
 
 function SponsorGroup({
   label,
-  note,
   items,
   gridClassName,
   aspectClassName,
   maxH,
 }: {
   label: string;
-  note?: string;
   items: Sponsor[];
   gridClassName: string;
   aspectClassName: string;
@@ -60,11 +58,10 @@ function SponsorGroup({
 }) {
   if (items.length === 0) return null;
   return (
-    <div className="mb-12">
-      <div className="mb-4 flex flex-wrap items-baseline gap-x-2 font-mono text-xs font-medium text-muted-foreground">
-        <span>{label}</span>
-        {note && <span className="text-muted-foreground/60">{note}</span>}
-      </div>
+    <div className="mb-16">
+      <h3 className="mb-5 text-2xl font-semibold tracking-tight text-foreground">
+        {label}
+      </h3>
       <div className={gridClassName}>
         {items.map((s) => (
           <div key={s.id} className={aspectClassName}>
@@ -113,17 +110,15 @@ export function WallOfLove() {
           <FadeUp delay={0.1}>
             <SponsorGroup
               label="Legendary"
-              note="By invitation only"
               items={legendary}
-              gridClassName="grid gap-6 md:grid-cols-2"
+              gridClassName="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
               aspectClassName="aspect-[3/2]"
-              maxH="max-h-24"
+              maxH="max-h-20"
             />
             <SponsorGroup
               label="Featured"
-              note="On the landing page"
               items={featured}
-              gridClassName="grid gap-6 md:grid-cols-2"
+              gridClassName="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
               aspectClassName="aspect-[3/2]"
               maxH="max-h-20"
             />

@@ -39,6 +39,18 @@ export const sponsors: Sponsor[] = (
       isPaste: false,
     },
     {
+      id: "launchfast",
+      name: "LaunchFast",
+      displayName: "LaunchFast",
+      logoUrl: "/sponsors/launchfast.png",
+      website:
+        "https://www.launchfa.st/?utm_source=remocn&utm_medium=sponsor&utm_campaign=remocn_sponsors_page",
+      tier: "featured",
+      customStyles: "opacity-100 grayscale-0 dark:[filter:invert(1)]",
+      isPaste: false,
+      layout: "row",
+    },
+    {
       id: "21st",
       name: "21st.dev",
       logoUrl: "/sponsors/21st.svg",

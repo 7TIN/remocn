@@ -33,7 +33,11 @@ function SponsorLogoCard({ sponsor }: { sponsor: Sponsor }) {
 }
 
 export function LandingPartners() {
-  const featured = getPromotedSponsors();
+  const promoted = getPromotedSponsors();
+  const ordered = [
+    ...promoted.filter((s) => s.tier !== "featured"),
+    ...promoted.filter((s) => s.tier === "featured"),
+  ];
 
   return (
     <section id="partners" className="relative py-14 sm:py-20">
@@ -45,17 +49,17 @@ export function LandingPartners() {
           lead="remocn is free and MIT-licensed. Sponsors keep the registry growing and the renders fast."
         />
 
-        {featured.length > 0 && (
+        {ordered.length > 0 && (
           <FadeUp delay={0.1}>
             <div
               className={cn(
                 "mx-auto mt-12 grid max-w-3xl gap-4 sm:gap-6",
-                featured.length === 1
+                ordered.length === 1
                   ? "max-w-sm grid-cols-1"
                   : "grid-cols-2 lg:grid-cols-3",
               )}
             >
-              {featured.map((s) => (
+              {ordered.map((s) => (
                 <SponsorLogoCard key={s.id} sponsor={s} />
               ))}
             </div>
