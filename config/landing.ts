@@ -22,7 +22,7 @@ export const REASONS: Reason[] = [
   {
     title: "Not a screen recording",
     detail:
-      "A cursor wandering across your app isn't a demo. This looks like something you shipped on purpose.",
+      "A cursor wandering across your app isn’t a demo. This looks like something you shipped on purpose.",
   },
   {
     title: "Yours to keep",
@@ -32,7 +32,7 @@ export const REASONS: Reason[] = [
   {
     title: "Changes in seconds",
     detail:
-      "Say what feels wrong and watch it change. No revision round, no waiting on someone else's queue.",
+      "Say what feels wrong and watch it change. No revision round, no waiting on someone else’s queue.",
   },
 ];
 
@@ -53,7 +53,7 @@ export const HOW_IT_WORKS_STEPS: HowItWorksStep[] = [
   },
   {
     title: "A player opens in your browser",
-    detail: "That's your video. Say what to change and it changes.",
+    detail: "That’s your video. Say what to change and it changes.",
   },
 ];
 
@@ -66,7 +66,7 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Do I need to know how to code?",
     answer:
-      "No, but you'll be working through an AI coding agent. If you've used Claude Code, Cursor or ChatGPT to build something before, you're already set. If not, the setup guide walks you through it in about ten minutes.",
+      "No, but you’ll be working through an AI coding agent. If you’ve used Claude Code, Cursor or ChatGPT to build something before, you’re already set. If not, the setup guide walks you through it in about ten minutes.",
   },
   {
     question: "Do I need After Effects or a video editor?",
@@ -79,14 +79,14 @@ export const FAQ_ITEMS: FaqItem[] = [
       "A small video project on your machine, plus the pieces your video uses. Your agent sets it up. Nothing runs on our servers and nothing phones home.",
   },
   {
-    question: "Can I change things after it's built?",
+    question: "Can I change things after it’s built?",
     answer:
       "Yes, by saying what to change. The preview updates while you watch, so you react to the video instead of guessing at settings.",
   },
   {
     question: "Is it free?",
     answer:
-      "MIT. Everything copies onto your machine and it's yours — no account, no runtime, no lock-in.",
+      "MIT. Everything copies onto your machine and it’s yours — no account, no runtime, no lock-in.",
   },
   {
     question: "How long does the first video take?",

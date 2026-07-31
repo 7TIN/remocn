@@ -34,6 +34,9 @@ export default function SponsorsPage() {
     <>
       <Hero />
       <Tiers />
+      <div aria-hidden className="section">
+        <div className="divider-soft h-px" />
+      </div>
       <WallOfLove />
     </>
   );

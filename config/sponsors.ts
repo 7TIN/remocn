@@ -156,40 +156,43 @@ export const sponsors: Sponsor[] = (
       id: "ln",
       name: "ln",
       displayName: "LN",
-      logoUrl: "https://unavatar.io/x/ln_dev7",
+      logoUrl: "/sponsors/ln.jpg",
       website:
         "https://pro.lndevui.com/?utm_source=remocn&utm_medium=sponsor&utm_campaign=remocn_sponsors_page",
       tier: "builder",
-      customStyles: "rounded-full opacity-100 grayscale-0 dark:[filter:none]",
+      customStyles:
+        "rounded-full opacity-100 grayscale-0 dark:[filter:none] outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10",
       isPaste: false,
     },
     {
       id: "justin",
       name: "Justin",
       displayName: "Justin",
-      logoUrl: "https://unavatar.io/x/jalcowastaken",
+      logoUrl: "/sponsors/justin.jpg",
       website:
         "https://shieldcn.dev/?utm_source=remocn&utm_medium=sponsor&utm_campaign=remocn_sponsors_page",
       tier: "builder",
-      customStyles: "rounded-full opacity-100 grayscale-0 dark:[filter:none]",
+      customStyles:
+        "rounded-full opacity-100 grayscale-0 dark:[filter:none] outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10",
       isPaste: false,
     },
     {
       id: "orcdev",
       name: "OrcDev",
       displayName: "OrcDev",
-      logoUrl: "https://unavatar.io/x/orcdev",
+      logoUrl: "/sponsors/orcdev.jpg",
       website:
         "https://www.8bitcn.com/?utm_source=remocn&utm_medium=sponsor&utm_campaign=remocn_sponsors_page",
       tier: "builder",
-      customStyles: "rounded-full opacity-100 grayscale-0 dark:[filter:none]",
+      customStyles:
+        "rounded-full opacity-100 grayscale-0 dark:[filter:none] outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10",
       isPaste: false,
     },
     {
       id: "canadian-ai",
       name: "Canadian AI",
       displayName: "Canadian AI",
-      logoUrl: "https://www.canadian-ai.ca/icon-black.svg",
+      logoUrl: "/sponsors/canadian-ai.svg",
       website:
         "https://www.canadian-ai.ca/?utm_source=remocn&utm_medium=sponsor&utm_campaign=remocn_sponsors_page",
       tier: "partner",
@@ -201,7 +204,7 @@ export const sponsors: Sponsor[] = (
       id: "shadcnuikit",
       name: "Shadcn UI Kit",
       displayName: "Shadcn UI Kit",
-      logoUrl: "https://shadcnuikit.com/logo.png",
+      logoUrl: "/sponsors/shadcnuikit.png",
       website:
         "https://shadcnuikit.com/?utm_source=remocn&utm_medium=sponsor&utm_campaign=remocn_sponsors_page",
       tier: "partner",

@@ -1,5 +1,6 @@
 import { DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
+import { CopyMarkdownButton } from "@/components/docs/copy-markdown-button";
 import { DocsAdRail } from "@/components/docs/docs-ad-rail";
 import { getMDXComponents } from "@/mdx-components";
 import { source } from "@/source";
@@ -25,13 +26,16 @@ export default async function Page(props: {
     >
       <DocsTitle
         style={{ fontFamily: "var(--font-display)" }}
-        className="text-4xl font-semibold tracking-tight text-balance md:text-5xl lg:text-6xl"
+        className="text-4xl font-semibold tracking-tight text-balance md:text-5xl"
       >
         {data.title}
       </DocsTitle>
-      <DocsDescription className="mt-3 mb-0 max-w-3xl text-balance text-lg text-muted-foreground md:text-xl">
+      <DocsDescription className="mt-3 mb-0 max-w-3xl text-pretty text-lg text-muted-foreground md:text-xl">
         {data.description}
       </DocsDescription>
+      {params.slug?.length ? (
+        <CopyMarkdownButton url={`${page.url}.md`} className="mt-4" />
+      ) : null}
       <div className="typeset typeset-docs mt-8 flex-1">
         <MDX components={getMDXComponents()} />
       </div>

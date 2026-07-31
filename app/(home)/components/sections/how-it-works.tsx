@@ -7,7 +7,6 @@ import { useRef } from "react";
 import { HOW_IT_WORKS_STEPS, type HowItWorksStep } from "@/config/landing";
 import { useTrackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
-import { FadeUp } from "../fade-up";
 import { SectionHeading } from "../section-heading";
 import {
   AgentWindowViz,
@@ -37,11 +36,14 @@ function StepColumn({ step, index }: { step: HowItWorksStep; index: number }) {
         index < HOW_IT_WORKS_STEPS.length - 1 && "lg:pr-8",
       )}
     >
-      <span className="flex size-6 shrink-0 items-center justify-center rounded-full border border-border font-mono text-[11px] text-muted-foreground/70">
+      <span className="flex size-6 shrink-0 items-center justify-center rounded-full border border-border font-mono text-xs text-muted-foreground">
         {index + 1}
       </span>
 
-      <div className="aspect-[4/3] w-full">
+      <div
+        aria-hidden
+        className="pointer-events-none aspect-[4/3] w-full select-none"
+      >
         <Viz play={inView} />
       </div>
 
@@ -66,31 +68,35 @@ export function HowItWorks({ className }: { className?: string }) {
       className={cn("relative pt-6 pb-14 sm:pt-0 sm:pb-20", className)}
     >
       <div className="section">
-        <SectionHeading eyebrow={EYEBROW} title={TITLE} lead={LEAD} />
+        <SectionHeading
+          eyebrow={EYEBROW}
+          title={TITLE}
+          lead={LEAD}
+          animated={false}
+        />
 
-        <FadeUp className="mt-10 sm:mt-14">
-          <div className="grid grid-cols-1 border-y border-border/60 lg:grid-cols-3">
-            {HOW_IT_WORKS_STEPS.map((step, i) => (
-              <StepColumn key={step.title} step={step} index={i} />
-            ))}
-          </div>
-        </FadeUp>
+        <div className="mt-10 grid grid-cols-1 border-y border-border/60 sm:mt-14 lg:grid-cols-3">
+          {HOW_IT_WORKS_STEPS.map((step, i) => (
+            <StepColumn key={step.title} step={step} index={i} />
+          ))}
+        </div>
 
-        <FadeUp delay={0.1}>
-          <Link
-            href="/docs/guides/setup"
-            onClick={() =>
-              trackEvent("cta_clicked", {
-                cta: "how_it_works_setup",
-                destination: "/docs/guides/setup",
-              })
-            }
-            className="mt-10 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground sm:text-base"
-          >
-            First time? The setup guide takes ten minutes
-            <ArrowRight aria-hidden className="size-4" />
-          </Link>
-        </FadeUp>
+        <Link
+          href="/docs/guides/setup"
+          onClick={() =>
+            trackEvent("cta_clicked", {
+              cta: "how_it_works_setup",
+              destination: "/docs/guides/setup",
+            })
+          }
+          className="group relative mt-10 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors before:absolute before:inset-x-0 before:-inset-y-2 before:content-[''] hover:text-foreground sm:text-base"
+        >
+          First time? The setup guide takes ten minutes
+          <ArrowRight
+            aria-hidden
+            className="size-4 transition-transform group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5"
+          />
+        </Link>
       </div>
     </section>
   );

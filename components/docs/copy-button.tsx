@@ -29,7 +29,7 @@ export function CopyButton({
         setTimeout(() => setCopied(false), 1500);
       }}
       className={cn(
-        "border-fd-border bg-fd-background text-fd-muted-foreground hover:bg-fd-accent hover:text-fd-accent-foreground",
+        "relative border-fd-border bg-fd-background text-fd-muted-foreground before:absolute before:-inset-2.5 before:content-[''] hover:bg-fd-accent hover:text-fd-accent-foreground",
         className,
       )}
     >

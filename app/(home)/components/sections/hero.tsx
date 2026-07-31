@@ -21,7 +21,11 @@ export function Hero() {
 
       <div className="section">
         <div className="flex flex-col items-center text-center">
-          <FadeUp delay={0.06} className="flex flex-col items-center">
+          <FadeUp
+            gate="landing-intro"
+            delay={0.06}
+            className="flex flex-col items-center"
+          >
             <HeroBadge />
             <h1 className="max-w-3xl text-balance text-3xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-4xl md:text-5xl">
               You want the video,
@@ -29,14 +33,14 @@ export function Hero() {
             </h1>
           </FadeUp>
 
-          <FadeUp delay={0.12}>
+          <FadeUp gate="landing-intro" delay={0.12}>
             <p className="mt-4 max-w-2xl text-balance text-base leading-relaxed text-muted-foreground sm:text-lg">
               Describe your product to your AI agent. It builds the demo video
               from ready-made pieces while you watch in the browser.
             </p>
           </FadeUp>
 
-          <FadeUp delay={0.18}>
+          <FadeUp gate="landing-intro" delay={0.18}>
             <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row">
               <Button
                 size="lg"
@@ -54,7 +58,11 @@ export function Hero() {
                 }
               >
                 Make your first video
-                <ArrowRight className="size-4" aria-hidden="true" />
+                <ArrowRight
+                  data-icon="inline-end"
+                  className="size-4"
+                  aria-hidden="true"
+                />
               </Button>
               <Button
                 variant="secondary"

@@ -14,6 +14,7 @@ export function SectionHeading({
   lead,
   action,
   align = "start",
+  animated = true,
   className,
 }: {
   eyebrow?: string;
@@ -21,40 +22,41 @@ export function SectionHeading({
   lead?: ReactNode;
   action?: ReactNode;
   align?: "start" | "center";
+  animated?: boolean;
   className?: string;
 }) {
   const centered = align === "center";
 
-  return (
-    <FadeUp>
+  const content = (
+    <div
+      className={cn(
+        "flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between",
+        className,
+      )}
+    >
       <div
         className={cn(
-          "flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between",
-          className,
+          "max-w-2xl",
+          centered && "mx-auto text-center sm:items-center",
         )}
       >
-        <div
-          className={cn(
-            "max-w-2xl",
-            centered && "mx-auto text-center sm:items-center",
-          )}
-        >
-          {eyebrow && (
-            <p className="mb-3 text-base font-medium text-muted-foreground">
-              {eyebrow}
-            </p>
-          )}
-          <h2 className="text-3xl font-semibold tracking-tight text-balance text-foreground sm:text-4xl">
-            {title}
-          </h2>
-          {lead && (
-            <p className="mt-4 text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg">
-              {lead}
-            </p>
-          )}
-        </div>
-        {action && <div className="shrink-0">{action}</div>}
+        {eyebrow && (
+          <p className="mb-3 font-mono text-xs font-medium text-muted-foreground">
+            {eyebrow}
+          </p>
+        )}
+        <h2 className="text-3xl font-semibold tracking-tight text-balance text-foreground sm:text-4xl">
+          {title}
+        </h2>
+        {lead && (
+          <p className="mt-4 text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg">
+            {lead}
+          </p>
+        )}
       </div>
-    </FadeUp>
+      {action && <div className="shrink-0">{action}</div>}
+    </div>
   );
+
+  return animated ? <FadeUp>{content}</FadeUp> : content;
 }

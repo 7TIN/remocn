@@ -3,7 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 
-export function GuideVideo({ src, poster }: { src: string; poster?: string }) {
+export function GuideVideo({
+  src,
+  poster,
+  label,
+}: {
+  src: string;
+  poster?: string;
+  label?: string;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const reducedMotion = usePrefersReducedMotion();
   const [hovered, setHovered] = useState(false);
@@ -24,9 +32,13 @@ export function GuideVideo({ src, poster }: { src: string; poster?: string }) {
         ref={videoRef}
         src={src}
         poster={poster}
+        aria-label={label}
         controls={hovered || reducedMotion}
+        tabIndex={0}
         onPointerEnter={() => setHovered(true)}
         onPointerLeave={() => setHovered(false)}
+        onFocus={() => setHovered(true)}
+        onBlur={() => setHovered(false)}
         muted
         loop
         playsInline

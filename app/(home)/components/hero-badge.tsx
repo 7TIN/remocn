@@ -14,7 +14,7 @@ export function HeroBadge() {
   return (
     <Badge
       variant="outline"
-      className="mb-5 h-7 gap-1.5 rounded-full px-3 text-xs"
+      className="group relative mb-5 h-7 gap-1.5 rounded-full px-3 text-xs before:absolute before:inset-x-0 before:-inset-y-2 before:content-['']"
       render={
         <Link
           href={HERO_BADGE_HREF}
@@ -31,10 +31,11 @@ export function HeroBadge() {
       <span aria-hidden className="text-muted-foreground/60">
         ·
       </span>
-      <span className="text-muted-foreground">
-        <span className="text-foreground">Stop Motion Animations</span>
-      </span>
-      <ArrowRight className="size-3" aria-hidden="true" />
+      <span className="text-foreground">Stop Motion Animations</span>
+      <ArrowRight
+        className="size-3 transition-transform group-hover:translate-x-0.5"
+        aria-hidden="true"
+      />
     </Badge>
   );
 }

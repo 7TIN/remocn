@@ -1,12 +1,12 @@
 ---
 title: Making a launch video for Claude Opus 5
-description: One continuous canvas, twelve beats, and a brand mark that eats its own end card — a launch spot built entirely from Claude's own tokens
+description: One continuous canvas, twelve beats, and a brand mark that eats its own end card — a launch spot built entirely from Claude’s own tokens
 date: 2026-07-24
 video: https://cdn.remocn.dev/videos/introducing-opus.mp4
 videoPoster: https://cdn.remocn.dev/posters/introducing-opus.png
 ---
 
-Anthropic shipped Claude Opus 5 today. Nobody asked us for a video, so we made one anyway — fifty-five seconds, twelve beats, every claim on screen lifted from the launch post itself. This is the hardest kind of unofficial spot to get away with: the brand is one most people look at daily, so a color that's a shade off or a serif that isn't quite the right serif reads instantly. Nothing here is eyeballed.
+Anthropic shipped Claude Opus 5 today. Nobody asked us for a video, so we made one anyway — fifty-five seconds, twelve beats, every claim on screen lifted from the launch post itself. This is the hardest kind of unofficial spot to get away with: the brand is one most people look at daily, so a color that’s a shade off or a serif that isn’t quite the right serif reads instantly. Nothing here is eyeballed.
 
 ### The storyboard
 
@@ -16,16 +16,16 @@ Anthropic shipped Claude Opus 5 today. Nobody asked us for a video, so we made o
 4. **Frontier-Bench** — two bars grow on an asymmetric plot: Opus 4.8 in muted grey, then Opus 5 in clay past double its height, a count-up landing on the spoken "double" while the cost line falls beside it.
 5. **The board** — four benchmark rows arrive from the right, one per cue, each a name → ratio pair with the ratio following through behind its label. One benchmark becomes a sweep.
 6. **The mechanism** — a dark stage and an agent transcript writing itself: the FreeCAD ask types in, three steps check off in olive, and the receipt lands in serif — "No competing model solved it in five attempts."
-7. **The outside voice** — Framer's line set as a hanging quote under a short clay rule, held near-still.
+7. **The outside voice** — Framer’s line set as a hanging quote under a short clay rule, held near-still.
 8. **The bill** — three efficiency counters on oat, the biggest number last and in clay, attribution ruled off underneath.
 9. **Alignment** — one claim, one number, and a held frame. The breather before the close.
 10. **The price** — $5 and $25 land as a pair, the pair anticipates downward and lifts to make room for "The same price as Opus 4.8", then `claude-opus-5` arrives in clay.
 11. **The end card that eats itself** — the real Claude lockup holds, the spark winds up with a counter-move, then launches right and swallows the wordmark letter by letter on its way off-screen, blurring out into its own speed.
 12. **The sting** — black. Nothing, for a full second past where the film should have ended. Then "Available today." fades up dead-center and never moves.
 
-### Director's notes
+### Director’s notes
 
-**The brand is Claude's own, down to the woff2.** The palette is read off claude.com's live stylesheet — the gray ramp for the stages, `--color-oat`, `--color-olive` for anything verified, and `--color-clay` `#d97757` as the one accent, spent only on the payoff word, the winning bar and the spark. The type is the three faces the site actually serves, vendored and gated behind `delayRender` so a frame never catches the fallback mid-swap, set at the site's own scale. The spark, the wordmark and the "By Anthropic" mark are the shipped SVG paths — and for the outro the wordmark is split at its subpath boundaries into six glyphs that each keep their counter, so C-l-a-u-d-e animate independently while staying Anthropic's own letterforms. Taken apart, never redrawn.
+**The brand is Claude’s own, down to the woff2.** The palette is read off claude.com’s live stylesheet — the gray ramp for the stages, `--color-oat`, `--color-olive` for anything verified, and `--color-clay` `#d97757` as the one accent, spent only on the payoff word, the winning bar and the spark. The type is the three faces the site actually serves, vendored and gated behind `delayRender` so a frame never catches the fallback mid-swap, set at the site’s own scale. The spark, the wordmark and the "By Anthropic" mark are the shipped SVG paths — and for the outro the wordmark is split at its subpath boundaries into six glyphs that each keep their counter, so C-l-a-u-d-e animate independently while staying Anthropic’s own letterforms. Taken apart, never redrawn.
 
 **Transitions are chosen by tone, not by variety.** Three grammars carry the whole film: a lateral slide (the outgoing scene shoved left, the incoming springing in from the right), a vertical rise, and a settle (the outgoing scene shrinking away as one group, one empty gap frame, the incoming items landing from above-1 scale). A slide hands the stage over while the content is still travelling, so the stage color has to crossfade across the slide window — gorgeous between two scenes in the same tonal world, and six frames of flat mid-grey when paper dissolves into near-black. So every big tonal jump takes the settle, whose color change happens inside the empty gap frame and lands instantly; the lateral moves ride the pairs that already share a tone. Twelve scenes, one continuous canvas, no slideshow.
 
@@ -33,7 +33,7 @@ Anthropic shipped Claude Opus 5 today. Nobody asked us for a video, so we made o
 
 **Two properties of one element never share a curve.** Opacity rides a short quad ramp; transform rides a long exponential or a damped spring roughly three times its length. Stagger compresses rather than marching — `pow(i, 0.8) × base` with a deterministic one-to-two-frame jitter — and children follow through, a check landing a few frames after its row on a looser damping. It is the difference between a slide that faded in and something that arrived.
 
-**The outro is driven by position, not by frames.** The spark's travel is one unbroken curve: a short counter-move to wind up, an accelerating sweep that eats the line, and a hand-off — with the slope still high — into a continuing acceleration straight off-scene. Each glyph's fate is a function of where the mark *is*, not of what frame it is, so the bite always lands exactly as the spark passes over, whatever the curve does. The spin is one constant rate, held from launch to the last blurred frame; it survives that speed because the mark has no rotational symmetry to alias against.
+**The outro is driven by position, not by frames.** The spark’s travel is one unbroken curve: a short counter-move to wind up, an accelerating sweep that eats the line, and a hand-off — with the slope still high — into a continuing acceleration straight off-scene. Each glyph’s fate is a function of where the mark *is*, not of what frame it is, so the bite always lands exactly as the spark passes over, whatever the curve does. The spin is one constant rate, held from launch to the last blurred frame; it survives that speed because the mark has no rotational symmetry to alias against.
 
 ### The prompt
 
@@ -112,4 +112,4 @@ install pills, no bounce as a default.
 
 ### Make one for your product
 
-The generic recipe is [Launch video](/docs/guides/launch-video); the part that makes a spot feel like it came from inside the company — pointing your agent at the site's own tokens — is [Your brand](/docs/guides/your-brand).
+The generic recipe is [Launch video](/docs/guides/launch-video); the part that makes a spot feel like it came from inside the company — pointing your agent at the site’s own tokens — is [Your brand](/docs/guides/your-brand).

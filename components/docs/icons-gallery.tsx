@@ -859,7 +859,7 @@ function IconTile({
       title={command}
       aria-label={`Copy install command for ${icon.label}`}
       className={cn(
-        "surface-card group relative flex aspect-square flex-col items-center justify-center gap-2 rounded-xl p-3 text-muted-foreground transition-colors",
+        "surface-card surface-card-interactive group relative flex aspect-square flex-col items-center justify-center gap-2 rounded-xl p-3 text-muted-foreground transition-[color,box-shadow]",
         "hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40",
       )}
     >

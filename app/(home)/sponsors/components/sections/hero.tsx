@@ -1,10 +1,11 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { LAVENDER, MINT, PEACH } from "@/config/site";
 import { FadeUp } from "../../../components/fade-up";
+import { HeroNeuroBg } from "../../../components/hero-shader-bg";
 
 const OPENPANEL_DASHBOARD_URL = "https://op.kapish.dev/share/overview/hRpldJ";
+const INTRO_GATE = "sponsors-intro";
 
 function OpenPanelLogo({ className }: { className?: string }) {
   return (
@@ -40,50 +41,66 @@ function OpenPanelLogo({ className }: { className?: string }) {
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pt-24 pb-4 sm:pt-28 sm:pb-6">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 opacity-70 dark:opacity-40"
-        style={{
-          background: `radial-gradient(60% 50% at 50% 20%, ${LAVENDER}22, transparent 70%), radial-gradient(40% 40% at 20% 80%, ${PEACH}18, transparent 60%), radial-gradient(40% 40% at 80% 20%, ${MINT}18, transparent 60%)`,
-        }}
-      />
+    <section className="relative isolate pt-24 pb-4 sm:pt-28 sm:pb-6">
+      <div aria-hidden className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-grid-fade" />
+        <HeroNeuroBg />
+      </div>
       <div className="section">
         <div className="flex flex-col items-center text-center">
-          <FadeUp delay={0.06}>
+          <FadeUp gate={INTRO_GATE} delay={0.06}>
             <p className="mb-3 font-mono text-xs font-medium text-muted-foreground">
               Sponsors
             </p>
           </FadeUp>
-          <FadeUp delay={0.1}>
-            <h1 className="max-w-3xl text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-6xl">
+          <FadeUp gate={INTRO_GATE} delay={0.1}>
+            <h1 className="max-w-3xl text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl">
               Support the future of video
             </h1>
           </FadeUp>
-          <FadeUp delay={0.16}>
-            <p className="mt-6 max-w-2xl text-balance text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <FadeUp gate={INTRO_GATE} delay={0.16}>
+            <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
               remocn is open-source and free. Your sponsorship helps us spend
               more time building premium animations and keeping the project
               alive.
             </p>
           </FadeUp>
-          <FadeUp delay={0.22}>
-            <Button
-              variant="outline"
-              size="lg"
-              className="mt-8 h-11 gap-2 rounded-full px-5 text-sm"
-              render={
-                <Link
-                  href={OPENPANEL_DASHBOARD_URL}
-                  target="_blank"
-                  rel="noreferrer"
+          <FadeUp gate={INTRO_GATE} delay={0.22}>
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
+              <Button
+                size="lg"
+                className="h-11 gap-2 rounded-full px-6 text-sm"
+                render={<Link href="#tiers" />}
+              >
+                Become a sponsor
+                <ArrowRight
+                  data-icon="inline-end"
+                  className="size-4"
+                  aria-hidden="true"
                 />
-              }
-            >
-              <OpenPanelLogo className="h-4 w-auto" />
-              See our live traffic
-              <ArrowUpRight className="size-4" aria-hidden="true" />
-            </Button>
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="h-11 gap-2 rounded-full px-5 text-sm"
+                render={
+                  // biome-ignore lint/a11y/useAnchorContent: Base UI render prop merges the button children into this anchor
+                  <a
+                    href={OPENPANEL_DASHBOARD_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                  />
+                }
+              >
+                <OpenPanelLogo className="h-4 w-auto" />
+                See our live traffic
+                <ArrowUpRight
+                  data-icon="inline-end"
+                  className="size-4"
+                  aria-hidden="true"
+                />
+              </Button>
+            </div>
           </FadeUp>
         </div>
       </div>
