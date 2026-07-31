@@ -12,6 +12,7 @@ export function ShowcaseAuthor({
 }) {
   const body = (
     <>
+      {/** biome-ignore lint/performance/noImgElement: remote showcase avatars of arbitrary origin */}
       <img
         src={author.avatarUrl}
         alt=""

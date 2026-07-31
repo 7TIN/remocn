@@ -84,6 +84,7 @@ export function Hero() {
                 size="lg"
                 className="h-11 gap-2 rounded-full px-5 text-sm"
                 render={
+                  // biome-ignore lint/a11y/useAnchorContent: Base UI render prop merges the button children into this anchor
                   <a
                     href={OPENPANEL_DASHBOARD_URL}
                     target="_blank"

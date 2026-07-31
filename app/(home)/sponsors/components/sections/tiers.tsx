@@ -162,7 +162,10 @@ function TierCard({
             variant={tier.highlighted ? "default" : "outline"}
             size="lg"
             className="h-11 w-full gap-2 rounded-full"
-            render={<a href={checkoutUrl} target="_blank" rel="noreferrer" />}
+            render={
+              // biome-ignore lint/a11y/useAnchorContent: Base UI render prop merges the button children into this anchor
+              <a href={checkoutUrl} target="_blank" rel="noreferrer" />
+            }
           >
             Become a {tier.name}
             <ArrowRight

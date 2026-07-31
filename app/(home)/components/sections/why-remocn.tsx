@@ -44,18 +44,18 @@ export function WhyRemocn({ className }: { className?: string }) {
             const Icon = ICONS[i];
             return (
               <div key={reason.title} className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <Icon
-                      aria-hidden
-                      className="size-4 shrink-0 text-muted-foreground"
-                    />
-                    <h3 className="text-base font-medium text-foreground">
-                      {reason.title}
-                    </h3>
-                  </div>
-                  <p className="mt-2 text-sm leading-relaxed text-pretty text-muted-foreground sm:text-base">
-                    {reason.detail}
-                  </p>
+                <div className="flex items-center gap-2">
+                  <Icon
+                    aria-hidden
+                    className="size-4 shrink-0 text-muted-foreground"
+                  />
+                  <h3 className="text-base font-medium text-foreground">
+                    {reason.title}
+                  </h3>
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-pretty text-muted-foreground sm:text-base">
+                  {reason.detail}
+                </p>
               </div>
             );
           })}

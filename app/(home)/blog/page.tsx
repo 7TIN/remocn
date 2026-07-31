@@ -87,6 +87,7 @@ export default function BlogPage() {
 
                   <div className="aspect-video overflow-hidden rounded-lg bg-muted outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10">
                     {post.videoPoster ? (
+                      // biome-ignore lint/performance/noImgElement: remote CDN video posters of arbitrary origin
                       <img
                         src={post.videoPoster}
                         alt=""

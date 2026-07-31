@@ -40,6 +40,7 @@ function Pre({ className, ...props }: ComponentProps<"pre">) {
   return (
     <pre
       data-not-typeset
+      // biome-ignore lint/a11y/noNoninteractiveTabindex: horizontally scrollable code must be keyboard-focusable
       tabIndex={0}
       className={cn(
         "min-w-0 overflow-x-auto px-4 py-3.5 has-data-line-numbers:px-0",

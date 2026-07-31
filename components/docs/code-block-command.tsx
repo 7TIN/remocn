@@ -102,7 +102,11 @@ export function CodeBlockCommand({
 
         {tabsFiltered.map(([key, value]) => (
           <TabsPrimitive.Panel key={key} value={key} className="outline-none">
-            <pre tabIndex={0} className="overflow-x-auto overscroll-x-contain p-4">
+            <pre
+              // biome-ignore lint/a11y/noNoninteractiveTabindex: horizontally scrollable code must be keyboard-focusable
+              tabIndex={0}
+              className="overflow-x-auto overscroll-x-contain p-4"
+            >
               <code
                 data-slot="code-block"
                 data-language="bash"

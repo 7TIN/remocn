@@ -66,17 +66,17 @@ export function LandingPartners() {
         )}
 
         <div className="mt-10 flex justify-center">
-            <Link
-              href="/sponsors"
-              className="group relative inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors before:absolute before:inset-x-0 before:-inset-y-2 before:content-[''] hover:text-foreground focus-visible:text-foreground focus-visible:outline-none"
-            >
-              Become a sponsor
-              <ArrowRight
-                className="size-4 transition-transform group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5"
-                aria-hidden="true"
-              />
-            </Link>
-          </div>
+          <Link
+            href="/sponsors"
+            className="group relative inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors before:absolute before:inset-x-0 before:-inset-y-2 before:content-[''] hover:text-foreground focus-visible:text-foreground focus-visible:outline-none"
+          >
+            Become a sponsor
+            <ArrowRight
+              className="size-4 transition-transform group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5"
+              aria-hidden="true"
+            />
+          </Link>
+        </div>
       </div>
     </section>
   );

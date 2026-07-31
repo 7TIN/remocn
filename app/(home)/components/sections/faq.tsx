@@ -20,33 +20,33 @@ export function Faq({ className }: { className?: string }) {
         />
 
         <dl className="mt-10 max-w-2xl sm:mt-14">
-            {FAQ_ITEMS.map((item, i) => (
-              <div
-                key={item.question}
-                className={cn(
-                  "py-6 sm:py-7",
-                  i > 0 && "border-t border-border/60",
-                )}
-              >
-                <dt className="text-base font-medium text-balance text-foreground sm:text-lg">
-                  {item.question}
-                </dt>
-                <dd className="mt-2 text-sm leading-relaxed text-pretty text-muted-foreground sm:text-base">
-                  {item.answer}
-                </dd>
-              </div>
-            ))}
+          {FAQ_ITEMS.map((item, i) => (
+            <div
+              key={item.question}
+              className={cn(
+                "py-6 sm:py-7",
+                i > 0 && "border-t border-border/60",
+              )}
+            >
+              <dt className="text-base font-medium text-balance text-foreground sm:text-lg">
+                {item.question}
+              </dt>
+              <dd className="mt-2 text-sm leading-relaxed text-pretty text-muted-foreground sm:text-base">
+                {item.answer}
+              </dd>
+            </div>
+          ))}
         </dl>
 
         <p className="mt-8 max-w-2xl border-t border-border/60 pt-8 text-sm text-muted-foreground sm:text-base">
-            Still stuck?{" "}
-            <a
-              href={`mailto:${SUPPORT_EMAIL}`}
-              className="text-foreground underline underline-offset-4 transition-colors hover:text-muted-foreground"
-            >
-              Email us
-            </a>{" "}
-            and we’ll walk you through it.
+          Still stuck?{" "}
+          <a
+            href={`mailto:${SUPPORT_EMAIL}`}
+            className="text-foreground underline underline-offset-4 transition-colors hover:text-muted-foreground"
+          >
+            Email us
+          </a>{" "}
+          and we’ll walk you through it.
         </p>
       </div>
     </section>

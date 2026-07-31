@@ -39,6 +39,9 @@ type AnalyticsEvents = {
   customized_link_shared: {
     component: string;
   };
+  docs_markdown_copied: {
+    page: string;
+  };
   customizer_reset: {
     component: string;
   };
