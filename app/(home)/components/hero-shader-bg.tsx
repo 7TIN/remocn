@@ -20,7 +20,11 @@ const NEURO_COLORS = {
 export function HeroNeuroBg() {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+    setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
   if (!mounted) return null;
   const colors = NEURO_COLORS[resolvedTheme === "dark" ? "dark" : "light"];
   return (
@@ -32,7 +36,7 @@ export function HeroNeuroBg() {
         colorBack={colors.back}
         brightness={0.05}
         contrast={0.35}
-        speed={0.3}
+        speed={reduced ? 0 : 0.3}
       />
     </div>
   );

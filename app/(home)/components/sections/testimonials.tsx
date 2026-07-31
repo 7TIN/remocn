@@ -20,7 +20,7 @@ function TestimonialCard({
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="surface-card flex w-80 shrink-0 flex-col gap-4 rounded-2xl p-5 transition-colors hover:border-foreground/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
+      className="surface-card surface-card-interactive flex w-80 shrink-0 flex-col gap-4 rounded-2xl p-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
     >
       <div className="flex items-center gap-3">
         {/** biome-ignore lint/performance/noImgElement: remote unavatar.io avatars of arbitrary origin */}

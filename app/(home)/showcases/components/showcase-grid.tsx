@@ -104,7 +104,7 @@ function ShowcaseCard({
     >
       <div
         data-showcase-slug={showcase.slug}
-        className="surface-card aspect-video w-full overflow-hidden rounded-2xl transition-colors group-hover:border-foreground/20 group-focus-visible:border-foreground/40"
+        className="surface-card aspect-video w-full overflow-hidden rounded-2xl transition-[box-shadow] duration-150 ease-out group-hover:[box-shadow:var(--elevation-raised-hover)] group-focus-visible:[box-shadow:var(--elevation-raised-highlighted)]"
       >
         <video
           ref={videoRef}
