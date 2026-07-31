@@ -9,13 +9,12 @@ import {
 import type { ComponentType } from "react";
 import { REASONS } from "@/config/landing";
 import { cn } from "@/lib/utils";
-import { FadeUp } from "../fade-up";
 import { SectionHeading } from "../section-heading";
 
 const EYEBROW = "Why remocn";
 const TITLE = "Every other way costs you something.";
 const LEAD =
-  "A designer's invoice, a weekend in After Effects, or a screen recording you're not proud of. remocn hands the animation to your agent already built.";
+  "A designer’s invoice, a weekend in After Effects, or a screen recording you’re not proud of. remocn hands the animation to your agent already built.";
 
 const ICONS: ComponentType<{ className?: string }>[] = [
   Wallet,
@@ -33,14 +32,18 @@ export function WhyRemocn({ className }: { className?: string }) {
       className={cn("relative py-14 sm:py-20", className)}
     >
       <div className="section">
-        <SectionHeading eyebrow={EYEBROW} title={TITLE} lead={LEAD} />
+        <SectionHeading
+          eyebrow={EYEBROW}
+          title={TITLE}
+          lead={LEAD}
+          animated={false}
+        />
 
         <div className="mt-12 grid grid-cols-1 gap-x-8 gap-y-10 sm:mt-16 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12">
           {REASONS.map((reason, i) => {
             const Icon = ICONS[i];
             return (
-              <FadeUp key={reason.title} delay={i * 0.05}>
-                <div className="min-w-0">
+              <div key={reason.title} className="min-w-0">
                   <div className="flex items-center gap-2">
                     <Icon
                       aria-hidden
@@ -53,8 +56,7 @@ export function WhyRemocn({ className }: { className?: string }) {
                   <p className="mt-2 text-sm leading-relaxed text-pretty text-muted-foreground sm:text-base">
                     {reason.detail}
                   </p>
-                </div>
-              </FadeUp>
+              </div>
             );
           })}
         </div>

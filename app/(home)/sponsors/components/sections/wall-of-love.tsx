@@ -113,7 +113,11 @@ export function WallOfLove() {
               render={<Link href="#tiers" />}
             >
               Become a sponsor
-              <ArrowRight className="size-4" aria-hidden="true" />
+              <ArrowRight
+                data-icon="inline-end"
+                className="size-4"
+                aria-hidden="true"
+              />
             </Button>
           </div>
         ) : (

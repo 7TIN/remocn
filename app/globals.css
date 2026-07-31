@@ -188,6 +188,10 @@
   }
 }
 
+::selection {
+  background-color: color-mix(in oklab, #d4b3ff 35%, transparent);
+}
+
 .section {
   @apply mx-auto w-full max-w-6xl px-4 sm:px-6 min-[1440px]:max-w-5xl;
 }
@@ -208,6 +212,15 @@
     transparent 75%
   );
   mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black, transparent 75%);
+}
+
+.bg-dot-grid {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--color-foreground) 6%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 16px 16px;
 }
 
 .divider-soft {
@@ -269,6 +282,12 @@
 .typeset figure.shiki [class*="bg-"] {
   /* biome-ignore lint/complexity/noImportantStyles: see above */
   background-color: transparent !important;
+}
+.typeset figure.shiki pre,
+[data-rehype-pretty-code-figure] pre {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, currentColor 25%, transparent)
+    transparent;
 }
 
 [data-rehype-pretty-code-figure] {

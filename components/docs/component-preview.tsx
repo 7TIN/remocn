@@ -134,7 +134,7 @@ function Preview({
         </TabsContent>
       </Tabs>
 
-      <div className="overflow-hidden ">
+      <div className="overflow-hidden">
         <div className="flex items-center justify-between pt-4 pb-2">
           <span className="text-sm font-medium text-foreground">Customize</span>
           <div className="flex items-center gap-1">
@@ -144,7 +144,7 @@ function Preview({
               onClick={handleCopyLink}
               aria-label="Copy share link"
               title="Copy share link"
-              className="text-muted-foreground hover:text-foreground"
+              className="relative text-muted-foreground before:absolute before:-inset-x-0.5 before:-inset-y-1.5 before:content-[''] hover:text-foreground"
             >
               {copied ? (
                 <CheckIcon className="size-3.5" />
@@ -159,7 +159,7 @@ function Preview({
               disabled={isDefault}
               aria-label="Reset to defaults"
               title="Reset to defaults"
-              className="text-muted-foreground hover:text-foreground disabled:opacity-40"
+              className="relative text-muted-foreground before:absolute before:-inset-x-0.5 before:-inset-y-1.5 before:content-[''] hover:text-foreground disabled:opacity-40"
             >
               <RotateCcwIcon className="size-3.5" />
             </Button>

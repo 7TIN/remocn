@@ -11,7 +11,10 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   title: "Blog",
   description: DESCRIPTION,
-  alternates: { canonical: "/blog" },
+  alternates: {
+    canonical: "/blog",
+    types: { "application/rss+xml": "/blog/rss.xml" },
+  },
   openGraph: {
     type: "website",
     url: "/blog",
@@ -41,7 +44,7 @@ export default function BlogPage() {
           <h1 className="text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl">
             Blog
           </h1>
-          <p className="mt-4 max-w-2xl text-balance text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p className="mt-4 max-w-2xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
             {DESCRIPTION}
           </p>
         </div>
@@ -55,10 +58,9 @@ export default function BlogPage() {
 
             return (
               <li key={slug}>
-                <Link
-                  href={`/blog/${slug}`}
+                <article
                   className={cn(
-                    "group grid gap-4 py-8 md:grid-cols-[7rem_1fr_16rem] md:gap-8",
+                    "group relative grid gap-4 py-8 md:grid-cols-[7rem_1fr_16rem] md:gap-8",
                     index > 0 && "border-t border-border",
                   )}
                 >
@@ -70,25 +72,30 @@ export default function BlogPage() {
                   </time>
 
                   <div className="flex min-w-0 flex-col gap-2">
-                    <h2 className="text-xl font-semibold tracking-tight text-foreground group-hover:underline sm:text-2xl">
-                      {post.title}
+                    <h2 className="text-balance text-xl font-semibold tracking-tight text-foreground group-hover:underline sm:text-2xl">
+                      <Link
+                        href={`/blog/${slug}`}
+                        className="after:absolute after:inset-0"
+                      >
+                        {post.title}
+                      </Link>
                     </h2>
-                    <p className="text-balance text-sm leading-relaxed text-muted-foreground">
+                    <p className="text-pretty text-sm leading-relaxed text-muted-foreground">
                       {post.description}
                     </p>
                   </div>
 
-                  <div className="aspect-video overflow-hidden rounded-lg bg-muted">
+                  <div className="aspect-video overflow-hidden rounded-lg bg-muted outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10">
                     {post.videoPoster ? (
                       <img
                         src={post.videoPoster}
                         alt=""
                         loading="lazy"
-                        className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                        className="size-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                       />
                     ) : null}
                   </div>
-                </Link>
+                </article>
               </li>
             );
           })}

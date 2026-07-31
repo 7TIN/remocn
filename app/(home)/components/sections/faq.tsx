@@ -1,7 +1,6 @@
 import { FAQ_ITEMS } from "@/config/landing";
 import { SUPPORT_EMAIL } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { FadeUp } from "../fade-up";
 import { SectionHeading } from "../section-heading";
 
 const EYEBROW = "Questions";
@@ -13,10 +12,14 @@ export function Faq({ className }: { className?: string }) {
   return (
     <section id="faq" className={cn("relative py-14 sm:py-20", className)}>
       <div className="section">
-        <SectionHeading eyebrow={EYEBROW} title={TITLE} lead={LEAD} />
+        <SectionHeading
+          eyebrow={EYEBROW}
+          title={TITLE}
+          lead={LEAD}
+          animated={false}
+        />
 
-        <FadeUp className="mt-10 sm:mt-14">
-          <dl className="max-w-3xl">
+        <dl className="mt-10 max-w-2xl sm:mt-14">
             {FAQ_ITEMS.map((item, i) => (
               <div
                 key={item.question}
@@ -33,11 +36,9 @@ export function Faq({ className }: { className?: string }) {
                 </dd>
               </div>
             ))}
-          </dl>
-        </FadeUp>
+        </dl>
 
-        <FadeUp delay={0.1}>
-          <p className="mt-8 max-w-3xl border-t border-border/60 pt-8 text-sm text-muted-foreground sm:text-base">
+        <p className="mt-8 max-w-2xl border-t border-border/60 pt-8 text-sm text-muted-foreground sm:text-base">
             Still stuck?{" "}
             <a
               href={`mailto:${SUPPORT_EMAIL}`}
@@ -45,9 +46,8 @@ export function Faq({ className }: { className?: string }) {
             >
               Email us
             </a>{" "}
-            and we'll walk you through it.
-          </p>
-        </FadeUp>
+            and we’ll walk you through it.
+        </p>
       </div>
     </section>
   );

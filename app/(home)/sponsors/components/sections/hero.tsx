@@ -54,7 +54,7 @@ export function Hero() {
             </p>
           </FadeUp>
           <FadeUp gate={INTRO_GATE} delay={0.1}>
-            <h1 className="max-w-3xl text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-6xl">
+            <h1 className="max-w-3xl text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl">
               Support the future of video
             </h1>
           </FadeUp>
@@ -73,7 +73,11 @@ export function Hero() {
                 render={<Link href="#tiers" />}
               >
                 Become a sponsor
-                <ArrowRight className="size-4" aria-hidden="true" />
+                <ArrowRight
+                  data-icon="inline-end"
+                  className="size-4"
+                  aria-hidden="true"
+                />
               </Button>
               <Button
                 variant="outline"
@@ -89,7 +93,11 @@ export function Hero() {
               >
                 <OpenPanelLogo className="h-4 w-auto" />
                 See our live traffic
-                <ArrowUpRight className="size-4" aria-hidden="true" />
+                <ArrowUpRight
+                  data-icon="inline-end"
+                  className="size-4"
+                  aria-hidden="true"
+                />
               </Button>
             </div>
           </FadeUp>

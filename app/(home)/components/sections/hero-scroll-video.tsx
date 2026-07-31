@@ -19,8 +19,7 @@ const SCRUB_MIN_WIDTH = 1024;
 type Viewport = { w: number; h: number };
 
 export function HeroScrollVideo() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const [viewport, setViewport] = useState<Viewport | null>(null);
   const reduceMotion = useReducedMotion();
 
@@ -32,39 +31,54 @@ export function HeroScrollVideo() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  const scrubEnabled = viewport !== null && viewport.w >= SCRUB_MIN_WIDTH;
-
-  if (reduceMotion || !viewport || !scrubEnabled) {
-    return (
-      <div className="section">
-        <div className="relative mt-8 flex w-full justify-center sm:mt-12">
-          <div className="w-full max-w-[1120px]">
-            <VideoCard
-              videoRef={videoRef}
-              className="aspect-video rounded-2xl sm:rounded-3xl"
-            />
-          </div>
-        </div>
-      </div>
-    );
+  if (reduceMotion) {
+    return <StaticCard />;
   }
 
+  const isNarrow = viewport !== null && viewport.w < SCRUB_MIN_WIDTH;
+  const isWide = viewport !== null && !isNarrow;
+
   return (
-    <ScrollStage
-      sectionRef={sectionRef}
-      videoRef={videoRef}
-      viewport={viewport}
-    />
+    <>
+      <div className="lg:hidden">
+        {(viewport === null || isNarrow) && <StaticCard />}
+      </div>
+      <section
+        ref={sectionRef}
+        data-hero-zoom
+        className="relative hidden h-[380vh] lg:block"
+      >
+        <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden">
+          {isWide ? (
+            <ScrollStage sectionRef={sectionRef} viewport={viewport} />
+          ) : (
+            <div className="w-[min(92vw,1120px)]">
+              <VideoCard className="aspect-video rounded-3xl border border-border" />
+            </div>
+          )}
+        </div>
+      </section>
+    </>
+  );
+}
+
+function StaticCard() {
+  return (
+    <div className="section">
+      <div className="relative mt-8 flex w-full justify-center sm:mt-12">
+        <div className="w-full max-w-[1120px]">
+          <VideoCard className="aspect-video rounded-2xl sm:rounded-3xl" />
+        </div>
+      </div>
+    </div>
   );
 }
 
 function ScrollStage({
   sectionRef,
-  videoRef,
   viewport,
 }: {
-  sectionRef: RefObject<HTMLDivElement | null>;
-  videoRef: RefObject<HTMLVideoElement | null>;
+  sectionRef: RefObject<HTMLElement | null>;
   viewport: Viewport;
 }) {
   const { scrollYProgress } = useScroll({
@@ -74,22 +88,10 @@ function ScrollStage({
 
   const restWidth = Math.min(viewport.w * REST_WIDTH_RATIO, REST_MAX_WIDTH);
   const restHeight = restWidth * CARD_ASPECT;
-  const restScaleX = restWidth / viewport.w;
-  const restScaleY = restHeight / viewport.h;
+  const cover = Math.max(viewport.w / restWidth, viewport.h / restHeight);
   const keyframes = [0, GROW_END, HOLD_END, 1];
 
-  const scaleX = useTransform(scrollYProgress, keyframes, [
-    restScaleX,
-    1,
-    1,
-    restScaleX,
-  ]);
-  const scaleY = useTransform(scrollYProgress, keyframes, [
-    restScaleY,
-    1,
-    1,
-    restScaleY,
-  ]);
+  const scale = useTransform(scrollYProgress, keyframes, [1, cover, cover, 1]);
   const borderRadius = useTransform(scrollYProgress, keyframes, [
     REST_RADIUS,
     0,
@@ -99,41 +101,24 @@ function ScrollStage({
   const frameOpacity = useTransform(scrollYProgress, keyframes, [1, 0, 0, 1]);
 
   return (
-    <section ref={sectionRef} data-hero-zoom className="relative h-[380vh]">
-      <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden">
-        <motion.div
-          style={{
-            width: viewport.w,
-            height: viewport.h,
-            scaleX,
-            scaleY,
-            borderRadius,
-          }}
-          className="group relative overflow-hidden will-change-transform"
-        >
-          <VideoCard videoRef={videoRef} className="h-full w-full" />
-          <motion.div
-            aria-hidden
-            style={{ borderRadius, opacity: frameOpacity }}
-            className="pointer-events-none absolute inset-0 border border-border"
-          />
-        </motion.div>
-      </div>
-    </section>
+    <motion.div
+      style={{ width: restWidth, height: restHeight, scale, borderRadius }}
+      className="relative overflow-hidden will-change-transform"
+    >
+      <VideoCard className="h-full w-full" />
+      <motion.div
+        aria-hidden
+        style={{ borderRadius, opacity: frameOpacity }}
+        className="pointer-events-none absolute inset-0 border border-border"
+      />
+    </motion.div>
   );
 }
 
-function VideoCard({
-  videoRef,
-  className,
-}: {
-  videoRef: RefObject<HTMLVideoElement | null>;
-  className?: string;
-}) {
+function VideoCard({ className }: { className?: string }) {
   return (
     <div className={`relative overflow-hidden ${className ?? ""}`}>
       <video
-        ref={videoRef}
         src="https://cdn.remocn.dev/videos/intoducing-remocn.mp4"
         autoPlay
         muted

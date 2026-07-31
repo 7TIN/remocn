@@ -165,7 +165,11 @@ function TierCard({
             render={<a href={checkoutUrl} target="_blank" rel="noreferrer" />}
           >
             Become a {tier.name}
-            <ArrowRight className="size-4" aria-hidden="true" />
+            <ArrowRight
+              data-icon="inline-end"
+              className="size-4"
+              aria-hidden="true"
+            />
           </Button>
         </div>
       </motion.article>

@@ -9,7 +9,7 @@ export interface PropDef {
 export function PropsTable({ rows }: { rows: PropDef[] }) {
   return (
     <div className="surface-card not-prose my-6 max-w-4xl overflow-hidden rounded-2xl">
-      <div className="overflow-x-auto">
+      <div tabIndex={0} className="overflow-x-auto">
         <table className="w-full border-collapse text-sm">
           <thead>
             <tr className="border-b border-border/60">

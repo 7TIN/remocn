@@ -4,7 +4,7 @@ import { NavFooter } from "./header-nav";
 export function SiteFooter() {
   return (
     <div className="section">
-      <footer className="flex flex-col items-start justify-between gap-4 border-t border-border pt-8 pb-12 text-sm text-muted-foreground md:flex-row md:items-center">
+      <footer className="flex flex-col items-start justify-between gap-4 border-t border-border pt-8 pb-[calc(3rem+env(safe-area-inset-bottom))] text-sm text-muted-foreground md:flex-row md:items-center">
         <div className="flex flex-col gap-1">
           <span suppressHydrationWarning>
             © {new Date().getFullYear()} remocn — MIT licensed

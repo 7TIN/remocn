@@ -94,7 +94,7 @@ export function CodeBlockCommand({
                 "absolute bottom-0 left-0 -z-1",
                 "w-(--active-tab-width) translate-x-(--active-tab-left)",
                 "h-0.5 rounded-none bg-foreground",
-                "transition-[width,translate] duration-200 ease-in-out",
+                "transition-[width,translate] duration-200 ease-out",
               )}
             />
           </TabsPrimitive.List>
@@ -102,7 +102,7 @@ export function CodeBlockCommand({
 
         {tabsFiltered.map(([key, value]) => (
           <TabsPrimitive.Panel key={key} value={key} className="outline-none">
-            <pre className="overflow-x-auto overscroll-x-contain p-4">
+            <pre tabIndex={0} className="overflow-x-auto overscroll-x-contain p-4">
               <code
                 data-slot="code-block"
                 data-language="bash"

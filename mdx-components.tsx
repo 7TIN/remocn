@@ -40,8 +40,9 @@ function Pre({ className, ...props }: ComponentProps<"pre">) {
   return (
     <pre
       data-not-typeset
+      tabIndex={0}
       className={cn(
-        "no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 outline-none has-data-line-numbers:px-0",
+        "min-w-0 overflow-x-auto px-4 py-3.5 has-data-line-numbers:px-0",
         className,
       )}
       {...props}
