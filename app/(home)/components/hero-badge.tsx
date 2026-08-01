@@ -13,7 +13,7 @@ export function HeroBadge() {
 
   return (
     <Badge
-      variant="outline"
+      variant="secondary"
       className="group relative mb-5 h-7 gap-1.5 rounded-full px-3 text-xs before:absolute before:inset-x-0 before:-inset-y-2 before:content-['']"
       render={
         <Link
