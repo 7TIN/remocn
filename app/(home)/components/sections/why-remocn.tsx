@@ -14,12 +14,7 @@ import {
   type Transition,
   useReducedMotion,
 } from "motion/react";
-import {
-  type ComponentType,
-  type PointerEvent,
-  useRef,
-  useState,
-} from "react";
+import { type ComponentType, type PointerEvent, useRef, useState } from "react";
 import { REASONS } from "@/config/landing";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "../section-heading";
