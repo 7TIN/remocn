@@ -10,6 +10,8 @@ export const MINT = "#A1EEBD";
 
 export const GITHUB_URL = "https://github.com/Remocn/remocn";
 
+export const THREADS_URL = "https://www.threads.com/@_remocn";
+
 export const SUPPORT_EMAIL = "kapish@remocn.dev";
 
 export const INSTALL_ALL_NAMES: string[] = [
@@ -81,12 +83,34 @@ export const NEW_BADGE_PATHS = new Set<string>([
   "/docs/ui-blocks/reel",
 ]);
 
-export const FOOTER_NAV: NavLink[] = [
-  { href: "/docs/getting-started/introduction", label: "Docs" },
-  { href: "/changelog", label: "Changelog" },
-  { href: "/blog", label: "Blog" },
-  { href: "/showcases", label: "Showcases" },
-  { href: GITHUB_URL, label: "GitHub" },
-  { href: "/sponsors", label: "Sponsors" },
-  { href: "/legal", label: "Privacy & Terms" },
+export type FooterGroup = {
+  label: string;
+  links: NavLink[];
+};
+
+export const FOOTER_GROUPS: FooterGroup[] = [
+  {
+    label: "Registry",
+    links: [
+      { href: "/docs/typography", label: "Components" },
+      { href: "/docs/shaders/getting-started/introduction", label: "Shaders" },
+      { href: "/docs/icons/gallery", label: "Icons" },
+    ],
+  },
+  {
+    label: "Learn",
+    links: [
+      { href: "/docs/getting-started/introduction", label: "Docs" },
+      { href: "/blog", label: "Blog" },
+      { href: "/changelog", label: "Changelog" },
+    ],
+  },
+  {
+    label: "Project",
+    links: [
+      { href: "/showcases", label: "Showcases" },
+      { href: "/sponsors", label: "Sponsors" },
+      { href: "/legal", label: "Privacy & Terms" },
+    ],
+  },
 ];
