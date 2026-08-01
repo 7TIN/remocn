@@ -4,13 +4,16 @@ import {
   GITHUB_URL,
   SUPPORT_EMAIL,
   THREADS_URL,
+  X_URL,
 } from "@/config/site";
 import { GitHubIcon } from "./github-icon";
 import { HeaderLogo } from "./header-parts";
 import { ThreadsIcon } from "./threads-icon";
+import { XIcon } from "./x-icon";
 
 const SOCIALS = [
   { href: GITHUB_URL, label: "GitHub", Icon: GitHubIcon },
+  { href: X_URL, label: "X", Icon: XIcon },
   { href: THREADS_URL, label: "Threads", Icon: ThreadsIcon },
 ];
 

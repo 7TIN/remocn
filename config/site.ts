@@ -10,6 +10,8 @@ export const MINT = "#A1EEBD";
 
 export const GITHUB_URL = "https://github.com/Remocn/remocn";
 
+export const X_URL = "https://x.com/_remocn";
+
 export const THREADS_URL = "https://www.threads.com/@_remocn";
 
 export const SUPPORT_EMAIL = "kapish@remocn.dev";
