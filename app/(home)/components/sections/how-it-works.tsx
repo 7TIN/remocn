@@ -75,7 +75,7 @@ export function HowItWorks({ className }: { className?: string }) {
           animated={false}
         />
 
-        <div className="mt-10 grid grid-cols-1 border-y border-border/60 sm:mt-14 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 border-y border-border/60 sm:mt-10 lg:grid-cols-3">
           {HOW_IT_WORKS_STEPS.map((step, i) => (
             <StepColumn key={step.title} step={step} index={i} />
           ))}
