@@ -1675,6 +1675,21 @@
       "type": "registry:component"
     },
     {
+      "name": "sustained-glitch",
+      "title": "Sustained Glitch",
+      "description": "Broadcast corruption held over a scene in scheduled bursts: slices tear sideways, channels split, and blocks fill with picture pulled from somewhere else — then the frame rests clean until the next hit.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "registry/remocn/sustained-glitch/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/sustained-glitch.tsx"
+        }
+      ],
+      "type": "registry:component"
+    },
+    {
       "name": "crt-screen",
       "title": "CRT Screen",
       "description": "Put a scene behind curved glass: the picture bulges out to the corners, an RGB phosphor mask and scanlines ride the curve, bright areas flood the mask, and the tube falls away into darkness at the rim.",

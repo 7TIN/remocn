@@ -12,6 +12,7 @@ import { EmberBurnExampleScene } from "@/components/docs/examples/ember-burn-exa
 import { GlitchCutExampleScene } from "@/components/docs/examples/glitch-cut-example";
 import { GridWaveExampleScene } from "@/components/docs/examples/grid-wave-example";
 import { ParticleDissolveExampleScene } from "@/components/docs/examples/particle-dissolve-example";
+import { SustainedGlitchExampleScene } from "@/components/docs/examples/sustained-glitch-example";
 import { VhsFilterExampleScene } from "@/components/docs/examples/vhs-filter-example";
 import type { ComponentConfig } from "@/lib/customizer-config";
 import { crtScreenConfig } from "@/registry/remocn/crt-screen/config";
@@ -20,6 +21,7 @@ import { emberBurnConfig } from "@/registry/remocn/ember-burn/config";
 import { glitchCutConfig } from "@/registry/remocn/glitch-cut/config";
 import { gridWaveConfig } from "@/registry/remocn/grid-wave/config";
 import { particleDissolveConfig } from "@/registry/remocn/particle-dissolve/config";
+import { sustainedGlitchConfig } from "@/registry/remocn/sustained-glitch/config";
 import { vhsFilterConfig } from "@/registry/remocn/vhs-filter/config";
 
 const { fontFamily: GEIST } = loadFont();
@@ -48,6 +50,10 @@ const SCENES: Record<
   },
   "vhs-filter": { Scene: VhsFilterExampleScene, config: vhsFilterConfig },
   "crt-screen": { Scene: CrtScreenExampleScene, config: crtScreenConfig },
+  "sustained-glitch": {
+    Scene: SustainedGlitchExampleScene,
+    config: sustainedGlitchConfig,
+  },
 };
 
 function makeStage(Scene: ComponentType) {

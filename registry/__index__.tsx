@@ -104,6 +104,7 @@ import { springScaleInConfig } from "@/registry/remocn/spring-scale-in/config";
 import { springSettleConfig } from "@/registry/remocn/spring-settle/config";
 import { staggeredFadeUpConfig } from "@/registry/remocn/staggered-fade-up/config";
 import { strikethroughReplaceConfig } from "@/registry/remocn/strikethrough-replace/config";
+import { sustainedGlitchConfig } from "@/registry/remocn/sustained-glitch/config";
 import { swirlDissolveConfig } from "@/registry/remocn/swirl-dissolve/config";
 import { terminalCursorZoomConfig } from "@/registry/remocn/terminal-cursor-zoom/config";
 import { terminalSimulatorConfig } from "@/registry/remocn/terminal-simulator/config";
@@ -1472,6 +1473,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.CrtScreenExampleScene,
       })),
     config: crtScreenConfig,
+  },
+  "sustained-glitch": {
+    load: () =>
+      import("@/components/docs/examples/sustained-glitch-example").then(
+        (m) => ({ default: m.SustainedGlitchExampleScene }),
+      ),
+    config: sustainedGlitchConfig,
   },
   "slide-swap": {
     load: () =>
