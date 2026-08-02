@@ -114,6 +114,7 @@ import { terminalSimulatorConfig } from "@/registry/remocn/terminal-simulator/co
 import { topDownLettersConfig } from "@/registry/remocn/top-down-letters/config";
 import { trackingInConfig } from "@/registry/remocn/tracking-in/config";
 import { typewriterConfig } from "@/registry/remocn/typewriter/config";
+import { underwaterRippleConfig } from "@/registry/remocn/underwater-ripple/config";
 import { v0Config } from "@/registry/remocn/v0/config";
 import { valueSwapConfig } from "@/registry/remocn/value-swap/config";
 import { vhsFilterConfig } from "@/registry/remocn/vhs-filter/config";
@@ -1504,6 +1505,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.HalftonePrintExampleScene,
       })),
     config: halftonePrintConfig,
+  },
+  "underwater-ripple": {
+    load: () =>
+      import("@/components/docs/examples/underwater-ripple-example").then(
+        (m) => ({ default: m.UnderwaterRippleExampleScene }),
+      ),
+    config: underwaterRippleConfig,
   },
   "slide-swap": {
     load: () =>

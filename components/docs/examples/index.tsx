@@ -87,6 +87,10 @@ import {
   TypingIndicatorExampleScene,
   typingIndicatorExampleCode,
 } from "./typing-indicator-example";
+import {
+  RippleBackdropExampleScene,
+  RippleSurfaceExampleScene,
+} from "./underwater-ripple-recipes";
 
 export interface ExampleEntry {
   Component: ComponentType;
@@ -500,5 +504,25 @@ export const examples: Record<string, ExampleEntry> = {
     width: W,
     height: H,
     previewBackdrop: { type: "color", value: "#26231d" },
+  },
+  "ripple-surface-example": {
+    Component: RippleSurfaceExampleScene,
+    code: "<UnderwaterRipple amplitude={amplitude} speed={3} />",
+    // Settles to still water by frame 46, holds, then sinks back so the loop closes.
+    durationInFrames: 120,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#06171c" },
+  },
+  "ripple-backdrop-example": {
+    Component: RippleBackdropExampleScene,
+    code: "<UnderwaterRipple amplitude={14} scale={0.8} speed={2} />",
+    // speed=2 over 120 frames is a whole number of cycles, so the water loops seamlessly.
+    durationInFrames: 120,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#06171c" },
   },
 };

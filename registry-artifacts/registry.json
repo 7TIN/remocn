@@ -1675,6 +1675,21 @@
       "type": "registry:component"
     },
     {
+      "name": "underwater-ripple",
+      "title": "Underwater Ripple",
+      "description": "Hold a scene under moving water: every pixel is read through a layered refraction field that closes on a whole number of cycles, with colour fringing where the water bends hardest.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "registry/remocn/underwater-ripple/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/underwater-ripple.tsx"
+        }
+      ],
+      "type": "registry:component"
+    },
+    {
       "name": "halftone-print",
       "title": "Halftone Print",
       "description": "Print a scene onto paper: each colour separates onto its own rotated screen of dots sized by the ink under them, slightly out of register the way a real press runs.",

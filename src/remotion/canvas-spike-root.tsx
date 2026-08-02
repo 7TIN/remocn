@@ -16,6 +16,7 @@ import { HalftonePrintExampleScene } from "@/components/docs/examples/halftone-p
 import { ParticleDissolveExampleScene } from "@/components/docs/examples/particle-dissolve-example";
 import { PixelateRegionExampleScene } from "@/components/docs/examples/pixelate-region-example";
 import { SustainedGlitchExampleScene } from "@/components/docs/examples/sustained-glitch-example";
+import { UnderwaterRippleExampleScene } from "@/components/docs/examples/underwater-ripple-example";
 import { VhsFilterExampleScene } from "@/components/docs/examples/vhs-filter-example";
 import type { ComponentConfig } from "@/lib/customizer-config";
 import { asciiRenderConfig } from "@/registry/remocn/ascii-render/config";
@@ -28,6 +29,7 @@ import { halftonePrintConfig } from "@/registry/remocn/halftone-print/config";
 import { particleDissolveConfig } from "@/registry/remocn/particle-dissolve/config";
 import { pixelateRegionConfig } from "@/registry/remocn/pixelate-region/config";
 import { sustainedGlitchConfig } from "@/registry/remocn/sustained-glitch/config";
+import { underwaterRippleConfig } from "@/registry/remocn/underwater-ripple/config";
 import { vhsFilterConfig } from "@/registry/remocn/vhs-filter/config";
 
 const { fontFamily: GEIST } = loadFont();
@@ -68,6 +70,10 @@ const SCENES: Record<
   "halftone-print": {
     Scene: HalftonePrintExampleScene,
     config: halftonePrintConfig,
+  },
+  "underwater-ripple": {
+    Scene: UnderwaterRippleExampleScene,
+    config: underwaterRippleConfig,
   },
 };
 
