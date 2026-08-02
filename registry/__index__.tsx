@@ -50,6 +50,7 @@ import { opencodeConfig } from "@/registry/remocn/opencode/config";
 import { pageTurnConfig } from "@/registry/remocn/page-turn/config";
 import { paperStickerConfig } from "@/registry/remocn/paper-sticker/config";
 import { paperWobbleConfig } from "@/registry/remocn/paper-wobble/config";
+import { particleDissolveConfig } from "@/registry/remocn/particle-dissolve/config";
 import { perCharacterRiseConfig } from "@/registry/remocn/per-character-rise/config";
 import { perWordCrossfadeConfig } from "@/registry/remocn/per-word-crossfade/config";
 import { perlinDissolveConfig } from "@/registry/remocn/perlin-dissolve/config";
@@ -1432,6 +1433,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.EmberBurnExampleScene,
       })),
     config: emberBurnConfig,
+  },
+  "particle-dissolve": {
+    load: () =>
+      import("@/components/docs/examples/particle-dissolve-example").then(
+        (m) => ({ default: m.ParticleDissolveExampleScene }),
+      ),
+    config: particleDissolveConfig,
   },
   "slide-swap": {
     load: () =>

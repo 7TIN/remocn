@@ -1660,6 +1660,21 @@
       "type": "registry:component"
     },
     {
+      "name": "particle-dissolve",
+      "title": "Particle Dissolve",
+      "description": "The frame is ground into drifting grey dust whose specks carry real fragments of the picture, and the next scene coalesces back out of the same dust.",
+      "dependencies": ["remotion", "@remotion/transitions"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "registry/remocn/particle-dissolve/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/particle-dissolve.tsx"
+        }
+      ],
+      "type": "registry:component"
+    },
+    {
       "name": "glitch-cut",
       "title": "Glitch Cut",
       "description": "A broadcast-glitch hard cut: the frame tears into displaced slices with channel split and corrupted blocks, and the incoming scene takes over slice by slice at the peak.",
