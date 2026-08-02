@@ -5,8 +5,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { useTrackEvent } from "@/lib/analytics";
 
-const HERO_BADGE_HREF =
-  "https://remocn.dev/changelog#2026-07-21-stop-motion-wave-2";
+const HERO_BADGE_HREF = "https://remocn.dev/changelog#2026-08-02-filters";
 
 export function HeroBadge() {
   const trackEvent = useTrackEvent();
@@ -27,11 +26,11 @@ export function HeroBadge() {
         />
       }
     >
-      <span className="font-semibold text-foreground">New</span>
+      <span className="font-semibold text-foreground">Introducing</span>
       <span aria-hidden className="text-muted-foreground/60">
         ·
       </span>
-      <span className="text-foreground">Stop Motion Animations</span>
+      <span className="text-foreground">HTML in Canvas</span>
       <ArrowRight
         className="size-3 transition-transform group-hover:translate-x-0.5"
         aria-hidden="true"
