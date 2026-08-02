@@ -86,6 +86,7 @@ export const NEW_BADGE_PATHS = new Set<string>([
   "/docs/transitions/glitch-cut",
   "/docs/transitions/ember-burn",
   "/docs/transitions/particle-dissolve",
+  "/docs/transitions/grid-wave",
 ]);
 
 export type FooterGroup = {

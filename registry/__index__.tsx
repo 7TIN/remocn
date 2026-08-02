@@ -29,6 +29,7 @@ import { glassCodeBlockConfig } from "@/registry/remocn/glass-code-block/config"
 import { glassCodeWalkConfig } from "@/registry/remocn/glass-code-walk/config";
 import { glitchCutConfig } from "@/registry/remocn/glitch-cut/config";
 import { grainDissolveConfig } from "@/registry/remocn/grain-dissolve/config";
+import { gridWaveConfig } from "@/registry/remocn/grid-wave/config";
 import { handCountConfig } from "@/registry/remocn/hand-count/config";
 import { handwriteConfig } from "@/registry/remocn/handwrite/config";
 import { iconScatterConfig } from "@/registry/remocn/icon-scatter/config";
@@ -1440,6 +1441,13 @@ const registry: Record<string, RegistryEntry> = {
         (m) => ({ default: m.ParticleDissolveExampleScene }),
       ),
     config: particleDissolveConfig,
+  },
+  "grid-wave": {
+    load: () =>
+      import("@/components/docs/examples/grid-wave-example").then((m) => ({
+        default: m.GridWaveExampleScene,
+      })),
+    config: gridWaveConfig,
   },
   "slide-swap": {
     load: () =>

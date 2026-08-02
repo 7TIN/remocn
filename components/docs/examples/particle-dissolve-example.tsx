@@ -1,38 +1,14 @@
 "use client";
 
 import { linearTiming, TransitionSeries } from "@remotion/transitions";
-import { AbsoluteFill } from "remotion";
+import {
+  CanvasSceneA,
+  CanvasSceneB,
+} from "@/components/docs/examples/canvas-scenes";
 import {
   type ParticleDissolveDirection,
   particleDissolve,
 } from "@/registry/remocn/particle-dissolve";
-
-const FONT_FAMILY =
-  "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif";
-
-function Scene({ label, background }: { label: string; background: string }) {
-  return (
-    <AbsoluteFill
-      style={{
-        background,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <span
-        style={{
-          fontFamily: FONT_FAMILY,
-          fontSize: 96,
-          fontWeight: 600,
-          letterSpacing: "-0.03em",
-          color: "#f2f2f2",
-        }}
-      >
-        {label}
-      </span>
-    </AbsoluteFill>
-  );
-}
 
 interface ParticleDissolveExampleProps {
   particleSize?: number;
@@ -54,7 +30,7 @@ export function ParticleDissolveExampleScene({
   return (
     <TransitionSeries>
       <TransitionSeries.Sequence durationInFrames={60}>
-        <Scene label="Scene A" background="#0a0a0a" />
+        <CanvasSceneA />
       </TransitionSeries.Sequence>
       <TransitionSeries.Transition
         timing={linearTiming({ durationInFrames: 36 })}
@@ -68,7 +44,7 @@ export function ParticleDissolveExampleScene({
         })}
       />
       <TransitionSeries.Sequence durationInFrames={60}>
-        <Scene label="Scene B" background="#12141a" />
+        <CanvasSceneB />
       </TransitionSeries.Sequence>
     </TransitionSeries>
   );

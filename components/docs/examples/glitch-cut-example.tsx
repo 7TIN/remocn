@@ -1,35 +1,11 @@
 "use client";
 
 import { linearTiming, TransitionSeries } from "@remotion/transitions";
-import { AbsoluteFill } from "remotion";
+import {
+  CanvasSceneA,
+  CanvasSceneB,
+} from "@/components/docs/examples/canvas-scenes";
 import { glitchCut } from "@/registry/remocn/glitch-cut";
-
-const FONT_FAMILY =
-  "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif";
-
-function Scene({ label, background }: { label: string; background: string }) {
-  return (
-    <AbsoluteFill
-      style={{
-        background,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <span
-        style={{
-          fontFamily: FONT_FAMILY,
-          fontSize: 96,
-          fontWeight: 600,
-          letterSpacing: "-0.03em",
-          color: "#f2f2f2",
-        }}
-      >
-        {label}
-      </span>
-    </AbsoluteFill>
-  );
-}
 
 interface GlitchCutExampleProps {
   intensity?: number;
@@ -47,14 +23,14 @@ export function GlitchCutExampleScene({
   return (
     <TransitionSeries>
       <TransitionSeries.Sequence durationInFrames={45}>
-        <Scene label="Scene A" background="#0a0a0a" />
+        <CanvasSceneA />
       </TransitionSeries.Sequence>
       <TransitionSeries.Transition
         timing={linearTiming({ durationInFrames: 12 })}
         presentation={glitchCut({ intensity, slices, rgbSplit, blockNoise })}
       />
       <TransitionSeries.Sequence durationInFrames={45}>
-        <Scene label="Scene B" background="#141318" />
+        <CanvasSceneB />
       </TransitionSeries.Sequence>
     </TransitionSeries>
   );

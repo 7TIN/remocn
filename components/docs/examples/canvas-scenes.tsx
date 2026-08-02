@@ -1,0 +1,116 @@
+"use client";
+
+import { AbsoluteFill } from "remotion";
+
+const SANS =
+  "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif";
+const MONO =
+  "var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace";
+
+const INK = "#f2f2f2";
+const MUTED = "#8b8f9a";
+const MINT = "#a1eebd";
+const PEACH = "#ffb38e";
+const LAVENDER = "#d4b3ff";
+
+const BARS = [0.32, 0.51, 0.43, 0.68, 0.57, 0.86, 0.64, 1];
+
+const JOBS = [
+  { file: "intro-scene.mp4", state: "Done", tone: MINT },
+  { file: "feature-tour.mp4", state: "Rendering", tone: PEACH },
+  { file: "pricing-outro.mp4", state: "Queued", tone: LAVENDER },
+];
+
+export function CanvasSceneA() {
+  return (
+    <AbsoluteFill
+      style={{
+        background: "#0a0a0a",
+        padding: 96,
+        justifyContent: "center",
+        fontFamily: SANS,
+      }}
+    >
+      <span style={{ fontSize: 34, color: MUTED }}>Deploys this week</span>
+      <span
+        style={{
+          marginTop: 6,
+          fontSize: 152,
+          fontWeight: 600,
+          letterSpacing: "-0.04em",
+          lineHeight: 1,
+          color: INK,
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        2,481
+      </span>
+      <div
+        style={{
+          display: "flex",
+          gap: 16,
+          alignItems: "flex-end",
+          height: 190,
+          marginTop: 52,
+        }}
+      >
+        {BARS.map((height, index) => (
+          <div
+            key={height}
+            style={{
+              width: 74,
+              height: `${height * 100}%`,
+              borderRadius: 10,
+              background: index === BARS.length - 1 ? MINT : "#23262e",
+            }}
+          />
+        ))}
+      </div>
+    </AbsoluteFill>
+  );
+}
+
+export function CanvasSceneB() {
+  return (
+    <AbsoluteFill
+      style={{
+        background: "#101828",
+        padding: 96,
+        justifyContent: "center",
+        fontFamily: SANS,
+      }}
+    >
+      <span style={{ fontSize: 34, color: MUTED }}>Render queue</span>
+      <div style={{ marginTop: 34 }}>
+        {JOBS.map((job) => (
+          <div
+            key={job.file}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "30px 0",
+              borderTop: "1px solid #23304a",
+            }}
+          >
+            <span style={{ fontFamily: MONO, fontSize: 44, color: INK }}>
+              {job.file}
+            </span>
+            <span
+              style={{
+                padding: "12px 26px",
+                borderRadius: 999,
+                fontSize: 30,
+                fontWeight: 500,
+                color: "#101828",
+                background: job.tone,
+              }}
+            >
+              {job.state}
+            </span>
+          </div>
+        ))}
+      </div>
+    </AbsoluteFill>
+  );
+}

@@ -123,22 +123,27 @@ void main() {
     noise(skewed * u_patches * 2.4 + vec2(0.0, u_progress * 3.1)) - 0.5,
     noise(skewed * u_patches * 2.4 + vec2(5.2, 1.7 + u_progress * 4.3)) - 0.5
   );
-  float boil = exp(-pow(depth / (soft * 6.0), 2.0)) * alive * u_heat * 0.14;
+  float heatBand = depth / (soft * 6.0);
+  float boil = exp(-heatBand * heatBand) * alive * u_heat * 0.14;
   vec4 from = texture(u_from, v_uv + shimmer * boil * intact);
   vec4 to = texture(u_to, v_uv - shimmer * boil * arrived);
 
   float ramp = depth / (soft * 2.2);
-  float charred = intact * exp(-pow((ramp - 0.55) * 1.5, 2.0)) * alive;
-  float molten = arrived * exp(-pow((ramp + 0.55) * 1.5, 2.0)) * alive;
-  float rim = exp(-pow(depth / (soft * 1.1), 2.0));
+  float charBand = (ramp - 0.55) * 1.5;
+  float moltenBand = (ramp + 0.55) * 1.5;
+  float rimBand = depth / (soft * 1.1);
+  float charred = intact * exp(-charBand * charBand) * alive;
+  float molten = arrived * exp(-moltenBand * moltenBand) * alive;
+  float rim = exp(-rimBand * rimBand);
 
   float since = clamp(-depth / (soft * 3.0), 0.0, 1.0);
+  float emberBand = depth / (soft * 2.6);
   vec2 emberSpace = skewed + vec2(0.0, u_progress * 0.42);
   float cellSeed = hash(floor(emberSpace * EMBER_GRID));
   float ember =
     step(1.0 - u_embers * 0.08, cellSeed) *
     arrived *
-    exp(-pow(depth / (soft * 2.6), 2.0)) *
+    exp(-emberBand * emberBand) *
     alive;
   vec3 sparkSource = texture(u_from, v_uv + vec2(0.0, since * 0.07)).rgb;
 

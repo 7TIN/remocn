@@ -8,10 +8,12 @@ import {
 } from "remotion";
 import { EmberBurnExampleScene } from "@/components/docs/examples/ember-burn-example";
 import { GlitchCutExampleScene } from "@/components/docs/examples/glitch-cut-example";
+import { GridWaveExampleScene } from "@/components/docs/examples/grid-wave-example";
 import { ParticleDissolveExampleScene } from "@/components/docs/examples/particle-dissolve-example";
 import type { ComponentConfig } from "@/lib/customizer-config";
 import { emberBurnConfig } from "@/registry/remocn/ember-burn/config";
 import { glitchCutConfig } from "@/registry/remocn/glitch-cut/config";
+import { gridWaveConfig } from "@/registry/remocn/grid-wave/config";
 import { particleDissolveConfig } from "@/registry/remocn/particle-dissolve/config";
 
 const { fontFamily: GEIST } = loadFont();
@@ -33,6 +35,7 @@ const SCENES: Record<
     Scene: ParticleDissolveExampleScene,
     config: particleDissolveConfig,
   },
+  "grid-wave": { Scene: GridWaveExampleScene, config: gridWaveConfig },
 };
 
 function makeStage(Scene: ComponentType) {
