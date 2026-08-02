@@ -5,7 +5,8 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { useTrackEvent } from "@/lib/analytics";
 
-const HERO_BADGE_HREF = "https://remocn.dev/docs/filters/getting-started/introduction";
+const HERO_BADGE_HREF =
+  "https://remocn.dev/docs/filters/getting-started/introduction";
 
 export function HeroBadge() {
   const trackEvent = useTrackEvent();
