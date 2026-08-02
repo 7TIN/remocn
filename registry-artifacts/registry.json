@@ -1705,6 +1705,21 @@
       "type": "registry:component"
     },
     {
+      "name": "tv-power-off",
+      "title": "TV Power Off",
+      "description": "End a scene the way a tube does: the picture collapses into a glowing horizontal line, the line pinches to a phosphor dot, the dot decays, and the frame is left dead black.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "registry/remocn/tv-power-off/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/tv-power-off.tsx"
+        }
+      ],
+      "type": "registry:component"
+    },
+    {
       "name": "camera-lens",
       "title": "Camera Lens",
       "description": "Put a scene behind real glass: resolution falls off toward the corners, highlights bloom through the optics, colour fringes at the edges — a screencast that reads as filmed rather than rendered.",

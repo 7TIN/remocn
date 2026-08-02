@@ -3,6 +3,7 @@
   "defaultOpen": true,
   "pages": [
     "index",
+    "tv-power-off",
     "confetti",
     "paper-wobble",
     "ink-arrow",

@@ -1705,6 +1705,21 @@
       ]
     },
     {
+      "name": "tv-power-off",
+      "type": "registry:component",
+      "title": "TV Power Off",
+      "description": "End a scene the way a tube does: the picture collapses into a glowing horizontal line, the line pinches to a phosphor dot, the dot decays, and the frame is left dead black.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "tv-power-off/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/tv-power-off.tsx"
+        }
+      ]
+    },
+    {
       "name": "camera-lens",
       "type": "registry:component",
       "title": "Camera Lens",

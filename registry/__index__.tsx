@@ -116,6 +116,7 @@ import { terminalCursorZoomConfig } from "@/registry/remocn/terminal-cursor-zoom
 import { terminalSimulatorConfig } from "@/registry/remocn/terminal-simulator/config";
 import { topDownLettersConfig } from "@/registry/remocn/top-down-letters/config";
 import { trackingInConfig } from "@/registry/remocn/tracking-in/config";
+import { tvPowerOffConfig } from "@/registry/remocn/tv-power-off/config";
 import { typewriterConfig } from "@/registry/remocn/typewriter/config";
 import { underwaterRippleConfig } from "@/registry/remocn/underwater-ripple/config";
 import { v0Config } from "@/registry/remocn/v0/config";
@@ -1536,6 +1537,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.HologramExampleScene,
       })),
     config: hologramConfig,
+  },
+  "tv-power-off": {
+    load: () =>
+      import("@/components/docs/examples/tv-power-off-example").then((m) => ({
+        default: m.TvPowerOffExampleScene,
+      })),
+    config: tvPowerOffConfig,
   },
   "slide-swap": {
     load: () =>
