@@ -6,6 +6,7 @@ import {
   isHtmlInCanvasSupported,
   registerRoot,
 } from "remotion";
+import { AsciiRenderExampleScene } from "@/components/docs/examples/ascii-render-example";
 import { CrtScreenExampleScene } from "@/components/docs/examples/crt-screen-example";
 import { DisplacementExampleScene } from "@/components/docs/examples/displacement-example";
 import { EmberBurnExampleScene } from "@/components/docs/examples/ember-burn-example";
@@ -16,6 +17,7 @@ import { PixelateRegionExampleScene } from "@/components/docs/examples/pixelate-
 import { SustainedGlitchExampleScene } from "@/components/docs/examples/sustained-glitch-example";
 import { VhsFilterExampleScene } from "@/components/docs/examples/vhs-filter-example";
 import type { ComponentConfig } from "@/lib/customizer-config";
+import { asciiRenderConfig } from "@/registry/remocn/ascii-render/config";
 import { crtScreenConfig } from "@/registry/remocn/crt-screen/config";
 import { displacementConfig } from "@/registry/remocn/displacement/config";
 import { emberBurnConfig } from "@/registry/remocn/ember-burn/config";
@@ -60,6 +62,7 @@ const SCENES: Record<
     Scene: PixelateRegionExampleScene,
     config: pixelateRegionConfig,
   },
+  "ascii-render": { Scene: AsciiRenderExampleScene, config: asciiRenderConfig },
 };
 
 function makeStage(Scene: ComponentType) {

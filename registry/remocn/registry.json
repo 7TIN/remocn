@@ -1675,6 +1675,21 @@
       ]
     },
     {
+      "name": "ascii-render",
+      "type": "registry:component",
+      "title": "ASCII Render",
+      "description": "Redraw a live scene as ASCII: the frame divides into glyph cells and each one becomes the character matching the brightness of the picture inside it.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "ascii-render/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/ascii-render.tsx"
+        }
+      ]
+    },
+    {
       "name": "pixelate-region",
       "type": "registry:component",
       "title": "Pixelate Region",

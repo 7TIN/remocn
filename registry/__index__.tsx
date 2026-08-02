@@ -4,6 +4,7 @@ import { type ComponentConfig, SHARED_CONTROLS } from "@/lib/customizer-config";
 import { animatedBarChartConfig } from "@/registry/remocn/animated-bar-chart/config";
 import { animatedLineChartConfig } from "@/registry/remocn/animated-line-chart/config";
 import { asciiDissolveConfig } from "@/registry/remocn/ascii-dissolve/config";
+import { asciiRenderConfig } from "@/registry/remocn/ascii-render/config";
 import { backdropConfig } from "@/registry/remocn/backdrop/config";
 import { blurOutUpConfig } from "@/registry/remocn/blur-out-up/config";
 import { bottomUpLettersConfig } from "@/registry/remocn/bottom-up-letters/config";
@@ -1488,6 +1489,13 @@ const registry: Record<string, RegistryEntry> = {
         (m) => ({ default: m.PixelateRegionExampleScene }),
       ),
     config: pixelateRegionConfig,
+  },
+  "ascii-render": {
+    load: () =>
+      import("@/components/docs/examples/ascii-render-example").then((m) => ({
+        default: m.AsciiRenderExampleScene,
+      })),
+    config: asciiRenderConfig,
   },
   "slide-swap": {
     load: () =>

@@ -9,6 +9,11 @@ import {
   AlertDialogExampleScene,
   alertDialogExampleCode,
 } from "./alert-dialog-example";
+import {
+  AsciiBackdropExampleScene,
+  AsciiBeatExampleScene,
+  AsciiResolveExampleScene,
+} from "./ascii-render-recipes";
 import { BlurInExampleScene, blurInExampleCode } from "./blur-in-example";
 import { ButtonExampleScene, buttonExampleCode } from "./button-example";
 import { CheckboxExampleScene, checkboxExampleCode } from "./checkbox-example";
@@ -430,5 +435,35 @@ export const examples: Record<string, ExampleEntry> = {
     width: W,
     height: H,
     previewBackdrop: { type: "color", value: "#ffffff" },
+  },
+  "ascii-resolve-example": {
+    Component: AsciiResolveExampleScene,
+    code: "<AsciiRender intensity={intensity} glyphSize={glyphSize} />",
+    // Resolves out of text by frame 34, holds clean, then returns so the loop closes.
+    durationInFrames: 96,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "ascii-beat-example": {
+    Component: AsciiBeatExampleScene,
+    code: "<AsciiRender intensity={intensity} glyphSize={24} />",
+    // Two punches, at frames 18–32 and 56–70, clean everywhere else.
+    durationInFrames: 90,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "ascii-backdrop-example": {
+    Component: AsciiBackdropExampleScene,
+    code: '<AsciiRender glyphSize={18} ink="#2f7a52" />',
+    // The wrapped field completes exactly two wave cycles over these 90 frames.
+    durationInFrames: 90,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
   },
 };
