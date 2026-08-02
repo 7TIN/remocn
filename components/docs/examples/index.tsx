@@ -41,6 +41,11 @@ import {
   FadeThroughExampleScene,
   fadeThroughExampleCode,
 } from "./fade-through-example";
+import {
+  HalftoneLiveExampleScene,
+  HalftoneRegisterExampleScene,
+  HalftoneResolveExampleScene,
+} from "./halftone-print-recipes";
 import { InputExampleScene, inputExampleCode } from "./input-example";
 import {
   MessageBubbleExampleScene,
@@ -465,5 +470,35 @@ export const examples: Record<string, ExampleEntry> = {
     width: W,
     height: H,
     previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "halftone-register-example": {
+    Component: HalftoneRegisterExampleScene,
+    code: "<HalftonePrint misregistration={misregistration} />",
+    // Plates pull into register by frame 36, hold, then drift back so the loop closes.
+    durationInFrames: 90,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#26231d" },
+  },
+  "halftone-resolve-example": {
+    Component: HalftoneResolveExampleScene,
+    code: "<HalftonePrint dotSize={dotSize} />",
+    // Newsprint at frame 0 down to fine offset by frame 40, then back for the loop.
+    durationInFrames: 90,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#26231d" },
+  },
+  "halftone-live-example": {
+    Component: HalftoneLiveExampleScene,
+    code: "<HalftonePrint dotSize={12} />",
+    // The picture pans one full sine cycle over these 90 frames; the screen never moves.
+    durationInFrames: 90,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#26231d" },
   },
 };

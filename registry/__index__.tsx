@@ -33,6 +33,7 @@ import { glassCodeWalkConfig } from "@/registry/remocn/glass-code-walk/config";
 import { glitchCutConfig } from "@/registry/remocn/glitch-cut/config";
 import { grainDissolveConfig } from "@/registry/remocn/grain-dissolve/config";
 import { gridWaveConfig } from "@/registry/remocn/grid-wave/config";
+import { halftonePrintConfig } from "@/registry/remocn/halftone-print/config";
 import { handCountConfig } from "@/registry/remocn/hand-count/config";
 import { handwriteConfig } from "@/registry/remocn/handwrite/config";
 import { iconScatterConfig } from "@/registry/remocn/icon-scatter/config";
@@ -1496,6 +1497,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.AsciiRenderExampleScene,
       })),
     config: asciiRenderConfig,
+  },
+  "halftone-print": {
+    load: () =>
+      import("@/components/docs/examples/halftone-print-example").then((m) => ({
+        default: m.HalftonePrintExampleScene,
+      })),
+    config: halftonePrintConfig,
   },
   "slide-swap": {
     load: () =>

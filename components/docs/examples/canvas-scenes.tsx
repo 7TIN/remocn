@@ -70,6 +70,73 @@ export function CanvasSceneA() {
   );
 }
 
+const POSTER_BARS = [
+  { tone: "#1f7a72", width: 0.92 },
+  { tone: "#e2673a", width: 0.68 },
+  { tone: "#2c3f8f", width: 0.44 },
+];
+
+export function CanvasScenePoster() {
+  return (
+    <AbsoluteFill
+      style={{
+        background: "#efe9dc",
+        padding: 96,
+        justifyContent: "center",
+        fontFamily: SANS,
+      }}
+    >
+      <span
+        style={{
+          fontSize: 30,
+          fontWeight: 500,
+          color: "#8a7f6b",
+        }}
+      >
+        Issue 04
+      </span>
+      <span
+        style={{
+          marginTop: 18,
+          maxWidth: 760,
+          fontSize: 92,
+          fontWeight: 600,
+          letterSpacing: "-0.035em",
+          lineHeight: 1.02,
+          color: "#171410",
+        }}
+      >
+        Ship the demo, not the deck
+      </span>
+      <span
+        style={{
+          marginTop: 28,
+          maxWidth: 640,
+          fontSize: 32,
+          lineHeight: 1.4,
+          color: "#5c5346",
+        }}
+      >
+        A recorded product beats a rehearsed one. Cut it in the afternoon and
+        send it before the meeting.
+      </span>
+      <div style={{ marginTop: 56, display: "flex", flexDirection: "column" }}>
+        {POSTER_BARS.map((bar) => (
+          <div
+            key={bar.tone}
+            style={{
+              width: `${bar.width * 100}%`,
+              height: 26,
+              marginBottom: 14,
+              background: bar.tone,
+            }}
+          />
+        ))}
+      </div>
+    </AbsoluteFill>
+  );
+}
+
 export const SECRET_ROW_X = 504;
 export const SECRET_ROW_WIDTH = 600;
 export const SECRET_ROW_HEIGHT = 72;

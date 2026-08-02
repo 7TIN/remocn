@@ -6,6 +6,7 @@
     "crt-screen",
     "sustained-glitch",
     "pixelate-region",
-    "ascii-render"
+    "ascii-render",
+    "halftone-print"
   ]
 }

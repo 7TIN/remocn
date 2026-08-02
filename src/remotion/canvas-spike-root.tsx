@@ -12,6 +12,7 @@ import { DisplacementExampleScene } from "@/components/docs/examples/displacemen
 import { EmberBurnExampleScene } from "@/components/docs/examples/ember-burn-example";
 import { GlitchCutExampleScene } from "@/components/docs/examples/glitch-cut-example";
 import { GridWaveExampleScene } from "@/components/docs/examples/grid-wave-example";
+import { HalftonePrintExampleScene } from "@/components/docs/examples/halftone-print-example";
 import { ParticleDissolveExampleScene } from "@/components/docs/examples/particle-dissolve-example";
 import { PixelateRegionExampleScene } from "@/components/docs/examples/pixelate-region-example";
 import { SustainedGlitchExampleScene } from "@/components/docs/examples/sustained-glitch-example";
@@ -23,6 +24,7 @@ import { displacementConfig } from "@/registry/remocn/displacement/config";
 import { emberBurnConfig } from "@/registry/remocn/ember-burn/config";
 import { glitchCutConfig } from "@/registry/remocn/glitch-cut/config";
 import { gridWaveConfig } from "@/registry/remocn/grid-wave/config";
+import { halftonePrintConfig } from "@/registry/remocn/halftone-print/config";
 import { particleDissolveConfig } from "@/registry/remocn/particle-dissolve/config";
 import { pixelateRegionConfig } from "@/registry/remocn/pixelate-region/config";
 import { sustainedGlitchConfig } from "@/registry/remocn/sustained-glitch/config";
@@ -63,6 +65,10 @@ const SCENES: Record<
     config: pixelateRegionConfig,
   },
   "ascii-render": { Scene: AsciiRenderExampleScene, config: asciiRenderConfig },
+  "halftone-print": {
+    Scene: HalftonePrintExampleScene,
+    config: halftonePrintConfig,
+  },
 };
 
 function makeStage(Scene: ComponentType) {
