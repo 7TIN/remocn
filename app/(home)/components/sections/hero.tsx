@@ -2,12 +2,11 @@
 
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useTrackEvent } from "@/lib/analytics";
 import { FadeUp } from "../fade-up";
+import { HeroBadge } from "../hero-badge";
 import { HeroNeuroBg } from "../hero-shader-bg";
-import { InstallAll } from "../install-all";
 import { HeroScrollVideo } from "./hero-scroll-video";
 
 export function Hero() {
@@ -22,66 +21,67 @@ export function Hero() {
 
       <div className="section">
         <div className="flex flex-col items-center text-center">
-          <FadeUp delay={0.06} className="flex flex-col items-center">
-            <Badge
-              variant="outline"
-              className="mb-5 h-7 gap-1.5 rounded-full px-3 text-xs"
-              render={
-                <Link
-                  href="/docs/icons/gallery"
-                  onClick={() =>
-                    trackEvent("cta_clicked", {
-                      cta: "hero_ui_badge",
-                      destination: "/docs/icons/gallery",
-                    })
-                  }
-                />
-              }
-            >
-              <span className="font-semibold text-foreground">New</span>
-              <span aria-hidden className="text-muted-foreground/60">
-                ·
-              </span>
-              <span className="text-muted-foreground">
-                Introducing{" "}
-                <span className="text-foreground">Remocn Icons</span>
-              </span>
-              <ArrowRight className="size-3" aria-hidden="true" />
-            </Badge>
+          <FadeUp
+            gate="landing-intro"
+            delay={0.06}
+            className="flex flex-col items-center"
+          >
+            <HeroBadge />
             <h1 className="max-w-3xl text-balance text-3xl font-semibold leading-[1.1] tracking-tight text-foreground sm:text-4xl md:text-5xl">
-              Cinematic video components,
-              <br className="hidden sm:block" /> now copy-pasteable
+              You want the video,
+              <br className="hidden sm:block" /> not the ordeal.
             </h1>
           </FadeUp>
 
-          <FadeUp delay={0.12}>
+          <FadeUp gate="landing-intro" delay={0.12}>
             <p className="mt-4 max-w-2xl text-balance text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Production-ready Remotion animations, transitions and backgrounds.
-              Install with the shadcn CLI and own every line of code.
+              Describe your product to your AI agent. It builds the demo video
+              from ready-made pieces while you watch in the browser.
             </p>
           </FadeUp>
 
-          <FadeUp delay={0.18}>
+          <FadeUp gate="landing-intro" delay={0.18}>
             <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row">
               <Button
                 size="lg"
-                className="h-11 gap-2 rounded-full px-6 text-sm"
+                className="rounded-full"
                 render={
                   <Link
-                    href="/docs/getting-started/introduction"
+                    href="/docs/guides/setup"
                     onClick={() =>
                       trackEvent("cta_clicked", {
-                        cta: "hero_browse",
-                        destination: "/docs/getting-started/introduction",
+                        cta: "hero_start",
+                        destination: "/docs/guides/setup",
                       })
                     }
                   />
                 }
               >
-                Browse components
-                <ArrowRight className="size-4" aria-hidden="true" />
+                Make your first video
+                <ArrowRight
+                  data-icon="inline-end"
+                  className="size-4"
+                  aria-hidden="true"
+                />
               </Button>
-              <InstallAll />
+              <Button
+                variant="secondary"
+                size="lg"
+                className="rounded-full font-medium"
+                render={
+                  <Link
+                    href="/showcases"
+                    onClick={() =>
+                      trackEvent("cta_clicked", {
+                        cta: "hero_showcases",
+                        destination: "/showcases",
+                      })
+                    }
+                  />
+                }
+              >
+                See what ships
+              </Button>
             </div>
           </FadeUp>
         </div>

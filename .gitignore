@@ -49,3 +49,10 @@ next-env.d.ts
 .omc
 
 articles
+
+# agent tooling — local only, never committed
+/.claude/
+/.agents/
+/agent/
+/plans/
+/skills-lock.json

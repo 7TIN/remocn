@@ -1629,6 +1629,260 @@
           "target": "components/remocn/spring-settle.tsx"
         }
       ]
+    },
+    {
+      "name": "canvas-presentation",
+      "type": "registry:lib",
+      "title": "Canvas Presentation",
+      "description": "The html-in-canvas scaffolding the canvas transitions and scene filters share: support detection, a full-screen WebGL2 shader fed either both sides of a cut or the single scene a filter wraps, and routing to a CSS fallback where the browser lacks the API.",
+      "dependencies": ["remotion", "@remotion/transitions"],
+      "files": [
+        {
+          "path": "canvas-presentation/index.tsx",
+          "type": "registry:lib",
+          "target": "lib/remocn/canvas-presentation.tsx"
+        }
+      ]
+    },
+    {
+      "name": "ember-burn",
+      "type": "registry:component",
+      "title": "Ember Burn",
+      "description": "The outgoing frame catches fire where it is brightest, boils in the heat, chars at the rim, and blows away as sparks carrying its own colour.",
+      "dependencies": ["remotion", "@remotion/transitions"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "ember-burn/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/ember-burn.tsx"
+        }
+      ]
+    },
+    {
+      "name": "displacement",
+      "type": "registry:component",
+      "title": "Displacement",
+      "description": "The frame breaks into a grid of cells that shear apart into offset, colour-fringed tiles under film grain, then settle back carrying the next scene.",
+      "dependencies": ["remotion", "@remotion/transitions"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "displacement/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/displacement.tsx"
+        }
+      ]
+    },
+    {
+      "name": "hologram",
+      "type": "registry:component",
+      "title": "Hologram",
+      "description": "Play a scene as a projection: a ghost double shimmers off the image, emission lines structure it, and only what is bright enough carries through the dark volume it hangs in.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "hologram/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/hologram.tsx"
+        }
+      ]
+    },
+    {
+      "name": "security-cam",
+      "type": "registry:component",
+      "title": "Security Cam",
+      "description": "Run a scene through a cheap recorder: macroblocks flatten under a starved bitrate, colour resolution collapses to half the luma, blacks crush and shadows crawl with sensor noise.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "security-cam/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/security-cam.tsx"
+        }
+      ]
+    },
+    {
+      "name": "tv-power-off",
+      "type": "registry:component",
+      "title": "TV Power Off",
+      "description": "End a scene the way a tube does: the picture collapses into a glowing horizontal line, the line pinches to a phosphor dot, the dot decays, and the frame is left dead black.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "tv-power-off/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/tv-power-off.tsx"
+        }
+      ]
+    },
+    {
+      "name": "camera-lens",
+      "type": "registry:component",
+      "title": "Camera Lens",
+      "description": "Put a scene behind real glass: resolution falls off toward the corners, highlights bloom through the optics, colour fringes at the edges — a screencast that reads as filmed rather than rendered.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "camera-lens/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/camera-lens.tsx"
+        }
+      ]
+    },
+    {
+      "name": "underwater-ripple",
+      "type": "registry:component",
+      "title": "Underwater Ripple",
+      "description": "Hold a scene under moving water: every pixel is read through a layered refraction field that closes on a whole number of cycles, with colour fringing where the water bends hardest.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "underwater-ripple/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/underwater-ripple.tsx"
+        }
+      ]
+    },
+    {
+      "name": "halftone-print",
+      "type": "registry:component",
+      "title": "Halftone Print",
+      "description": "Print a scene onto paper: each colour separates onto its own rotated screen of dots sized by the ink under them, slightly out of register the way a real press runs.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "halftone-print/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/halftone-print.tsx"
+        }
+      ]
+    },
+    {
+      "name": "ascii-render",
+      "type": "registry:component",
+      "title": "ASCII Render",
+      "description": "Redraw a live scene as ASCII: the frame divides into glyph cells and each one becomes the character matching the brightness of the picture inside it.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "ascii-render/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/ascii-render.tsx"
+        }
+      ]
+    },
+    {
+      "name": "pixelate-region",
+      "type": "registry:component",
+      "title": "Pixelate Region",
+      "description": "Cover rectangles of a scene with an opaque mosaic while the rest passes through untouched — redact keys, addresses and personal data before a demo goes out.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "pixelate-region/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/pixelate-region.tsx"
+        }
+      ]
+    },
+    {
+      "name": "sustained-glitch",
+      "type": "registry:component",
+      "title": "Sustained Glitch",
+      "description": "Broadcast corruption held over a scene in scheduled bursts: slices tear sideways, channels split, and blocks fill with picture pulled from somewhere else — then the frame rests clean until the next hit.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "sustained-glitch/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/sustained-glitch.tsx"
+        }
+      ]
+    },
+    {
+      "name": "crt-screen",
+      "type": "registry:component",
+      "title": "CRT Screen",
+      "description": "Put a scene behind curved glass: the picture bulges out to the corners, an RGB phosphor mask and scanlines ride the curve, bright areas flood the mask, and the tube falls away into darkness at the rim.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "crt-screen/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/crt-screen.tsx"
+        }
+      ]
+    },
+    {
+      "name": "vhs-filter",
+      "type": "registry:component",
+      "title": "VHS Filter",
+      "description": "Hold a scene under analog tape: chroma bleeds sideways off every edge, rows wobble out of line, the bottom of the frame tears on the head switch, and luma noise settles over all of it.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "vhs-filter/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/vhs-filter.tsx"
+        }
+      ]
+    },
+    {
+      "name": "grid-wave",
+      "type": "registry:component",
+      "title": "Grid Wave",
+      "description": "A wave travels across the frame raising the picture into a grid of solid blocks with lit tops and shaded sides, which set back down carrying the next scene.",
+      "dependencies": ["remotion", "@remotion/transitions"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "grid-wave/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/grid-wave.tsx"
+        }
+      ]
+    },
+    {
+      "name": "particle-dissolve",
+      "type": "registry:component",
+      "title": "Particle Dissolve",
+      "description": "The frame is ground into drifting grey dust whose specks carry real fragments of the picture, and the next scene coalesces back out of the same dust.",
+      "dependencies": ["remotion", "@remotion/transitions"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "particle-dissolve/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/particle-dissolve.tsx"
+        }
+      ]
+    },
+    {
+      "name": "glitch-cut",
+      "type": "registry:component",
+      "title": "Glitch Cut",
+      "description": "A broadcast-glitch hard cut: the frame tears into displaced slices with channel split and corrupted blocks, and the incoming scene takes over slice by slice at the peak.",
+      "dependencies": ["remotion", "@remotion/transitions"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "glitch-cut/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/glitch-cut.tsx"
+        }
+      ]
     }
   ]
 }

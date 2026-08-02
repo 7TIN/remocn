@@ -108,6 +108,16 @@
      stays dark so the label reads on the light-lime background. */
   --badge-new-bg: rgb(195, 232, 141);
   --badge-new-fg: oklch(0.205 0 0);
+
+  --elevation-raised:
+    0 0 0 1px rgb(0 0 0 / 0.05), 0 1px 3px rgb(0 0 0 / 0.05), 0 4px 10px -4px
+    rgb(0 0 0 / 0.05);
+  --elevation-raised-hover:
+    0 0 0 1px rgb(0 0 0 / 0.07), 0 1px 3px rgb(0 0 0 / 0.07), 0 4px 10px -4px
+    rgb(0 0 0 / 0.08);
+  --elevation-raised-highlighted:
+    0 0 0 1px rgb(0 0 0 / 0.15), 0 1px 3px rgb(0 0 0 / 0.05), 0 4px 10px -4px
+    rgb(0 0 0 / 0.05);
 }
 
 .dark {
@@ -151,6 +161,10 @@
   /* Badge keeps the same lime accent in dark mode — see :root for the knob. */
   --badge-new-bg: rgb(195, 232, 141);
   --badge-new-fg: oklch(0.205 0 0);
+
+  --elevation-raised: 0 0 0 1px rgb(255 255 255 / 0.09);
+  --elevation-raised-hover: 0 0 0 1px rgb(255 255 255 / 0.14);
+  --elevation-raised-highlighted: 0 0 0 1px rgb(255 255 255 / 0.18);
 }
 
 @layer base {
@@ -165,9 +179,14 @@
   }
   html {
     @apply font-sans;
+    font-synthesis: none;
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
   }
+}
+
+::selection {
+  background-color: color-mix(in oklab, #d4b3ff 35%, transparent);
 }
 
 .section {
@@ -192,6 +211,15 @@
   mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black, transparent 75%);
 }
 
+.bg-dot-grid {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--color-foreground) 6%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 16px 16px;
+}
+
 .divider-soft {
   background: linear-gradient(
     to right,
@@ -201,10 +229,24 @@
   );
 }
 
-.surface-card {
-  background-color: color-mix(in oklab, var(--color-card) 92%, transparent);
-  border: 1px solid var(--color-border);
-  backdrop-filter: blur(12px);
+@layer components {
+  .surface-card {
+    background-color: color-mix(in oklab, var(--color-card) 92%, transparent);
+    box-shadow: var(--elevation-raised);
+    backdrop-filter: blur(12px);
+  }
+
+  .surface-card-highlighted {
+    box-shadow: var(--elevation-raised-highlighted);
+  }
+
+  .surface-card-interactive {
+    transition: box-shadow 150ms ease-out;
+  }
+
+  .surface-card-interactive:hover {
+    box-shadow: var(--elevation-raised-hover);
+  }
 }
 
 .marquee-edge-fade {
@@ -237,6 +279,12 @@
 .typeset figure.shiki [class*="bg-"] {
   /* biome-ignore lint/complexity/noImportantStyles: see above */
   background-color: transparent !important;
+}
+.typeset figure.shiki pre,
+[data-rehype-pretty-code-figure] pre {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, currentColor 25%, transparent)
+    transparent;
 }
 
 [data-rehype-pretty-code-figure] {
@@ -386,19 +434,48 @@
 }
 
 #nd-sidebar a.w-full,
-#nd-sidebar-mobile a.w-full {
+#nd-sidebar-mobile a.w-full,
+#nd-sidebar [data-radix-scroll-area-viewport] button.w-full,
+#nd-sidebar-mobile [data-radix-scroll-area-viewport] button.w-full {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 0.6875rem;
   font-weight: 600;
   color: var(--muted-foreground);
 
-  margin-top: 2.5rem;
+  margin-top: 0.25rem;
 }
 #nd-sidebar a.w-full:hover,
-#nd-sidebar-mobile a.w-full:hover {
+#nd-sidebar-mobile a.w-full:hover,
+#nd-sidebar [data-radix-scroll-area-viewport] button.w-full:hover,
+#nd-sidebar-mobile [data-radix-scroll-area-viewport] button.w-full:hover {
   color: var(--foreground);
   background-color: transparent;
+}
+
+#nd-sidebar [data-radix-scroll-area-viewport] a.w-full + div,
+#nd-sidebar [data-radix-scroll-area-viewport] button.w-full + div,
+#nd-sidebar-mobile [data-radix-scroll-area-viewport] a.w-full + div,
+#nd-sidebar-mobile [data-radix-scroll-area-viewport] button.w-full + div {
+  padding-bottom: 1rem;
+}
+#nd-sidebar [data-radix-scroll-area-viewport] a.w-full + div::before,
+#nd-sidebar [data-radix-scroll-area-viewport] button.w-full + div::before,
+#nd-sidebar-mobile [data-radix-scroll-area-viewport] a.w-full + div::before,
+#nd-sidebar-mobile
+  [data-radix-scroll-area-viewport]
+  button.w-full
+  + div::before {
+  bottom: 1.25rem;
+}
+
+#nd-sidebar a.w-full svg[data-icon],
+#nd-sidebar button.w-full svg[data-icon],
+#nd-sidebar-mobile a.w-full svg[data-icon],
+#nd-sidebar-mobile button.w-full svg[data-icon] {
+  width: 0.875rem;
+  height: 0.875rem;
+  opacity: 0.7;
 }
 
 #nd-sidebar [data-radix-scroll-area-viewport],

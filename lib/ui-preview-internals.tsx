@@ -117,7 +117,7 @@ export function PreviewStage({
   // we drive play() via the ref on the next animation frame, retrying once if
   // the first call didn't take. Mirrors stars/hooks/use-player-controls.ts.
   useEffect(() => {
-    if (!mounted) return;
+    if (!mounted || reducedMotion) return;
     let raf1 = 0;
     let raf2 = 0;
     raf1 = requestAnimationFrame(() => {
@@ -132,7 +132,33 @@ export function PreviewStage({
       if (raf1) cancelAnimationFrame(raf1);
       if (raf2) cancelAnimationFrame(raf2);
     };
-  }, [mounted]);
+  }, [mounted, reducedMotion]);
+
+  const pausedByStage = useRef(false);
+  useEffect(() => {
+    if (!mounted || reducedMotion) return;
+    const el = frameRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.some((entry) => entry.isIntersecting);
+        const player = playerRef.current;
+        if (!player) return;
+        if (visible) {
+          if (pausedByStage.current) {
+            pausedByStage.current = false;
+            player.play();
+          }
+        } else if (player.isPlaying()) {
+          pausedByStage.current = true;
+          player.pause();
+        }
+      },
+      { rootMargin: "100px 0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [mounted, reducedMotion]);
 
   const compProps = useMemo<
     // biome-ignore lint/suspicious/noExplicitAny: dynamically-loaded Remotion composition, props shape varies per component
@@ -163,11 +189,10 @@ export function PreviewStage({
   return (
     <div
       ref={frameRef}
-      // Slightly shorter than 16:9 so the player takes a touch less vertical
-      // space. Compositions are a strict 1280×720 (16:9), so the Player letterboxes
-      // the small delta against the surface-card background while staying full-width
-      // and aligned with the tabs/customize panel. The Suspense fallback above uses
-      // the same ratio to keep zero layout shift.
+      // Compositions are a strict 1280×720 (16:9) and the stage matches
+      // (aspect-video), staying full-width and aligned with the tabs/customize
+      // panel. The Suspense fallback above uses the same ratio to keep zero
+      // layout shift.
       className="surface-card aspect-video w-full overflow-hidden rounded-2xl"
     >
       {mounted ? (

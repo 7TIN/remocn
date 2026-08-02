@@ -10,9 +10,10 @@ export type PreviewSurface =
   | "docs";
 
 export type CtaId =
-  | "hero_browse"
+  | "hero_start"
+  | "hero_showcases"
   | "hero_ui_badge"
-  | "bento_browse"
+  | "how_it_works_setup"
   | "final_cta"
   | "github_header";
 
@@ -37,6 +38,9 @@ type AnalyticsEvents = {
   };
   customized_link_shared: {
     component: string;
+  };
+  docs_markdown_copied: {
+    page: string;
   };
   customizer_reset: {
     component: string;

@@ -1,6 +1,6 @@
 {
   "title": "Typography",
-  "collapsible": false,
+  "defaultOpen": true,
   "pages": [
     "index",
     "soft-blur-in",

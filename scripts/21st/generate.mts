@@ -100,8 +100,10 @@ function mergeIconWithCore(iconCode: string, coreCode: string): string {
       for (const s of specs) {
         if (set.has(s.replace(/^type /, ""))) continue;
         if (s.startsWith("type ") || !set.has(`type ${s}`)) set.add(s);
-        if (!s.startsWith("type ") && set.has(`type ${s}`))
-          set.delete(`type ${s}`), set.add(s);
+        if (!s.startsWith("type ") && set.has(`type ${s}`)) {
+          set.delete(`type ${s}`);
+          set.add(s);
+        }
       }
       named.set(mod, set);
     }

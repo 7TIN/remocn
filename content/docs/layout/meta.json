@@ -1,5 +1,5 @@
 {
   "title": "Layout",
-  "collapsible": false,
+  "defaultOpen": false,
   "pages": ["index", "backdrop", "drift", "chat-to-preview-layout"]
 }

@@ -4,7 +4,7 @@ import { Tiers } from "./components/sections/tiers";
 import { WallOfLove } from "./components/sections/wall-of-love";
 
 const DESCRIPTION =
-  "Support remocn and keep the components free and open source. Back the project monthly or one-time and get your logo in front of the community.";
+  "Support remocn and keep the components free and open source. Back the project monthly or one-time, from a name in the README to your logo on the landing page.";
 
 export const metadata: Metadata = {
   title: "Sponsors",
@@ -34,6 +34,9 @@ export default function SponsorsPage() {
     <>
       <Hero />
       <Tiers />
+      <div aria-hidden className="section">
+        <div className="divider-soft h-px" />
+      </div>
       <WallOfLove />
     </>
   );

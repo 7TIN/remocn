@@ -1,4 +1,5 @@
 import remocnRegistry from "@/registry/remocn/registry.json";
+import remocnIconsRegistry from "@/registry/remocn-icons/registry.json";
 import remocnUiRegistry from "@/registry/remocn-ui/registry.json";
 
 // Pastel accent palette — peach / lavender / mint.
@@ -9,10 +10,11 @@ export const MINT = "#A1EEBD";
 
 export const GITHUB_URL = "https://github.com/Remocn/remocn";
 
-export const SUPPORT_EMAIL = "kapish@remocn.dev";
+export const X_URL = "https://x.com/_remocn";
 
-/** Canonical example install command shown on the landing page. */
-export const INSTALL_COMMAND = "npx shadcn@latest add remocn/soft-blur-in";
+export const THREADS_URL = "https://www.threads.com/@_remocn";
+
+export const SUPPORT_EMAIL = "kapish@remocn.dev";
 
 export const INSTALL_ALL_NAMES: string[] = [
   ...remocnRegistry.items,
@@ -22,6 +24,11 @@ export const INSTALL_ALL_NAMES: string[] = [
 export const INSTALL_ALL_COMMAND = `npx shadcn@latest add ${INSTALL_ALL_NAMES.map(
   (name) => `@remocn/${name}`,
 ).join(" ")}`;
+
+export const COMPONENT_COUNT =
+  remocnRegistry.items.length +
+  remocnUiRegistry.items.length +
+  remocnIconsRegistry.items.length;
 
 export const SPRING_BOUNCE = {
   type: "spring" as const,
@@ -57,33 +64,52 @@ export const NAV_LINKS: NavLink[] = [
  * tag another menu item — no component changes needed. See `withNewBadges`.
  */
 export const NEW_BADGE_PATHS = new Set<string>([
-  "/docs/typography/handwrite",
-  "/docs/typography/ink-underline",
-  "/docs/effects/paper-wobble",
-  "/docs/effects/ink-arrow",
-  "/docs/ui-blocks/paper-sticker",
-  "/docs/ui-blocks/polaroid",
-  "/docs/transitions/page-turn",
-  "/docs/ui-blocks/check-list",
-  "/docs/effects/scribble-circle",
-  "/docs/typography/hand-count",
-  "/docs/effects/crumple-toss",
-  "/docs/transitions/ascii-dissolve",
-  "/docs/transitions/caret-wipe",
-  "/docs/transitions/icon-scatter",
-  "/docs/shaders/components/shader-caustics",
-  "/docs/shaders/components/shader-gem-smoke",
-  "/docs/shaders/components/shader-strata",
-  "/docs/shaders/components/shader-weave",
-  "/docs/ui-blocks/reel",
+  "/docs/transitions/glitch-cut",
+  "/docs/transitions/ember-burn",
+  "/docs/transitions/particle-dissolve",
+  "/docs/transitions/grid-wave",
+  "/docs/transitions/displacement",
+  "/docs/filters/components/vhs-filter",
+  "/docs/filters/components/crt-screen",
+  "/docs/filters/components/sustained-glitch",
+  "/docs/filters/components/pixelate-region",
+  "/docs/filters/components/ascii-render",
+  "/docs/filters/components/halftone-print",
+  "/docs/filters/components/underwater-ripple",
+  "/docs/filters/components/camera-lens",
+  "/docs/filters/components/security-cam",
+  "/docs/filters/components/hologram",
+  "/docs/effects/tv-power-off",
 ]);
 
-export const FOOTER_NAV: NavLink[] = [
-  { href: "/docs/getting-started/introduction", label: "Docs" },
-  { href: "/changelog", label: "Changelog" },
-  { href: "/blog", label: "Blog" },
-  { href: "/showcases", label: "Showcases" },
-  { href: GITHUB_URL, label: "GitHub" },
-  { href: "/sponsors", label: "Sponsors" },
-  { href: "/legal", label: "Privacy & Terms" },
+export type FooterGroup = {
+  label: string;
+  links: NavLink[];
+};
+
+export const FOOTER_GROUPS: FooterGroup[] = [
+  {
+    label: "Registry",
+    links: [
+      { href: "/docs/typography", label: "Components" },
+      { href: "/docs/shaders/getting-started/introduction", label: "Shaders" },
+      { href: "/docs/icons/gallery", label: "Icons" },
+    ],
+  },
+  {
+    label: "Learn",
+    links: [
+      { href: "/docs/getting-started/introduction", label: "Docs" },
+      { href: "/blog", label: "Blog" },
+      { href: "/changelog", label: "Changelog" },
+    ],
+  },
+  {
+    label: "Project",
+    links: [
+      { href: "/showcases", label: "Showcases" },
+      { href: "/sponsors", label: "Sponsors" },
+      { href: "/legal", label: "Privacy & Terms" },
+    ],
+  },
 ];

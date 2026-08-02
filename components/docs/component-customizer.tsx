@@ -120,7 +120,7 @@ function NumberInputPill({
           commit(e.target.value);
         }}
         onBlur={() => setDraft(String(committed.current))}
-        className="min-w-0 flex-1 bg-transparent text-right font-mono text-sm font-medium text-foreground outline-none placeholder:text-muted-foreground/50 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        className="min-w-0 flex-1 bg-transparent text-right font-mono text-base font-medium text-foreground outline-none placeholder:text-muted-foreground/50 sm:text-sm [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
       />
     </div>
   );
@@ -174,16 +174,19 @@ function Control({
 
     case "boolean":
       return (
-        <div className={cn(PILL, "justify-between")}>
-          <Label htmlFor={id} className="font-medium text-muted-foreground">
+        <label
+          htmlFor={id}
+          className={cn(PILL, "cursor-pointer justify-between")}
+        >
+          <span className="font-medium text-muted-foreground">
             {ctrl.label}
-          </Label>
+          </span>
           <Switch
             id={id}
             checked={value as boolean}
             onCheckedChange={onChange}
           />
-        </div>
+        </label>
       );
 
     case "color":
@@ -223,9 +226,11 @@ function Control({
           <input
             id={id}
             type="text"
+            spellCheck={false}
+            autoComplete="off"
             value={value as string}
             onChange={(e) => onChange(e.target.value)}
-            className="min-w-0 flex-1 bg-transparent text-right font-mono text-sm font-medium text-foreground outline-none placeholder:text-muted-foreground/50"
+            className="min-w-0 flex-1 bg-transparent text-right font-mono text-base font-medium text-foreground outline-none placeholder:text-muted-foreground/50 sm:text-sm"
           />
         </div>
       );

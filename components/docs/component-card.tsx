@@ -58,7 +58,7 @@ function CardPreview({ item }: { item: CardItem }) {
 function CardBody({ item }: { item: CardItem }) {
   return (
     <>
-      <div className="surface-card aspect-video w-full overflow-hidden rounded-xl transition-[transform,border-color] group-hover/card:-translate-y-0.5 group-hover/card:border-foreground/20 group-focus-visible/card:-translate-y-0.5 group-focus-visible/card:border-foreground/20">
+      <div className="surface-card aspect-video w-full overflow-hidden rounded-xl transition-[transform,box-shadow] group-hover/card:-translate-y-0.5 group-hover/card:[box-shadow:var(--elevation-raised-hover)] group-focus-visible/card:-translate-y-0.5 group-focus-visible/card:[box-shadow:var(--elevation-raised-hover)]">
         <CardPreview item={item} />
       </div>
       <div className="flex items-center justify-between gap-2">

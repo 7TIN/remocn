@@ -1,6 +1,6 @@
 {
   "title": "Transitions",
-  "collapsible": false,
+  "defaultOpen": true,
   "pages": [
     "index",
     "grain-dissolve",
@@ -19,6 +19,11 @@
     "ascii-dissolve",
     "caret-wipe",
     "icon-scatter",
+    "glitch-cut",
+    "ember-burn",
+    "particle-dissolve",
+    "grid-wave",
+    "displacement",
     "slide-swap",
     "spring-settle"
   ]

@@ -7,7 +7,12 @@ import type { Node, Root } from "fumadocs-core/page-tree";
  * unchanged from the flat docs structure. No files move and no URLs change —
  * the split is purely a view over the existing Fumadocs page tree.
  */
-export type DocsTabId = "components" | "primitives" | "shaders" | "icons";
+export type DocsTabId =
+  | "components"
+  | "primitives"
+  | "shaders"
+  | "filters"
+  | "icons";
 
 export type DocsTab = {
   id: DocsTabId;
@@ -27,6 +32,11 @@ export const DOCS_TABS: DocsTab[] = [
     id: "shaders",
     label: "Shaders",
     href: "/docs/shaders/getting-started/introduction",
+  },
+  {
+    id: "filters",
+    label: "Filters",
+    href: "/docs/filters/getting-started/introduction",
   },
   {
     id: "icons",
@@ -54,6 +64,14 @@ function isShadersPath(pathname: string): boolean {
   );
 }
 
+const FILTERS_PREFIX = "/docs/filters";
+
+function isFiltersPath(pathname: string): boolean {
+  return (
+    pathname === FILTERS_PREFIX || pathname.startsWith(`${FILTERS_PREFIX}/`)
+  );
+}
+
 const ICONS_PREFIX = "/docs/icons";
 
 function isIconsPath(pathname: string): boolean {
@@ -62,6 +80,7 @@ function isIconsPath(pathname: string): boolean {
 
 export function getActiveDocsTab(pathname: string): DocsTabId {
   if (isShadersPath(pathname)) return "shaders";
+  if (isFiltersPath(pathname)) return "filters";
   if (isIconsPath(pathname)) return "icons";
   if (isPrimitivesPath(pathname)) return "primitives";
   return "components";
@@ -77,36 +96,32 @@ function isPrimitivesNode(node: Node): boolean {
   );
 }
 
-/** True if the node (or any descendant) is a shaders page — folders now nest. */
-function hasShadersDescendant(node: Node): boolean {
-  if (node.type === "page") return node.url.startsWith(`${SHADERS_PREFIX}/`);
-  if (node.type === "folder") {
-    if (node.index?.url === SHADERS_PREFIX) return true;
-    return node.children.some(hasShadersDescendant);
-  }
-  return false;
+/**
+ * True for the root-level folder node that owns `prefix`, matching a section
+ * however deeply its pages nest (shaders, filters and icons all group their
+ * pages under sub-folders). Kept separate from {@link isPrimitivesNode}, which
+ * only ever looks one level down.
+ */
+function sectionNodeMatcher(prefix: string): (node: Node) => boolean {
+  const hasDescendant = (node: Node): boolean => {
+    if (node.type === "page") return node.url.startsWith(`${prefix}/`);
+    if (node.type === "folder") {
+      if (node.index?.url === prefix) return true;
+      return node.children.some(hasDescendant);
+    }
+    return false;
+  };
+
+  return (node) => {
+    if (node.type !== "folder") return false;
+    if (node.index?.url === prefix) return true;
+    return node.children.some(hasDescendant);
+  };
 }
 
-function isShadersNode(node: Node): boolean {
-  if (node.type !== "folder") return false;
-  if (node.index?.url === SHADERS_PREFIX) return true;
-  return node.children.some(hasShadersDescendant);
-}
-
-function hasIconsDescendant(node: Node): boolean {
-  if (node.type === "page") return node.url.startsWith(`${ICONS_PREFIX}/`);
-  if (node.type === "folder") {
-    if (node.index?.url === ICONS_PREFIX) return true;
-    return node.children.some(hasIconsDescendant);
-  }
-  return false;
-}
-
-function isIconsNode(node: Node): boolean {
-  if (node.type !== "folder") return false;
-  if (node.index?.url === ICONS_PREFIX) return true;
-  return node.children.some(hasIconsDescendant);
-}
+const isShadersNode = sectionNodeMatcher(SHADERS_PREFIX);
+const isFiltersNode = sectionNodeMatcher(FILTERS_PREFIX);
+const isIconsNode = sectionNodeMatcher(ICONS_PREFIX);
 
 /**
  * Hoists a matched folder's own index page and children up to the tab root, so
@@ -143,6 +158,7 @@ export function splitDocsTree(tree: Root): {
   components: Root;
   primitives: Root;
   shaders: Root;
+  filters: Root;
   icons: Root;
 } {
   return {
@@ -151,7 +167,10 @@ export function splitDocsTree(tree: Root): {
       $id: "docs-tab-components",
       children: tree.children.filter(
         (node) =>
-          !isPrimitivesNode(node) && !isShadersNode(node) && !isIconsNode(node),
+          !isPrimitivesNode(node) &&
+          !isShadersNode(node) &&
+          !isFiltersNode(node) &&
+          !isIconsNode(node),
       ),
     },
     primitives: {
@@ -163,6 +182,11 @@ export function splitDocsTree(tree: Root): {
       ...tree,
       $id: "docs-tab-shaders",
       children: hoistPrimitives(tree.children.filter(isShadersNode)),
+    },
+    filters: {
+      ...tree,
+      $id: "docs-tab-filters",
+      children: hoistPrimitives(tree.children.filter(isFiltersNode)),
     },
     icons: {
       ...tree,

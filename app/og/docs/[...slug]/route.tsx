@@ -48,6 +48,7 @@ export async function GET(
         position: "relative",
       }}
     >
+      {/** biome-ignore lint/performance/noImgElement: ImageResponse (satori) renders plain img only */}
       <img
         src={bgDataUri}
         width={1200}
@@ -56,6 +57,7 @@ export async function GET(
         style={{ position: "absolute", top: 0, left: 0 }}
       />
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        {/** biome-ignore lint/performance/noImgElement: ImageResponse (satori) renders plain img only */}
         <img src={markDataUri} width={30} height={32} alt="" />
         <span
           style={{

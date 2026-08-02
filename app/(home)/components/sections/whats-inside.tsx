@@ -14,7 +14,6 @@ import Link from "next/link";
 import { type ComponentType, useRef } from "react";
 import { SPRING_SOFT } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { FadeUp } from "../fade-up";
 import { SectionHeading } from "../section-heading";
 
 // The shader viz is the only tile that pulls @remotion/player + the shader
@@ -28,10 +27,10 @@ const ShadersViz = dynamic(
   },
 );
 
-const EYEBROW = "What's inside";
+const EYEBROW = "What’s inside";
 const TITLE = "Five kinds of building blocks";
 const LEAD =
-  "Every remocn component belongs to one of these families. Compose them on the Remotion timeline to build a full video, one scene at a time.";
+  "Every remocn component belongs to one of these families. Your agent composes them on the timeline, one scene at a time.";
 
 interface VizProps {
   play: boolean;
@@ -232,7 +231,7 @@ const CATEGORIES: Category[] = [
   {
     title: "Typography",
     description:
-      "Text that animates itself in — blur-ins, line reveals, kinetic builds.",
+      "Words that arrive with weight instead of just appearing on screen.",
     href: "/docs/typography",
     icon: Type,
     Viz: TypographyViz,
@@ -240,7 +239,8 @@ const CATEGORIES: Category[] = [
   },
   {
     title: "Shaders",
-    description: "GPU backgrounds — animated noise, gradients, and meshes.",
+    description:
+      "Backgrounds that move — the kind sitting behind every good hero shot.",
     href: "/docs/shaders/getting-started/introduction",
     icon: Waves,
     Viz: ShadersViz,
@@ -248,7 +248,7 @@ const CATEGORIES: Category[] = [
   },
   {
     title: "Transitions",
-    description: "Scene-to-scene cuts — pushes, dissolves, and shader wipes.",
+    description: "Cuts between scenes that don’t look like a slideshow.",
     href: "/docs/transitions",
     icon: Shuffle,
     Viz: TransitionsViz,
@@ -256,7 +256,7 @@ const CATEGORIES: Category[] = [
   },
   {
     title: "Animated Icons",
-    description: "Lucide icons redrawn for video, each with its own action.",
+    description: "Icons that actually do the thing they stand for.",
     href: "/docs/icons/gallery",
     icon: Sparkles,
     Viz: AnimatedIconsViz,
@@ -265,7 +265,7 @@ const CATEGORIES: Category[] = [
   {
     title: "UI Primitives",
     description:
-      "shadcn components scripted on the frame — buttons, switches, dialogs.",
+      "Fake app screens — buttons, dialogs and menus that behave like the real thing.",
     href: "/docs/ui",
     icon: Component,
     Viz: UiPrimitivesViz,
@@ -273,54 +273,54 @@ const CATEGORIES: Category[] = [
   },
 ];
 
-function CategoryCard({
-  category,
-  index,
-}: {
-  category: Category;
-  index: number;
-}) {
+function CategoryCard({ category }: { category: Category }) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { amount: 0.4 });
+  const reduced = useReducedMotion();
   const { Viz, icon: Icon } = category;
 
   return (
-    <FadeUp delay={index * 0.06} className={cn("h-full", category.span)}>
+    <div className={cn("h-full", category.span)}>
       <Link
         href={category.href}
         aria-label={`Explore ${category.title}`}
         className="group block h-full rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
       >
-        <motion.article
-          ref={ref}
-          whileHover={{ y: -4 }}
-          transition={SPRING_SOFT}
-          className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card"
-        >
-          <div className="relative flex h-40 items-center justify-center overflow-hidden border-b border-border bg-muted/20 sm:h-44 [background-image:radial-gradient(circle,color-mix(in_oklab,var(--color-foreground)_6%,transparent)_1px,transparent_1px)] [background-size:16px_16px]">
-            <Viz play={inView} />
-          </div>
-          <div className="flex flex-1 flex-col p-5 sm:p-6">
-            <div className="flex items-center gap-2">
-              <Icon
-                aria-hidden
-                className="size-4 shrink-0 text-muted-foreground"
-              />
-              <h3 className="text-base font-semibold tracking-tight text-foreground">
-                {category.title}
-              </h3>
-              <ArrowUpRight
-                aria-hidden
-                className="ml-auto size-4 shrink-0 text-muted-foreground/40 transition-colors group-hover:text-foreground"
-              />
+        <motion.div whileHover="hover" className="h-full">
+          <motion.article
+            ref={ref}
+            variants={reduced ? undefined : { hover: { y: -4 } }}
+            transition={SPRING_SOFT}
+            className="surface-card relative flex h-full flex-col overflow-hidden rounded-3xl"
+          >
+            <div
+              aria-hidden
+              className="bg-dot-grid pointer-events-none relative flex h-40 select-none items-center justify-center overflow-hidden border-b border-border bg-muted/20 sm:h-44"
+            >
+              <Viz play={inView} />
             </div>
-            <p className="mt-2 text-sm leading-relaxed text-pretty text-muted-foreground">
-              {category.description}
-            </p>
-          </div>
-        </motion.article>
+            <div className="flex flex-1 flex-col p-5 sm:p-6">
+              <div className="flex items-center gap-2">
+                <Icon
+                  aria-hidden
+                  className="size-4 shrink-0 text-muted-foreground"
+                />
+                <h3 className="text-base font-semibold tracking-tight text-foreground">
+                  {category.title}
+                </h3>
+                <ArrowUpRight
+                  aria-hidden
+                  className="ml-auto size-4 shrink-0 text-muted-foreground/40 transition-colors group-hover:text-foreground"
+                />
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-pretty text-muted-foreground">
+                {category.description}
+              </p>
+            </div>
+          </motion.article>
+        </motion.div>
       </Link>
-    </FadeUp>
+    </div>
   );
 }
 
@@ -331,11 +331,16 @@ export function WhatsInside() {
       className="relative py-14 sm:py-20 [content-visibility:auto] [contain-intrinsic-size:auto_640px]"
     >
       <div className="section">
-        <SectionHeading eyebrow={EYEBROW} title={TITLE} lead={LEAD} />
+        <SectionHeading
+          eyebrow={EYEBROW}
+          title={TITLE}
+          lead={LEAD}
+          animated={false}
+        />
 
         <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 sm:grid-cols-2 sm:gap-5 lg:grid-cols-6 lg:gap-6">
-          {CATEGORIES.map((category, i) => (
-            <CategoryCard key={category.title} category={category} index={i} />
+          {CATEGORIES.map((category) => (
+            <CategoryCard key={category.title} category={category} />
           ))}
         </div>
       </div>

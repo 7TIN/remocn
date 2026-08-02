@@ -3,6 +3,8 @@ import type { MDXComponents } from "mdx/types";
 import type { ComponentProps } from "react";
 import { BlockPreview } from "@/components/docs/block-preview";
 import { Note, Warning } from "@/components/docs/callout";
+import { CanvasFilterNote } from "@/components/docs/canvas-filter-note";
+import { CanvasTransitionNote } from "@/components/docs/canvas-transition-note";
 import { getIconForLanguage } from "@/components/docs/code-icons";
 import { ComponentCardGrid } from "@/components/docs/component-card-grid";
 import { ComponentExample } from "@/components/docs/component-example";
@@ -40,8 +42,10 @@ function Pre({ className, ...props }: ComponentProps<"pre">) {
   return (
     <pre
       data-not-typeset
+      // biome-ignore lint/a11y/noNoninteractiveTabindex: horizontally scrollable code must be keyboard-focusable
+      tabIndex={0}
       className={cn(
-        "no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 outline-none has-data-line-numbers:px-0",
+        "min-w-0 overflow-x-auto px-4 py-3.5 has-data-line-numbers:px-0",
         className,
       )}
       {...props}
@@ -109,6 +113,8 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     PropsTable,
     Note,
     Warning,
+    CanvasTransitionNote,
+    CanvasFilterNote,
     Dependencies,
     ComponentCardGrid,
     IconsGallery,
