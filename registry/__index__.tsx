@@ -4,9 +4,11 @@ import { type ComponentConfig, SHARED_CONTROLS } from "@/lib/customizer-config";
 import { animatedBarChartConfig } from "@/registry/remocn/animated-bar-chart/config";
 import { animatedLineChartConfig } from "@/registry/remocn/animated-line-chart/config";
 import { asciiDissolveConfig } from "@/registry/remocn/ascii-dissolve/config";
+import { asciiRenderConfig } from "@/registry/remocn/ascii-render/config";
 import { backdropConfig } from "@/registry/remocn/backdrop/config";
 import { blurOutUpConfig } from "@/registry/remocn/blur-out-up/config";
 import { bottomUpLettersConfig } from "@/registry/remocn/bottom-up-letters/config";
+import { cameraLensConfig } from "@/registry/remocn/camera-lens/config";
 import { caretWipeConfig } from "@/registry/remocn/caret-wipe/config";
 import { chatGptConfig } from "@/registry/remocn/chat-gpt/config";
 import { chatToPreviewLayoutConfig } from "@/registry/remocn/chat-to-preview-layout/config";
@@ -14,11 +16,14 @@ import { checkListConfig } from "@/registry/remocn/check-list/config";
 import { claudeChatConfig } from "@/registry/remocn/claude-chat/config";
 import { claudeCodeConfig } from "@/registry/remocn/claude-code/config";
 import { confettiConfig } from "@/registry/remocn/confetti/config";
+import { crtScreenConfig } from "@/registry/remocn/crt-screen/config";
 import { crumpleTossConfig } from "@/registry/remocn/crumple-toss/config";
 import { dataFlowPipesConfig } from "@/registry/remocn/data-flow-pipes/config";
+import { displacementConfig } from "@/registry/remocn/displacement/config";
 import { ditherDissolveConfig } from "@/registry/remocn/dither-dissolve/config";
 import { driftConfig } from "@/registry/remocn/drift/config";
 import { ecosystemConstellationConfig } from "@/registry/remocn/ecosystem-constellation/config";
+import { emberBurnConfig } from "@/registry/remocn/ember-burn/config";
 import { fadeThroughConfig } from "@/registry/remocn/fade-through/config";
 import { focusBlurResolveConfig } from "@/registry/remocn/focus-blur-resolve/config";
 import { focusPullConfig } from "@/registry/remocn/focus-pull/config";
@@ -26,9 +31,13 @@ import { githubSponsorsConfig } from "@/registry/remocn/github-sponsors/config";
 import { githubStarsConfig } from "@/registry/remocn/github-stars/config";
 import { glassCodeBlockConfig } from "@/registry/remocn/glass-code-block/config";
 import { glassCodeWalkConfig } from "@/registry/remocn/glass-code-walk/config";
+import { glitchCutConfig } from "@/registry/remocn/glitch-cut/config";
 import { grainDissolveConfig } from "@/registry/remocn/grain-dissolve/config";
+import { gridWaveConfig } from "@/registry/remocn/grid-wave/config";
+import { halftonePrintConfig } from "@/registry/remocn/halftone-print/config";
 import { handCountConfig } from "@/registry/remocn/hand-count/config";
 import { handwriteConfig } from "@/registry/remocn/handwrite/config";
+import { hologramConfig } from "@/registry/remocn/hologram/config";
 import { iconScatterConfig } from "@/registry/remocn/icon-scatter/config";
 import { infiniteBentoPanConfig } from "@/registry/remocn/infinite-bento-pan/config";
 import { infiniteMarqueeConfig } from "@/registry/remocn/infinite-marquee/config";
@@ -48,10 +57,12 @@ import { opencodeConfig } from "@/registry/remocn/opencode/config";
 import { pageTurnConfig } from "@/registry/remocn/page-turn/config";
 import { paperStickerConfig } from "@/registry/remocn/paper-sticker/config";
 import { paperWobbleConfig } from "@/registry/remocn/paper-wobble/config";
+import { particleDissolveConfig } from "@/registry/remocn/particle-dissolve/config";
 import { perCharacterRiseConfig } from "@/registry/remocn/per-character-rise/config";
 import { perWordCrossfadeConfig } from "@/registry/remocn/per-word-crossfade/config";
 import { perlinDissolveConfig } from "@/registry/remocn/perlin-dissolve/config";
 import { perspectiveMarqueeConfig } from "@/registry/remocn/perspective-marquee/config";
+import { pixelateRegionConfig } from "@/registry/remocn/pixelate-region/config";
 import { polaroidConfig } from "@/registry/remocn/polaroid/config";
 import { progressStepsConfig } from "@/registry/remocn/progress-steps/config";
 import { pushThroughConfig } from "@/registry/remocn/push-through/config";
@@ -62,6 +73,7 @@ import { rollingNumberConfig } from "@/registry/remocn/rolling-number/config";
 import { rolodexFlipConfig } from "@/registry/remocn/rolodex-flip/config";
 import { scaleDownFadeConfig } from "@/registry/remocn/scale-down-fade/config";
 import { scribbleCircleConfig } from "@/registry/remocn/scribble-circle/config";
+import { securityCamConfig } from "@/registry/remocn/security-cam/config";
 import { shaderCausticsConfig } from "@/registry/remocn/shader-caustics/config";
 import { shaderColorPanelsConfig } from "@/registry/remocn/shader-color-panels/config";
 import { shaderDitheringConfig } from "@/registry/remocn/shader-dithering/config";
@@ -98,14 +110,18 @@ import { springScaleInConfig } from "@/registry/remocn/spring-scale-in/config";
 import { springSettleConfig } from "@/registry/remocn/spring-settle/config";
 import { staggeredFadeUpConfig } from "@/registry/remocn/staggered-fade-up/config";
 import { strikethroughReplaceConfig } from "@/registry/remocn/strikethrough-replace/config";
+import { sustainedGlitchConfig } from "@/registry/remocn/sustained-glitch/config";
 import { swirlDissolveConfig } from "@/registry/remocn/swirl-dissolve/config";
 import { terminalCursorZoomConfig } from "@/registry/remocn/terminal-cursor-zoom/config";
 import { terminalSimulatorConfig } from "@/registry/remocn/terminal-simulator/config";
 import { topDownLettersConfig } from "@/registry/remocn/top-down-letters/config";
 import { trackingInConfig } from "@/registry/remocn/tracking-in/config";
+import { tvPowerOffConfig } from "@/registry/remocn/tv-power-off/config";
 import { typewriterConfig } from "@/registry/remocn/typewriter/config";
+import { underwaterRippleConfig } from "@/registry/remocn/underwater-ripple/config";
 import { v0Config } from "@/registry/remocn/v0/config";
 import { valueSwapConfig } from "@/registry/remocn/value-swap/config";
+import { vhsFilterConfig } from "@/registry/remocn/vhs-filter/config";
 import { warpDissolveConfig } from "@/registry/remocn/warp-dissolve/config";
 import { waveWipeConfig } from "@/registry/remocn/wave-wipe/config";
 import { whipPanConfig } from "@/registry/remocn/whip-pan/config";
@@ -1416,6 +1432,118 @@ const registry: Record<string, RegistryEntry> = {
         default: m.ZoomBlurExampleScene,
       })),
     config: zoomBlurConfig,
+  },
+  "glitch-cut": {
+    load: () =>
+      import("@/components/docs/examples/glitch-cut-example").then((m) => ({
+        default: m.GlitchCutExampleScene,
+      })),
+    config: glitchCutConfig,
+  },
+  "ember-burn": {
+    load: () =>
+      import("@/components/docs/examples/ember-burn-example").then((m) => ({
+        default: m.EmberBurnExampleScene,
+      })),
+    config: emberBurnConfig,
+  },
+  "particle-dissolve": {
+    load: () =>
+      import("@/components/docs/examples/particle-dissolve-example").then(
+        (m) => ({ default: m.ParticleDissolveExampleScene }),
+      ),
+    config: particleDissolveConfig,
+  },
+  "grid-wave": {
+    load: () =>
+      import("@/components/docs/examples/grid-wave-example").then((m) => ({
+        default: m.GridWaveExampleScene,
+      })),
+    config: gridWaveConfig,
+  },
+  displacement: {
+    load: () =>
+      import("@/components/docs/examples/displacement-example").then((m) => ({
+        default: m.DisplacementExampleScene,
+      })),
+    config: displacementConfig,
+  },
+  "vhs-filter": {
+    load: () =>
+      import("@/components/docs/examples/vhs-filter-example").then((m) => ({
+        default: m.VhsFilterExampleScene,
+      })),
+    config: vhsFilterConfig,
+  },
+  "crt-screen": {
+    load: () =>
+      import("@/components/docs/examples/crt-screen-example").then((m) => ({
+        default: m.CrtScreenExampleScene,
+      })),
+    config: crtScreenConfig,
+  },
+  "sustained-glitch": {
+    load: () =>
+      import("@/components/docs/examples/sustained-glitch-example").then(
+        (m) => ({ default: m.SustainedGlitchExampleScene }),
+      ),
+    config: sustainedGlitchConfig,
+  },
+  "pixelate-region": {
+    load: () =>
+      import("@/components/docs/examples/pixelate-region-example").then(
+        (m) => ({ default: m.PixelateRegionExampleScene }),
+      ),
+    config: pixelateRegionConfig,
+  },
+  "ascii-render": {
+    load: () =>
+      import("@/components/docs/examples/ascii-render-example").then((m) => ({
+        default: m.AsciiRenderExampleScene,
+      })),
+    config: asciiRenderConfig,
+  },
+  "halftone-print": {
+    load: () =>
+      import("@/components/docs/examples/halftone-print-example").then((m) => ({
+        default: m.HalftonePrintExampleScene,
+      })),
+    config: halftonePrintConfig,
+  },
+  "underwater-ripple": {
+    load: () =>
+      import("@/components/docs/examples/underwater-ripple-example").then(
+        (m) => ({ default: m.UnderwaterRippleExampleScene }),
+      ),
+    config: underwaterRippleConfig,
+  },
+  "camera-lens": {
+    load: () =>
+      import("@/components/docs/examples/camera-lens-example").then((m) => ({
+        default: m.CameraLensExampleScene,
+      })),
+    config: cameraLensConfig,
+  },
+  "security-cam": {
+    load: () =>
+      import("@/components/docs/examples/security-cam-example").then((m) => ({
+        default: m.SecurityCamExampleScene,
+      })),
+    config: securityCamConfig,
+  },
+  hologram: {
+    load: () =>
+      import("@/components/docs/examples/hologram-example").then((m) => ({
+        default: m.HologramExampleScene,
+      })),
+    config: hologramConfig,
+  },
+  "tv-power-off": {
+    load: () =>
+      import("@/components/docs/examples/tv-power-off-example").then((m) => ({
+        default: m.TvPowerOffExampleScene,
+      })),
+    config: tvPowerOffConfig,
   },
   "slide-swap": {
     load: () =>

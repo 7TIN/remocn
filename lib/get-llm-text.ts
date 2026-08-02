@@ -6,8 +6,10 @@ export const SITE_URL = "https://remocn.dev";
 
 type DocPage = InferPageType<typeof source>;
 
-export function formatLength(length: number | "state-driven"): string {
-  return length === "state-driven" ? "state-driven" : `${length}f @ 30fps`;
+export function formatLength(
+  length: number | "state-driven" | "sustained",
+): string {
+  return typeof length === "string" ? length : `${length}f @ 30fps`;
 }
 
 export async function getLLMText(page: DocPage): Promise<string> {

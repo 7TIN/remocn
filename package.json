@@ -17,6 +17,7 @@
     "remotion:browser": "bun scripts/ensure-browser.mts",
     "bundle:remotion": "bun scripts/bundle-remotion.mts",
     "render:demos": "bun scripts/render-demos.mts",
+    "spike:canvas": "bun scripts/canvas-determinism.mts",
     "render:not-found": "bun scripts/render-not-found.mts",
     "postinstall": "fumadocs-mdx"
   },

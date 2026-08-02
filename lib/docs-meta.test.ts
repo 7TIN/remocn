@@ -10,6 +10,7 @@ const UNDOCUMENTED: Record<string, string> = {
   "remocn-ui": "shared core lib, not installed directly",
   "stop-motion": "shared lib behind the paper tier",
   "scene-motion": "shared motion vocabulary lib",
+  "canvas-presentation": "shared html-in-canvas scaffolding lib",
   brush: "ribbon primitive consumed by the ink marks, not used on its own",
   "select-item": "folds into the select page",
   "dropdown-menu-item": "folds into the dropdown-menu page",
@@ -138,7 +139,7 @@ describe("component pages carry selection metadata", () => {
     const offenders = componentPages
       .filter((p) => {
         const length = p.frontmatter.length;
-        if (length === "state-driven") return false;
+        if (length === "state-driven" || length === "sustained") return false;
         return !(
           typeof length === "number" &&
           Number.isInteger(length) &&

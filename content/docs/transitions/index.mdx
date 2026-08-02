@@ -122,6 +122,45 @@ Kinetic, interface-flavored transitions — typed wipes, scattering icons, and m
   ]}
 />
 
+## Canvas
+
+Pixel-level transitions. These read the actual pixels of both scenes through the experimental html-in-canvas browser API and post-process them per frame, which is what makes tearing, burning, and shattering possible at all. Chrome 149+ behind `chrome://flags/#canvas-draw-element` shows the real effect; every other browser degrades to a CSS approximation of the same edit, so previews and renders never break.
+
+<ComponentCardGrid
+  items={[
+    {
+      name: "GlitchCut",
+      description: "Tear a hard cut into displaced slices with channel split and corrupted blocks",
+      status: "stable",
+      href: "/docs/transitions/glitch-cut",
+    },
+    {
+      name: "EmberBurn",
+      description: "Set the outgoing frame on fire so it boils, chars, and blows away as sparks that carry its own colour",
+      status: "stable",
+      href: "/docs/transitions/ember-burn",
+    },
+    {
+      name: "ParticleDissolve",
+      description: "Grind the frame into drifting grey dust and let the next scene coalesce back out of it",
+      status: "stable",
+      href: "/docs/transitions/particle-dissolve",
+    },
+    {
+      name: "GridWave",
+      description: "Send a wave across the frame that raises the picture into solid blocks and sets them down carrying the next scene",
+      status: "stable",
+      href: "/docs/transitions/grid-wave",
+    },
+    {
+      name: "Displacement",
+      description: "Shear the frame into a grid of offset colour-fringed tiles and settle them back on the next scene",
+      status: "stable",
+      href: "/docs/transitions/displacement",
+    },
+  ]}
+/>
+
 ## Scene Sequencers
 
 Not presentations. Each of these takes the whole list of scenes and runs the timeline itself, so the boundary is a property of the film rather than something dropped between two sequences. Scenes never overlap and the stage is continuous, which is what makes a run of them read as one cut instead of a slideshow.

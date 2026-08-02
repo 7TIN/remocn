@@ -9,8 +9,17 @@ import {
   AlertDialogExampleScene,
   alertDialogExampleCode,
 } from "./alert-dialog-example";
+import {
+  AsciiBackdropExampleScene,
+  AsciiBeatExampleScene,
+  AsciiResolveExampleScene,
+} from "./ascii-render-recipes";
 import { BlurInExampleScene, blurInExampleCode } from "./blur-in-example";
 import { ButtonExampleScene, buttonExampleCode } from "./button-example";
+import {
+  LensContributionExampleScene,
+  LensHandheldExampleScene,
+} from "./camera-lens-recipes";
 import { CheckboxExampleScene, checkboxExampleCode } from "./checkbox-example";
 import { ComboboxExampleScene, comboboxExampleCode } from "./combobox-example";
 import {
@@ -36,6 +45,15 @@ import {
   FadeThroughExampleScene,
   fadeThroughExampleCode,
 } from "./fade-through-example";
+import {
+  HalftoneLiveExampleScene,
+  HalftoneRegisterExampleScene,
+  HalftoneResolveExampleScene,
+} from "./halftone-print-recipes";
+import {
+  HologramBootExampleScene,
+  HologramConsoleExampleScene,
+} from "./hologram-recipes";
 import { InputExampleScene, inputExampleCode } from "./input-example";
 import {
   MessageBubbleExampleScene,
@@ -52,6 +70,11 @@ import {
   ResizableExampleScene,
   resizableExampleCode,
 } from "./resizable-example";
+import {
+  SecurityBitrateExampleScene,
+  SecurityColdOpenExampleScene,
+  SecurityFeedExampleScene,
+} from "./security-cam-recipes";
 import { SelectExampleScene, selectExampleCode } from "./select-example";
 import {
   SharedAxisYExampleScene,
@@ -77,6 +100,10 @@ import {
   TypingIndicatorExampleScene,
   typingIndicatorExampleCode,
 } from "./typing-indicator-example";
+import {
+  RippleBackdropExampleScene,
+  RippleSurfaceExampleScene,
+} from "./underwater-ripple-recipes";
 
 export interface ExampleEntry {
   Component: ComponentType;
@@ -430,5 +457,152 @@ export const examples: Record<string, ExampleEntry> = {
     width: W,
     height: H,
     previewBackdrop: { type: "color", value: "#ffffff" },
+  },
+  "ascii-resolve-example": {
+    Component: AsciiResolveExampleScene,
+    code: "<AsciiRender intensity={intensity} glyphSize={glyphSize} />",
+    // Resolves out of text by frame 34, holds clean, then returns so the loop closes.
+    durationInFrames: 96,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "ascii-beat-example": {
+    Component: AsciiBeatExampleScene,
+    code: "<AsciiRender intensity={intensity} glyphSize={24} />",
+    // Two punches, at frames 18–32 and 56–70, clean everywhere else.
+    durationInFrames: 90,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "ascii-backdrop-example": {
+    Component: AsciiBackdropExampleScene,
+    code: '<AsciiRender glyphSize={18} ink="#2f7a52" />',
+    // The wrapped field completes exactly two wave cycles over these 90 frames.
+    durationInFrames: 90,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "halftone-register-example": {
+    Component: HalftoneRegisterExampleScene,
+    code: "<HalftonePrint misregistration={misregistration} />",
+    // Plates pull into register by frame 36, hold, then drift back so the loop closes.
+    durationInFrames: 90,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#26231d" },
+  },
+  "halftone-resolve-example": {
+    Component: HalftoneResolveExampleScene,
+    code: "<HalftonePrint dotSize={dotSize} />",
+    // Newsprint at frame 0 down to fine offset by frame 40, then back for the loop.
+    durationInFrames: 90,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#26231d" },
+  },
+  "halftone-live-example": {
+    Component: HalftoneLiveExampleScene,
+    code: "<HalftonePrint dotSize={12} />",
+    // The picture pans one full sine cycle over these 90 frames; the screen never moves.
+    durationInFrames: 90,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#26231d" },
+  },
+  "ripple-surface-example": {
+    Component: RippleSurfaceExampleScene,
+    code: "<UnderwaterRipple amplitude={amplitude} speed={3} />",
+    // Settles to still water by frame 46, holds, then sinks back so the loop closes.
+    durationInFrames: 120,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#06171c" },
+  },
+  "lens-contribution-example": {
+    Component: LensContributionExampleScene,
+    code: "<CameraLens softness={0.5} bloom={0.5} aberration={0.5} />",
+    // Ramps the whole lens on and back off so the contribution is visible.
+    durationInFrames: 96,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "hologram-console-example": {
+    Component: HologramConsoleExampleScene,
+    code: "<Hologram><HudFrame><Scene /></HudFrame></Hologram>",
+    durationInFrames: 90,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#04070d" },
+  },
+  "hologram-boot-example": {
+    Component: HologramBootExampleScene,
+    code: "<Hologram ghost={ghost} flicker={flicker} />",
+    // Instability settles by frame 34, holds, then returns so the loop closes.
+    durationInFrames: 96,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#04070d" },
+  },
+  "security-cold-open-example": {
+    Component: SecurityColdOpenExampleScene,
+    code: "<SecurityCam intensity={intensity} />",
+    // Surveillance holds, cuts to the clean scene at 44, returns so the loop closes.
+    durationInFrames: 90,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "security-feed-example": {
+    Component: SecurityFeedExampleScene,
+    code: "<SecurityCam><Scene /><CameraOsd /></SecurityCam>",
+    durationInFrames: 120,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "security-bitrate-example": {
+    Component: SecurityBitrateExampleScene,
+    code: "<SecurityCam compression={starve} blockSize={block} />",
+    // Bitrate collapses by frame 36, holds, then recovers for the loop.
+    durationInFrames: 96,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "lens-handheld-example": {
+    Component: LensHandheldExampleScene,
+    code: "<CameraLens><Drift grow={0.06} /></CameraLens>",
+    durationInFrames: 120,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "ripple-backdrop-example": {
+    Component: RippleBackdropExampleScene,
+    code: "<UnderwaterRipple amplitude={14} scale={0.8} speed={2} />",
+    // speed=2 over 120 frames is a whole number of cycles, so the water loops seamlessly.
+    durationInFrames: 120,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#06171c" },
   },
 };

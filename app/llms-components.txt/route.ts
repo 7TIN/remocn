@@ -58,7 +58,9 @@ export function GET() {
     "is the value to pass to `linearTiming` / `springTiming`, for everything else it is the point at",
     "which the animation has finished. It is a floor for the `Sequence`, not the whole beat: add hold",
     "time on top when the element should stay on screen after it settles. `state-driven` means the",
-    "component renders purely from its `state` prop and has no duration of its own.",
+    "component renders purely from its `state` prop and has no duration of its own. `sustained` means",
+    "the component wraps a scene and lasts exactly as long as that scene does — budget no frames for",
+    "it and pass it no `state`.",
     "`Vibe` is the tonal tag; match it to the brand rather than mixing freely.",
   ];
 
