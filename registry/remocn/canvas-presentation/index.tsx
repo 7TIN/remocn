@@ -8,7 +8,9 @@ import React from "react";
 import {
   AbsoluteFill,
   isHtmlInCanvasSupported,
+  useCurrentFrame,
   useDelayRender,
+  useVideoConfig,
 } from "remotion";
 
 const QUAD = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]);
@@ -32,6 +34,8 @@ const OUTPUT_LAYER: React.CSSProperties = { ...LAYER, pointerEvents: "none" };
 
 export const isCanvasTransitionSupported = (): boolean =>
   isHtmlInCanvasSupported();
+
+export const isCanvasFilterSupported = (): boolean => isHtmlInCanvasSupported();
 
 export type SceneShaderFrame<Props> = {
   gl: WebGL2RenderingContext;
@@ -60,6 +64,35 @@ export type SceneShaderInstance<Props> = {
 export type SceneShader<Props> = (
   canvas: OffscreenCanvas,
 ) => SceneShaderInstance<Props>;
+
+export type SceneFilterFrame<Props> = {
+  gl: WebGL2RenderingContext;
+  uniform: (name: string) => WebGLUniformLocation | null;
+  width: number;
+  height: number;
+  frame: number;
+  time: number;
+  passedProps: Props;
+};
+
+export type SceneFilterDrawParams<Props> = {
+  scene: OffscreenCanvas | null;
+  width: number;
+  height: number;
+  frame: number;
+  time: number;
+  passedProps: Props;
+};
+
+export type SceneFilterInstance<Props> = {
+  draw: (params: SceneFilterDrawParams<Props>) => void;
+  clear: () => void;
+  cleanup: () => void;
+};
+
+export type SceneFilter<Props> = (
+  canvas: OffscreenCanvas,
+) => SceneFilterInstance<Props>;
 
 function compileShader(
   gl: WebGL2RenderingContext,
@@ -127,88 +160,159 @@ function createSceneTexture(gl: WebGL2RenderingContext): WebGLTexture {
   return texture;
 }
 
+function createQuadSurface(canvas: OffscreenCanvas, fragment: string) {
+  const gl = canvas.getContext("webgl2", { premultipliedAlpha: true });
+  if (!gl) {
+    throw new Error("canvas-presentation: WebGL2 is unavailable");
+  }
+
+  const program = createProgram(gl, fragment);
+  const vao = gl.createVertexArray();
+  gl.bindVertexArray(vao);
+  const buffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  gl.bufferData(gl.ARRAY_BUFFER, QUAD, gl.STATIC_DRAW);
+  const aPos = gl.getAttribLocation(program, "a_pos");
+  gl.enableVertexAttribArray(aPos);
+  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+  const locations = new Map<string, WebGLUniformLocation | null>();
+  const uniform = (name: string) => {
+    const cached = locations.get(name);
+    if (cached !== undefined) {
+      return cached;
+    }
+    const location = gl.getUniformLocation(program, name);
+    locations.set(name, location);
+    return location;
+  };
+
+  const clear = () => {
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+  };
+
+  const textures: WebGLTexture[] = [];
+  const createTexture = () => {
+    const texture = createSceneTexture(gl);
+    textures.push(texture);
+    return texture;
+  };
+
+  const begin = (width: number, height: number) => {
+    gl.viewport(0, 0, width, height);
+    clear();
+    gl.useProgram(program);
+    gl.bindVertexArray(vao);
+  };
+
+  const bindScene = (
+    image: OffscreenCanvas | null,
+    texture: WebGLTexture,
+    unit: number,
+    name: string,
+  ) => {
+    gl.activeTexture(gl.TEXTURE0 + unit);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    if (image) {
+      gl.texImage2D(
+        gl.TEXTURE_2D,
+        0,
+        gl.RGBA,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        image,
+      );
+    }
+    gl.uniform1i(uniform(name), unit);
+  };
+
+  const draw = () => gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+  const cleanup = () => {
+    gl.deleteProgram(program);
+    for (const texture of textures) {
+      gl.deleteTexture(texture);
+    }
+    gl.deleteBuffer(buffer);
+    gl.deleteVertexArray(vao);
+  };
+
+  return {
+    gl,
+    uniform,
+    clear,
+    createTexture,
+    begin,
+    bindScene,
+    draw,
+    cleanup,
+  };
+}
+
 export function makeSceneShader<Props extends Record<string, unknown>>(
   fragment: string,
   setUniforms?: (frame: SceneShaderFrame<Props>) => void,
 ): SceneShader<Props> {
   return (canvas) => {
-    const gl = canvas.getContext("webgl2", { premultipliedAlpha: true });
-    if (!gl) {
-      throw new Error("canvas-presentation: WebGL2 is unavailable");
-    }
-
-    const program = createProgram(gl, fragment);
-    const fromTexture = createSceneTexture(gl);
-    const toTexture = createSceneTexture(gl);
-    const vao = gl.createVertexArray();
-    gl.bindVertexArray(vao);
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, QUAD, gl.STATIC_DRAW);
-    const aPos = gl.getAttribLocation(program, "a_pos");
-    gl.enableVertexAttribArray(aPos);
-    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-
-    const locations = new Map<string, WebGLUniformLocation | null>();
-    const uniform = (name: string) => {
-      const cached = locations.get(name);
-      if (cached !== undefined) {
-        return cached;
-      }
-      const location = gl.getUniformLocation(program, name);
-      locations.set(name, location);
-      return location;
-    };
-
-    const clear = () => {
-      gl.clearColor(0, 0, 0, 0);
-      gl.clear(gl.COLOR_BUFFER_BIT);
-    };
-
-    const bindScene = (
-      image: OffscreenCanvas | null,
-      texture: WebGLTexture,
-      unit: number,
-      name: string,
-    ) => {
-      gl.activeTexture(gl.TEXTURE0 + unit);
-      gl.bindTexture(gl.TEXTURE_2D, texture);
-      if (image) {
-        gl.texImage2D(
-          gl.TEXTURE_2D,
-          0,
-          gl.RGBA,
-          gl.RGBA,
-          gl.UNSIGNED_BYTE,
-          image,
-        );
-      }
-      gl.uniform1i(uniform(name), unit);
-    };
+    const surface = createQuadSurface(canvas, fragment);
+    const fromTexture = surface.createTexture();
+    const toTexture = surface.createTexture();
 
     return {
-      clear,
-      cleanup: () => {
-        gl.deleteProgram(program);
-        gl.deleteTexture(fromTexture);
-        gl.deleteTexture(toTexture);
-        gl.deleteBuffer(buffer);
-        gl.deleteVertexArray(vao);
-      },
+      clear: surface.clear,
+      cleanup: surface.cleanup,
       draw: ({ from, to, width, height, progress, passedProps }) => {
-        gl.viewport(0, 0, width, height);
-        clear();
-        gl.useProgram(program);
-        gl.bindVertexArray(vao);
+        surface.begin(width, height);
+        surface.bindScene(from, fromTexture, 0, "u_from");
+        surface.bindScene(to, toTexture, 1, "u_to");
 
-        bindScene(from, fromTexture, 0, "u_from");
-        bindScene(to, toTexture, 1, "u_to");
+        surface.gl.uniform1f(surface.uniform("u_progress"), progress);
+        surface.gl.uniform1f(surface.uniform("u_aspect"), width / height);
+        setUniforms?.({
+          gl: surface.gl,
+          uniform: surface.uniform,
+          width,
+          height,
+          progress,
+          passedProps,
+        });
 
-        gl.uniform1f(uniform("u_progress"), progress);
-        gl.uniform1f(uniform("u_aspect"), width / height);
-        setUniforms?.({ gl, uniform, width, height, progress, passedProps });
+        surface.draw();
+      },
+    };
+  };
+}
 
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+export function makeFilterShader<Props extends Record<string, unknown>>(
+  fragment: string,
+  setUniforms?: (frame: SceneFilterFrame<Props>) => void,
+): SceneFilter<Props> {
+  return (canvas) => {
+    const surface = createQuadSurface(canvas, fragment);
+    const sceneTexture = surface.createTexture();
+
+    return {
+      clear: surface.clear,
+      cleanup: surface.cleanup,
+      draw: ({ scene, width, height, frame, time, passedProps }) => {
+        surface.begin(width, height);
+        surface.bindScene(scene, sceneTexture, 0, "u_scene");
+
+        surface.gl.uniform1f(surface.uniform("u_frame"), frame);
+        surface.gl.uniform1f(surface.uniform("u_time"), time);
+        surface.gl.uniform1f(surface.uniform("u_aspect"), width / height);
+        setUniforms?.({
+          gl: surface.gl,
+          uniform: surface.uniform,
+          width,
+          height,
+          frame,
+          time,
+          passedProps,
+        });
+
+        surface.draw();
       },
     };
   };
@@ -412,6 +516,146 @@ function makeCanvasComponent<Props extends Record<string, unknown>>(
   };
 }
 
+export type CanvasFilterProps = {
+  children: React.ReactNode;
+};
+
+function makeFilterComponent<Props extends Record<string, unknown>>(
+  shader: SceneFilter<Props>,
+): React.FC<Props & CanvasFilterProps> {
+  return function CanvasSceneFilter(props) {
+    const frame = useCurrentFrame();
+    const { fps } = useVideoConfig();
+    const { delayRender, continueRender } = useDelayRender();
+
+    const layoutRef = React.useRef<HTMLCanvasElement | null>(null);
+    const outputRef = React.useRef<HTMLCanvasElement | null>(null);
+    const captureRef = React.useRef<OffscreenCanvas | null>(null);
+    const captureContextRef =
+      React.useRef<OffscreenCanvasRenderingContext2D | null>(null);
+    const outputSurfaceRef = React.useRef<OffscreenCanvas | null>(null);
+    const instanceRef = React.useRef<SceneFilterInstance<Props> | null>(null);
+
+    const passedPropsRef = React.useRef(props);
+    passedPropsRef.current = props;
+    const frameRef = React.useRef(frame);
+    frameRef.current = frame;
+    const timeRef = React.useRef(frame / fps);
+    timeRef.current = frame / fps;
+
+    React.useLayoutEffect(() => {
+      const layout = layoutRef.current;
+      const output = outputRef.current;
+      if (!layout || !output) {
+        return;
+      }
+      const capture = takeOffscreen(layout);
+      const context = capture.getContext("2d");
+      if (!context) {
+        throw new Error("canvas-presentation: failed to acquire a 2D context");
+      }
+      const surface = takeOffscreen(output);
+      captureRef.current = capture;
+      captureContextRef.current = context;
+      outputSurfaceRef.current = surface;
+      instanceRef.current = shader(surface);
+
+      return () => {
+        instanceRef.current?.cleanup();
+        instanceRef.current = null;
+        captureRef.current = null;
+        captureContextRef.current = null;
+        outputSurfaceRef.current = null;
+      };
+    }, [shader]);
+
+    React.useLayoutEffect(() => {
+      const layout = layoutRef.current;
+      if (!layout) {
+        return;
+      }
+      layout.layoutSubtree = true;
+      const handlePaint = () => {
+        const scene = layout.firstElementChild;
+        const capture = captureRef.current;
+        const context = captureContextRef.current;
+        const instance = instanceRef.current;
+        if (!scene || !capture || !context || !instance) {
+          return;
+        }
+        const elementImage = layout.captureElementImage(scene);
+        try {
+          context.reset();
+          context.drawElementImage(elementImage, 0, 0);
+        } finally {
+          elementImage.close();
+        }
+        if (capture.width === 0 || capture.height === 0) {
+          instance.clear();
+          return;
+        }
+        instance.draw({
+          scene: capture,
+          width: capture.width,
+          height: capture.height,
+          frame: frameRef.current,
+          time: timeRef.current,
+          passedProps: passedPropsRef.current,
+        });
+      };
+      layout.addEventListener("paint", handlePaint);
+      return () => layout.removeEventListener("paint", handlePaint);
+    }, []);
+
+    React.useLayoutEffect(() => {
+      const layout = layoutRef.current;
+      if (!layout) {
+        return;
+      }
+      const observer = new ResizeObserver(([entry]) => {
+        const capture = captureRef.current;
+        const surface = outputSurfaceRef.current;
+        if (!capture || !surface) {
+          return;
+        }
+        const width = entry.devicePixelContentBoxSize[0].inlineSize;
+        const height = entry.devicePixelContentBoxSize[0].blockSize;
+        capture.width = width;
+        capture.height = height;
+        surface.width = width;
+        surface.height = height;
+        layout.requestPaint?.();
+      });
+      observer.observe(layout, { box: "device-pixel-content-box" });
+      return () => observer.disconnect();
+    }, []);
+
+    React.useLayoutEffect(() => {
+      const layout = layoutRef.current;
+      if (!layout) {
+        return;
+      }
+      const handle = delayRender("canvas-presentation: filter paint");
+      const settle = () => continueRender(handle);
+      layout.addEventListener("paint", settle, { once: true });
+      layout.requestPaint?.();
+      return () => {
+        layout.removeEventListener("paint", settle);
+        continueRender(handle);
+      };
+    });
+
+    return (
+      <AbsoluteFill>
+        <canvas ref={layoutRef} style={LAYER}>
+          {props.children}
+        </canvas>
+        <canvas ref={outputRef} style={OUTPUT_LAYER} />
+      </AbsoluteFill>
+    );
+  };
+}
+
 export type CanvasPresentationOptions<Props extends Record<string, unknown>> = {
   shader: SceneShader<Props>;
   fallback: React.FC<TransitionPresentationComponentProps<Props>>;
@@ -435,4 +679,24 @@ export function makeCanvasPresentation<Props extends Record<string, unknown>>({
     );
 
   return (props) => ({ component: Presentation, props });
+}
+
+export type CanvasFilterOptions<Props extends Record<string, unknown>> = {
+  shader: SceneFilter<Props>;
+  fallback: React.FC<Props & CanvasFilterProps>;
+};
+
+export function makeCanvasFilter<Props extends Record<string, unknown>>({
+  shader,
+  fallback: Fallback,
+}: CanvasFilterOptions<Props>): React.FC<Props & CanvasFilterProps> {
+  const Canvas = makeFilterComponent(shader);
+
+  return function CanvasFilter(props) {
+    return isCanvasFilterSupported() ? (
+      <Canvas {...props} />
+    ) : (
+      <Fallback {...props} />
+    );
+  };
 }

@@ -111,6 +111,7 @@ import { trackingInConfig } from "@/registry/remocn/tracking-in/config";
 import { typewriterConfig } from "@/registry/remocn/typewriter/config";
 import { v0Config } from "@/registry/remocn/v0/config";
 import { valueSwapConfig } from "@/registry/remocn/value-swap/config";
+import { vhsFilterConfig } from "@/registry/remocn/vhs-filter/config";
 import { warpDissolveConfig } from "@/registry/remocn/warp-dissolve/config";
 import { waveWipeConfig } from "@/registry/remocn/wave-wipe/config";
 import { whipPanConfig } from "@/registry/remocn/whip-pan/config";
@@ -1456,6 +1457,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.DisplacementExampleScene,
       })),
     config: displacementConfig,
+  },
+  "vhs-filter": {
+    load: () =>
+      import("@/components/docs/examples/vhs-filter-example").then((m) => ({
+        default: m.VhsFilterExampleScene,
+      })),
+    config: vhsFilterConfig,
   },
   "slide-swap": {
     load: () =>

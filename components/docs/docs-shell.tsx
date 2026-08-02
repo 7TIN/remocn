@@ -41,26 +41,28 @@ export function DocsShell({
   componentsTree,
   primitivesTree,
   shadersTree,
+  filtersTree,
   iconsTree,
   children,
 }: {
   componentsTree: Root;
   primitivesTree: Root;
   shadersTree: Root;
+  filtersTree: Root;
   iconsTree: Root;
   children: ReactNode;
 }) {
   const pathname = usePathname();
   const activeTab = getActiveDocsTab(pathname);
   const isIcons = activeTab === "icons";
-  const tree =
-    activeTab === "primitives"
-      ? primitivesTree
-      : activeTab === "shaders"
-        ? shadersTree
-        : isIcons
-          ? iconsTree
-          : componentsTree;
+  const trees: Record<typeof activeTab, Root> = {
+    components: componentsTree,
+    primitives: primitivesTree,
+    shaders: shadersTree,
+    filters: filtersTree,
+    icons: iconsTree,
+  };
+  const tree = trees[activeTab];
 
   return (
     <DocsLayout

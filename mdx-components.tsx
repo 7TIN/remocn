@@ -3,6 +3,7 @@ import type { MDXComponents } from "mdx/types";
 import type { ComponentProps } from "react";
 import { BlockPreview } from "@/components/docs/block-preview";
 import { Note, Warning } from "@/components/docs/callout";
+import { CanvasFilterNote } from "@/components/docs/canvas-filter-note";
 import { CanvasTransitionNote } from "@/components/docs/canvas-transition-note";
 import { getIconForLanguage } from "@/components/docs/code-icons";
 import { ComponentCardGrid } from "@/components/docs/component-card-grid";
@@ -113,6 +114,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     Note,
     Warning,
     CanvasTransitionNote,
+    CanvasFilterNote,
     Dependencies,
     ComponentCardGrid,
     IconsGallery,

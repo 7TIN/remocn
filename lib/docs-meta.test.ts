@@ -139,7 +139,7 @@ describe("component pages carry selection metadata", () => {
     const offenders = componentPages
       .filter((p) => {
         const length = p.frontmatter.length;
-        if (length === "state-driven") return false;
+        if (length === "state-driven" || length === "sustained") return false;
         return !(
           typeof length === "number" &&
           Number.isInteger(length) &&

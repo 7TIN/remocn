@@ -1633,7 +1633,7 @@
     {
       "name": "canvas-presentation",
       "title": "Canvas Presentation",
-      "description": "The html-in-canvas scaffolding the canvas transitions share: support detection, a full-screen WebGL2 scene shader over both sides of the cut, and routing to a CSS fallback where the browser lacks the API.",
+      "description": "The html-in-canvas scaffolding the canvas transitions and scene filters share: support detection, a full-screen WebGL2 shader fed either both sides of a cut or the single scene a filter wraps, and routing to a CSS fallback where the browser lacks the API.",
       "dependencies": ["remotion", "@remotion/transitions"],
       "files": [
         {
@@ -1670,6 +1670,21 @@
           "path": "registry/remocn/displacement/index.tsx",
           "type": "registry:component",
           "target": "components/remocn/displacement.tsx"
+        }
+      ],
+      "type": "registry:component"
+    },
+    {
+      "name": "vhs-filter",
+      "title": "VHS Filter",
+      "description": "Hold a scene under analog tape: chroma bleeds sideways off every edge, rows wobble out of line, the bottom of the frame tears on the head switch, and luma noise settles over all of it.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "registry/remocn/vhs-filter/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/vhs-filter.tsx"
         }
       ],
       "type": "registry:component"

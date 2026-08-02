@@ -1,0 +1,22 @@
+---
+title: Filters, a new category
+date: 2026-08-02
+---
+
+Canvas transitions gave the catalog effects that live at a cut. Filters are the other half of that idea — the same pixel-level treatment, held over a whole scene instead of a dozen frames. A filter is a wrapper: put a scene inside it and every frame of that scene is re-read and repainted, for as long as the scene runs. Where a CSS filter can only blend what is already under a pixel, these write each pixel from somewhere else entirely, which is the reason the category exists at all.
+
+<ChangelogPreview name="vhs-filter" />
+
+### New components
+
+- [VHS Filter](/docs/filters/components/vhs-filter) — a scene held under analog tape. Colour bleeds sideways off every edge while brightness stays sharp, which is what separates tape from a blur; rows wander out of line on a slow drift with per-line jitter on top; the bottom of the frame tears where a real deck switches heads; luma noise and scanlines settle over all of it. Every knob is a plain number, so `intensity` can be interpolated to let a scene surface out of the wear.
+
+### Improvements
+
+- Filters have their own docs tab, next to Shaders, with a Getting Started page covering what separates a filter from a transition, why the motion inside one never drifts, and how the browser requirement plays out.
+- Component metadata gained a third kind of length. Alongside a frame count and `state-driven`, a component can now declare `sustained` — it wraps a scene and lasts exactly as long as that scene does. Agents reading `/llms-components.txt` get the distinction spelled out, so a filter is never handed a `Sequence` budget or a `state` prop it has no use for.
+- Canvas Presentation now backs both categories. It grew a filter factory beside the transition one: a single-scene shader with the frame and elapsed time bound automatically, and a wrapper that holds each frame until the repaint has actually landed, so a filter's output can never be a frame behind the scene underneath it.
+
+### Fixes
+
+- The WebGL scaffolding shared by every canvas effect — program, quad, cached uniform lookups, texture binding, teardown — now exists once instead of once per factory.
