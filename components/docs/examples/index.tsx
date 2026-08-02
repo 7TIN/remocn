@@ -66,6 +66,11 @@ import {
   ResizableExampleScene,
   resizableExampleCode,
 } from "./resizable-example";
+import {
+  SecurityBitrateExampleScene,
+  SecurityColdOpenExampleScene,
+  SecurityFeedExampleScene,
+} from "./security-cam-recipes";
 import { SelectExampleScene, selectExampleCode } from "./select-example";
 import {
   SharedAxisYExampleScene,
@@ -523,6 +528,35 @@ export const examples: Record<string, ExampleEntry> = {
     Component: LensContributionExampleScene,
     code: "<CameraLens softness={0.5} bloom={0.5} aberration={0.5} />",
     // Ramps the whole lens on and back off so the contribution is visible.
+    durationInFrames: 96,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "security-cold-open-example": {
+    Component: SecurityColdOpenExampleScene,
+    code: "<SecurityCam intensity={intensity} />",
+    // Surveillance holds, cuts to the clean scene at 44, returns so the loop closes.
+    durationInFrames: 90,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "security-feed-example": {
+    Component: SecurityFeedExampleScene,
+    code: "<SecurityCam><Scene /><CameraOsd /></SecurityCam>",
+    durationInFrames: 120,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "security-bitrate-example": {
+    Component: SecurityBitrateExampleScene,
+    code: "<SecurityCam compression={starve} blockSize={block} />",
+    // Bitrate collapses by frame 36, holds, then recovers for the loop.
     durationInFrames: 96,
     fps: FPS,
     width: W,

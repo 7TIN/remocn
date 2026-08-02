@@ -1675,6 +1675,21 @@
       "type": "registry:component"
     },
     {
+      "name": "security-cam",
+      "title": "Security Cam",
+      "description": "Run a scene through a cheap recorder: macroblocks flatten under a starved bitrate, colour resolution collapses to half the luma, blacks crush and shadows crawl with sensor noise.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "registry/remocn/security-cam/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/security-cam.tsx"
+        }
+      ],
+      "type": "registry:component"
+    },
+    {
       "name": "camera-lens",
       "title": "Camera Lens",
       "description": "Put a scene behind real glass: resolution falls off toward the corners, highlights bloom through the optics, colour fringes at the edges — a screencast that reads as filmed rather than rendered.",

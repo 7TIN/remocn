@@ -16,6 +16,7 @@ import { GridWaveExampleScene } from "@/components/docs/examples/grid-wave-examp
 import { HalftonePrintExampleScene } from "@/components/docs/examples/halftone-print-example";
 import { ParticleDissolveExampleScene } from "@/components/docs/examples/particle-dissolve-example";
 import { PixelateRegionExampleScene } from "@/components/docs/examples/pixelate-region-example";
+import { SecurityCamExampleScene } from "@/components/docs/examples/security-cam-example";
 import { SustainedGlitchExampleScene } from "@/components/docs/examples/sustained-glitch-example";
 import { UnderwaterRippleExampleScene } from "@/components/docs/examples/underwater-ripple-example";
 import { VhsFilterExampleScene } from "@/components/docs/examples/vhs-filter-example";
@@ -30,6 +31,7 @@ import { gridWaveConfig } from "@/registry/remocn/grid-wave/config";
 import { halftonePrintConfig } from "@/registry/remocn/halftone-print/config";
 import { particleDissolveConfig } from "@/registry/remocn/particle-dissolve/config";
 import { pixelateRegionConfig } from "@/registry/remocn/pixelate-region/config";
+import { securityCamConfig } from "@/registry/remocn/security-cam/config";
 import { sustainedGlitchConfig } from "@/registry/remocn/sustained-glitch/config";
 import { underwaterRippleConfig } from "@/registry/remocn/underwater-ripple/config";
 import { vhsFilterConfig } from "@/registry/remocn/vhs-filter/config";
@@ -78,6 +80,7 @@ const SCENES: Record<
     config: underwaterRippleConfig,
   },
   "camera-lens": { Scene: CameraLensExampleScene, config: cameraLensConfig },
+  "security-cam": { Scene: SecurityCamExampleScene, config: securityCamConfig },
 };
 
 function makeStage(Scene: ComponentType) {

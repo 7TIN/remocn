@@ -72,6 +72,7 @@ import { rollingNumberConfig } from "@/registry/remocn/rolling-number/config";
 import { rolodexFlipConfig } from "@/registry/remocn/rolodex-flip/config";
 import { scaleDownFadeConfig } from "@/registry/remocn/scale-down-fade/config";
 import { scribbleCircleConfig } from "@/registry/remocn/scribble-circle/config";
+import { securityCamConfig } from "@/registry/remocn/security-cam/config";
 import { shaderCausticsConfig } from "@/registry/remocn/shader-caustics/config";
 import { shaderColorPanelsConfig } from "@/registry/remocn/shader-color-panels/config";
 import { shaderDitheringConfig } from "@/registry/remocn/shader-dithering/config";
@@ -1520,6 +1521,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.CameraLensExampleScene,
       })),
     config: cameraLensConfig,
+  },
+  "security-cam": {
+    load: () =>
+      import("@/components/docs/examples/security-cam-example").then((m) => ({
+        default: m.SecurityCamExampleScene,
+      })),
+    config: securityCamConfig,
   },
   "slide-swap": {
     load: () =>
