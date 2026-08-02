@@ -14,6 +14,7 @@ import { checkListConfig } from "@/registry/remocn/check-list/config";
 import { claudeChatConfig } from "@/registry/remocn/claude-chat/config";
 import { claudeCodeConfig } from "@/registry/remocn/claude-code/config";
 import { confettiConfig } from "@/registry/remocn/confetti/config";
+import { crtScreenConfig } from "@/registry/remocn/crt-screen/config";
 import { crumpleTossConfig } from "@/registry/remocn/crumple-toss/config";
 import { dataFlowPipesConfig } from "@/registry/remocn/data-flow-pipes/config";
 import { displacementConfig } from "@/registry/remocn/displacement/config";
@@ -1464,6 +1465,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.VhsFilterExampleScene,
       })),
     config: vhsFilterConfig,
+  },
+  "crt-screen": {
+    load: () =>
+      import("@/components/docs/examples/crt-screen-example").then((m) => ({
+        default: m.CrtScreenExampleScene,
+      })),
+    config: crtScreenConfig,
   },
   "slide-swap": {
     load: () =>

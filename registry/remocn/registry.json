@@ -1675,6 +1675,21 @@
       ]
     },
     {
+      "name": "crt-screen",
+      "type": "registry:component",
+      "title": "CRT Screen",
+      "description": "Put a scene behind curved glass: the picture bulges out to the corners, an RGB phosphor mask and scanlines ride the curve, bright areas flood the mask, and the tube falls away into darkness at the rim.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "crt-screen/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/crt-screen.tsx"
+        }
+      ]
+    },
+    {
       "name": "vhs-filter",
       "type": "registry:component",
       "title": "VHS Filter",

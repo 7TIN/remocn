@@ -6,6 +6,7 @@ import {
   isHtmlInCanvasSupported,
   registerRoot,
 } from "remotion";
+import { CrtScreenExampleScene } from "@/components/docs/examples/crt-screen-example";
 import { DisplacementExampleScene } from "@/components/docs/examples/displacement-example";
 import { EmberBurnExampleScene } from "@/components/docs/examples/ember-burn-example";
 import { GlitchCutExampleScene } from "@/components/docs/examples/glitch-cut-example";
@@ -13,6 +14,7 @@ import { GridWaveExampleScene } from "@/components/docs/examples/grid-wave-examp
 import { ParticleDissolveExampleScene } from "@/components/docs/examples/particle-dissolve-example";
 import { VhsFilterExampleScene } from "@/components/docs/examples/vhs-filter-example";
 import type { ComponentConfig } from "@/lib/customizer-config";
+import { crtScreenConfig } from "@/registry/remocn/crt-screen/config";
 import { displacementConfig } from "@/registry/remocn/displacement/config";
 import { emberBurnConfig } from "@/registry/remocn/ember-burn/config";
 import { glitchCutConfig } from "@/registry/remocn/glitch-cut/config";
@@ -45,6 +47,7 @@ const SCENES: Record<
     config: displacementConfig,
   },
   "vhs-filter": { Scene: VhsFilterExampleScene, config: vhsFilterConfig },
+  "crt-screen": { Scene: CrtScreenExampleScene, config: crtScreenConfig },
 };
 
 function makeStage(Scene: ComponentType) {

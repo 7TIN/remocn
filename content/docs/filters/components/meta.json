@@ -1,5 +1,5 @@
 {
   "title": "Filters",
   "collapsible": false,
-  "pages": ["vhs-filter"]
+  "pages": ["vhs-filter", "crt-screen"]
 }
