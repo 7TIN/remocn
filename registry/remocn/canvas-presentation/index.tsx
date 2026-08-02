@@ -247,42 +247,55 @@ function makeCanvasComponent<Props extends Record<string, unknown>>(
     const instanceRef = React.useRef<SceneShaderInstance<Props> | null>(null);
     const passedPropsRef = React.useRef(passedProps);
     passedPropsRef.current = passedProps;
+    const onElementImageRef = React.useRef(onElementImage);
+    onElementImageRef.current = onElementImage;
+    const onUnmountRef = React.useRef(onUnmount);
+    onUnmountRef.current = onUnmount;
 
     const { delayRender, continueRender } = useDelayRender();
     const passThrough =
       bothEnteringAndExiting && presentationDirection === "exiting";
+
+    const drawRef = React.useRef<
+      (
+        prevImage: OffscreenCanvas | null,
+        nextImage: OffscreenCanvas | null,
+        progress: number,
+      ) => void
+    >(() => undefined);
+    drawRef.current = (prevImage, nextImage, progress) => {
+      const instance = instanceRef.current;
+      if (!instance) {
+        return;
+      }
+      const handle = delayRender("canvas-presentation: paint");
+      const to = prevImage;
+      const from = nextImage;
+      const width = from?.width ?? to?.width ?? 0;
+      const height = from?.height ?? to?.height ?? 0;
+      if (width === 0 || height === 0) {
+        instance.clear();
+        continueRender(handle);
+        return;
+      }
+      instance.draw({
+        from,
+        to,
+        width,
+        height,
+        progress: !to ? 0 : !from ? 1 : progress,
+        passedProps: passedPropsRef.current,
+      });
+      continueRender(handle);
+    };
 
     const draw = React.useCallback(
       (
         prevImage: OffscreenCanvas | null,
         nextImage: OffscreenCanvas | null,
         progress: number,
-      ) => {
-        const instance = instanceRef.current;
-        if (!instance) {
-          return;
-        }
-        const handle = delayRender("canvas-presentation: paint");
-        const to = prevImage;
-        const from = nextImage;
-        const width = from?.width ?? to?.width ?? 0;
-        const height = from?.height ?? to?.height ?? 0;
-        if (width === 0 || height === 0) {
-          instance.clear();
-          continueRender(handle);
-          return;
-        }
-        instance.draw({
-          from,
-          to,
-          width,
-          height,
-          progress: !to ? 0 : !from ? 1 : progress,
-          passedProps: passedPropsRef.current,
-        });
-        continueRender(handle);
-      },
-      [delayRender, continueRender],
+      ) => drawRef.current(prevImage, nextImage, progress),
+      [],
     );
 
     React.useLayoutEffect(() => {
@@ -337,11 +350,11 @@ function makeCanvasComponent<Props extends Record<string, unknown>>(
         } finally {
           elementImage.close();
         }
-        onElementImage(capture, draw);
+        onElementImageRef.current(capture, draw);
       };
       layout.addEventListener("paint", handlePaint);
       return () => layout.removeEventListener("paint", handlePaint);
-    }, [passThrough, onElementImage, draw]);
+    }, [passThrough, draw]);
 
     React.useLayoutEffect(() => {
       if (passThrough) {
@@ -381,8 +394,8 @@ function makeCanvasComponent<Props extends Record<string, unknown>>(
       if (passThrough) {
         return;
       }
-      return () => onUnmount();
-    }, [passThrough, onUnmount]);
+      return () => onUnmountRef.current();
+    }, [passThrough]);
 
     if (passThrough) {
       return <>{children}</>;

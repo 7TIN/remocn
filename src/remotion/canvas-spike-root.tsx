@@ -6,8 +6,10 @@ import {
   isHtmlInCanvasSupported,
   registerRoot,
 } from "remotion";
+import { EmberBurnExampleScene } from "@/components/docs/examples/ember-burn-example";
 import { GlitchCutExampleScene } from "@/components/docs/examples/glitch-cut-example";
 import type { ComponentConfig } from "@/lib/customizer-config";
+import { emberBurnConfig } from "@/registry/remocn/ember-burn/config";
 import { glitchCutConfig } from "@/registry/remocn/glitch-cut/config";
 
 const { fontFamily: GEIST } = loadFont();
@@ -24,6 +26,7 @@ const SCENES: Record<
   { Scene: ComponentType; config: ComponentConfig }
 > = {
   "glitch-cut": { Scene: GlitchCutExampleScene, config: glitchCutConfig },
+  "ember-burn": { Scene: EmberBurnExampleScene, config: emberBurnConfig },
 };
 
 function makeStage(Scene: ComponentType) {

@@ -1645,6 +1645,21 @@
       ]
     },
     {
+      "name": "ember-burn",
+      "type": "registry:component",
+      "title": "Ember Burn",
+      "description": "The outgoing frame catches fire where it is brightest, boils in the heat, chars at the rim, and blows away as sparks carrying its own colour.",
+      "dependencies": ["remotion", "@remotion/transitions"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "ember-burn/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/ember-burn.tsx"
+        }
+      ]
+    },
+    {
       "name": "glitch-cut",
       "type": "registry:component",
       "title": "Glitch Cut",

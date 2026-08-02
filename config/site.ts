@@ -84,6 +84,7 @@ export const NEW_BADGE_PATHS = new Set<string>([
   "/docs/shaders/components/shader-weave",
   "/docs/ui-blocks/reel",
   "/docs/transitions/glitch-cut",
+  "/docs/transitions/ember-burn",
 ]);
 
 export type FooterGroup = {

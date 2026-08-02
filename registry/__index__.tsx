@@ -19,6 +19,7 @@ import { dataFlowPipesConfig } from "@/registry/remocn/data-flow-pipes/config";
 import { ditherDissolveConfig } from "@/registry/remocn/dither-dissolve/config";
 import { driftConfig } from "@/registry/remocn/drift/config";
 import { ecosystemConstellationConfig } from "@/registry/remocn/ecosystem-constellation/config";
+import { emberBurnConfig } from "@/registry/remocn/ember-burn/config";
 import { fadeThroughConfig } from "@/registry/remocn/fade-through/config";
 import { focusBlurResolveConfig } from "@/registry/remocn/focus-blur-resolve/config";
 import { focusPullConfig } from "@/registry/remocn/focus-pull/config";
@@ -1424,6 +1425,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.GlitchCutExampleScene,
       })),
     config: glitchCutConfig,
+  },
+  "ember-burn": {
+    load: () =>
+      import("@/components/docs/examples/ember-burn-example").then((m) => ({
+        default: m.EmberBurnExampleScene,
+      })),
+    config: emberBurnConfig,
   },
   "slide-swap": {
     load: () =>
