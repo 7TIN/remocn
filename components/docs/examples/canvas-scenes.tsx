@@ -70,6 +70,84 @@ export function CanvasSceneA() {
   );
 }
 
+export const SECRET_ROW_X = 504;
+export const SECRET_ROW_WIDTH = 600;
+export const SECRET_ROW_HEIGHT = 72;
+
+const SECRET_ROWS = [
+  { label: "Account", value: "casey@example.com", y: 220 },
+  { label: "API key", value: "sk_live_4f8a2c9e1b7d", y: 332 },
+  { label: "Webhook secret", value: "whsec_71c0d4e8ab35", y: 444 },
+];
+
+export function CanvasSceneSecrets() {
+  return (
+    <AbsoluteFill style={{ background: "#0d0f14", fontFamily: SANS }}>
+      <span
+        style={{
+          position: "absolute",
+          left: 96,
+          top: 104,
+          fontSize: 44,
+          fontWeight: 600,
+          letterSpacing: "-0.02em",
+          color: INK,
+        }}
+      >
+        Project credentials
+      </span>
+      {SECRET_ROWS.map((row) => (
+        <div key={row.label}>
+          <div
+            style={{
+              position: "absolute",
+              left: 96,
+              top: row.y,
+              height: SECRET_ROW_HEIGHT,
+              display: "flex",
+              alignItems: "center",
+              fontSize: 34,
+              color: MUTED,
+            }}
+          >
+            {row.label}
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              left: SECRET_ROW_X,
+              top: row.y,
+              width: SECRET_ROW_WIDTH,
+              height: SECRET_ROW_HEIGHT,
+              display: "flex",
+              alignItems: "center",
+              fontFamily: MONO,
+              fontSize: 34,
+              color: INK,
+            }}
+          >
+            {row.value}
+          </div>
+        </div>
+      ))}
+      <div
+        style={{
+          position: "absolute",
+          left: 96,
+          right: 96,
+          top: 568,
+          paddingTop: 28,
+          borderTop: "1px solid #1e222c",
+          fontSize: 28,
+          color: MUTED,
+        }}
+      >
+        Rotate keys from the dashboard — old ones stay valid for 24 hours.
+      </div>
+    </AbsoluteFill>
+  );
+}
+
 export function CanvasSceneB() {
   return (
     <AbsoluteFill

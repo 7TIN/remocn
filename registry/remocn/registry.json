@@ -1675,6 +1675,21 @@
       ]
     },
     {
+      "name": "pixelate-region",
+      "type": "registry:component",
+      "title": "Pixelate Region",
+      "description": "Cover rectangles of a scene with an opaque mosaic while the rest passes through untouched — redact keys, addresses and personal data before a demo goes out.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "pixelate-region/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/pixelate-region.tsx"
+        }
+      ]
+    },
+    {
       "name": "sustained-glitch",
       "type": "registry:component",
       "title": "Sustained Glitch",

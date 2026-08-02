@@ -58,6 +58,7 @@ import { perCharacterRiseConfig } from "@/registry/remocn/per-character-rise/con
 import { perWordCrossfadeConfig } from "@/registry/remocn/per-word-crossfade/config";
 import { perlinDissolveConfig } from "@/registry/remocn/perlin-dissolve/config";
 import { perspectiveMarqueeConfig } from "@/registry/remocn/perspective-marquee/config";
+import { pixelateRegionConfig } from "@/registry/remocn/pixelate-region/config";
 import { polaroidConfig } from "@/registry/remocn/polaroid/config";
 import { progressStepsConfig } from "@/registry/remocn/progress-steps/config";
 import { pushThroughConfig } from "@/registry/remocn/push-through/config";
@@ -1480,6 +1481,13 @@ const registry: Record<string, RegistryEntry> = {
         (m) => ({ default: m.SustainedGlitchExampleScene }),
       ),
     config: sustainedGlitchConfig,
+  },
+  "pixelate-region": {
+    load: () =>
+      import("@/components/docs/examples/pixelate-region-example").then(
+        (m) => ({ default: m.PixelateRegionExampleScene }),
+      ),
+    config: pixelateRegionConfig,
   },
   "slide-swap": {
     load: () =>
