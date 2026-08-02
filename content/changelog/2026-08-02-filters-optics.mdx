@@ -1,0 +1,16 @@
+---
+title: Filters gain optics
+date: 2026-08-02
+---
+
+The first seven filters were looks you put on a scene deliberately — tape, a tube, print, water. This next run is quieter and aimed at the thing most demos actually need: making a recording stop looking like a render. It starts with the lens.
+
+<ChangelogPreview name="camera-lens" />
+
+### New components
+
+- [Camera Lens](/docs/filters/components/camera-lens) — a scene put behind real glass. Resolution falls off toward the corners while the middle stays fully sharp, highlights bloom out into what surrounds them, colour fringes where the channels stop agreeing at the edges, and light drops away on the cos⁴ curve real optics follow. The obvious way to build a lens is to bend the frame, but bending is what a tube does — what separates glass from a display is light, not geometry, so `distortion` starts near zero and the defaults are made of softness and bloom. Quiet enough to leave running under a whole demo; you notice it by switching it off.
+
+### Improvements
+
+- The filters that could be mistaken for each other are now split by what they are, not by how they look. `crt-screen` is a tube you watch — uniformly sharp behind a mask. `camera-lens` is glass you shoot through — sharp in one place and losing resolution everywhere else. `vhs-filter` is the signal arriving. Each one's `avoidWhen` names the others, so an agent picking a treatment cannot stack two that tell the same story.

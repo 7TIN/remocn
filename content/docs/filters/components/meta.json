@@ -2,6 +2,7 @@
   "title": "Filters",
   "collapsible": false,
   "pages": [
+    "camera-lens",
     "vhs-filter",
     "crt-screen",
     "sustained-glitch",

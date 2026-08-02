@@ -8,6 +8,7 @@ import { asciiRenderConfig } from "@/registry/remocn/ascii-render/config";
 import { backdropConfig } from "@/registry/remocn/backdrop/config";
 import { blurOutUpConfig } from "@/registry/remocn/blur-out-up/config";
 import { bottomUpLettersConfig } from "@/registry/remocn/bottom-up-letters/config";
+import { cameraLensConfig } from "@/registry/remocn/camera-lens/config";
 import { caretWipeConfig } from "@/registry/remocn/caret-wipe/config";
 import { chatGptConfig } from "@/registry/remocn/chat-gpt/config";
 import { chatToPreviewLayoutConfig } from "@/registry/remocn/chat-to-preview-layout/config";
@@ -1512,6 +1513,13 @@ const registry: Record<string, RegistryEntry> = {
         (m) => ({ default: m.UnderwaterRippleExampleScene }),
       ),
     config: underwaterRippleConfig,
+  },
+  "camera-lens": {
+    load: () =>
+      import("@/components/docs/examples/camera-lens-example").then((m) => ({
+        default: m.CameraLensExampleScene,
+      })),
+    config: cameraLensConfig,
   },
   "slide-swap": {
     load: () =>

@@ -16,6 +16,10 @@ import {
 } from "./ascii-render-recipes";
 import { BlurInExampleScene, blurInExampleCode } from "./blur-in-example";
 import { ButtonExampleScene, buttonExampleCode } from "./button-example";
+import {
+  LensContributionExampleScene,
+  LensHandheldExampleScene,
+} from "./camera-lens-recipes";
 import { CheckboxExampleScene, checkboxExampleCode } from "./checkbox-example";
 import { ComboboxExampleScene, comboboxExampleCode } from "./combobox-example";
 import {
@@ -514,6 +518,25 @@ export const examples: Record<string, ExampleEntry> = {
     width: W,
     height: H,
     previewBackdrop: { type: "color", value: "#06171c" },
+  },
+  "lens-contribution-example": {
+    Component: LensContributionExampleScene,
+    code: "<CameraLens softness={0.5} bloom={0.5} aberration={0.5} />",
+    // Ramps the whole lens on and back off so the contribution is visible.
+    durationInFrames: 96,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "lens-handheld-example": {
+    Component: LensHandheldExampleScene,
+    code: "<CameraLens><Drift grow={0.06} /></CameraLens>",
+    durationInFrames: 120,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#0a0a0a" },
   },
   "ripple-backdrop-example": {
     Component: RippleBackdropExampleScene,

@@ -1675,6 +1675,21 @@
       ]
     },
     {
+      "name": "camera-lens",
+      "type": "registry:component",
+      "title": "Camera Lens",
+      "description": "Put a scene behind real glass: resolution falls off toward the corners, highlights bloom through the optics, colour fringes at the edges — a screencast that reads as filmed rather than rendered.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "camera-lens/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/camera-lens.tsx"
+        }
+      ]
+    },
+    {
       "name": "underwater-ripple",
       "type": "registry:component",
       "title": "Underwater Ripple",
