@@ -1,0 +1,18 @@
+---
+title: Canvas transitions, a new category
+date: 2026-08-02
+---
+
+Every transition in the catalog so far animates a scene from the outside — opacity, transform, filter, or a layer drawn over the cut. None of them could touch the pixels of the scenes being blended, which is why the effects real video editors are known for — tearing, burning, shattering — were missing. Canvas transitions sample both scenes as textures through the experimental html-in-canvas browser API and post-process them per frame, and this is the first one.
+
+<ChangelogPreview name="glitch-cut" />
+
+### New components
+
+- [Glitch Cut](/docs/transitions/glitch-cut) — the frame breaks into horizontal slices that slide apart, the colour channels separate, and blocks of the picture corrupt into the wrong scene. Each slice hands over to the incoming scene on its own beat around the midpoint, so the cut is torn rather than flat. Built for short timings — 12 frames is the recommended default.
+- Canvas Presentation — the shared scaffolding behind the category, installed alongside any canvas transition. It owns the support check, a full-screen WebGL2 scene shader that receives both sides of the cut as textures, and the routing that swaps in a CSS fallback where the browser has no html-in-canvas.
+
+### Improvements
+
+- Canvas transitions never present a broken demo. In Chrome 149+ with `chrome://flags/#canvas-draw-element` enabled you get the real pixel effect; in Safari, Firefox, and Chrome without the flag the presentation degrades to a CSS approximation of the same edit, so docs previews stay live and your video still renders. Rendering runs through the CLI, Studio, Lambda, and SSR with `--gl=angle`, or `--gl=swangle` without a GPU.
+- Output is deterministic by construction. Displacement, corruption, and the per-slice handover all come from a hash seeded on the slice index and on a clock derived from the transition's progress — no wall-clock time, no state between frames — so parallel and server-side renders come out seam-free.

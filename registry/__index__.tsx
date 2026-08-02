@@ -26,6 +26,7 @@ import { githubSponsorsConfig } from "@/registry/remocn/github-sponsors/config";
 import { githubStarsConfig } from "@/registry/remocn/github-stars/config";
 import { glassCodeBlockConfig } from "@/registry/remocn/glass-code-block/config";
 import { glassCodeWalkConfig } from "@/registry/remocn/glass-code-walk/config";
+import { glitchCutConfig } from "@/registry/remocn/glitch-cut/config";
 import { grainDissolveConfig } from "@/registry/remocn/grain-dissolve/config";
 import { handCountConfig } from "@/registry/remocn/hand-count/config";
 import { handwriteConfig } from "@/registry/remocn/handwrite/config";
@@ -1416,6 +1417,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.ZoomBlurExampleScene,
       })),
     config: zoomBlurConfig,
+  },
+  "glitch-cut": {
+    load: () =>
+      import("@/components/docs/examples/glitch-cut-example").then((m) => ({
+        default: m.GlitchCutExampleScene,
+      })),
+    config: glitchCutConfig,
   },
   "slide-swap": {
     load: () =>

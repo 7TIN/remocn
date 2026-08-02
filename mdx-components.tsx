@@ -3,6 +3,7 @@ import type { MDXComponents } from "mdx/types";
 import type { ComponentProps } from "react";
 import { BlockPreview } from "@/components/docs/block-preview";
 import { Note, Warning } from "@/components/docs/callout";
+import { CanvasTransitionNote } from "@/components/docs/canvas-transition-note";
 import { getIconForLanguage } from "@/components/docs/code-icons";
 import { ComponentCardGrid } from "@/components/docs/component-card-grid";
 import { ComponentExample } from "@/components/docs/component-example";
@@ -111,6 +112,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     PropsTable,
     Note,
     Warning,
+    CanvasTransitionNote,
     Dependencies,
     ComponentCardGrid,
     IconsGallery,
