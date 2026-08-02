@@ -14,6 +14,7 @@ import { EmberBurnExampleScene } from "@/components/docs/examples/ember-burn-exa
 import { GlitchCutExampleScene } from "@/components/docs/examples/glitch-cut-example";
 import { GridWaveExampleScene } from "@/components/docs/examples/grid-wave-example";
 import { HalftonePrintExampleScene } from "@/components/docs/examples/halftone-print-example";
+import { HologramExampleScene } from "@/components/docs/examples/hologram-example";
 import { ParticleDissolveExampleScene } from "@/components/docs/examples/particle-dissolve-example";
 import { PixelateRegionExampleScene } from "@/components/docs/examples/pixelate-region-example";
 import { SecurityCamExampleScene } from "@/components/docs/examples/security-cam-example";
@@ -29,6 +30,7 @@ import { emberBurnConfig } from "@/registry/remocn/ember-burn/config";
 import { glitchCutConfig } from "@/registry/remocn/glitch-cut/config";
 import { gridWaveConfig } from "@/registry/remocn/grid-wave/config";
 import { halftonePrintConfig } from "@/registry/remocn/halftone-print/config";
+import { hologramConfig } from "@/registry/remocn/hologram/config";
 import { particleDissolveConfig } from "@/registry/remocn/particle-dissolve/config";
 import { pixelateRegionConfig } from "@/registry/remocn/pixelate-region/config";
 import { securityCamConfig } from "@/registry/remocn/security-cam/config";
@@ -81,6 +83,7 @@ const SCENES: Record<
   },
   "camera-lens": { Scene: CameraLensExampleScene, config: cameraLensConfig },
   "security-cam": { Scene: SecurityCamExampleScene, config: securityCamConfig },
+  hologram: { Scene: HologramExampleScene, config: hologramConfig },
 };
 
 function makeStage(Scene: ComponentType) {

@@ -1675,6 +1675,21 @@
       ]
     },
     {
+      "name": "hologram",
+      "type": "registry:component",
+      "title": "Hologram",
+      "description": "Play a scene as a projection: a ghost double shimmers off the image, emission lines structure it, and only what is bright enough carries through the dark volume it hangs in.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "hologram/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/hologram.tsx"
+        }
+      ]
+    },
+    {
       "name": "security-cam",
       "type": "registry:component",
       "title": "Security Cam",

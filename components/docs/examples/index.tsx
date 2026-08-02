@@ -50,6 +50,10 @@ import {
   HalftoneRegisterExampleScene,
   HalftoneResolveExampleScene,
 } from "./halftone-print-recipes";
+import {
+  HologramBootExampleScene,
+  HologramConsoleExampleScene,
+} from "./hologram-recipes";
 import { InputExampleScene, inputExampleCode } from "./input-example";
 import {
   MessageBubbleExampleScene,
@@ -533,6 +537,25 @@ export const examples: Record<string, ExampleEntry> = {
     width: W,
     height: H,
     previewBackdrop: { type: "color", value: "#0a0a0a" },
+  },
+  "hologram-console-example": {
+    Component: HologramConsoleExampleScene,
+    code: "<Hologram><HudFrame><Scene /></HudFrame></Hologram>",
+    durationInFrames: 90,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#04070d" },
+  },
+  "hologram-boot-example": {
+    Component: HologramBootExampleScene,
+    code: "<Hologram ghost={ghost} flicker={flicker} />",
+    // Instability settles by frame 34, holds, then returns so the loop closes.
+    durationInFrames: 96,
+    fps: FPS,
+    width: W,
+    height: H,
+    previewBackdrop: { type: "color", value: "#04070d" },
   },
   "security-cold-open-example": {
     Component: SecurityColdOpenExampleScene,

@@ -37,6 +37,7 @@ import { gridWaveConfig } from "@/registry/remocn/grid-wave/config";
 import { halftonePrintConfig } from "@/registry/remocn/halftone-print/config";
 import { handCountConfig } from "@/registry/remocn/hand-count/config";
 import { handwriteConfig } from "@/registry/remocn/handwrite/config";
+import { hologramConfig } from "@/registry/remocn/hologram/config";
 import { iconScatterConfig } from "@/registry/remocn/icon-scatter/config";
 import { infiniteBentoPanConfig } from "@/registry/remocn/infinite-bento-pan/config";
 import { infiniteMarqueeConfig } from "@/registry/remocn/infinite-marquee/config";
@@ -1528,6 +1529,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.SecurityCamExampleScene,
       })),
     config: securityCamConfig,
+  },
+  hologram: {
+    load: () =>
+      import("@/components/docs/examples/hologram-example").then((m) => ({
+        default: m.HologramExampleScene,
+      })),
+    config: hologramConfig,
   },
   "slide-swap": {
     load: () =>
