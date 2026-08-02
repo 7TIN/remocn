@@ -16,6 +16,7 @@ import { claudeCodeConfig } from "@/registry/remocn/claude-code/config";
 import { confettiConfig } from "@/registry/remocn/confetti/config";
 import { crumpleTossConfig } from "@/registry/remocn/crumple-toss/config";
 import { dataFlowPipesConfig } from "@/registry/remocn/data-flow-pipes/config";
+import { displacementConfig } from "@/registry/remocn/displacement/config";
 import { ditherDissolveConfig } from "@/registry/remocn/dither-dissolve/config";
 import { driftConfig } from "@/registry/remocn/drift/config";
 import { ecosystemConstellationConfig } from "@/registry/remocn/ecosystem-constellation/config";
@@ -1448,6 +1449,13 @@ const registry: Record<string, RegistryEntry> = {
         default: m.GridWaveExampleScene,
       })),
     config: gridWaveConfig,
+  },
+  displacement: {
+    load: () =>
+      import("@/components/docs/examples/displacement-example").then((m) => ({
+        default: m.DisplacementExampleScene,
+      })),
+    config: displacementConfig,
   },
   "slide-swap": {
     load: () =>

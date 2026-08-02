@@ -1660,6 +1660,21 @@
       ]
     },
     {
+      "name": "displacement",
+      "type": "registry:component",
+      "title": "Displacement",
+      "description": "The frame breaks into a grid of cells that shear apart into offset, colour-fringed tiles under film grain, then settle back carrying the next scene.",
+      "dependencies": ["remotion", "@remotion/transitions"],
+      "registryDependencies": ["@remocn/canvas-presentation"],
+      "files": [
+        {
+          "path": "displacement/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/displacement.tsx"
+        }
+      ]
+    },
+    {
       "name": "grid-wave",
       "type": "registry:component",
       "title": "Grid Wave",

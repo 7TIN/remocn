@@ -6,11 +6,13 @@ import {
   isHtmlInCanvasSupported,
   registerRoot,
 } from "remotion";
+import { DisplacementExampleScene } from "@/components/docs/examples/displacement-example";
 import { EmberBurnExampleScene } from "@/components/docs/examples/ember-burn-example";
 import { GlitchCutExampleScene } from "@/components/docs/examples/glitch-cut-example";
 import { GridWaveExampleScene } from "@/components/docs/examples/grid-wave-example";
 import { ParticleDissolveExampleScene } from "@/components/docs/examples/particle-dissolve-example";
 import type { ComponentConfig } from "@/lib/customizer-config";
+import { displacementConfig } from "@/registry/remocn/displacement/config";
 import { emberBurnConfig } from "@/registry/remocn/ember-burn/config";
 import { glitchCutConfig } from "@/registry/remocn/glitch-cut/config";
 import { gridWaveConfig } from "@/registry/remocn/grid-wave/config";
@@ -36,6 +38,10 @@ const SCENES: Record<
     config: particleDissolveConfig,
   },
   "grid-wave": { Scene: GridWaveExampleScene, config: gridWaveConfig },
+  displacement: {
+    Scene: DisplacementExampleScene,
+    config: displacementConfig,
+  },
 };
 
 function makeStage(Scene: ComponentType) {
