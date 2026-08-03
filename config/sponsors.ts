@@ -214,6 +214,17 @@ export const sponsors: Sponsor[] = (
       placements: ["landing", "docs"],
       layout: "row",
     },
+    {
+      id: "reactvideoeditor",
+      name: "React Video Editor",
+      logoUrl: "/sponsors/reactvideoeditor.svg",
+      website:
+        "https://reactvideoeditor.com/?utm_source=remocn&utm_medium=sponsor&utm_campaign=remocn_sponsors_page",
+      tier: "partner",
+      logoScale: 0.85,
+      customStyles: "opacity-90 max-w-full",
+      isPaste: false,
+    },
   ] satisfies Sponsor[]
 ).filter((sponsor) => !sponsor.isPaste);
 
