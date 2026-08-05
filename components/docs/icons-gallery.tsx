@@ -8,6 +8,10 @@ import { AbsoluteFill } from "remotion";
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 import registry, { type RegistryEntry } from "@/registry/__index__";
+import {
+  type PreviewManifestEntry,
+  previewManifest,
+} from "@/registry/__manifest__";
 import { ActivityIconStatic } from "@/registry/remocn-icons/icon-activity";
 import { AlertTriangleIconStatic } from "@/registry/remocn-icons/icon-alert-triangle";
 import { ArrowDownIconStatic } from "@/registry/remocn-icons/icon-arrow-down";
@@ -838,8 +842,9 @@ function IconTile({
   const reducedMotion = usePrefersReducedMotion();
   const [copied, setCopied] = useState(false);
   const entry = registry[icon.name];
+  const preview = previewManifest[icon.name];
   const command = `npx shadcn@latest add @remocn/${icon.name}`;
-  const playing = active && !reducedMotion && Boolean(entry);
+  const playing = active && !reducedMotion && Boolean(entry && preview);
   const Static = icon.Static;
 
   const handleCopy = () => {
@@ -867,8 +872,8 @@ function IconTile({
         className="flex items-center justify-center"
         style={{ width: MEDIA_SIZE, height: MEDIA_SIZE }}
       >
-        {playing && entry ? (
-          <IconPlayer entry={entry} />
+        {playing && entry && preview ? (
+          <IconPlayer load={entry.load} preview={preview} />
         ) : (
           <Static size={GLYPH_SIZE} strokeWidth={2} />
         )}
@@ -885,9 +890,14 @@ function IconTile({
   );
 }
 
-function IconPlayer({ entry }: { entry: RegistryEntry }) {
+function IconPlayer({
+  load,
+  preview,
+}: {
+  load: RegistryEntry["load"];
+  preview: PreviewManifestEntry;
+}) {
   const playerRef = useRef<PlayerRef>(null);
-  const { config, load } = entry;
 
   const centeredComponent = useMemo(
     () => () =>
@@ -931,8 +941,8 @@ function IconPlayer({ entry }: { entry: RegistryEntry }) {
     <Player
       ref={playerRef}
       lazyComponent={centeredComponent}
-      durationInFrames={config.durationInFrames}
-      fps={config.fps}
+      durationInFrames={preview.durationInFrames}
+      fps={preview.fps}
       compositionWidth={COMPOSITION_SIZE}
       compositionHeight={COMPOSITION_SIZE}
       style={{ width: MEDIA_SIZE, height: MEDIA_SIZE }}

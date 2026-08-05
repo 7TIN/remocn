@@ -2,14 +2,14 @@
 
 import { CheckIcon, LinkIcon, RotateCcwIcon } from "lucide-react";
 import { useQueryStates } from "nuqs";
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, use, useEffect, useMemo, useRef, useState } from "react";
 import { CodeBlock } from "@/components/docs/code-block";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTrackEvent } from "@/lib/analytics";
 import { type ComponentConfig, getDefaults } from "@/lib/customizer-config";
 import { buildParsers, PreviewStage } from "@/lib/ui-preview-internals";
-import registry from "@/registry/__index__";
+import registry, { loadComponentConfig } from "@/registry/__index__";
 import { ComponentCustomizer } from "./component-customizer";
 
 export function ComponentPreview({ name }: { name: string }) {
@@ -29,21 +29,22 @@ export function ComponentPreview({ name }: { name: string }) {
         <div className="not-prose mb-6 aspect-[1.9/1] w-full animate-pulse rounded-2xl bg-muted" />
       }
     >
-      <Preview name={name} config={entry.config} load={entry.load} />
+      <Preview name={name} load={entry.load} />
     </Suspense>
   );
 }
 
 function Preview({
   name,
-  config,
   load,
 }: {
   name: string;
-  config: ComponentConfig;
   // biome-ignore lint/suspicious/noExplicitAny: dynamically-loaded Remotion composition, props shape varies per component
   load: () => Promise<{ default: React.ComponentType<any> }>;
 }) {
+  // Suspends until this component's config chunk resolves, then returns
+  // synchronously from the cached promise. No other config is fetched.
+  const config = use(loadComponentConfig(name));
   const trackEvent = useTrackEvent();
   const { parsers, urlKeys } = useMemo(
     () => buildParsers(name, config.controls),
