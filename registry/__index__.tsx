@@ -358,16 +358,6 @@ const registry: Record<string, RegistryEntry> = {
         (m) => m.glassCodeWalkConfig,
       ),
   },
-  "data-flow-pipes": {
-    load: () =>
-      import("@/registry/remocn/data-flow-pipes").then((m) => ({
-        default: m.DataFlowPipes,
-      })),
-    loadConfig: () =>
-      import("@/registry/remocn/data-flow-pipes/config").then(
-        (m) => m.dataFlowPipesConfig,
-      ),
-  },
   "shader-mesh-gradient": {
     load: () =>
       import("@/registry/remocn/shader-mesh-gradient").then((m) => ({
@@ -1902,16 +1892,6 @@ const registry: Record<string, RegistryEntry> = {
     loadConfig: () =>
       import("@/registry/remocn/terminal-cursor-zoom/config").then(
         (m) => m.terminalCursorZoomConfig,
-      ),
-  },
-  "progress-steps": {
-    load: () =>
-      import("@/registry/remocn/progress-steps").then((m) => ({
-        default: m.ProgressSteps,
-      })),
-    loadConfig: () =>
-      import("@/registry/remocn/progress-steps/config").then(
-        (m) => m.progressStepsConfig,
       ),
   },
   "ecosystem-constellation": {
