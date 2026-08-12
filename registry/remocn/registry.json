@@ -130,6 +130,20 @@
       ]
     },
     {
+      "name": "lens-zoom",
+      "type": "registry:component",
+      "title": "Lens Zoom",
+      "description": "A hard cut disguised as a lens punch-in: barrel distortion, zoom blur, chromatic split and camera shake around the splice.",
+      "dependencies": ["remotion", "@remotion/transitions"],
+      "files": [
+        {
+          "path": "lens-zoom/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/lens-zoom.tsx"
+        }
+      ]
+    },
+    {
       "name": "line-by-line-slide",
       "type": "registry:component",
       "title": "Line-by-Line Slide",

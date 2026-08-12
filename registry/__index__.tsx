@@ -1666,6 +1666,16 @@ const registry: Record<string, RegistryEntry> = {
         (m) => m.zoomBlurConfig,
       ),
   },
+  "lens-zoom": {
+    load: () =>
+      import("@/components/docs/examples/lens-zoom-example").then((m) => ({
+        default: m.LensZoomExampleScene,
+      })),
+    loadConfig: () =>
+      import("@/registry/remocn/lens-zoom/config").then(
+        (m) => m.lensZoomConfig,
+      ),
+  },
   "glitch-cut": {
     load: () =>
       import("@/components/docs/examples/glitch-cut-example").then((m) => ({
