@@ -308,6 +308,66 @@ const registry: Record<string, RegistryEntry> = {
         (m) => m.matrixDecodeConfig,
       ),
   },
+  "gooey-morph": {
+    load: () =>
+      import("@/registry/remocn/gooey-morph").then((m) => ({
+        default: m.GooeyMorph,
+      })),
+    loadConfig: () =>
+      import("@/registry/remocn/gooey-morph/config").then(
+        (m) => m.gooeyMorphConfig,
+      ),
+  },
+  "stretch-in": {
+    load: () =>
+      import("@/registry/remocn/stretch-in").then((m) => ({
+        default: m.StretchIn,
+      })),
+    loadConfig: () =>
+      import("@/registry/remocn/stretch-in/config").then(
+        (m) => m.stretchInConfig,
+      ),
+  },
+  "chromatic-wave": {
+    load: () =>
+      import("@/registry/remocn/chromatic-wave").then((m) => ({
+        default: m.ChromaticWave,
+      })),
+    loadConfig: () =>
+      import("@/registry/remocn/chromatic-wave/config").then(
+        (m) => m.chromaticWaveConfig,
+      ),
+  },
+  "extrude-pop": {
+    load: () =>
+      import("@/registry/remocn/extrude-pop").then((m) => ({
+        default: m.ExtrudePop,
+      })),
+    loadConfig: () =>
+      import("@/registry/remocn/extrude-pop/config").then(
+        (m) => m.extrudePopConfig,
+      ),
+  },
+  "perspective-squeeze": {
+    load: () =>
+      import("@/registry/remocn/perspective-squeeze").then((m) => ({
+        default: m.PerspectiveSqueeze,
+      })),
+    loadConfig: () =>
+      import("@/registry/remocn/perspective-squeeze/config").then(
+        (m) => m.perspectiveSqueezeConfig,
+      ),
+  },
+  "kinetic-warp": {
+    load: () =>
+      import("@/registry/remocn/kinetic-warp").then((m) => ({
+        default: m.KineticWarp,
+      })),
+    loadConfig: () =>
+      import("@/registry/remocn/kinetic-warp/config").then(
+        (m) => m.kineticWarpConfig,
+      ),
+  },
   "rgb-glitch-text": {
     load: () =>
       import("@/registry/remocn/rgb-glitch-text").then((m) => ({
@@ -1654,6 +1714,16 @@ const registry: Record<string, RegistryEntry> = {
     loadConfig: () =>
       import("@/registry/remocn/zoom-blur/config").then(
         (m) => m.zoomBlurConfig,
+      ),
+  },
+  "lens-zoom": {
+    load: () =>
+      import("@/components/docs/examples/lens-zoom-example").then((m) => ({
+        default: m.LensZoomExampleScene,
+      })),
+    loadConfig: () =>
+      import("@/registry/remocn/lens-zoom/config").then(
+        (m) => m.lensZoomConfig,
       ),
   },
   "glitch-cut": {
