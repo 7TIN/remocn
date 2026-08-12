@@ -1270,6 +1270,20 @@
       ]
     },
     {
+      "name": "chromatic-wave",
+      "type": "registry:component",
+      "title": "Chromatic Wave",
+      "description": "A soft wave travels down through the type; where it crosses, the letters ripple and split into RGB fringes.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "chromatic-wave/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/chromatic-wave.tsx"
+        }
+      ]
+    },
+    {
       "name": "confetti",
       "type": "registry:component",
       "title": "Confetti",

@@ -318,6 +318,16 @@ const registry: Record<string, RegistryEntry> = {
         (m) => m.gooeyMorphConfig,
       ),
   },
+  "chromatic-wave": {
+    load: () =>
+      import("@/registry/remocn/chromatic-wave").then((m) => ({
+        default: m.ChromaticWave,
+      })),
+    loadConfig: () =>
+      import("@/registry/remocn/chromatic-wave/config").then(
+        (m) => m.chromaticWaveConfig,
+      ),
+  },
   "extrude-pop": {
     load: () =>
       import("@/registry/remocn/extrude-pop").then((m) => ({
