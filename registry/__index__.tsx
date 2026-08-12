@@ -318,6 +318,16 @@ const registry: Record<string, RegistryEntry> = {
         (m) => m.gooeyMorphConfig,
       ),
   },
+  "perspective-squeeze": {
+    load: () =>
+      import("@/registry/remocn/perspective-squeeze").then((m) => ({
+        default: m.PerspectiveSqueeze,
+      })),
+    loadConfig: () =>
+      import("@/registry/remocn/perspective-squeeze/config").then(
+        (m) => m.perspectiveSqueezeConfig,
+      ),
+  },
   "kinetic-warp": {
     load: () =>
       import("@/registry/remocn/kinetic-warp").then((m) => ({

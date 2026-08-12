@@ -41,6 +41,7 @@
     "perspective-marquee",
     "matrix-decode",
     "rgb-glitch-text",
-    "gooey-morph"
+    "gooey-morph",
+    "perspective-squeeze"
   ]
 }

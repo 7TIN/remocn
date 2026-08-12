@@ -1037,6 +1037,20 @@
       ]
     },
     {
+      "name": "perspective-squeeze",
+      "type": "registry:component",
+      "title": "Perspective Squeeze",
+      "description": "Two lines of heavy type endlessly trade height while corner-pinned perspective bends the flat stack into receding planes.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "perspective-squeeze/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/perspective-squeeze.tsx"
+        }
+      ]
+    },
+    {
       "name": "ecosystem-constellation",
       "type": "registry:component",
       "title": "Ecosystem Constellation",
