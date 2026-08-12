@@ -308,6 +308,16 @@ const registry: Record<string, RegistryEntry> = {
         (m) => m.matrixDecodeConfig,
       ),
   },
+  "kinetic-warp": {
+    load: () =>
+      import("@/registry/remocn/kinetic-warp").then((m) => ({
+        default: m.KineticWarp,
+      })),
+    loadConfig: () =>
+      import("@/registry/remocn/kinetic-warp/config").then(
+        (m) => m.kineticWarpConfig,
+      ),
+  },
   "rgb-glitch-text": {
     load: () =>
       import("@/registry/remocn/rgb-glitch-text").then((m) => ({
