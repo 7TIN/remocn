@@ -313,6 +313,20 @@
       ]
     },
     {
+      "name": "stretch-in",
+      "type": "registry:component",
+      "title": "Stretch In",
+      "description": "Letters fly in from off-canvas and smear horizontally on the way — a vertex-lag deformation, not a scale.",
+      "dependencies": ["remotion", "opentype.js"],
+      "files": [
+        {
+          "path": "stretch-in/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/stretch-in.tsx"
+        }
+      ]
+    },
+    {
       "name": "strikethrough-replace",
       "type": "registry:component",
       "title": "Strikethrough Replace",

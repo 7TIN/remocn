@@ -318,6 +318,16 @@ const registry: Record<string, RegistryEntry> = {
         (m) => m.gooeyMorphConfig,
       ),
   },
+  "stretch-in": {
+    load: () =>
+      import("@/registry/remocn/stretch-in").then((m) => ({
+        default: m.StretchIn,
+      })),
+    loadConfig: () =>
+      import("@/registry/remocn/stretch-in/config").then(
+        (m) => m.stretchInConfig,
+      ),
+  },
   "chromatic-wave": {
     load: () =>
       import("@/registry/remocn/chromatic-wave").then((m) => ({
