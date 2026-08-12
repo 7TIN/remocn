@@ -40,6 +40,7 @@
     "infinite-marquee",
     "perspective-marquee",
     "matrix-decode",
-    "rgb-glitch-text"
+    "rgb-glitch-text",
+    "gooey-morph"
   ]
 }

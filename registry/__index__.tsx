@@ -308,6 +308,16 @@ const registry: Record<string, RegistryEntry> = {
         (m) => m.matrixDecodeConfig,
       ),
   },
+  "gooey-morph": {
+    load: () =>
+      import("@/registry/remocn/gooey-morph").then((m) => ({
+        default: m.GooeyMorph,
+      })),
+    loadConfig: () =>
+      import("@/registry/remocn/gooey-morph/config").then(
+        (m) => m.gooeyMorphConfig,
+      ),
+  },
   "kinetic-warp": {
     load: () =>
       import("@/registry/remocn/kinetic-warp").then((m) => ({

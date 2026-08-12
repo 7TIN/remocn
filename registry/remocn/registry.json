@@ -795,6 +795,20 @@
       ]
     },
     {
+      "name": "gooey-morph",
+      "type": "registry:component",
+      "title": "Gooey Morph",
+      "description": "Bars fly in Tetris-style, land as a row, and melt into a word through a gooey blur-and-threshold morph.",
+      "dependencies": ["remotion"],
+      "files": [
+        {
+          "path": "gooey-morph/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/gooey-morph.tsx"
+        }
+      ]
+    },
+    {
       "name": "grain-dissolve",
       "type": "registry:component",
       "title": "Grain Dissolve",
