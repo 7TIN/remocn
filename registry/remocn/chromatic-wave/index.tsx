@@ -77,7 +77,8 @@ function buildMapUri({
       return `${x},${y}`;
     });
     const back = Array.from({ length: segments + 1 }, (_, s) => {
-      const x = -overhang + ((segments - s) / segments) * (width + overhang * 2);
+      const x =
+        -overhang + ((segments - s) / segments) * (width + overhang * 2);
       const y =
         top +
         bandHeight +

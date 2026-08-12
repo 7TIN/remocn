@@ -157,8 +157,9 @@ function TransitionHalf({
 
   const samples =
     blur <= 0.05 ? 1 : Math.max(2, Math.round((blurSamples * blur) / 60));
-  const weights = Array.from({ length: samples }, (_, j) =>
-    Math.pow(1 - j / samples, blurFade),
+  const weights = Array.from(
+    { length: samples },
+    (_, j) => (1 - j / samples) ** blurFade,
   );
 
   const groups: {
@@ -211,7 +212,10 @@ function TransitionHalf({
   return (
     <div style={{ position: "absolute", inset: 0 }}>
       {groups.map(({ key, alpha, copies }) => (
-        <div key={key} style={{ position: "absolute", inset: 0, opacity: alpha }}>
+        <div
+          key={key}
+          style={{ position: "absolute", inset: 0, opacity: alpha }}
+        >
           {copies.map(({ key: ck, clip, k }) => (
             <div
               key={ck}
@@ -384,7 +388,12 @@ function LensZoomStage({
 
 const LensZoomPresentation: React.FC<
   TransitionPresentationComponentProps<LensZoomProps>
-> = ({ children, presentationDirection, presentationProgress, passedProps }) => {
+> = ({
+  children,
+  presentationDirection,
+  presentationProgress,
+  passedProps,
+}) => {
   const config = useVideoConfig();
   const {
     inScaleFrom = 100,
