@@ -318,6 +318,16 @@ const registry: Record<string, RegistryEntry> = {
         (m) => m.gooeyMorphConfig,
       ),
   },
+  "extrude-pop": {
+    load: () =>
+      import("@/registry/remocn/extrude-pop").then((m) => ({
+        default: m.ExtrudePop,
+      })),
+    loadConfig: () =>
+      import("@/registry/remocn/extrude-pop/config").then(
+        (m) => m.extrudePopConfig,
+      ),
+  },
   "perspective-squeeze": {
     load: () =>
       import("@/registry/remocn/perspective-squeeze").then((m) => ({

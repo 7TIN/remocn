@@ -42,6 +42,7 @@
     "matrix-decode",
     "rgb-glitch-text",
     "gooey-morph",
-    "perspective-squeeze"
+    "perspective-squeeze",
+    "extrude-pop"
   ]
 }
