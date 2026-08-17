@@ -60,6 +60,18 @@ export const sponsors: Sponsor[] = (
       layout: "row",
     },
     {
+      id: "aceternity",
+      name: "Aceternity UI",
+      displayName: "Aceternity UI",
+      logoUrl: "/sponsors/aceternity.svg",
+      website:
+        "https://ui.aceternity.com/?utm_source=remocn&utm_medium=sponsor&utm_campaign=remocn_sponsors_page",
+      tier: "featured",
+      customStyles: "opacity-90",
+      isPaste: false,
+      layout: "row",
+    },
+    {
       id: "21st",
       name: "21st.dev",
       logoUrl: "/sponsors/21st.svg",
