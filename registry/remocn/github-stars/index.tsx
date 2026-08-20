@@ -37,7 +37,7 @@ export interface GitHubStarsProps {
  * (own-your-code: no external data needed after `shadcn add`). Real low-id GitHub
  * avatar URLs are CORS-ok, so the docs preview shows round photos.
  */
-export const SAMPLE_STARGAZERS: Stargazer[] = [
+const RAW_SAMPLE_STARGAZERS: Stargazer[] = [
   {
     login: "mojombo",
     avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4",
@@ -580,6 +580,17 @@ export const SAMPLE_STARGAZERS: Stargazer[] = [
   },
 ];
 
+export const SAMPLE_STARGAZERS: Stargazer[] = (() => {
+  const occurrences = new Map<string, number>();
+  return RAW_SAMPLE_STARGAZERS.map((stargazer) => {
+    const occurrence = (occurrences.get(stargazer.login) ?? 0) + 1;
+    occurrences.set(stargazer.login, occurrence);
+    return occurrence === 1
+      ? stargazer
+      : { ...stargazer, login: `${stargazer.login}-${occurrence}` };
+  });
+})();
+
 // Load fonts INSIDE the composition (via @remotion/google-fonts, which waits for
 // the font with delayRender before rendering frames). Server renders run in a
 // bare headless Chromium with no app CSS / `--font-*` vars, so without this the
@@ -1033,7 +1044,7 @@ export function GitHubStars({
     >
       <div
         style={{
-          transform: `translateY(${scrollY}px)`,
+          translate: `0 ${scrollY}px`,
           willChange: "transform",
         }}
       >
@@ -1186,7 +1197,8 @@ export function GitHubStars({
           top: "50%",
           width: refW,
           height: refH,
-          transform: `translate(-50%, -50%) scale(${stageScale})`,
+          translate: "-50% -50%",
+          scale: `${stageScale}`,
         }}
       >
         {counterZone}
