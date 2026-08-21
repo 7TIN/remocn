@@ -64,13 +64,7 @@ export const NAV_LINKS: NavLink[] = [
  * tag another menu item — no component changes needed. See `withNewBadges`.
  */
 export const NEW_BADGE_PATHS = new Set<string>([
-  "/docs/typography/kinetic-warp",
-  "/docs/transitions/lens-zoom",
-  "/docs/typography/gooey-morph",
-  "/docs/typography/perspective-squeeze",
-  "/docs/typography/extrude-pop",
-  "/docs/typography/chromatic-wave",
-  "/docs/typography/stretch-in",
+  "/docs/layout/stage",
 ]);
 
 export type FooterGroup = {
