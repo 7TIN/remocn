@@ -33,6 +33,26 @@ The supplied implementation's `GLOW_BASE = 0.03` contradicts the flat-black
 rest invariant. The Remotion adaptation removes that base contribution and
 gates the ground entirely on motion progress.
 
+The canvas does not expose framebuffer readback through `toDataURL()`,
+`readPixels()`, or a feedback pass. Its WebGL context therefore uses
+`preserveDrawingBuffer: false`: preserving the previous framebuffer adds a
+large sustained GPU cost without changing the authored pixels. Remotion frame
+capture must still be verified on both a resting frame and a motion frame.
+
+All words in the phrase share one power-of-two glyph atlas. The atlas is
+rebuilt only when the phrase, resolved font family, or font weight changes;
+normal frame progression only selects the two word rows through uniforms. This
+keeps the authored 28 shutter samples while moving text rasterization, texture
+uploads, and mipmap generation out of the per-transition path. The atlas uses
+the same per-word cell dimensions as the original two-word texture, so glyph
+resolution and filtering do not change. If the phrase cannot fit within the
+device's maximum texture height, rendering falls back to the original
+two-word atlas path without changing the public API or pixels.
+
+Font-family resolution is likewise cached by the React component and runs only
+when `fontFamily` changes. It must not create a probe element or force computed
+style resolution on every Remotion frame.
+
 ## Timeline
 
 All state is a pure function of `useCurrentFrame()`, `fps`, component props, and
