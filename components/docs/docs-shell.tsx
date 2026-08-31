@@ -2,8 +2,10 @@
 
 import type { Root } from "fumadocs-core/page-tree";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
+import { SearchTrigger } from "fumadocs-ui/layouts/shared/slots/search-trigger";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { type ReactNode, useMemo } from "react";
+import { DocsSearchTrigger } from "@/components/docs/docs-search-trigger";
 import { getActiveDocsTab } from "@/lib/docs-tabs";
 import { baseOptions } from "@/lib/layout.shared";
 
@@ -43,6 +45,7 @@ export function DocsShell({
   shadersTree,
   filtersTree,
   iconsTree,
+  componentCount,
   children,
 }: {
   componentsTree: Root;
@@ -50,8 +53,17 @@ export function DocsShell({
   shadersTree: Root;
   filtersTree: Root;
   iconsTree: Root;
+  componentCount: number;
   children: ReactNode;
 }) {
+  const searchTriggerFull = useMemo(() => {
+    function SearchTriggerFull({ hideIfDisabled }: { hideIfDisabled?: boolean }) {
+      return (
+        <DocsSearchTrigger count={componentCount} hideIfDisabled={hideIfDisabled} />
+      );
+    }
+    return SearchTriggerFull;
+  }, [componentCount]);
   const pathname = usePathname();
   const activeTab = getActiveDocsTab(pathname);
   const isIcons = activeTab === "icons";
@@ -70,6 +82,9 @@ export function DocsShell({
       {...baseOptions()}
       nav={{ enabled: false }}
       searchToggle={{ enabled: true }}
+      slots={{
+        searchTrigger: { sm: SearchTrigger, full: searchTriggerFull },
+      }}
       themeSwitch={{ enabled: false }}
       sidebar={{ collapsible: false, enabled: !isIcons }}
       containerProps={{

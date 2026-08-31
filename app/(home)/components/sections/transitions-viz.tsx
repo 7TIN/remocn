@@ -39,7 +39,7 @@ export function TransitionsViz({ play }: { play: boolean }) {
 
   return (
     <div ref={containerRef} className="absolute inset-0 overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 aspect-video min-h-full min-w-full -translate-x-1/2 -translate-y-1/2 will-change-transform">
+      <div className="absolute top-1/2 left-1/2 aspect-video min-h-full min-w-full -translate-x-1/2 -translate-y-1/2">
         <Player
           ref={playerRef}
           component={BareTransitionScene}

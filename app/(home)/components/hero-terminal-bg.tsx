@@ -35,6 +35,7 @@ export function HeroTerminalBg() {
         tint={light ? "#e879f9" : "#701a75"}
         scale={1.5}
         digitSize={1.2}
+        dpr={1}
         timeScale={reduced ? 0 : 0.3}
         pause={reduced}
         scanlineIntensity={0.28}
