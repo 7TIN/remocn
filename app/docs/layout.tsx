@@ -5,7 +5,14 @@ import { DocsShell } from "@/components/docs/docs-shell";
 import { DocsTabsBar } from "@/components/docs/docs-tabs-bar";
 import { splitDocsTree } from "@/lib/docs-tabs";
 import { withNewBadges } from "@/lib/with-new-badges";
+import iconsRegistry from "@/registry/remocn-icons/registry.json";
+import uiRegistry from "@/registry/remocn-ui/registry.json";
+import remocnRegistry from "@/registry/remocn/registry.json";
 import { source } from "@/source";
+
+const componentCount = [remocnRegistry, uiRegistry, iconsRegistry]
+  .flatMap((registry) => registry.items)
+  .filter((item) => item.type === "registry:component").length;
 
 export default async function Layout({ children }: { children: ReactNode }) {
   // Decorate the shared page tree with the animated "NEW" sidebar badge (see
@@ -33,6 +40,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
         shadersTree={shaders}
         filtersTree={filters}
         iconsTree={icons}
+        componentCount={componentCount}
       >
         {children}
       </DocsShell>

@@ -118,13 +118,10 @@ float pattern(vec2 p, out vec2 q, out vec2 r) {
   return fbm(p + r);
 }
 
-float digit(vec2 p){
-    vec2 grid = uGridMul * 15.0;
-    vec2 s = floor(p * grid) / grid;
-    p = p * grid;
+float cellIntensity(vec2 s){
     vec2 q, r;
     float intensity = pattern(s * 0.1, q, r) * 1.3 - 0.03;
-    
+
     if(uUseMouse > 0.5){
         vec2 mouseWorld = uMouse * uScale;
         float distToMouse = distance(s, mouseWorld);
@@ -143,7 +140,13 @@ float digit(vec2 p){
         float fadeAlpha = smoothstep(0.0, 1.0, cellProgress);
         intensity *= fadeAlpha;
     }
-    
+
+    return intensity;
+}
+
+float digit(vec2 p, float intensity){
+    vec2 grid = uGridMul * 15.0;
+    p = p * grid;
     p = fract(p);
     p *= uDigitSize;
     
@@ -188,12 +191,16 @@ vec3 getColor(vec2 p){
       p.x += extra;
     }
 
-    float middle = digit(p);
-    
+    vec2 grid = uGridMul * 15.0;
+    vec2 s = floor(p * grid) / grid;
+    float intensity = cellIntensity(s);
+
+    float middle = digit(p, intensity);
+
     const float off = 0.002;
-    float sum = digit(p + vec2(-off, -off)) + digit(p + vec2(0.0, -off)) + digit(p + vec2(off, -off)) +
-                digit(p + vec2(-off, 0.0)) + digit(p + vec2(0.0, 0.0)) + digit(p + vec2(off, 0.0)) +
-                digit(p + vec2(-off, off)) + digit(p + vec2(0.0, off)) + digit(p + vec2(off, off));
+    float sum = digit(p + vec2(-off, -off), intensity) + digit(p + vec2(0.0, -off), intensity) + digit(p + vec2(off, -off), intensity) +
+                digit(p + vec2(-off, 0.0), intensity) + digit(p, intensity) + digit(p + vec2(off, 0.0), intensity) +
+                digit(p + vec2(-off, off), intensity) + digit(p + vec2(0.0, off), intensity) + digit(p + vec2(off, off), intensity);
     
     vec3 baseColor = vec3(0.9) * middle + sum * 0.1 * vec3(1.0) * bar;
     return baseColor;
@@ -412,6 +419,24 @@ export default function FaultyTerminal({
 
       renderer.render({ scene: mesh });
     };
+
+    let inViewport = true;
+    const syncRunning = () => {
+      const shouldRun = inViewport && !document.hidden;
+      if (shouldRun && rafRef.current === 0) {
+        rafRef.current = requestAnimationFrame(update);
+      } else if (!shouldRun && rafRef.current !== 0) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = 0;
+      }
+    };
+    const intersectionObserver = new IntersectionObserver(([entry]) => {
+      inViewport = entry.isIntersecting;
+      syncRunning();
+    });
+    intersectionObserver.observe(ctn);
+    document.addEventListener("visibilitychange", syncRunning);
+
     rafRef.current = requestAnimationFrame(update);
     ctn.appendChild(gl.canvas);
 
@@ -419,6 +444,9 @@ export default function FaultyTerminal({
 
     return () => {
       cancelAnimationFrame(rafRef.current);
+      rafRef.current = 0;
+      intersectionObserver.disconnect();
+      document.removeEventListener("visibilitychange", syncRunning);
       resizeObserver.disconnect();
       if (mouseReact) ctn.removeEventListener("mousemove", handleMouseMove);
       if (gl.canvas.parentElement === ctn) ctn.removeChild(gl.canvas);

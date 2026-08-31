@@ -242,7 +242,6 @@
   .surface-card {
     background-color: color-mix(in oklab, var(--color-card) 92%, transparent);
     box-shadow: var(--elevation-raised);
-    backdrop-filter: blur(12px);
   }
 
   .surface-card-highlighted {
